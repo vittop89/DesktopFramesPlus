@@ -222,6 +222,37 @@ namespace Desktop_Frames
             return candidate;
         }
 
+        /// <summary>
+        /// Private clipboard format that marks a drag as having started inside a Portal.
+        /// Explorer and every other application ignore it, so it is only ever present when
+        /// the app itself is the source. That is what lets a drag between two Portals move
+        /// by default while a file arriving from outside is still copied.
+        /// </summary>
+        public const string PortalDragFormat = "DesktopFramesPlus.PortalDrag";
+
+        /// <summary>True when this drag was started by dragging an item out of a Portal.</summary>
+        public static bool StartedInsideAPortal(IDataObject data)
+        {
+            try { return data != null && data.GetDataPresent(PortalDragFormat); }
+            catch { return false; }
+        }
+
+        /// <summary>
+        /// Whether a drop into a Portal should move rather than copy.
+        ///
+        /// An item dragged out of another Portal is being relocated, so it moves unless Ctrl
+        /// asks for a copy. Anything arriving from outside the app is copied, because taking
+        /// a file away from Explorer or from the desktop is not what a drop implies there;
+        /// Shift still asks for a move. Both the cursor feedback and the drop itself read
+        /// this, so what the pointer promises is what happens.
+        /// </summary>
+        public static bool DropShouldMove(IDataObject data, DragDropKeyStates keys)
+        {
+            return StartedInsideAPortal(data)
+                ? (keys & DragDropKeyStates.ControlKey) != DragDropKeyStates.ControlKey
+                : (keys & DragDropKeyStates.ShiftKey) == DragDropKeyStates.ShiftKey;
+        }
+
         /// <summary>Starts an ordinary Windows file drag, the kind Explorer accepts.</summary>
         public static void BeginDrag(DependencyObject source, string path)
         {
@@ -233,6 +264,7 @@ namespace Desktop_Frames
                 StringCollection paths = new StringCollection { path };
                 DataObject data = new DataObject();
                 data.SetFileDropList(paths);
+                data.SetData(PortalDragFormat, true);
 
                 // Both effects are offered so the drop target decides: dropping on another
                 // portal moves, dropping on Explorer follows the usual Windows rules.
