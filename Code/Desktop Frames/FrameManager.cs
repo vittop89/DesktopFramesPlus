@@ -2546,21 +2546,40 @@ namespace Desktop_Frames
         /// Repaints the title shown on a frame that is already on screen, so a title changed
         /// from somewhere other than the title bar does not have to wait for a reload.
         /// </summary>
-        public static void RefreshFrameTitle(dynamic frame)
+        /// <param name="title">
+        /// The text to show. It is passed in rather than read back from the frame: the caller
+        /// has just written it, and re-reading returned the previous value, so the window kept
+        /// showing the old name while the file already held the new one.
+        /// </param>
+        public static void RefreshFrameTitle(dynamic frame, string title)
         {
             try
             {
                 string id = frame.Id?.ToString();
-                string title = frame.Title?.ToString() ?? "";
                 if (string.IsNullOrEmpty(id)) return;
 
                 var win = System.Windows.Application.Current?.Windows.OfType<NonActivatingWindow>()
                     .FirstOrDefault(w => w.Tag?.ToString() == id);
-                if (win == null) return;
+                if (win == null)
+                {
+                    LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.UI,
+                        $"Title refresh: no open window carries the id {id}");
+                    return;
+                }
 
                 win.Title = title;
+
                 var label = FindTitleLabel(win);
-                if (label != null) label.Content = title;
+                if (label == null)
+                {
+                    LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.UI,
+                        $"Title refresh: the window was found but its title label was not");
+                    return;
+                }
+
+                label.Content = title;
+                LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.UI,
+                    $"Title refresh: the frame now shows '{title}'");
             }
             catch (Exception ex)
             {
