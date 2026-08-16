@@ -490,6 +490,9 @@ Il est aujourd'hui maintenu par Nikos Georgousis, qui l'a enrichi et rendu plus 
   <data name="DlgLoadError" xml:space="preserve">
     <value>Erreur de chargement</value>
   </data>
+  <data name="DlgMoveItems" xml:space="preserve">
+    <value>Déplacer des éléments</value>
+  </data>
   <data name="DlgPasteError" xml:space="preserve">
     <value>Erreur de collage</value>
   </data>
@@ -1128,6 +1131,16 @@ Voulez-vous continuer ?</value>
   <data name="MsgConfirmImportIntoTab" xml:space="preserve">
     <value>Importer le contenu de '{0}' dans un nouvel onglet ?</value>
   </data>
+  <data name="MsgConfirmMoveMany" xml:space="preserve">
+    <value>Déplacer {0} éléments vers '{1}' ?
+
+Ils seront retirés de l'endroit où ils se trouvent.</value>
+  </data>
+  <data name="MsgConfirmMoveOne" xml:space="preserve">
+    <value>Déplacer '{0}' vers '{1}' ?
+
+Il sera retiré de l'endroit où il se trouve.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Réinitialiser toutes les personnalisations visuelles ?</value>
   </data>
@@ -1420,6 +1433,9 @@ Redémarrez Desktop Frames pour les activer.</value>
   </data>
   <data name="OptChameleon" xml:space="preserve">
     <value>Mode caméléon (prend la couleur du fond d'écran)</value>
+  </data>
+  <data name="OptConfirmPortalMove" xml:space="preserve">
+    <value>Demander avant qu'un glisser déplace des éléments entre Portails</value>
   </data>
   <data name="OptDimensionSnap" xml:space="preserve">
     <value>Aimanter aussi les dimensions</value>

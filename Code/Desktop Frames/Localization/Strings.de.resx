@@ -490,6 +490,9 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   <data name="DlgLoadError" xml:space="preserve">
     <value>Fehler beim Laden</value>
   </data>
+  <data name="DlgMoveItems" xml:space="preserve">
+    <value>Elemente verschieben</value>
+  </data>
   <data name="DlgPasteError" xml:space="preserve">
     <value>Fehler beim Einfügen</value>
   </data>
@@ -1128,6 +1131,16 @@ Möchtest du fortfahren?</value>
   <data name="MsgConfirmImportIntoTab" xml:space="preserve">
     <value>Inhalt von '{0}' in eine neue Registerkarte importieren?</value>
   </data>
+  <data name="MsgConfirmMoveMany" xml:space="preserve">
+    <value>{0} Elemente nach '{1}' verschieben?
+
+Sie werden dort entfernt, wo sie jetzt liegen.</value>
+  </data>
+  <data name="MsgConfirmMoveOne" xml:space="preserve">
+    <value>'{0}' nach '{1}' verschieben?
+
+Es wird dort entfernt, wo es jetzt liegt.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Alle optischen Anpassungen zurücksetzen?</value>
   </data>
@@ -1420,6 +1433,9 @@ Starte Desktop Frames neu, um sie zu aktivieren.</value>
   </data>
   <data name="OptChameleon" xml:space="preserve">
     <value>Chamäleon-Modus (übernimmt die Farbe des Hintergrunds)</value>
+  </data>
+  <data name="OptConfirmPortalMove" xml:space="preserve">
+    <value>Nachfragen, bevor ein Ziehen Elemente zwischen Portalen verschiebt</value>
   </data>
   <data name="OptDimensionSnap" xml:space="preserve">
     <value>Auch Größen einrasten</value>

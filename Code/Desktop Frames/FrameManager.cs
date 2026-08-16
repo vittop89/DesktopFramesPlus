@@ -6460,12 +6460,12 @@ namespace Desktop_Frames
                         PortalFileTransfer.DropShouldMove(e.Data, e.KeyStates) &&
                         PortalFileTransfer.StartedInsideAPortal(e.Data))
                     {
-                        string destination = frame.Path?.ToString() ?? "";
+                        string destination = System.IO.Path.GetFileName(frame.Path?.ToString() ?? "");
                         string question = droppedFiles.Length == 1
-                            ? $"Move '{System.IO.Path.GetFileName(droppedFiles[0])}' into '{System.IO.Path.GetFileName(destination)}'?\n\nIt will be removed from where it is now."
-                            : $"Move {droppedFiles.Length} items into '{System.IO.Path.GetFileName(destination)}'?\n\nThey will be removed from where they are now.";
+                            ? Strings.Get("MsgConfirmMoveOne", System.IO.Path.GetFileName(droppedFiles[0]), destination)
+                            : Strings.Get("MsgConfirmMoveMany", droppedFiles.Length, destination);
 
-                        if (!MessageBoxesManager.ShowCustomYesNoMessageBox(question, "Move items"))
+                        if (!MessageBoxesManager.ShowCustomYesNoMessageBox(question, Strings.DlgMoveItems))
                             return;
                     }
 

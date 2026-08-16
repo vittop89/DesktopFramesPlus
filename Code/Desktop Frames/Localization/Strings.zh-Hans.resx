@@ -490,6 +490,9 @@
   <data name="DlgLoadError" xml:space="preserve">
     <value>加载失败</value>
   </data>
+  <data name="DlgMoveItems" xml:space="preserve">
+    <value>移动项目</value>
+  </data>
   <data name="DlgPasteError" xml:space="preserve">
     <value>粘贴失败</value>
   </data>
@@ -1128,6 +1131,16 @@
   <data name="MsgConfirmImportIntoTab" xml:space="preserve">
     <value>把“{0}”的内容导入到新标签页吗？</value>
   </data>
+  <data name="MsgConfirmMoveMany" xml:space="preserve">
+    <value>要把 {0} 个项目移动到“{1}”吗？
+
+它们会从现在所在的位置移走。</value>
+  </data>
+  <data name="MsgConfirmMoveOne" xml:space="preserve">
+    <value>要把“{0}”移动到“{1}”吗？
+
+它会从现在所在的位置移走。</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>要重置所有外观自定义吗？</value>
   </data>
@@ -1420,6 +1433,9 @@
   </data>
   <data name="OptChameleon" xml:space="preserve">
     <value>变色龙模式（取用壁纸颜色）</value>
+  </data>
+  <data name="OptConfirmPortalMove" xml:space="preserve">
+    <value>在拖动把项目移到另一个门户框之前先询问</value>
   </data>
   <data name="OptDimensionSnap" xml:space="preserve">
     <value>同时吸附尺寸</value>

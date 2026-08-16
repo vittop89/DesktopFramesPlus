@@ -473,6 +473,10 @@ namespace Desktop_Frames.Localization
         public static string GestureShiftFromExplorerEffect => Get("GestureShiftFromExplorerEffect");
         public static string SecPortalDragDrop => Get("SecPortalDragDrop");
 
+        public static string DlgMoveItems => Get("DlgMoveItems");
+        public static string MsgConfirmMoveMany => Get("MsgConfirmMoveMany");
+        public static string MsgConfirmMoveOne => Get("MsgConfirmMoveOne");
+        public static string OptConfirmPortalMove => Get("OptConfirmPortalMove");
         public static string SecAppearance => Get("SecAppearance");
         public static string SecAutoHideFrames => Get("SecAutoHideFrames");
         public static string SecDesktopIconVisibility => Get("SecDesktopIconVisibility");

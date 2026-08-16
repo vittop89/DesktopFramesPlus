@@ -459,6 +459,9 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   <data name="DlgLoadError" xml:space="preserve">
     <value>Errore di caricamento</value>
   </data>
+  <data name="DlgMoveItems" xml:space="preserve">
+    <value>Sposta elementi</value>
+  </data>
   <data name="DlgPasteError" xml:space="preserve">
     <value>Errore di incolla</value>
   </data>
@@ -1076,6 +1079,16 @@ Vuoi procedere?</value>
   <data name="MsgConfirmImportIntoTab" xml:space="preserve">
     <value>Vuoi importare il contenuto di '{0}' in una nuova scheda?</value>
   </data>
+  <data name="MsgConfirmMoveMany" xml:space="preserve">
+    <value>Vuoi spostare {0} elementi in '{1}'?
+
+Verranno tolti da dove si trovano adesso.</value>
+  </data>
+  <data name="MsgConfirmMoveOne" xml:space="preserve">
+    <value>Vuoi spostare '{0}' in '{1}'?
+
+Verrà tolto da dove si trova adesso.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Vuoi reimpostare tutte le personalizzazioni grafiche?</value>
   </data>
@@ -1365,6 +1378,9 @@ Riavvia Desktop Frames per attivarle.</value>
   </data>
   <data name="OptChameleon" xml:space="preserve">
     <value>Modalità camaleonte (prende il colore dallo sfondo)</value>
+  </data>
+  <data name="OptConfirmPortalMove" xml:space="preserve">
+    <value>Chiedi conferma quando un trascinamento sposta elementi fra Portal</value>
   </data>
   <data name="OptDimensionSnap" xml:space="preserve">
     <value>Aggancia anche le dimensioni</value>

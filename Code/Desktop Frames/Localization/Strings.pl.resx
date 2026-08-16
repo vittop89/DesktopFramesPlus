@@ -490,6 +490,9 @@ Dziś opiekuje się nim Nikos Georgousis, który je rozbudował oraz uczynił st
   <data name="DlgLoadError" xml:space="preserve">
     <value>Błąd wczytywania</value>
   </data>
+  <data name="DlgMoveItems" xml:space="preserve">
+    <value>Przenoszenie elementów</value>
+  </data>
   <data name="DlgPasteError" xml:space="preserve">
     <value>Błąd wklejania</value>
   </data>
@@ -1128,6 +1131,16 @@ Czy chcesz kontynuować?</value>
   <data name="MsgConfirmImportIntoTab" xml:space="preserve">
     <value>Zaimportować zawartość '{0}' do nowej karty?</value>
   </data>
+  <data name="MsgConfirmMoveMany" xml:space="preserve">
+    <value>Przenieść {0} elementów do '{1}'?
+
+Zostaną usunięte z miejsc, w których są teraz.</value>
+  </data>
+  <data name="MsgConfirmMoveOne" xml:space="preserve">
+    <value>Przenieść '{0}' do '{1}'?
+
+Zostanie usunięty z miejsca, w którym jest teraz.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Zresetować wszystkie ustawienia wyglądu?</value>
   </data>
@@ -1420,6 +1433,9 @@ Uruchom ponownie Desktop Frames, aby je włączyć.</value>
   </data>
   <data name="OptChameleon" xml:space="preserve">
     <value>Tryb kameleona (przejmuje kolor tapety)</value>
+  </data>
+  <data name="OptConfirmPortalMove" xml:space="preserve">
+    <value>Pytaj, zanim przeciągnięcie przeniesie elementy między ramkami Portal</value>
   </data>
   <data name="OptDimensionSnap" xml:space="preserve">
     <value>Przyciągaj także rozmiary</value>

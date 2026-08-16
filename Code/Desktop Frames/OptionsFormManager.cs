@@ -700,7 +700,7 @@ namespace Desktop_Frames
             AddGestureLine(c, Strings.GestureFromExplorer, Strings.GestureFromExplorerEffect);
             AddGestureLine(c, Strings.GestureShiftFromExplorer, Strings.GestureShiftFromExplorerEffect);
 
-            CreateCheckBox(c, "Ask before a drag moves items between Portals", "ConfirmPortalMove", SettingsManager.ConfirmPortalMove);
+            CreateCheckBox(c, Strings.OptConfirmPortalMove, "ConfirmPortalMove", SettingsManager.ConfirmPortalMove);
 
             t.Content = new ScrollViewer { Content = c, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
             _tabControl.Items.Add(t);

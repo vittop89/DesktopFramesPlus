@@ -490,6 +490,9 @@
   <data name="DlgLoadError" xml:space="preserve">
     <value>Ошибка загрузки</value>
   </data>
+  <data name="DlgMoveItems" xml:space="preserve">
+    <value>Перемещение объектов</value>
+  </data>
   <data name="DlgPasteError" xml:space="preserve">
     <value>Ошибка вставки</value>
   </data>
@@ -1128,6 +1131,16 @@
   <data name="MsgConfirmImportIntoTab" xml:space="preserve">
     <value>Импортировать содержимое «{0}» в новую вкладку?</value>
   </data>
+  <data name="MsgConfirmMoveMany" xml:space="preserve">
+    <value>Переместить {0} объектов в «{1}»?
+
+Они будут убраны оттуда, где сейчас находятся.</value>
+  </data>
+  <data name="MsgConfirmMoveOne" xml:space="preserve">
+    <value>Переместить «{0}» в «{1}»?
+
+Объект будет убран оттуда, где он сейчас.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Сбросить все настройки внешнего вида?</value>
   </data>
@@ -1420,6 +1433,9 @@
   </data>
   <data name="OptChameleon" xml:space="preserve">
     <value>Режим хамелеона (берёт цвет обоев)</value>
+  </data>
+  <data name="OptConfirmPortalMove" xml:space="preserve">
+    <value>Спрашивать, прежде чем перетаскивание переместит объекты между порталами</value>
   </data>
   <data name="OptDimensionSnap" xml:space="preserve">
     <value>Прилипание и по размеру</value>

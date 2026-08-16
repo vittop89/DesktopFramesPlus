@@ -459,6 +459,9 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   <data name="DlgLoadError" xml:space="preserve">
     <value>Load Error</value>
   </data>
+  <data name="DlgMoveItems" xml:space="preserve">
+    <value>Move items</value>
+  </data>
   <data name="DlgPasteError" xml:space="preserve">
     <value>Paste Error</value>
   </data>
@@ -1076,6 +1079,16 @@ Are you sure you want to proceed?</value>
   <data name="MsgConfirmImportIntoTab" xml:space="preserve">
     <value>Import contents of '{0}' into a new tab?</value>
   </data>
+  <data name="MsgConfirmMoveMany" xml:space="preserve">
+    <value>Move {0} items into '{1}'?
+
+They will be removed from where they are now.</value>
+  </data>
+  <data name="MsgConfirmMoveOne" xml:space="preserve">
+    <value>Move '{0}' into '{1}'?
+
+It will be removed from where it is now.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Reset all visual customizations?</value>
   </data>
@@ -1365,6 +1378,9 @@ Please restart Desktop Frames to activate the new shortcuts.</value>
   </data>
   <data name="OptChameleon" xml:space="preserve">
     <value>Enable Chameleon Mode (Auto-match Wallpaper Color)</value>
+  </data>
+  <data name="OptConfirmPortalMove" xml:space="preserve">
+    <value>Ask before a drag moves items between Portals</value>
   </data>
   <data name="OptDimensionSnap" xml:space="preserve">
     <value>Enable Dimension Snap</value>

@@ -490,6 +490,9 @@ Hoy la mantiene Nikos Georgousis, que la ha ampliado y la ha hecho más estable 
   <data name="DlgLoadError" xml:space="preserve">
     <value>Error de carga</value>
   </data>
+  <data name="DlgMoveItems" xml:space="preserve">
+    <value>Mover elementos</value>
+  </data>
   <data name="DlgPasteError" xml:space="preserve">
     <value>Error al pegar</value>
   </data>
@@ -1128,6 +1131,16 @@ En muchos teclados internacionales Windows usa la misma combinación para la tec
   <data name="MsgConfirmImportIntoTab" xml:space="preserve">
     <value>¿Importar el contenido de '{0}' en una pestaña nueva?</value>
   </data>
+  <data name="MsgConfirmMoveMany" xml:space="preserve">
+    <value>¿Mover {0} elementos a '{1}'?
+
+Se quitarán de donde están ahora.</value>
+  </data>
+  <data name="MsgConfirmMoveOne" xml:space="preserve">
+    <value>¿Mover '{0}' a '{1}'?
+
+Se quitará de donde está ahora.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>¿Restablecer todas las personalizaciones visuales?</value>
   </data>
@@ -1420,6 +1433,9 @@ Reinicia Desktop Frames para activarlos.</value>
   </data>
   <data name="OptChameleon" xml:space="preserve">
     <value>Modo camaleón (toma el color del fondo)</value>
+  </data>
+  <data name="OptConfirmPortalMove" xml:space="preserve">
+    <value>Preguntar antes de que un arrastre mueva elementos entre Portales</value>
   </data>
   <data name="OptDimensionSnap" xml:space="preserve">
     <value>Ajustar también las dimensiones</value>

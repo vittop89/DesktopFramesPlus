@@ -490,6 +490,9 @@ Hoje é mantido por Nikos Georgousis, que o alargou e o tornou mais estável e a
   <data name="DlgLoadError" xml:space="preserve">
     <value>Erro ao carregar</value>
   </data>
+  <data name="DlgMoveItems" xml:space="preserve">
+    <value>Mover itens</value>
+  </data>
   <data name="DlgPasteError" xml:space="preserve">
     <value>Erro ao colar</value>
   </data>
@@ -1128,6 +1131,16 @@ Quer continuar?</value>
   <data name="MsgConfirmImportIntoTab" xml:space="preserve">
     <value>Importar o conteúdo de '{0}' para um novo separador?</value>
   </data>
+  <data name="MsgConfirmMoveMany" xml:space="preserve">
+    <value>Mover {0} itens para '{1}'?
+
+Serão retirados de onde estão agora.</value>
+  </data>
+  <data name="MsgConfirmMoveOne" xml:space="preserve">
+    <value>Mover '{0}' para '{1}'?
+
+Será retirado de onde está agora.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Repor todas as personalizações visuais?</value>
   </data>
@@ -1420,6 +1433,9 @@ Reinicie o Desktop Frames para os ativar.</value>
   </data>
   <data name="OptChameleon" xml:space="preserve">
     <value>Modo camaleão (assume a cor do fundo)</value>
+  </data>
+  <data name="OptConfirmPortalMove" xml:space="preserve">
+    <value>Perguntar antes de um arrasto mover itens entre Portais</value>
   </data>
   <data name="OptDimensionSnap" xml:space="preserve">
     <value>Encaixar também as dimensões</value>
