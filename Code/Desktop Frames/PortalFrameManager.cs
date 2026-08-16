@@ -33,7 +33,11 @@ namespace Desktop_Frames
         private string _targetFolderPath;
         private readonly Dispatcher _dispatcher;
         private readonly DispatcherTimer _debounceTimer;
-        private int _navigationGeneration = 0; // Tracks active navigation to prevent thread collisions
+        private int _navigationGeneration = 0; // Tracks active navigation to prevent thread collision
+
+        // Set when a drag has just ended, so the mouse release that closes the drag is not
+        // also taken for a click that launches the item.
+        private bool _dragJustFinished = false;
 
 
         private Style GetThemedContextMenuStyle()
@@ -851,6 +855,8 @@ namespace Desktop_Frames
                 };
                 contextMenu.Items.Add(cutFileItem);
 
+                AddPasteMenuItem(contextMenu);
+
                 MenuItem renameItem = new MenuItem { Header = Strings.MenuRenameItem };
                 renameItem.Click += (s, e) => RenameItem(path, null);
                 contextMenu.Items.Add(renameItem);
@@ -974,7 +980,11 @@ namespace Desktop_Frames
                 // FIX: Apply filter immediately upon creation
                 sp.Visibility = ShouldShowItem(path) ? Visibility.Visible : Visibility.Collapsed;
 
-                Framemanager.ClickEventAdder(sp, path, Directory.Exists(path));
+                // The last argument holds the launch back until the mouse button is released,
+                // which is what makes the item draggable: in a Portal a press is the start of
+                // a possible drag, so it cannot open the file on the way down.
+                Framemanager.ClickEventAdder(sp, path, Directory.Exists(path), null, true);
+                AttachDragSource(sp, path);
 
 
                 // Create and attach context menu
@@ -1030,6 +1040,8 @@ namespace Desktop_Frames
                     }
                 };
                 contextMenu.Items.Add(cutFileItem);
+
+                AddPasteMenuItem(contextMenu);
 
                 // 3. Rename item (Existing)
                 MenuItem renameItem = new MenuItem { Header = Strings.MenuRenameItem };
@@ -1185,6 +1197,66 @@ namespace Desktop_Frames
             TriggerSync(immediate: true);
 
             LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.General, $"Requested immediate async initialization for {_targetFolderPath}");
+        }
+
+        /// <summary>
+        /// Appends the Paste entry to a portal context menu. The entry is greyed out while
+        /// the clipboard holds nothing usable, and that state is refreshed every time the
+        /// menu opens, because the menu object outlives any single clipboard content.
+        /// </summary>
+        private void AddPasteMenuItem(ContextMenu menu)
+        {
+            MenuItem pasteItem = new MenuItem { Header = "Paste Item" };
+            pasteItem.Click += (s, e) => PasteIntoPortal();
+            menu.Opened += (s, e) =>
+            {
+                try { pasteItem.IsEnabled = PortalFileTransfer.ClipboardHasFiles(); }
+                catch { pasteItem.IsEnabled = false; }
+            };
+            menu.Items.Add(pasteItem);
+        }
+
+        /// <summary>
+        /// Empties the clipboard into the folder this portal shows. The watcher would pick
+        /// the new files up on its own, but the sync is triggered directly so the icons
+        /// appear immediately rather than after the debounce interval.
+        /// </summary>
+        private void PasteIntoPortal()
+        {
+            if (PortalFileTransfer.PasteInto(_targetFolderPath) > 0)
+                TriggerSync(true);
+        }
+
+        /// <summary>
+        /// Lets an item be dragged out of the portal, to another frame or to any Windows
+        /// window that accepts files. The drag only begins once the pointer has travelled
+        /// past the system threshold, so an ordinary click is never mistaken for one.
+        /// </summary>
+        private void AttachDragSource(FrameworkElement element, string path)
+        {
+            Point pressedAt = new Point();
+            bool armed = false;
+
+            element.PreviewMouseLeftButtonDown += (s, e) =>
+            {
+                pressedAt = e.GetPosition(null);
+                armed = Keyboard.Modifiers == ModifierKeys.None;
+            };
+
+            element.PreviewMouseLeftButtonUp += (s, e) => armed = false;
+
+            element.MouseMove += (s, e) =>
+            {
+                if (!armed || e.LeftButton != MouseButtonState.Pressed) return;
+
+                Point now = e.GetPosition(null);
+                if (Math.Abs(now.X - pressedAt.X) < SystemParameters.MinimumHorizontalDragDistance &&
+                    Math.Abs(now.Y - pressedAt.Y) < SystemParameters.MinimumVerticalDragDistance) return;
+
+                armed = false;
+                try { PortalFileTransfer.BeginDrag(element, path); }
+                finally { _dragJustFinished = true; }
+            };
         }
 
         private void CopyPathOrTarget(string path)
@@ -1561,8 +1633,47 @@ namespace Desktop_Frames
                     Framemanager.LaunchItem(new StackPanel(), selected.FullPath, selected.IsFolder);
                 };
 
+                // A row can be dragged out to another frame or to Explorer. The drag is armed
+                // on the way down and only fires once the pointer has really travelled, so a
+                // plain click still selects and launches as before.
+                Point rowPressedAt = new Point();
+                bool rowArmed = false;
+
+                _detailsListView.PreviewMouseLeftButtonDown += (s, e) =>
+                {
+                    rowPressedAt = e.GetPosition(null);
+                    rowArmed = Keyboard.Modifiers == ModifierKeys.None
+                               && GetClickedListViewItem(e.OriginalSource as DependencyObject) != null;
+                };
+
+                _detailsListView.MouseMove += (s, e) =>
+                {
+                    if (!rowArmed || e.LeftButton != MouseButtonState.Pressed) return;
+
+                    Point now = e.GetPosition(null);
+                    if (Math.Abs(now.X - rowPressedAt.X) < SystemParameters.MinimumHorizontalDragDistance &&
+                        Math.Abs(now.Y - rowPressedAt.Y) < SystemParameters.MinimumVerticalDragDistance) return;
+
+                    rowArmed = false;
+                    var draggedRow = GetClickedListViewItem(e.OriginalSource as DependencyObject);
+                    if (draggedRow?.Content is PortalItemModel dragged)
+                    {
+                        try { PortalFileTransfer.BeginDrag(_detailsListView, dragged.FullPath); }
+                        finally { _dragJustFinished = true; }
+                    }
+                };
+
                 _detailsListView.PreviewMouseLeftButtonUp += (s, e) =>
                 {
+                    rowArmed = false;
+
+                    // The release that ends a drag must not also count as a click.
+                    if (_dragJustFinished)
+                    {
+                        _dragJustFinished = false;
+                        return;
+                    }
+
                     var row = GetClickedListViewItem(e.OriginalSource as DependencyObject);
                     if (row?.Content is PortalItemModel selected)
                     {
