@@ -4262,6 +4262,31 @@ namespace Desktop_Frames
                     }
                 };
                 CnMnFramemanager.Items.Add(miViewAsDetails);
+
+                // --- PASTE INTO THE PORTAL FOLDER ---
+                // Right-clicking empty space in a Portal opens this menu, so this is where a
+                // Paste has to live for the command to be reachable without an item under the
+                // pointer. It is greyed out while the clipboard holds nothing usable.
+                MenuItem miPasteFiles = new MenuItem { Header = "Paste Item" };
+                miPasteFiles.Click += (s, e) =>
+                {
+                    string destination = frame.Path?.ToString();
+                    if (string.IsNullOrEmpty(destination) || !Directory.Exists(destination))
+                    {
+                        MessageBoxesManager.ShowOKOnlyMessageBoxForm("The folder of this Portal frame is not available.", "Error");
+                        return;
+                    }
+
+                    int pasted = PortalFileTransfer.PasteInto(destination);
+                    if (pasted > 0)
+                        ShowPortalToast(win, $"Pasted {pasted} item{(pasted > 1 ? "s" : "")}");
+                };
+                CnMnFramemanager.Opened += (s, e) =>
+                {
+                    try { miPasteFiles.IsEnabled = PortalFileTransfer.ClipboardHasFiles(); }
+                    catch { miPasteFiles.IsEnabled = false; }
+                };
+                CnMnFramemanager.Items.Add(miPasteFiles);
             }
 
             CnMnFramemanager.Items.Add(new Separator());
@@ -4900,7 +4925,10 @@ namespace Desktop_Frames
                 catch { }
 
                 // A. Update Paste Visibility
-                bool hasCopiedItem = CopyPasteManager.HasCopiedItem();
+                // A Portal shows the real contents of a folder, so there the file-based Paste
+                // added above is the meaningful one and this shortcut-based paste would only
+                // put a second identical entry in the same menu.
+                bool hasCopiedItem = CopyPasteManager.HasCopiedItem() && frame.ItemsType?.ToString() != "Portal";
                 miPasteItem.Visibility = hasCopiedItem ? Visibility.Visible : Visibility.Collapsed;
 
                 // B. Update Clear Dead Shortcuts Visibility
@@ -6257,6 +6285,7 @@ namespace Desktop_Frames
                     if (droppedFiles == null) return;
 
                     int portalCopiedCount = 0; // --- NEW: Track successful portal copies ---
+                    bool portalMoved = false;  // Shift was held, so the items were moved rather than copied
 
                     foreach (string droppedFile in droppedFiles)
                     {
@@ -6551,26 +6580,14 @@ namespace Desktop_Frames
                                     continue;
                                 }
 
-                                string destinationPath = System.IO.Path.Combine(destinationFolder, System.IO.Path.GetFileName(droppedFile));
-                                int counter = 1;
-                                string baseName = System.IO.Path.GetFileNameWithoutExtension(droppedFile);
-                                string extension = System.IO.Path.GetExtension(droppedFile);
-
-                                while (System.IO.File.Exists(destinationPath) || System.IO.Directory.Exists(destinationPath))
-                                {
-                                    destinationPath = System.IO.Path.Combine(destinationFolder, $"{baseName} ({counter++}){extension}");
-                                }
-
-                                if (System.IO.File.Exists(droppedFile))
-                                {
-                                    System.IO.File.Copy(droppedFile, destinationPath, false);
-                                    portalCopiedCount++; // --- NEW ---
-                                }
-                                else if (System.IO.Directory.Exists(droppedFile))
-                                {
-                                    BackupManager.CopyDirectory(droppedFile, destinationPath);
-                                    portalCopiedCount++; // --- NEW ---
-                                }
+                                // Holding Shift while dropping moves the item instead of copying
+                                // it, the same shortcut Explorer uses. Without Shift the
+                                // long-standing copy behaviour is untouched. The collision
+                                // naming and the folder handling now live in one place so a
+                                // dropped file and a pasted file are treated identically.
+                                portalMoved = e.KeyStates.HasFlag(DragDropKeyStates.ShiftKey);
+                                portalCopiedCount += PortalFileTransfer.Transfer(
+                                    new[] { droppedFile }, destinationFolder, portalMoved);
                             }
                         }
                         catch (Exception ex)
@@ -6582,7 +6599,7 @@ namespace Desktop_Frames
                     // --- NEW: Visual Feedback for Portal Frames ---
                     if (frame.ItemsType?.ToString() == "Portal" && portalCopiedCount > 0)
                     {
-                        ShowPortalToast(win, $"Copied {portalCopiedCount} item{(portalCopiedCount > 1 ? "s" : "")}");
+                        ShowPortalToast(win, $"{(portalMoved ? "Moved" : "Copied")} {portalCopiedCount} item{(portalCopiedCount > 1 ? "s" : "")}");
                     }
 
                     FrameDataManager.SaveFrameData();
@@ -8346,10 +8363,19 @@ namespace Desktop_Frames
         }
 
 
-        public static void ClickEventAdder(StackPanel sp, string path, bool isFolder, string arguments = null)
+        /// <param name="deferLaunchToRelease">
+        /// Holds the launch back until the mouse button is released, and drops it entirely if
+        /// the pointer travelled in the meantime. Portal items need this: there a press is
+        /// the possible start of a drag, so opening the file on the way down would make the
+        /// item impossible to drag anywhere.
+        /// </param>
+        public static void ClickEventAdder(StackPanel sp, string path, bool isFolder, string arguments = null, bool deferLaunchToRelease = false)
         {
             // Store only path, isFolder, and arguments in Tag
             sp.Tag = new { FilePath = path, IsFolder = isFolder, Arguments = arguments };
+
+            bool launchPending = false;
+            System.Windows.Point launchPressedAt = new System.Windows.Point();
 
             // --- HANG FIX 1 (Startup): Removed synchronous Utility.GetShortcutTarget(path) from here. ---
             // The folder double-check is deferred until the exact moment of clicking to prevent startup freezing.
@@ -8416,6 +8442,20 @@ namespace Desktop_Frames
                 {
                     e.Handled = true; // Mark handled immediately so the UI thread is freed
 
+                    if (deferLaunchToRelease)
+                    {
+                        launchPending = true;
+                        launchPressedAt = e.GetPosition(null);
+                        return;
+                    }
+
+                    StartLaunch();
+                }
+            }
+
+            /// <summary>Opens the item. Split out so it can be run either on the press or on the release.</summary>
+            void StartLaunch()
+            {
                     // --- HANG FIX 2 (Click): Move network resolution to an STA Background Thread ---
                     System.Threading.Thread launchThread = new System.Threading.Thread(() =>
                     {
@@ -8502,7 +8542,6 @@ namespace Desktop_Frames
                     launchThread.SetApartmentState(System.Threading.ApartmentState.STA);
                     launchThread.IsBackground = true;
                     launchThread.Start();
-                }
             }
 
             void MouseMoveHandler(object sender, MouseEventArgs e)
@@ -8520,6 +8559,25 @@ namespace Desktop_Frames
 
             void MouseUpHandler(object sender, MouseButtonEventArgs e)
             {
+                if (launchPending)
+                {
+                    launchPending = false;
+
+                    // If the pointer travelled between press and release the gesture was a
+                    // drag, not a click, and the item must not be opened on top of it.
+                    System.Windows.Point releasedAt = e.GetPosition(null);
+                    bool travelled =
+                        Math.Abs(releasedAt.X - launchPressedAt.X) >= SystemParameters.MinimumHorizontalDragDistance ||
+                        Math.Abs(releasedAt.Y - launchPressedAt.Y) >= SystemParameters.MinimumVerticalDragDistance;
+
+                    if (!travelled)
+                    {
+                        e.Handled = true;
+                        StartLaunch();
+                    }
+                    return;
+                }
+
                 if (IconDragDropManager.IsDragging)
                 {
                     try
