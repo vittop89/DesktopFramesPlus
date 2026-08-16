@@ -6586,7 +6586,7 @@ namespace Desktop_Frames
                                 // naming and the folder handling now live in one place so a
                                 // dropped file and a pasted file are treated identically.
                                 portalMoved = e.KeyStates.HasFlag(DragDropKeyStates.ShiftKey);
-                                portalCopiedCount += PortalFileTransfer.Transfer(
+                                portalCopiedCount += PortalFileTransfer.Drop(
                                     new[] { droppedFile }, destinationFolder, portalMoved);
                             }
                         }
