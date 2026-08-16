@@ -2520,8 +2520,14 @@ namespace Desktop_Frames
             }
         }
 
-        /// <summary>First child of the given type anywhere below parent, or null.</summary>
-        private static T FirstChildOfType<T>(DependencyObject parent) where T : DependencyObject
+        /// <summary>Name carried by the Label that shows a frame's title.</summary>
+        private const string FrameTitleLabelName = "FrameTitleLabel";
+
+        /// <summary>
+        /// The title Label of a frame window. It is found by name rather than by taking the
+        /// first Label in the tree: a frame holds several, and the first one is not this one.
+        /// </summary>
+        private static Label FindTitleLabel(DependencyObject parent)
         {
             if (parent == null) return null;
 
@@ -2529,9 +2535,9 @@ namespace Desktop_Frames
             for (int i = 0; i < count; i++)
             {
                 DependencyObject child = System.Windows.Media.VisualTreeHelper.GetChild(parent, i);
-                if (child is T match) return match;
+                if (child is Label label && label.Name == FrameTitleLabelName) return label;
 
-                T deeper = FirstChildOfType<T>(child);
+                Label deeper = FindTitleLabel(child);
                 if (deeper != null) return deeper;
             }
             return null;
@@ -2554,7 +2560,7 @@ namespace Desktop_Frames
                 if (win == null) return;
 
                 win.Title = title;
-                var label = FirstChildOfType<Label>(win);
+                var label = FindTitleLabel(win);
                 if (label != null) label.Content = title;
             }
             catch (Exception ex)
@@ -5000,6 +5006,9 @@ namespace Desktop_Frames
             }
             Label titlelabel = new Label
             {
+                // Named so the title can be found again from outside this method, when
+                // something other than the title bar changes it.
+                Name = FrameTitleLabelName,
                 Content = frame.Title.ToString(),
                 Foreground = titleTextBrush, // Changed from hardcoded White
                 HorizontalContentAlignment = HorizontalAlignment.Center,
