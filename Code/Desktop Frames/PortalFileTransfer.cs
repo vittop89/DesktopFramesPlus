@@ -100,6 +100,30 @@ namespace Desktop_Frames
         }
 
         /// <summary>
+        /// The entry point for a drop, as opposed to a paste.
+        ///
+        /// Anything already sitting in the destination is dropped from the batch first:
+        /// dragging an item around inside the folder it came from is how a user rearranges
+        /// icons, and it must not leave a duplicate behind. Explorer does nothing in that
+        /// case too. A paste is different and keeps its own behaviour, because asking to
+        /// paste into the current folder is a deliberate request for a second copy.
+        /// </summary>
+        public static int Drop(IEnumerable<string> sources, string targetFolder, bool move)
+        {
+            if (sources == null || string.IsNullOrEmpty(targetFolder)) return 0;
+
+            List<string> incoming = new List<string>();
+            foreach (string source in sources)
+            {
+                if (string.IsNullOrEmpty(source)) continue;
+                if (SamePath(Path.GetDirectoryName(source), targetFolder)) continue;
+                incoming.Add(source);
+            }
+
+            return Transfer(incoming, targetFolder, move);
+        }
+
+        /// <summary>
         /// Copies or moves every source into targetFolder, skipping the ones that cannot go
         /// there, and returns how many succeeded. Failures are reported per item so one bad
         /// file does not abandon the rest of the batch.

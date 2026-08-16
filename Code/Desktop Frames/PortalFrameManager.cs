@@ -985,6 +985,7 @@ namespace Desktop_Frames
                 // a possible drag, so it cannot open the file on the way down.
                 Framemanager.ClickEventAdder(sp, path, Directory.Exists(path), null, true);
                 AttachDragSource(sp, path);
+                if (isFolder) AttachFolderDropTarget(sp, path);
 
 
                 // Create and attach context menu
@@ -1226,6 +1227,48 @@ namespace Desktop_Frames
             if (PortalFileTransfer.PasteInto(_targetFolderPath) > 0)
                 TriggerSync(true);
         }
+
+        /// <summary>
+        /// Makes a folder shown in the portal a drop target of its own, so an item released
+        /// on top of it goes inside it instead of landing next to it in the portal root.
+        ///
+        /// Dropping onto a folder means filing something away, so it moves by default and
+        /// copies while Ctrl is held, the modifier Windows uses everywhere else. The event
+        /// is marked handled so the frame-wide handler does not also drop the item into the
+        /// portal root.
+        /// </summary>
+        private void AttachFolderDropTarget(FrameworkElement element, string folderPath)
+        {
+            element.AllowDrop = true;
+
+            element.DragOver += (s, e) =>
+            {
+                if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+                e.Effects = HoldingCtrl(e) ? DragDropEffects.Copy : DragDropEffects.Move;
+                e.Handled = true;
+            };
+
+            element.Drop += (s, e) =>
+            {
+                if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+                e.Handled = true;
+
+                string[] dropped = e.Data.GetData(DataFormats.FileDrop) as string[];
+                if (PortalFileTransfer.Drop(dropped, folderPath, !HoldingCtrl(e)) > 0)
+                    TriggerSync(true);
+            };
+        }
+
+        /// <summary>The folder behind the details-view row under the pointer, or null.</summary>
+        private string FolderRowUnder(DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return null;
+            var row = GetClickedListViewItem(e.OriginalSource as DependencyObject);
+            return row?.Content is PortalItemModel item && item.IsFolder ? item.FullPath : null;
+        }
+
+        private static bool HoldingCtrl(DragEventArgs e) =>
+            (e.KeyStates & DragDropKeyStates.ControlKey) == DragDropKeyStates.ControlKey;
 
         /// <summary>
         /// Lets an item be dragged out of the portal, to another frame or to any Windows
@@ -1661,6 +1704,29 @@ namespace Desktop_Frames
                         try { PortalFileTransfer.BeginDrag(_detailsListView, dragged.FullPath); }
                         finally { _dragJustFinished = true; }
                     }
+                };
+
+                // Dropping onto a folder row files the item inside that folder. Anything
+                // released elsewhere is left alone, so it bubbles up to the frame-wide
+                // handler and lands in the portal root as before.
+                _detailsListView.AllowDrop = true;
+
+                _detailsListView.DragOver += (s, e) =>
+                {
+                    if (FolderRowUnder(e) == null) return;
+                    e.Effects = HoldingCtrl(e) ? DragDropEffects.Copy : DragDropEffects.Move;
+                    e.Handled = true;
+                };
+
+                _detailsListView.Drop += (s, e) =>
+                {
+                    string folder = FolderRowUnder(e);
+                    if (folder == null) return;
+                    e.Handled = true;
+
+                    string[] dropped = e.Data.GetData(DataFormats.FileDrop) as string[];
+                    if (PortalFileTransfer.Drop(dropped, folder, !HoldingCtrl(e)) > 0)
+                        TriggerSync(true);
                 };
 
                 _detailsListView.PreviewMouseLeftButtonUp += (s, e) =>
