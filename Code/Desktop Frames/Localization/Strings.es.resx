@@ -466,6 +466,9 @@ Hoy la mantiene Nikos Georgousis, que la ha ampliado y la ha hecho más estable 
   <data name="DlgFactoryReset" xml:space="preserve">
     <value>Restablecer de fábrica</value>
   </data>
+  <data name="DlgFolderNotRenamed" xml:space="preserve">
+    <value>Carpeta sin cambiar</value>
+  </data>
   <data name="DlgFormError" xml:space="preserve">
     <value>Error de la ventana</value>
   </data>
@@ -501,6 +504,9 @@ Hoy la mantiene Nikos Georgousis, que la ha ampliado y la ha hecho más estable 
   </data>
   <data name="DlgRenameError" xml:space="preserve">
     <value>Error al cambiar el nombre</value>
+  </data>
+  <data name="DlgRenameFolder" xml:space="preserve">
+    <value>Cambiar el nombre de la carpeta</value>
   </data>
   <data name="DlgResetComplete" xml:space="preserve">
     <value>Restablecimiento completado</value>
@@ -1141,6 +1147,13 @@ Se quitarán de donde están ahora.</value>
 
 Se quitará de donde está ahora.</value>
   </data>
+  <data name="MsgConfirmRenameFolder" xml:space="preserve">
+    <value>¿Cambiar también el nombre de la carpeta a '{0}'?
+
+{1}
+
+Los accesos directos y otros programas que apunten al nombre anterior dejarán de encontrarla.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>¿Restablecer todas las personalizaciones visuales?</value>
   </data>
@@ -1197,6 +1210,12 @@ La aplicación se reiniciará.</value>
   <data name="MsgFileNotFoundInProfile" xml:space="preserve">
     <value>Archivo no encontrado en el perfil activo:
 {0}</value>
+  </data>
+  <data name="MsgFolderNameTaken" xml:space="preserve">
+    <value>Se cambió el nombre del marco, pero la carpeta se dejó como estaba: ya existe algo llamado '{0}'.</value>
+  </data>
+  <data name="MsgFolderRenameFailed" xml:space="preserve">
+    <value>Se cambió el nombre del marco, pero no el de la carpeta: {0}</value>
   </data>
   <data name="MsgFormInitFailed" xml:space="preserve">
     <value>Error al abrir la ventana: {0}</value>

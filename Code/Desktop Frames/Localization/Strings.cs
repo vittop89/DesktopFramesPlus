@@ -477,6 +477,11 @@ namespace Desktop_Frames.Localization
         public static string MsgConfirmMoveMany => Get("MsgConfirmMoveMany");
         public static string MsgConfirmMoveOne => Get("MsgConfirmMoveOne");
         public static string OptConfirmPortalMove => Get("OptConfirmPortalMove");
+        public static string DlgFolderNotRenamed => Get("DlgFolderNotRenamed");
+        public static string DlgRenameFolder => Get("DlgRenameFolder");
+        public static string MsgConfirmRenameFolder => Get("MsgConfirmRenameFolder");
+        public static string MsgFolderNameTaken => Get("MsgFolderNameTaken");
+        public static string MsgFolderRenameFailed => Get("MsgFolderRenameFailed");
         public static string SecAppearance => Get("SecAppearance");
         public static string SecAutoHideFrames => Get("SecAutoHideFrames");
         public static string SecDesktopIconVisibility => Get("SecDesktopIconVisibility");

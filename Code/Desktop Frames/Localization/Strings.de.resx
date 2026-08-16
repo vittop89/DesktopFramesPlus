@@ -466,6 +466,9 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   <data name="DlgFactoryReset" xml:space="preserve">
     <value>Auf Werkseinstellungen zurücksetzen</value>
   </data>
+  <data name="DlgFolderNotRenamed" xml:space="preserve">
+    <value>Ordner nicht umbenannt</value>
+  </data>
   <data name="DlgFormError" xml:space="preserve">
     <value>Fehler im Fenster</value>
   </data>
@@ -501,6 +504,9 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   </data>
   <data name="DlgRenameError" xml:space="preserve">
     <value>Fehler beim Umbenennen</value>
+  </data>
+  <data name="DlgRenameFolder" xml:space="preserve">
+    <value>Ordner umbenennen</value>
   </data>
   <data name="DlgResetComplete" xml:space="preserve">
     <value>Zurücksetzen abgeschlossen</value>
@@ -1141,6 +1147,13 @@ Sie werden dort entfernt, wo sie jetzt liegen.</value>
 
 Es wird dort entfernt, wo es jetzt liegt.</value>
   </data>
+  <data name="MsgConfirmRenameFolder" xml:space="preserve">
+    <value>Soll der Ordner ebenfalls in '{0}' umbenannt werden?
+
+{1}
+
+Verknüpfungen und andere Programme, die auf den alten Namen zeigen, finden ihn dann nicht mehr.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Alle optischen Anpassungen zurücksetzen?</value>
   </data>
@@ -1197,6 +1210,12 @@ Die Anwendung wird neu gestartet.</value>
   <data name="MsgFileNotFoundInProfile" xml:space="preserve">
     <value>Datei im aktiven Profil nicht gefunden:
 {0}</value>
+  </data>
+  <data name="MsgFolderNameTaken" xml:space="preserve">
+    <value>Der Rahmen wurde umbenannt, der Ordner blieb aber unverändert: '{0}' ist bereits vergeben.</value>
+  </data>
+  <data name="MsgFolderRenameFailed" xml:space="preserve">
+    <value>Der Rahmen wurde umbenannt, der Ordner nicht: {0}</value>
   </data>
   <data name="MsgFormInitFailed" xml:space="preserve">
     <value>Fehler beim Öffnen des Fensters: {0}</value>

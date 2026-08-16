@@ -435,6 +435,9 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   <data name="DlgFactoryReset" xml:space="preserve">
     <value>Factory Reset</value>
   </data>
+  <data name="DlgFolderNotRenamed" xml:space="preserve">
+    <value>Folder not renamed</value>
+  </data>
   <data name="DlgFormError" xml:space="preserve">
     <value>Form Error</value>
   </data>
@@ -470,6 +473,9 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   </data>
   <data name="DlgRenameError" xml:space="preserve">
     <value>Rename Error</value>
+  </data>
+  <data name="DlgRenameFolder" xml:space="preserve">
+    <value>Rename folder</value>
   </data>
   <data name="DlgResetComplete" xml:space="preserve">
     <value>Reset Complete</value>
@@ -1089,6 +1095,13 @@ They will be removed from where they are now.</value>
 
 It will be removed from where it is now.</value>
   </data>
+  <data name="MsgConfirmRenameFolder" xml:space="preserve">
+    <value>Rename the folder to '{0}' as well?
+
+{1}
+
+Shortcuts and other programs pointing at the old name will stop finding it.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Reset all visual customizations?</value>
   </data>
@@ -1145,6 +1158,12 @@ The application will now restart.</value>
   <data name="MsgFileNotFoundInProfile" xml:space="preserve">
     <value>File not found in active profile:
 {0}</value>
+  </data>
+  <data name="MsgFolderNameTaken" xml:space="preserve">
+    <value>The frame was renamed, but the folder was left as it is: something called '{0}' is already there.</value>
+  </data>
+  <data name="MsgFolderRenameFailed" xml:space="preserve">
+    <value>The frame was renamed, but the folder could not be: {0}</value>
   </data>
   <data name="MsgFormInitFailed" xml:space="preserve">
     <value>Error initializing form: {0}</value>

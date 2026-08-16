@@ -2504,14 +2504,12 @@ namespace Desktop_Frames
                 if (System.IO.Directory.Exists(target) || System.IO.File.Exists(target))
                 {
                     MessageBoxesManager.ShowOKOnlyMessageBoxForm(
-                        $"The frame was renamed, but the folder was left as it is: something called '{newTitle}' is already there.",
-                        "Folder not renamed");
+                        Strings.Get("MsgFolderNameTaken", newTitle), Strings.DlgFolderNotRenamed);
                     return;
                 }
 
                 if (!MessageBoxesManager.ShowCustomYesNoMessageBox(
-                        $"Rename the folder to '{newTitle}' as well?\n\n{path}\n\nShortcuts and other programs pointing at the old name will stop finding it.",
-                        "Rename folder"))
+                        Strings.Get("MsgConfirmRenameFolder", newTitle, path), Strings.DlgRenameFolder))
                     return;
 
                 System.IO.Directory.Move(path, target);
@@ -2526,7 +2524,7 @@ namespace Desktop_Frames
                 LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.General,
                     $"Could not rename the Portal folder: {ex.Message}");
                 MessageBoxesManager.ShowOKOnlyMessageBoxForm(
-                    $"The frame was renamed, but the folder could not be: {ex.Message}", "Folder not renamed");
+                    Strings.Get("MsgFolderRenameFailed", ex.Message), Strings.DlgFolderNotRenamed);
             }
         }
 

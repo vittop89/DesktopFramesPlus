@@ -466,6 +466,9 @@ Dziś opiekuje się nim Nikos Georgousis, który je rozbudował oraz uczynił st
   <data name="DlgFactoryReset" xml:space="preserve">
     <value>Przywracanie ustawień fabrycznych</value>
   </data>
+  <data name="DlgFolderNotRenamed" xml:space="preserve">
+    <value>Nazwa folderu bez zmian</value>
+  </data>
   <data name="DlgFormError" xml:space="preserve">
     <value>Błąd okna</value>
   </data>
@@ -501,6 +504,9 @@ Dziś opiekuje się nim Nikos Georgousis, który je rozbudował oraz uczynił st
   </data>
   <data name="DlgRenameError" xml:space="preserve">
     <value>Błąd zmiany nazwy</value>
+  </data>
+  <data name="DlgRenameFolder" xml:space="preserve">
+    <value>Zmiana nazwy folderu</value>
   </data>
   <data name="DlgResetComplete" xml:space="preserve">
     <value>Resetowanie zakończone</value>
@@ -1141,6 +1147,13 @@ Zostaną usunięte z miejsc, w których są teraz.</value>
 
 Zostanie usunięty z miejsca, w którym jest teraz.</value>
   </data>
+  <data name="MsgConfirmRenameFolder" xml:space="preserve">
+    <value>Zmienić także nazwę folderu na '{0}'?
+
+{1}
+
+Skróty i inne programy wskazujące starą nazwę przestaną go znajdować.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Zresetować wszystkie ustawienia wyglądu?</value>
   </data>
@@ -1197,6 +1210,12 @@ Aplikacja zostanie uruchomiona ponownie.</value>
   <data name="MsgFileNotFoundInProfile" xml:space="preserve">
     <value>Nie znaleziono pliku w aktywnym profilu:
 {0}</value>
+  </data>
+  <data name="MsgFolderNameTaken" xml:space="preserve">
+    <value>Nazwa ramki została zmieniona, ale folder pozostał bez zmian: coś o nazwie '{0}' już istnieje.</value>
+  </data>
+  <data name="MsgFolderRenameFailed" xml:space="preserve">
+    <value>Nazwa ramki została zmieniona, ale folderu nie: {0}</value>
   </data>
   <data name="MsgFormInitFailed" xml:space="preserve">
     <value>Błąd podczas otwierania okna: {0}</value>

@@ -435,6 +435,9 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   <data name="DlgFactoryReset" xml:space="preserve">
     <value>Ripristino iniziale</value>
   </data>
+  <data name="DlgFolderNotRenamed" xml:space="preserve">
+    <value>Cartella non rinominata</value>
+  </data>
   <data name="DlgFormError" xml:space="preserve">
     <value>Errore della finestra</value>
   </data>
@@ -470,6 +473,9 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   </data>
   <data name="DlgRenameError" xml:space="preserve">
     <value>Errore di rinomina</value>
+  </data>
+  <data name="DlgRenameFolder" xml:space="preserve">
+    <value>Rinomina cartella</value>
   </data>
   <data name="DlgResetComplete" xml:space="preserve">
     <value>Ripristino completato</value>
@@ -1089,6 +1095,13 @@ Verranno tolti da dove si trovano adesso.</value>
 
 Verrà tolto da dove si trova adesso.</value>
   </data>
+  <data name="MsgConfirmRenameFolder" xml:space="preserve">
+    <value>Vuoi rinominare anche la cartella in '{0}'?
+
+{1}
+
+I collegamenti e gli altri programmi che puntano al vecchio nome smetteranno di trovarla.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Vuoi reimpostare tutte le personalizzazioni grafiche?</value>
   </data>
@@ -1145,6 +1158,12 @@ L'applicazione verrà riavviata.</value>
   <data name="MsgFileNotFoundInProfile" xml:space="preserve">
     <value>File non trovato nel profilo attivo:
 {0}</value>
+  </data>
+  <data name="MsgFolderNameTaken" xml:space="preserve">
+    <value>Il frame è stato rinominato, ma la cartella è rimasta com'era: esiste già qualcosa che si chiama '{0}'.</value>
+  </data>
+  <data name="MsgFolderRenameFailed" xml:space="preserve">
+    <value>Il frame è stato rinominato, ma la cartella no: {0}</value>
   </data>
   <data name="MsgFormInitFailed" xml:space="preserve">
     <value>Errore nell'apertura della finestra: {0}</value>

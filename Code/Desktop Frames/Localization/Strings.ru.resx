@@ -466,6 +466,9 @@
   <data name="DlgFactoryReset" xml:space="preserve">
     <value>Сброс к исходным настройкам</value>
   </data>
+  <data name="DlgFolderNotRenamed" xml:space="preserve">
+    <value>Папка не переименована</value>
+  </data>
   <data name="DlgFormError" xml:space="preserve">
     <value>Ошибка окна</value>
   </data>
@@ -501,6 +504,9 @@
   </data>
   <data name="DlgRenameError" xml:space="preserve">
     <value>Ошибка переименования</value>
+  </data>
+  <data name="DlgRenameFolder" xml:space="preserve">
+    <value>Переименование папки</value>
   </data>
   <data name="DlgResetComplete" xml:space="preserve">
     <value>Сброс завершён</value>
@@ -1141,6 +1147,13 @@
 
 Объект будет убран оттуда, где он сейчас.</value>
   </data>
+  <data name="MsgConfirmRenameFolder" xml:space="preserve">
+    <value>Переименовать и папку в «{0}»?
+
+{1}
+
+Ярлыки и другие программы, ссылающиеся на прежнее имя, перестанут её находить.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Сбросить все настройки внешнего вида?</value>
   </data>
@@ -1197,6 +1210,12 @@
   <data name="MsgFileNotFoundInProfile" xml:space="preserve">
     <value>Файл не найден в активном профиле:
 {0}</value>
+  </data>
+  <data name="MsgFolderNameTaken" xml:space="preserve">
+    <value>Рамка переименована, но папка осталась прежней: «{0}» уже занято.</value>
+  </data>
+  <data name="MsgFolderRenameFailed" xml:space="preserve">
+    <value>Рамка переименована, а папка нет: {0}</value>
   </data>
   <data name="MsgFormInitFailed" xml:space="preserve">
     <value>Ошибка при открытии окна: {0}</value>

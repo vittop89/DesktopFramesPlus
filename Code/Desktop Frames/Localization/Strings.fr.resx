@@ -466,6 +466,9 @@ Il est aujourd'hui maintenu par Nikos Georgousis, qui l'a enrichi et rendu plus 
   <data name="DlgFactoryReset" xml:space="preserve">
     <value>Réinitialisation complète</value>
   </data>
+  <data name="DlgFolderNotRenamed" xml:space="preserve">
+    <value>Dossier non renommé</value>
+  </data>
   <data name="DlgFormError" xml:space="preserve">
     <value>Erreur de fenêtre</value>
   </data>
@@ -501,6 +504,9 @@ Il est aujourd'hui maintenu par Nikos Georgousis, qui l'a enrichi et rendu plus 
   </data>
   <data name="DlgRenameError" xml:space="preserve">
     <value>Erreur de renommage</value>
+  </data>
+  <data name="DlgRenameFolder" xml:space="preserve">
+    <value>Renommer le dossier</value>
   </data>
   <data name="DlgResetComplete" xml:space="preserve">
     <value>Réinitialisation terminée</value>
@@ -1141,6 +1147,13 @@ Ils seront retirés de l'endroit où ils se trouvent.</value>
 
 Il sera retiré de l'endroit où il se trouve.</value>
   </data>
+  <data name="MsgConfirmRenameFolder" xml:space="preserve">
+    <value>Renommer aussi le dossier en '{0}' ?
+
+{1}
+
+Les raccourcis et les autres programmes qui pointent vers l'ancien nom ne le trouveront plus.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Réinitialiser toutes les personnalisations visuelles ?</value>
   </data>
@@ -1197,6 +1210,12 @@ L'application va redémarrer.</value>
   <data name="MsgFileNotFoundInProfile" xml:space="preserve">
     <value>Fichier introuvable dans le profil actif :
 {0}</value>
+  </data>
+  <data name="MsgFolderNameTaken" xml:space="preserve">
+    <value>Le cadre a été renommé, mais le dossier a été laissé tel quel : quelque chose appelé '{0}' existe déjà.</value>
+  </data>
+  <data name="MsgFolderRenameFailed" xml:space="preserve">
+    <value>Le cadre a été renommé, mais pas le dossier : {0}</value>
   </data>
   <data name="MsgFormInitFailed" xml:space="preserve">
     <value>Erreur à l'ouverture de la fenêtre : {0}</value>

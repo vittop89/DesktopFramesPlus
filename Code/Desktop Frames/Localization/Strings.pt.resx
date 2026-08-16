@@ -466,6 +466,9 @@ Hoje é mantido por Nikos Georgousis, que o alargou e o tornou mais estável e a
   <data name="DlgFactoryReset" xml:space="preserve">
     <value>Reposição de fábrica</value>
   </data>
+  <data name="DlgFolderNotRenamed" xml:space="preserve">
+    <value>Pasta não alterada</value>
+  </data>
   <data name="DlgFormError" xml:space="preserve">
     <value>Erro da janela</value>
   </data>
@@ -501,6 +504,9 @@ Hoje é mantido por Nikos Georgousis, que o alargou e o tornou mais estável e a
   </data>
   <data name="DlgRenameError" xml:space="preserve">
     <value>Erro ao mudar o nome</value>
+  </data>
+  <data name="DlgRenameFolder" xml:space="preserve">
+    <value>Mudar o nome da pasta</value>
   </data>
   <data name="DlgResetComplete" xml:space="preserve">
     <value>Reposição concluída</value>
@@ -1141,6 +1147,13 @@ Serão retirados de onde estão agora.</value>
 
 Será retirado de onde está agora.</value>
   </data>
+  <data name="MsgConfirmRenameFolder" xml:space="preserve">
+    <value>Mudar também o nome da pasta para '{0}'?
+
+{1}
+
+Os atalhos e outros programas que apontam para o nome antigo deixarão de a encontrar.</value>
+  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Repor todas as personalizações visuais?</value>
   </data>
@@ -1197,6 +1210,12 @@ A aplicação vai reiniciar.</value>
   <data name="MsgFileNotFoundInProfile" xml:space="preserve">
     <value>Ficheiro não encontrado no perfil ativo:
 {0}</value>
+  </data>
+  <data name="MsgFolderNameTaken" xml:space="preserve">
+    <value>A moldura foi renomeada, mas a pasta ficou como estava: já existe algo chamado '{0}'.</value>
+  </data>
+  <data name="MsgFolderRenameFailed" xml:space="preserve">
+    <value>A moldura foi renomeada, mas a pasta não: {0}</value>
   </data>
   <data name="MsgFormInitFailed" xml:space="preserve">
     <value>Erro ao abrir a janela: {0}</value>
