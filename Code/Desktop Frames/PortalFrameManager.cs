@@ -29,6 +29,7 @@ namespace Desktop_Frames
         private ListView _detailsListView; // --- NEW: Tabular view control ---
         private bool _isDetailsView = false; // --- NEW: Active mode flag ---
         private readonly FileSystemWatcher _watcher;
+        private FileSystemWatcher _parentWatcher; // sees this Portal's own folder being renamed
         private string _targetFolderPath;
         private readonly Dispatcher _dispatcher;
         private readonly DispatcherTimer _debounceTimer;
@@ -586,6 +587,12 @@ namespace Desktop_Frames
             _watcher.Deleted += (s, e) => TriggerSync();
             _watcher.Renamed += (s, e) => TriggerSync();
             _watcher.Error += (s, e) => TriggerSync();
+
+            // The watcher above sees what happens inside the folder, but not what happens to
+            // the folder itself: renaming it in Explorer left the frame pointing at a name
+            // that no longer existed, and at the next reload the Portal simply did not open.
+            // A second watcher on the parent catches that rename and follows it.
+            StartFolderRenameWatcher();
 
             InitializeFrameContents();
             //  // --- TEST CODE START ---
@@ -1185,6 +1192,80 @@ namespace Desktop_Frames
             TriggerSync(immediate: true);
 
             LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.General, $"Requested immediate async initialization for {_targetFolderPath}");
+        }
+
+        /// <summary>
+        /// Watches the parent folder so that renaming this Portal's own folder is noticed.
+        ///
+        /// Without it the frame kept pointing at a name that no longer existed, and the next
+        /// reload found nothing there. The frame now follows the folder: the stored path is
+        /// updated, and the title too, but only when it still matched the old folder name —
+        /// a title the user typed by hand is theirs and is left alone.
+        /// </summary>
+        private void StartFolderRenameWatcher()
+        {
+            string parent = Path.GetDirectoryName(_targetFolderPath);
+            if (string.IsNullOrEmpty(parent) || !Directory.Exists(parent)) return;
+
+            try
+            {
+                _parentWatcher = new FileSystemWatcher(parent)
+                {
+                    NotifyFilter = NotifyFilters.DirectoryName,
+                    IncludeSubdirectories = false,
+                    EnableRaisingEvents = true
+                };
+
+                _parentWatcher.Renamed += (s, e) =>
+                {
+                    if (!string.Equals(e.OldFullPath, _targetFolderPath, StringComparison.OrdinalIgnoreCase)) return;
+                    _dispatcher.InvokeAsync(() => FollowRenamedFolder(e.FullPath));
+                };
+            }
+            catch (Exception ex)
+            {
+                // A parent that cannot be watched — some network shares, a drive root — costs
+                // only the convenience; the Portal itself keeps working.
+                LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.General,
+                    $"Could not watch the parent of '{_targetFolderPath}': {ex.Message}");
+            }
+        }
+
+        /// <summary>Points this Portal at the folder's new name and writes it down.</summary>
+        private void FollowRenamedFolder(string newPath)
+        {
+            try
+            {
+                string oldPath = _targetFolderPath;
+                string oldName = Path.GetFileName(oldPath);
+                _targetFolderPath = newPath;
+
+                if (_watcher != null) _watcher.Path = newPath;
+
+                string frameId = GetSafeProperty(_frame, "Id");
+                var liveFrame = FrameDataManager.FrameData.FirstOrDefault(f => f.Id?.ToString() == frameId) ?? _frame;
+
+                Framemanager.UpdateFrameProperty(liveFrame, "Path", newPath,
+                    $"Portal folder renamed, frame now points at {newPath}");
+
+                // Only a title that was still the folder's name follows it.
+                if (string.Equals(GetSafeProperty(liveFrame, "Title"), oldName, StringComparison.Ordinal))
+                {
+                    Framemanager.UpdateFrameProperty(liveFrame, "Title", Path.GetFileName(newPath),
+                        "Portal title followed the folder rename");
+                    Framemanager.RefreshFrameTitle(liveFrame);
+                }
+
+                LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
+                    $"Portal folder renamed from '{oldPath}' to '{newPath}'");
+
+                TriggerSync(true);
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.General,
+                    $"Could not follow the folder rename: {ex.Message}");
+            }
         }
 
         private void CopyPathOrTarget(string path)
@@ -1863,6 +1944,11 @@ namespace Desktop_Frames
             {
                 _watcher.EnableRaisingEvents = false;
                 _watcher.Dispose();
+            }
+            if (_parentWatcher != null)
+            {
+                _parentWatcher.EnableRaisingEvents = false;
+                _parentWatcher.Dispose();
             }
             if (_debounceTimer != null)
             {
