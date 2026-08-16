@@ -2474,8 +2474,20 @@ namespace Desktop_Frames
             {
                 if (frame.ItemsType?.ToString() != "Portal") return;
 
-                string path = frame.Path?.ToString();
-                if (string.IsNullOrEmpty(path) || !System.IO.Directory.Exists(path)) return;
+                // The path has to come from the live frame, not from the copy captured when
+                // the window was built: a folder renamed in Explorer since then updates the
+                // live one only, and reading the stale copy pointed at a name that no longer
+                // existed, so this returned silently and the folder was never offered.
+                string id = frame.Id?.ToString();
+                var liveFrame = GetFrameData().FirstOrDefault(f => f.Id?.ToString() == id) ?? frame;
+
+                string path = liveFrame.Path?.ToString();
+                if (string.IsNullOrEmpty(path) || !System.IO.Directory.Exists(path))
+                {
+                    LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                        $"Folder rename not offered: the frame points at '{path ?? "null"}', which is not there.");
+                    return;
+                }
 
                 string currentName = System.IO.Path.GetFileName(path.TrimEnd(
                     System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar));
@@ -2503,8 +2515,6 @@ namespace Desktop_Frames
 
                 System.IO.Directory.Move(path, target);
 
-                string id = frame.Id?.ToString();
-                var liveFrame = GetFrameData().FirstOrDefault(f => f.Id?.ToString() == id) ?? frame;
                 UpdateFrameProperty(liveFrame, "Path", target, $"Portal folder renamed to {target}");
 
                 LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
