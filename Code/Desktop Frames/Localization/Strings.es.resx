@@ -544,6 +544,9 @@ Hoy la mantiene Nikos Georgousis, que la ha ampliado y la ha hecho más estable 
   <data name="EditShortcutTitle" xml:space="preserve">
     <value>Editar acceso directo</value>
   </data>
+  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
+    <value>No se puede colocar '{0}' dentro de sí misma.</value>
+  </data>
   <data name="FocusFrameTitle" xml:space="preserve">
     <value>Ir al marco</value>
   </data>
@@ -615,6 +618,36 @@ Hoy la mantiene Nikos Georgousis, que la ha ampliado y la ha hecho más estable 
   </data>
   <data name="GaugeRightVu" xml:space="preserve">
     <value>VU DERECHO</value>
+  </data>
+  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
+    <value>Ctrl + arrastrar entre dos Portales</value>
+  </data>
+  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
+    <value>Lo copia en lugar de moverlo</value>
+  </data>
+  <data name="GestureFromExplorer" xml:space="preserve">
+    <value>Arrastrar desde el Explorador a un Portal</value>
+  </data>
+  <data name="GestureFromExplorerEffect" xml:space="preserve">
+    <value>Copia el archivo dentro</value>
+  </data>
+  <data name="GestureOntoFolder" xml:space="preserve">
+    <value>Arrastrar sobre una carpeta del Portal</value>
+  </data>
+  <data name="GestureOntoFolderEffect" xml:space="preserve">
+    <value>Guarda el elemento dentro de esa carpeta</value>
+  </data>
+  <data name="GesturePortalToPortal" xml:space="preserve">
+    <value>Arrastrar entre dos Portales</value>
+  </data>
+  <data name="GesturePortalToPortalEffect" xml:space="preserve">
+    <value>Mueve el elemento</value>
+  </data>
+  <data name="GestureShiftFromExplorer" xml:space="preserve">
+    <value>Mayús + arrastrar desde el Explorador</value>
+  </data>
+  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
+    <value>Lo mueve en lugar de copiarlo</value>
   </data>
   <data name="HkDirectProfile" xml:space="preserve">
     <value>Perfil directo [0-9]</value>
@@ -1618,6 +1651,9 @@ Reinicia Desktop Frames para activarlos.</value>
   </data>
   <data name="SecMaintenance" xml:space="preserve">
     <value>Mantenimiento</value>
+  </data>
+  <data name="SecPortalDragDrop" xml:space="preserve">
+    <value>Arrastrar y soltar en los Portales</value>
   </data>
   <data name="SecProfileManagement" xml:space="preserve">
     <value>Gestión de perfiles</value>

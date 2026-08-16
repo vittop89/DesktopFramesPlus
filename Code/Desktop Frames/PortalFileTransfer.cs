@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -155,7 +155,7 @@ namespace Desktop_Frames
                     if (isFolder && (SamePath(source, targetFolder) || IsInside(targetFolder, source)))
                     {
                         MessageBoxesManager.ShowOKOnlyMessageBoxForm(
-                            $"'{Path.GetFileName(source)}' cannot be placed inside itself.", "Error");
+                            Localization.Strings.Get("ErrCannotPlaceInsideItself", Path.GetFileName(source)), "Error");
                         continue;
                     }
 

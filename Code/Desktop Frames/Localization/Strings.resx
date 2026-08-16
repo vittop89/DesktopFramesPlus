@@ -513,6 +513,9 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   <data name="EditShortcutTitle" xml:space="preserve">
     <value>Edit Shortcut</value>
   </data>
+  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
+    <value>'{0}' cannot be placed inside itself.</value>
+  </data>
   <data name="FocusFrameTitle" xml:space="preserve">
     <value>Focus Frame</value>
   </data>
@@ -584,6 +587,36 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   </data>
   <data name="GaugeRightVu" xml:space="preserve">
     <value>RIGHT VU</value>
+  </data>
+  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
+    <value>Ctrl + Drag between two Portals</value>
+  </data>
+  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
+    <value>Copies it instead</value>
+  </data>
+  <data name="GestureFromExplorer" xml:space="preserve">
+    <value>Drag from Explorer into a Portal</value>
+  </data>
+  <data name="GestureFromExplorerEffect" xml:space="preserve">
+    <value>Copies the file in</value>
+  </data>
+  <data name="GestureOntoFolder" xml:space="preserve">
+    <value>Drag onto a folder in a Portal</value>
+  </data>
+  <data name="GestureOntoFolderEffect" xml:space="preserve">
+    <value>Files the item inside that folder</value>
+  </data>
+  <data name="GesturePortalToPortal" xml:space="preserve">
+    <value>Drag between two Portals</value>
+  </data>
+  <data name="GesturePortalToPortalEffect" xml:space="preserve">
+    <value>Moves the item</value>
+  </data>
+  <data name="GestureShiftFromExplorer" xml:space="preserve">
+    <value>Shift + Drag from Explorer</value>
+  </data>
+  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
+    <value>Moves it in instead</value>
   </data>
   <data name="HkDirectProfile" xml:space="preserve">
     <value>Direct Profile [0-9]</value>
@@ -1560,6 +1593,9 @@ Please restart Desktop Frames to activate the new shortcuts.</value>
   </data>
   <data name="SecMaintenance" xml:space="preserve">
     <value>Maintenance</value>
+  </data>
+  <data name="SecPortalDragDrop" xml:space="preserve">
+    <value>Portal Drag and Drop</value>
   </data>
   <data name="SecProfileManagement" xml:space="preserve">
     <value>Profile Management</value>

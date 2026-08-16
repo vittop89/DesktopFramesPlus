@@ -544,6 +544,9 @@ Dziś opiekuje się nim Nikos Georgousis, który je rozbudował oraz uczynił st
   <data name="EditShortcutTitle" xml:space="preserve">
     <value>Edytuj skrót</value>
   </data>
+  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
+    <value>Nie można umieścić '{0}' wewnątrz samego siebie.</value>
+  </data>
   <data name="FocusFrameTitle" xml:space="preserve">
     <value>Przejdź do ramki</value>
   </data>
@@ -615,6 +618,36 @@ Dziś opiekuje się nim Nikos Georgousis, który je rozbudował oraz uczynił st
   </data>
   <data name="GaugeRightVu" xml:space="preserve">
     <value>VU PRAWY</value>
+  </data>
+  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
+    <value>Ctrl + przeciągnięcie między ramkami Portal</value>
+  </data>
+  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
+    <value>Kopiuje go zamiast przenosić</value>
+  </data>
+  <data name="GestureFromExplorer" xml:space="preserve">
+    <value>Przeciągnięcie z Eksploratora do ramki Portal</value>
+  </data>
+  <data name="GestureFromExplorerEffect" xml:space="preserve">
+    <value>Kopiuje plik do środka</value>
+  </data>
+  <data name="GestureOntoFolder" xml:space="preserve">
+    <value>Przeciągnięcie na folder w ramce Portal</value>
+  </data>
+  <data name="GestureOntoFolderEffect" xml:space="preserve">
+    <value>Umieszcza element w tym folderze</value>
+  </data>
+  <data name="GesturePortalToPortal" xml:space="preserve">
+    <value>Przeciągnięcie między dwiema ramkami Portal</value>
+  </data>
+  <data name="GesturePortalToPortalEffect" xml:space="preserve">
+    <value>Przenosi element</value>
+  </data>
+  <data name="GestureShiftFromExplorer" xml:space="preserve">
+    <value>Shift + przeciągnięcie z Eksploratora</value>
+  </data>
+  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
+    <value>Przenosi go zamiast kopiować</value>
   </data>
   <data name="HkDirectProfile" xml:space="preserve">
     <value>Profil bezpośredni [0-9]</value>
@@ -1618,6 +1651,9 @@ Uruchom ponownie Desktop Frames, aby je włączyć.</value>
   </data>
   <data name="SecMaintenance" xml:space="preserve">
     <value>Konserwacja</value>
+  </data>
+  <data name="SecPortalDragDrop" xml:space="preserve">
+    <value>Przeciąganie w ramkach Portal</value>
   </data>
   <data name="SecProfileManagement" xml:space="preserve">
     <value>Zarządzanie profilami</value>

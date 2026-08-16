@@ -458,6 +458,20 @@ namespace Desktop_Frames.Localization
         public static string MsgSaveSettingsFailed => Get("MsgSaveSettingsFailed");
         public static string MsgSaveShortcutFailed => Get("MsgSaveShortcutFailed");
         public static string MsgTargetNotFound => Get("MsgTargetNotFound");
+        // Portal drag and drop: the gesture list on the Hotkeys tab, and the one message
+        // the transfer code can raise.
+        public static string ErrCannotPlaceInsideItself => Get("ErrCannotPlaceInsideItself");
+        public static string GestureCtrlPortalToPortal => Get("GestureCtrlPortalToPortal");
+        public static string GestureCtrlPortalToPortalEffect => Get("GestureCtrlPortalToPortalEffect");
+        public static string GestureFromExplorer => Get("GestureFromExplorer");
+        public static string GestureFromExplorerEffect => Get("GestureFromExplorerEffect");
+        public static string GestureOntoFolder => Get("GestureOntoFolder");
+        public static string GestureOntoFolderEffect => Get("GestureOntoFolderEffect");
+        public static string GesturePortalToPortal => Get("GesturePortalToPortal");
+        public static string GesturePortalToPortalEffect => Get("GesturePortalToPortalEffect");
+        public static string GestureShiftFromExplorer => Get("GestureShiftFromExplorer");
+        public static string GestureShiftFromExplorerEffect => Get("GestureShiftFromExplorerEffect");
+        public static string SecPortalDragDrop => Get("SecPortalDragDrop");
 
         public static string SecAppearance => Get("SecAppearance");
         public static string SecAutoHideFrames => Get("SecAutoHideFrames");

@@ -544,6 +544,9 @@
   <data name="EditShortcutTitle" xml:space="preserve">
     <value>Изменить ярлык</value>
   </data>
+  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
+    <value>Нельзя поместить «{0}» внутрь самой себя.</value>
+  </data>
   <data name="FocusFrameTitle" xml:space="preserve">
     <value>Перейти к рамке</value>
   </data>
@@ -615,6 +618,36 @@
   </data>
   <data name="GaugeRightVu" xml:space="preserve">
     <value>ПРАВЫЙ VU</value>
+  </data>
+  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
+    <value>Ctrl + перетаскивание между порталами</value>
+  </data>
+  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
+    <value>Копирует вместо перемещения</value>
+  </data>
+  <data name="GestureFromExplorer" xml:space="preserve">
+    <value>Перетаскивание из Проводника в портал</value>
+  </data>
+  <data name="GestureFromExplorerEffect" xml:space="preserve">
+    <value>Копирует файл внутрь</value>
+  </data>
+  <data name="GestureOntoFolder" xml:space="preserve">
+    <value>Перетаскивание на папку в портале</value>
+  </data>
+  <data name="GestureOntoFolderEffect" xml:space="preserve">
+    <value>Помещает объект в эту папку</value>
+  </data>
+  <data name="GesturePortalToPortal" xml:space="preserve">
+    <value>Перетаскивание между двумя порталами</value>
+  </data>
+  <data name="GesturePortalToPortalEffect" xml:space="preserve">
+    <value>Перемещает объект</value>
+  </data>
+  <data name="GestureShiftFromExplorer" xml:space="preserve">
+    <value>Shift + перетаскивание из Проводника</value>
+  </data>
+  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
+    <value>Перемещает вместо копирования</value>
   </data>
   <data name="HkDirectProfile" xml:space="preserve">
     <value>Прямой профиль [0-9]</value>
@@ -1618,6 +1651,9 @@
   </data>
   <data name="SecMaintenance" xml:space="preserve">
     <value>Обслуживание</value>
+  </data>
+  <data name="SecPortalDragDrop" xml:space="preserve">
+    <value>Перетаскивание в рамках-порталах</value>
   </data>
   <data name="SecProfileManagement" xml:space="preserve">
     <value>Управление профилями</value>

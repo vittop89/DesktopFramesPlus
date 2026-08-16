@@ -544,6 +544,9 @@ Hoje é mantido por Nikos Georgousis, que o alargou e o tornou mais estável e a
   <data name="EditShortcutTitle" xml:space="preserve">
     <value>Editar atalho</value>
   </data>
+  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
+    <value>Não é possível colocar '{0}' dentro de si própria.</value>
+  </data>
   <data name="FocusFrameTitle" xml:space="preserve">
     <value>Ir para a moldura</value>
   </data>
@@ -615,6 +618,36 @@ Hoje é mantido por Nikos Georgousis, que o alargou e o tornou mais estável e a
   </data>
   <data name="GaugeRightVu" xml:space="preserve">
     <value>VU DIREITO</value>
+  </data>
+  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
+    <value>Ctrl + arrastar entre dois Portais</value>
+  </data>
+  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
+    <value>Copia-o em vez de o mover</value>
+  </data>
+  <data name="GestureFromExplorer" xml:space="preserve">
+    <value>Arrastar do Explorador para um Portal</value>
+  </data>
+  <data name="GestureFromExplorerEffect" xml:space="preserve">
+    <value>Copia o ficheiro para dentro</value>
+  </data>
+  <data name="GestureOntoFolder" xml:space="preserve">
+    <value>Arrastar para uma pasta do Portal</value>
+  </data>
+  <data name="GestureOntoFolderEffect" xml:space="preserve">
+    <value>Guarda o item dentro dessa pasta</value>
+  </data>
+  <data name="GesturePortalToPortal" xml:space="preserve">
+    <value>Arrastar entre dois Portais</value>
+  </data>
+  <data name="GesturePortalToPortalEffect" xml:space="preserve">
+    <value>Move o item</value>
+  </data>
+  <data name="GestureShiftFromExplorer" xml:space="preserve">
+    <value>Shift + arrastar do Explorador</value>
+  </data>
+  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
+    <value>Move-o em vez de o copiar</value>
   </data>
   <data name="HkDirectProfile" xml:space="preserve">
     <value>Perfil direto [0-9]</value>
@@ -1618,6 +1651,9 @@ Reinicie o Desktop Frames para os ativar.</value>
   </data>
   <data name="SecMaintenance" xml:space="preserve">
     <value>Manutenção</value>
+  </data>
+  <data name="SecPortalDragDrop" xml:space="preserve">
+    <value>Arrastar e largar nos Portais</value>
   </data>
   <data name="SecProfileManagement" xml:space="preserve">
     <value>Gestão de perfis</value>

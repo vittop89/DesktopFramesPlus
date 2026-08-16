@@ -544,6 +544,9 @@ Il est aujourd'hui maintenu par Nikos Georgousis, qui l'a enrichi et rendu plus 
   <data name="EditShortcutTitle" xml:space="preserve">
     <value>Modifier le raccourci</value>
   </data>
+  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
+    <value>Impossible de placer '{0}' dans lui-même.</value>
+  </data>
   <data name="FocusFrameTitle" xml:space="preserve">
     <value>Aller au cadre</value>
   </data>
@@ -615,6 +618,36 @@ Il est aujourd'hui maintenu par Nikos Georgousis, qui l'a enrichi et rendu plus 
   </data>
   <data name="GaugeRightVu" xml:space="preserve">
     <value>VU DROIT</value>
+  </data>
+  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
+    <value>Ctrl + glisser entre deux Portails</value>
+  </data>
+  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
+    <value>Le copie au lieu de le déplacer</value>
+  </data>
+  <data name="GestureFromExplorer" xml:space="preserve">
+    <value>Glisser depuis l'Explorateur vers un Portail</value>
+  </data>
+  <data name="GestureFromExplorerEffect" xml:space="preserve">
+    <value>Copie le fichier dedans</value>
+  </data>
+  <data name="GestureOntoFolder" xml:space="preserve">
+    <value>Glisser sur un dossier du Portail</value>
+  </data>
+  <data name="GestureOntoFolderEffect" xml:space="preserve">
+    <value>Range l'élément dans ce dossier</value>
+  </data>
+  <data name="GesturePortalToPortal" xml:space="preserve">
+    <value>Glisser entre deux Portails</value>
+  </data>
+  <data name="GesturePortalToPortalEffect" xml:space="preserve">
+    <value>Déplace l'élément</value>
+  </data>
+  <data name="GestureShiftFromExplorer" xml:space="preserve">
+    <value>Maj + glisser depuis l'Explorateur</value>
+  </data>
+  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
+    <value>Le déplace au lieu de le copier</value>
   </data>
   <data name="HkDirectProfile" xml:space="preserve">
     <value>Profil direct [0-9]</value>
@@ -1618,6 +1651,9 @@ Redémarrez Desktop Frames pour les activer.</value>
   </data>
   <data name="SecMaintenance" xml:space="preserve">
     <value>Maintenance</value>
+  </data>
+  <data name="SecPortalDragDrop" xml:space="preserve">
+    <value>Glisser-déposer dans les Portails</value>
   </data>
   <data name="SecProfileManagement" xml:space="preserve">
     <value>Gestion des profils</value>

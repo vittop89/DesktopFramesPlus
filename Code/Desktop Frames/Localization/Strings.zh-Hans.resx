@@ -544,6 +544,9 @@
   <data name="EditShortcutTitle" xml:space="preserve">
     <value>编辑快捷方式</value>
   </data>
+  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
+    <value>无法把“{0}”放进它自己里面。</value>
+  </data>
   <data name="FocusFrameTitle" xml:space="preserve">
     <value>跳转到框</value>
   </data>
@@ -615,6 +618,36 @@
   </data>
   <data name="GaugeRightVu" xml:space="preserve">
     <value>右 VU</value>
+  </data>
+  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
+    <value>Ctrl + 在两个门户框之间拖动</value>
+  </data>
+  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
+    <value>改为复制</value>
+  </data>
+  <data name="GestureFromExplorer" xml:space="preserve">
+    <value>从资源管理器拖入门户框</value>
+  </data>
+  <data name="GestureFromExplorerEffect" xml:space="preserve">
+    <value>把文件复制进来</value>
+  </data>
+  <data name="GestureOntoFolder" xml:space="preserve">
+    <value>拖到门户框中的文件夹上</value>
+  </data>
+  <data name="GestureOntoFolderEffect" xml:space="preserve">
+    <value>把该项目放进那个文件夹</value>
+  </data>
+  <data name="GesturePortalToPortal" xml:space="preserve">
+    <value>在两个门户框之间拖动</value>
+  </data>
+  <data name="GesturePortalToPortalEffect" xml:space="preserve">
+    <value>移动该项目</value>
+  </data>
+  <data name="GestureShiftFromExplorer" xml:space="preserve">
+    <value>Shift + 从资源管理器拖入</value>
+  </data>
+  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
+    <value>改为移动</value>
   </data>
   <data name="HkDirectProfile" xml:space="preserve">
     <value>直接配置 [0-9]</value>
@@ -1618,6 +1651,9 @@
   </data>
   <data name="SecMaintenance" xml:space="preserve">
     <value>维护</value>
+  </data>
+  <data name="SecPortalDragDrop" xml:space="preserve">
+    <value>门户框的拖放</value>
   </data>
   <data name="SecProfileManagement" xml:space="preserve">
     <value>配置管理</value>

@@ -544,6 +544,9 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   <data name="EditShortcutTitle" xml:space="preserve">
     <value>Verknüpfung bearbeiten</value>
   </data>
+  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
+    <value>'{0}' kann nicht in sich selbst abgelegt werden.</value>
+  </data>
   <data name="FocusFrameTitle" xml:space="preserve">
     <value>Zum Rahmen springen</value>
   </data>
@@ -615,6 +618,36 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   </data>
   <data name="GaugeRightVu" xml:space="preserve">
     <value>VU RECHTS</value>
+  </data>
+  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
+    <value>Strg + zwischen zwei Portalen ziehen</value>
+  </data>
+  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
+    <value>Kopiert es stattdessen</value>
+  </data>
+  <data name="GestureFromExplorer" xml:space="preserve">
+    <value>Aus dem Explorer in ein Portal ziehen</value>
+  </data>
+  <data name="GestureFromExplorerEffect" xml:space="preserve">
+    <value>Kopiert die Datei hinein</value>
+  </data>
+  <data name="GestureOntoFolder" xml:space="preserve">
+    <value>Auf einen Ordner im Portal ziehen</value>
+  </data>
+  <data name="GestureOntoFolderEffect" xml:space="preserve">
+    <value>Legt das Element in diesen Ordner</value>
+  </data>
+  <data name="GesturePortalToPortal" xml:space="preserve">
+    <value>Zwischen zwei Portalen ziehen</value>
+  </data>
+  <data name="GesturePortalToPortalEffect" xml:space="preserve">
+    <value>Verschiebt das Element</value>
+  </data>
+  <data name="GestureShiftFromExplorer" xml:space="preserve">
+    <value>Umschalt + aus dem Explorer ziehen</value>
+  </data>
+  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
+    <value>Verschiebt sie stattdessen</value>
   </data>
   <data name="HkDirectProfile" xml:space="preserve">
     <value>Direktes Profil [0-9]</value>
@@ -1618,6 +1651,9 @@ Starte Desktop Frames neu, um sie zu aktivieren.</value>
   </data>
   <data name="SecMaintenance" xml:space="preserve">
     <value>Wartung</value>
+  </data>
+  <data name="SecPortalDragDrop" xml:space="preserve">
+    <value>Ziehen und Ablegen in Portalen</value>
   </data>
   <data name="SecProfileManagement" xml:space="preserve">
     <value>Profilverwaltung</value>

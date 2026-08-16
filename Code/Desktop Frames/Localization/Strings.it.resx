@@ -513,6 +513,9 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   <data name="EditShortcutTitle" xml:space="preserve">
     <value>Modifica collegamento</value>
   </data>
+  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
+    <value>Non puoi mettere '{0}' dentro sé stessa.</value>
+  </data>
   <data name="FocusFrameTitle" xml:space="preserve">
     <value>Vai alla frame</value>
   </data>
@@ -584,6 +587,36 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   </data>
   <data name="GaugeRightVu" xml:space="preserve">
     <value>VU DESTRO</value>
+  </data>
+  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
+    <value>Ctrl + trascina fra due Portal</value>
+  </data>
+  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
+    <value>Lo copia invece di spostarlo</value>
+  </data>
+  <data name="GestureFromExplorer" xml:space="preserve">
+    <value>Trascina da Esplora risorse in un Portal</value>
+  </data>
+  <data name="GestureFromExplorerEffect" xml:space="preserve">
+    <value>Copia il file dentro</value>
+  </data>
+  <data name="GestureOntoFolder" xml:space="preserve">
+    <value>Trascina sopra una cartella del Portal</value>
+  </data>
+  <data name="GestureOntoFolderEffect" xml:space="preserve">
+    <value>Mette l'elemento dentro quella cartella</value>
+  </data>
+  <data name="GesturePortalToPortal" xml:space="preserve">
+    <value>Trascina fra due Portal</value>
+  </data>
+  <data name="GesturePortalToPortalEffect" xml:space="preserve">
+    <value>Sposta l'elemento</value>
+  </data>
+  <data name="GestureShiftFromExplorer" xml:space="preserve">
+    <value>Maiusc + trascina da Esplora risorse</value>
+  </data>
+  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
+    <value>Lo sposta invece di copiarlo</value>
   </data>
   <data name="HkDirectProfile" xml:space="preserve">
     <value>Profilo diretto [0-9]</value>
@@ -1560,6 +1593,9 @@ Riavvia Desktop Frames per attivarle.</value>
   </data>
   <data name="SecMaintenance" xml:space="preserve">
     <value>Manutenzione</value>
+  </data>
+  <data name="SecPortalDragDrop" xml:space="preserve">
+    <value>Trascinamento nei Portal</value>
   </data>
   <data name="SecProfileManagement" xml:space="preserve">
     <value>Gestione dei profili</value>

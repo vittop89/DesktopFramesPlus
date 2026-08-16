@@ -693,12 +693,12 @@ namespace Desktop_Frames
             // are listed here because this is the tab a user opens to find out which keys do
             // something, and a modifier that changes whether a file is moved or copied is
             // worth stating rather than leaving to be discovered.
-            CreateSectionHeader(c, "Portal Drag and Drop", ColorHotkeys);
-            AddGestureLine(c, "Drag between two Portals", "Moves the item");
-            AddGestureLine(c, "Ctrl + Drag between two Portals", "Copies it instead");
-            AddGestureLine(c, "Drag onto a folder in a Portal", "Files the item inside that folder");
-            AddGestureLine(c, "Drag from Explorer into a Portal", "Copies the file in");
-            AddGestureLine(c, "Shift + Drag from Explorer", "Moves it in instead");
+            CreateSectionHeader(c, Strings.SecPortalDragDrop, ColorHotkeys);
+            AddGestureLine(c, Strings.GesturePortalToPortal, Strings.GesturePortalToPortalEffect);
+            AddGestureLine(c, Strings.GestureCtrlPortalToPortal, Strings.GestureCtrlPortalToPortalEffect);
+            AddGestureLine(c, Strings.GestureOntoFolder, Strings.GestureOntoFolderEffect);
+            AddGestureLine(c, Strings.GestureFromExplorer, Strings.GestureFromExplorerEffect);
+            AddGestureLine(c, Strings.GestureShiftFromExplorer, Strings.GestureShiftFromExplorerEffect);
 
             CreateCheckBox(c, "Ask before a drag moves items between Portals", "ConfirmPortalMove", SettingsManager.ConfirmPortalMove);
 
