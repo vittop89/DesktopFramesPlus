@@ -1386,9 +1386,10 @@ namespace Desktop_Frames
                 // Only a title that was still the folder's name follows it.
                 if (string.Equals(GetSafeProperty(liveFrame, "Title"), oldName, StringComparison.Ordinal))
                 {
-                    Framemanager.UpdateFrameProperty(liveFrame, "Title", Path.GetFileName(newPath),
+                    string newTitle = Path.GetFileName(newPath);
+                    Framemanager.UpdateFrameProperty(liveFrame, "Title", newTitle,
                         "Portal title followed the folder rename");
-                    Framemanager.RefreshFrameTitle(liveFrame);
+                    Framemanager.RefreshFrameTitle(liveFrame, newTitle);
                 }
 
                 LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
