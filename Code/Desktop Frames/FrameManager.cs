@@ -85,6 +85,13 @@ namespace Desktop_Frames
         private static Dictionary<string, (DateTime LastWrite, bool IsBroken)> _iconStates = new Dictionary<string, (DateTime, bool)>();
 
         private static dynamic _options;
+        /// <summary>
+        /// Ids of Portal frames left undrawn this session because their folder was missing.
+        /// They stay in frames.json; this only records which ones to pass over while building
+        /// the windows.
+        /// </summary>
+        private static readonly HashSet<string> _skippedPortals = new HashSet<string>();
+
         private static Dictionary<dynamic, PortalFramemanager> _portalFrames = new Dictionary<dynamic, PortalFramemanager>();
 
         // --- NEW: Active Plugins Registry ---
@@ -2454,6 +2461,109 @@ namespace Desktop_Frames
 
 
         // Update frame property, save to JSON, and apply runtime changes
+        /// <summary>
+        /// Asks whether the folder behind a Portal should take the frame's new title, and
+        /// renames it if so.
+        ///
+        /// It stays quiet when there is nothing to ask: a frame that is not a Portal, a title
+        /// that already matches the folder, a name Windows will not accept, or a name that is
+        /// taken. Saying nothing is better than a dialog that can only be answered "no".
+        /// </summary>
+        private static void OfferPortalFolderRename(dynamic frame, string newTitle)
+        {
+            try
+            {
+                if (frame.ItemsType?.ToString() != "Portal") return;
+
+                string path = frame.Path?.ToString();
+                if (string.IsNullOrEmpty(path) || !System.IO.Directory.Exists(path)) return;
+
+                string currentName = System.IO.Path.GetFileName(path.TrimEnd(
+                    System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar));
+                if (string.IsNullOrWhiteSpace(newTitle) || newTitle == currentName) return;
+
+                if (newTitle.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) >= 0) return;
+                if (newTitle.TrimEnd(' ', '.') != newTitle) return;   // Windows rejects these
+
+                string parent = System.IO.Path.GetDirectoryName(path);
+                if (string.IsNullOrEmpty(parent)) return;
+
+                string target = System.IO.Path.Combine(parent, newTitle);
+                if (System.IO.Directory.Exists(target) || System.IO.File.Exists(target))
+                {
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm(
+                        $"The frame was renamed, but the folder was left as it is: something called '{newTitle}' is already there.",
+                        "Folder not renamed");
+                    return;
+                }
+
+                if (!MessageBoxesManager.ShowCustomYesNoMessageBox(
+                        $"Rename the folder to '{newTitle}' as well?\n\n{path}\n\nShortcuts and other programs pointing at the old name will stop finding it.",
+                        "Rename folder"))
+                    return;
+
+                System.IO.Directory.Move(path, target);
+
+                string id = frame.Id?.ToString();
+                var liveFrame = GetFrameData().FirstOrDefault(f => f.Id?.ToString() == id) ?? frame;
+                UpdateFrameProperty(liveFrame, "Path", target, $"Portal folder renamed to {target}");
+
+                LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
+                    $"Portal folder renamed from '{path}' to '{target}' after the frame title changed");
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.General,
+                    $"Could not rename the Portal folder: {ex.Message}");
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm(
+                    $"The frame was renamed, but the folder could not be: {ex.Message}", "Folder not renamed");
+            }
+        }
+
+        /// <summary>First child of the given type anywhere below parent, or null.</summary>
+        private static T FirstChildOfType<T>(DependencyObject parent) where T : DependencyObject
+        {
+            if (parent == null) return null;
+
+            int count = System.Windows.Media.VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < count; i++)
+            {
+                DependencyObject child = System.Windows.Media.VisualTreeHelper.GetChild(parent, i);
+                if (child is T match) return match;
+
+                T deeper = FirstChildOfType<T>(child);
+                if (deeper != null) return deeper;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Repaints the title shown on a frame that is already on screen, so a title changed
+        /// from somewhere other than the title bar does not have to wait for a reload.
+        /// </summary>
+        public static void RefreshFrameTitle(dynamic frame)
+        {
+            try
+            {
+                string id = frame.Id?.ToString();
+                string title = frame.Title?.ToString() ?? "";
+                if (string.IsNullOrEmpty(id)) return;
+
+                var win = System.Windows.Application.Current?.Windows.OfType<NonActivatingWindow>()
+                    .FirstOrDefault(w => w.Tag?.ToString() == id);
+                if (win == null) return;
+
+                win.Title = title;
+                var label = FirstChildOfType<Label>(win);
+                if (label != null) label.Content = title;
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.UI,
+                    $"Could not refresh the frame title on screen: {ex.Message}");
+            }
+        }
+
         public static void UpdateFrameProperty(dynamic frame, string propertyName, string value, string logMessage)
         {
             try
@@ -3380,8 +3490,16 @@ namespace Desktop_Frames
                 MigrateLegacyJson();
             }
 
-            // Sanitize Portal Frames with missing target folders
-            var invalidFrames = new List<dynamic>();
+            // A Portal whose folder is not there right now is skipped, not deleted.
+            //
+            // Deleting it used to throw away the frame together with its position, size and
+            // customization, for a folder that was merely renamed — or, worse, for a network
+            // or cloud drive that Windows had not finished mounting yet. The folder comes
+            // back a few seconds later; the frame never did.
+            //
+            // The definition stays in frames.json untouched. Nothing is drawn for it in this
+            // session, and the next reload picks it up again if the folder has reappeared.
+            _skippedPortals.Clear();
             foreach (dynamic frame in FrameDataManager.FrameData.ToList()) // Use ToList to avoid collection modification issues
             {
                 if (frame.ItemsType?.ToString() == "Portal")
@@ -3389,22 +3507,12 @@ namespace Desktop_Frames
                     string targetPath = frame.Path?.ToString();
                     if (string.IsNullOrEmpty(targetPath) || !System.IO.Directory.Exists(targetPath))
                     {
-                        invalidFrames.Add(frame);
-                        LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.FrameCreation, $"Marked Portal Frame '{frame.Title}' for removal due to missing target folder: {targetPath ?? "null"}");
+                        _skippedPortals.Add(frame.Id?.ToString() ?? "");
+                        LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.FrameCreation,
+                            $"Portal Frame '{frame.Title}' is not shown: its folder is missing right now ({targetPath ?? "null"}). " +
+                            "The frame is kept and will come back when the folder does.");
                     }
                 }
-            }
-
-            // Remove invalid frames and save
-            if (invalidFrames.Any())
-            {
-                foreach (var frame in invalidFrames)
-                {
-                    FrameDataManager.FrameData.Remove(frame);
-                    LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.FrameCreation, $"Removed Portal Frame '{frame.Title}' from FrameDataManager.FrameData");
-                }
-                FrameDataManager.SaveFrameData();
-                LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.FrameCreation, $"Saved updated frames.json after removing {invalidFrames.Count} invalid Portal Frames");
             }
 
             // Clear any stuck transition states from previous session
@@ -3433,6 +3541,7 @@ namespace Desktop_Frames
 
             foreach (dynamic frame in FrameDataManager.FrameData.ToList())
             {
+                if (_skippedPortals.Contains(frame.Id?.ToString() ?? "")) continue;
                 CreateFrame(frame, targetChecker);
             }
 
@@ -5412,6 +5521,12 @@ namespace Desktop_Frames
                         liveFrame.Title = finalTitle;
                     frame.Title = finalTitle;
                 }
+
+                // A Portal's title and its folder are two different things, and renaming one
+                // has never touched the other. Offering the rename here is what people
+                // expect, but it is a change to real files that other programs may point at,
+                // so it is asked rather than assumed.
+                OfferPortalFolderRename(frame, finalTitle);
 
                 // Update UI
                 titlelabel.Content = finalTitle;
