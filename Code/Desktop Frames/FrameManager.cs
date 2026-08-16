@@ -6261,6 +6261,19 @@ namespace Desktop_Frames
             }
 
 
+            // Tell the pointer what the drop will actually do. Without this the cursor keeps
+            // showing a copy while the item is about to be moved into a Portal.
+            win.DragOver += (sender, e) =>
+            {
+                if (frame.ItemsType?.ToString() != "Portal") return;
+                if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+
+                e.Effects = PortalFileTransfer.DropShouldMove(e.Data, e.KeyStates)
+                    ? DragDropEffects.Move
+                    : DragDropEffects.Copy;
+                e.Handled = true;
+            };
+
             win.Drop += (sender, e) =>
             {
                 e.Handled = true;
@@ -6582,7 +6595,7 @@ namespace Desktop_Frames
                                 // long-standing copy behaviour is untouched. The collision
                                 // naming and the folder handling now live in one place so a
                                 // dropped file and a pasted file are treated identically.
-                                portalMoved = e.KeyStates.HasFlag(DragDropKeyStates.ShiftKey);
+                                portalMoved = PortalFileTransfer.DropShouldMove(e.Data, e.KeyStates);
                                 portalCopiedCount += PortalFileTransfer.Drop(
                                     new[] { droppedFile }, destinationFolder, portalMoved);
                             }

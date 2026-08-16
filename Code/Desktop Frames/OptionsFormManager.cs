@@ -689,8 +689,52 @@ namespace Desktop_Frames
             };
             c.Children.Add(infoText);
 
+            // These are gestures rather than hotkeys, so there is nothing to configure. They
+            // are listed here because this is the tab a user opens to find out which keys do
+            // something, and a modifier that changes whether a file is moved or copied is
+            // worth stating rather than leaving to be discovered.
+            CreateSectionHeader(c, "Portal Drag and Drop", ColorHotkeys);
+            AddGestureLine(c, "Drag between two Portals", "Moves the item");
+            AddGestureLine(c, "Ctrl + Drag between two Portals", "Copies it instead");
+            AddGestureLine(c, "Drag onto a folder in a Portal", "Files the item inside that folder");
+            AddGestureLine(c, "Drag from Explorer into a Portal", "Copies the file in");
+            AddGestureLine(c, "Shift + Drag from Explorer", "Moves it in instead");
+
             t.Content = new ScrollViewer { Content = c, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
             _tabControl.Items.Add(t);
+        }
+
+        /// <summary>
+        /// One read-only row in the gesture list: the gesture on the left, what it does on
+        /// the right. Laid out on the same 160-pixel first column as the hotkey editors above
+        /// it so the two lists line up.
+        /// </summary>
+        private static void AddGestureLine(StackPanel p, string gesture, string effect)
+        {
+            Grid g = new Grid { Margin = new Thickness(15, 5, 0, 5) };
+            g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(220) });
+            g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            TextBlock left = new TextBlock
+            {
+                Text = gesture,
+                FontWeight = FontWeights.SemiBold,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextWrapping = TextWrapping.Wrap
+            };
+
+            TextBlock right = new TextBlock
+            {
+                Text = effect,
+                Foreground = Brushes.Gray,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextWrapping = TextWrapping.Wrap
+            };
+
+            Grid.SetColumn(right, 1);
+            g.Children.Add(left);
+            g.Children.Add(right);
+            p.Children.Add(g);
         }
 
         private static Grid CreateHotkeyEditor(StackPanel p, string label, string namePrefix, string currentMod, int currentKey, bool hasKeySelector)
