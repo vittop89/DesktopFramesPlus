@@ -161,15 +161,27 @@ namespace Desktop_Frames
 
                     string destination = FreeDestinationFor(source, targetFolder);
 
+                    bool originalRemoved = true;
+
                     if (isFolder)
                     {
-                        if (move) MoveDirectory(source, destination);
+                        if (move) originalRemoved = MoveDirectory(source, destination);
                         else BackupManager.CopyDirectory(source, destination);
                     }
                     else
                     {
-                        if (move) File.Move(source, destination);
+                        if (move) originalRemoved = MoveFile(source, destination);
                         else File.Copy(source, destination, false);
+                    }
+
+                    // The item is at the destination either way, so it counts as transferred.
+                    // Saying so plainly matters: the earlier wording read like nothing had
+                    // happened, and a second attempt then produced a second copy.
+                    if (!originalRemoved)
+                    {
+                        MessageBoxesManager.ShowOKOnlyMessageBoxForm(
+                            $"'{Path.GetFileName(source)}' was copied to the destination, but the original could not be removed. Nothing was lost. Delete the original by hand if you still want it gone.",
+                            "Moved, original left behind");
                     }
 
                     transferred++;
@@ -187,20 +199,123 @@ namespace Desktop_Frames
         }
 
         /// <summary>
-        /// Directory.Move cannot cross volumes, so a move that spans two drives falls back to
-        /// copying and then deleting the original. The delete only runs once the copy is done.
+        /// Moves a folder. Returns false when the copy arrived but the original could not be
+        /// removed, which is a different outcome from failing altogether.
+        ///
+        /// Directory.Move cannot cross volumes, so a move onto another drive — a cloud folder
+        /// especially — falls back to copying and then deleting. The delete is the fragile
+        /// half: a sync client or a search indexer can hold the folder open for a moment, and
+        /// read-only files refuse to go. Reporting that as a plain failure was worse than the
+        /// failure itself, because the copy had in fact arrived, and retrying produced a
+        /// second one.
         /// </summary>
-        private static void MoveDirectory(string source, string destination)
+        private static bool MoveDirectory(string source, string destination)
         {
             try
             {
                 Directory.Move(source, destination);
+                return true;
             }
-            catch (IOException)
+            catch (IOException) { }                  // usually "not the same volume"
+            catch (UnauthorizedAccessException) { }
+
+            BackupManager.CopyDirectory(source, destination);
+
+            // Nothing is deleted until the copy has been checked. Losing the original because
+            // a half-written copy looked convincing is the one outcome with no way back.
+            if (!ArrivedIntact(source, destination))
+                throw new IOException("the copy is incomplete, so the original was left untouched");
+
+            return TryDeleteTree(source);
+        }
+
+        /// <summary>
+        /// Moves a single file, with the same reasoning as the folder version: if the copy is
+        /// there but the original will not go, that is worth saying rather than calling the
+        /// whole thing a failure.
+        /// </summary>
+        private static bool MoveFile(string source, string destination)
+        {
+            try
             {
-                BackupManager.CopyDirectory(source, destination);
-                Directory.Delete(source, true);
+                File.Move(source, destination);
+                return true;
             }
+            catch (IOException) { }
+            catch (UnauthorizedAccessException) { }
+
+            File.Copy(source, destination, false);
+            if (new FileInfo(destination).Length != new FileInfo(source).Length)
+                throw new IOException("the copy is incomplete, so the original was left untouched");
+
+            try
+            {
+                File.SetAttributes(source, FileAttributes.Normal);
+                File.Delete(source);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.UI,
+                    $"Copied '{source}' but could not remove the original: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>Every file under source exists under destination with the same length.</summary>
+        private static bool ArrivedIntact(string source, string destination)
+        {
+            try
+            {
+                foreach (string file in Directory.GetFiles(source, "*", SearchOption.AllDirectories))
+                {
+                    string relative = file.Substring(source.Length)
+                        .TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                    string copied = Path.Combine(destination, relative);
+
+                    if (!File.Exists(copied)) return false;
+                    if (new FileInfo(copied).Length != new FileInfo(file).Length) return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.UI,
+                    $"Could not verify the copy of '{source}': {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Deletes a folder and everything under it, clearing the read-only flag that would
+        /// otherwise stop it and giving a held handle a moment to be released. Returns false
+        /// rather than throwing: by this point the copy is already safe at the destination.
+        /// </summary>
+        private static bool TryDeleteTree(string folder)
+        {
+            for (int attempt = 0; attempt < 3; attempt++)
+            {
+                try
+                {
+                    foreach (string file in Directory.GetFiles(folder, "*", SearchOption.AllDirectories))
+                        File.SetAttributes(file, FileAttributes.Normal);
+
+                    Directory.Delete(folder, true);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    if (attempt == 2)
+                    {
+                        LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.UI,
+                            $"Copied '{folder}' but could not remove the original: {ex.Message}");
+                        return false;
+                    }
+                    System.Threading.Thread.Sleep(200);
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
