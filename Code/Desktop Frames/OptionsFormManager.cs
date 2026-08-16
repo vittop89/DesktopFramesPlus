@@ -700,6 +700,8 @@ namespace Desktop_Frames
             AddGestureLine(c, "Drag from Explorer into a Portal", "Copies the file in");
             AddGestureLine(c, "Shift + Drag from Explorer", "Moves it in instead");
 
+            CreateCheckBox(c, "Ask before a drag moves items between Portals", "ConfirmPortalMove", SettingsManager.ConfirmPortalMove);
+
             t.Content = new ScrollViewer { Content = c, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
             _tabControl.Items.Add(t);
         }
@@ -1017,6 +1019,7 @@ namespace Desktop_Frames
                     {
                         if (cb.Name == "StartWithWindows" && cb.IsChecked != TrayManager.IsStartWithWindows) TrayManager.Instance?.ToggleStartWithWindows(cb.IsChecked == true);
                         if (cb.Name == "SingleClickToLaunch") SettingsManager.SingleClickToLaunch = cb.IsChecked == true;
+                        if (cb.Name == "ConfirmPortalMove") SettingsManager.ConfirmPortalMove = cb.IsChecked == true;
                         if (cb.Name == "EnableSnapNearFrames") SettingsManager.IsSnapEnabled = cb.IsChecked == true;
                         if (cb.Name == "EnableDimensionSnap") SettingsManager.EnableDimensionSnap = cb.IsChecked == true;
                         if (cb.Name == "UseRecycleBin") SettingsManager.UseRecycleBin = cb.IsChecked == true;

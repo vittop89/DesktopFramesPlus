@@ -119,6 +119,13 @@ namespace Desktop_Frames
         public static bool EnableDimensionSnap { get; set; } = false;
         public static bool SingleClickToLaunch { get; set; } = true;
 
+        /// <summary>
+        /// Ask before a drag moves items from one Portal into another. On by default:
+        /// the drop takes the files away from where they were, and a drag is easy to
+        /// start by accident while reaching for an icon.
+        /// </summary>
+        public static bool ConfirmPortalMove { get; set; } = true;
+
       
 
         public static LaunchEffectsManager.LaunchEffect LaunchEffect { get; set; } = LaunchEffectsManager.LaunchEffect.Zoom;
@@ -221,6 +228,7 @@ namespace Desktop_Frames
                 SelectedColor,
                 IsLogEnabled,
                 SingleClickToLaunch,
+                ConfirmPortalMove,
                 EnableDimensionSnap,
                 PortalBackgroundOpacity,
                 MaxDisplayNameLength,
@@ -329,6 +337,7 @@ namespace Desktop_Frames
             try { SelectedColor = data.SelectedColor ?? "Gray"; } catch { SelectedColor = "Gray"; }
             try { IsLogEnabled = data.IsLogEnabled ?? false; } catch { IsLogEnabled = false; }
             try { SingleClickToLaunch = data.SingleClickToLaunch ?? true; } catch { SingleClickToLaunch = true; }
+            try { ConfirmPortalMove = data.ConfirmPortalMove ?? true; } catch { ConfirmPortalMove = true; }
             try { EnableDimensionSnap = data.EnableDimensionSnap ?? false; } catch { EnableDimensionSnap = false; }
             try { PortalBackgroundOpacity = data.PortalBackgroundOpacity ?? 30; } catch { PortalBackgroundOpacity = 30; }
             try { EnableIconGlowEffect = data.EnableIconGlowEffect ?? true; } catch { EnableIconGlowEffect = true; }

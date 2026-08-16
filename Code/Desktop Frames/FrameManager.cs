@@ -6295,7 +6295,26 @@ namespace Desktop_Frames
                     if (droppedFiles == null) return;
 
                     int portalCopiedCount = 0; // --- NEW: Track successful portal copies ---
-                    bool portalMoved = false;  // Shift was held, so the items were moved rather than copied
+                    bool portalMoved = false;  // the drop takes the items away from where they were
+
+                    // A move empties the place the items came from, and a drag is easy to
+                    // begin by accident while reaching for an icon, so it is confirmed once
+                    // for the whole drop rather than per file. Only moves between Portals
+                    // ask: a copy loses nothing, and dropping onto a folder is aimed
+                    // precisely enough to speak for itself.
+                    if (frame.ItemsType?.ToString() == "Portal" &&
+                        SettingsManager.ConfirmPortalMove &&
+                        PortalFileTransfer.DropShouldMove(e.Data, e.KeyStates) &&
+                        PortalFileTransfer.StartedInsideAPortal(e.Data))
+                    {
+                        string destination = frame.Path?.ToString() ?? "";
+                        string question = droppedFiles.Length == 1
+                            ? $"Move '{System.IO.Path.GetFileName(droppedFiles[0])}' into '{System.IO.Path.GetFileName(destination)}'?\n\nIt will be removed from where it is now."
+                            : $"Move {droppedFiles.Length} items into '{System.IO.Path.GetFileName(destination)}'?\n\nThey will be removed from where they are now.";
+
+                        if (!MessageBoxesManager.ShowCustomYesNoMessageBox(question, "Move items"))
+                            return;
+                    }
 
                     foreach (string droppedFile in droppedFiles)
                     {
@@ -8574,13 +8593,9 @@ namespace Desktop_Frames
                     launchPending = false;
 
                     // If the pointer travelled between press and release the gesture was a
-                    // drag, not a click, and the item must not be opened on top of it.
-                    System.Windows.Point releasedAt = e.GetPosition(null);
-                    bool travelled =
-                        Math.Abs(releasedAt.X - launchPressedAt.X) >= SystemParameters.MinimumHorizontalDragDistance ||
-                        Math.Abs(releasedAt.Y - launchPressedAt.Y) >= SystemParameters.MinimumVerticalDragDistance;
-
-                    if (!travelled)
+                    // drag, not a click, and the item must not be opened on top of it. The
+                    // same distance decides both, so nothing can fall between them.
+                    if (!PortalFramemanager.PastDragThreshold(launchPressedAt, e.GetPosition(null)))
                     {
                         e.Handled = true;
                         StartLaunch();

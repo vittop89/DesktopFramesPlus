@@ -39,6 +39,30 @@ namespace Desktop_Frames
         // also taken for a click that launches the item.
         private bool _dragJustFinished = false;
 
+        /// <summary>
+        /// How far the pointer must travel before a press turns into a drag.
+        ///
+        /// Windows suggests about four pixels, which is right inside Explorer: a file
+        /// dragged by accident lands back in the same folder and nothing happens. Here a
+        /// stray drag moves the item into a different folder, so the gesture has to be
+        /// unmistakably deliberate. The system value is still respected when it is larger,
+        /// for people who have set a wider threshold on purpose.
+        /// </summary>
+        private const double DragThreshold = 12.0;
+
+        /// <summary>
+        /// True once the pointer has travelled far enough to mean a drag. Shared with the
+        /// click handler, which uses the same distance to decide that a press was a drag
+        /// and must not open the item — the two have to agree, or a small movement would
+        /// fall between them and do nothing at all.
+        /// </summary>
+        internal static bool PastDragThreshold(Point from, Point to)
+        {
+            double x = Math.Max(DragThreshold, SystemParameters.MinimumHorizontalDragDistance);
+            double y = Math.Max(DragThreshold, SystemParameters.MinimumVerticalDragDistance);
+            return Math.Abs(to.X - from.X) >= x || Math.Abs(to.Y - from.Y) >= y;
+        }
+
 
         private Style GetThemedContextMenuStyle()
         {
@@ -1291,10 +1315,7 @@ namespace Desktop_Frames
             element.MouseMove += (s, e) =>
             {
                 if (!armed || e.LeftButton != MouseButtonState.Pressed) return;
-
-                Point now = e.GetPosition(null);
-                if (Math.Abs(now.X - pressedAt.X) < SystemParameters.MinimumHorizontalDragDistance &&
-                    Math.Abs(now.Y - pressedAt.Y) < SystemParameters.MinimumVerticalDragDistance) return;
+                if (!PastDragThreshold(pressedAt, e.GetPosition(null))) return;
 
                 armed = false;
                 try { PortalFileTransfer.BeginDrag(element, path); }
@@ -1692,10 +1713,7 @@ namespace Desktop_Frames
                 _detailsListView.MouseMove += (s, e) =>
                 {
                     if (!rowArmed || e.LeftButton != MouseButtonState.Pressed) return;
-
-                    Point now = e.GetPosition(null);
-                    if (Math.Abs(now.X - rowPressedAt.X) < SystemParameters.MinimumHorizontalDragDistance &&
-                        Math.Abs(now.Y - rowPressedAt.Y) < SystemParameters.MinimumVerticalDragDistance) return;
+                    if (!PastDragThreshold(rowPressedAt, e.GetPosition(null))) return;
 
                     rowArmed = false;
                     var draggedRow = GetClickedListViewItem(e.OriginalSource as DependencyObject);
