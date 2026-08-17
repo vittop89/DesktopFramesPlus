@@ -482,6 +482,7 @@ namespace Desktop_Frames.Localization
         public static string MsgConfirmRenameFolder => Get("MsgConfirmRenameFolder");
         public static string MsgFolderNameTaken => Get("MsgFolderNameTaken");
         public static string MsgFolderRenameFailed => Get("MsgFolderRenameFailed");
+        public static string MsgRestartForLanguage => Get("MsgRestartForLanguage");
         public static string SecAppearance => Get("SecAppearance");
         public static string SecAutoHideFrames => Get("SecAutoHideFrames");
         public static string SecDesktopIconVisibility => Get("SecDesktopIconVisibility");
