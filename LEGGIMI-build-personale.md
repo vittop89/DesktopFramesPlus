@@ -63,15 +63,16 @@ ricompila:
 L'app installata sta in:
 
 ```
-C:\Users\panta\AppData\Local\Programs\DesktopFramesPlus-2.7.8
+%LOCALAPPDATA%\Programs\DesktopFramesPlus-<versione>
 ```
 
 Si aggiorna copiandoci sopra il contenuto della cartella `bin/Release/…`, ad app
 chiusa. **Non toccare la sottocartella `Profiles`**: contiene i dati veri.
 
 ```bash
-# chiudere l'app, poi:
-cp -r "Code/Desktop Frames/bin/Release/net8.0-windows7.0"/* "/c/Users/panta/AppData/Local/Programs/DesktopFramesPlus-2.7.8"/
+# chiudere l'app, poi (adattare la versione nel percorso):
+cp -r "Code/Desktop Frames/bin/Release/net8.0-windows7.0"/* \
+      "$LOCALAPPDATA/Programs/DesktopFramesPlus-2.7.8"/
 ```
 
 ---
