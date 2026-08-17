@@ -155,6 +155,72 @@ precedente. La via che funziona è cancellare il ramo su github.com e poi
 
 ---
 
+## L'app è portatile
+
+Non serve installarla. L'app cerca i propri dati **accanto al proprio
+eseguibile**:
+
+```csharp
+_appBaseDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+_profilesRootDir = Path.Combine(_appBaseDir, "Profiles");
+```
+
+Quindi la cartella compilata si può copiare dove si vuole — anche su una
+chiavetta — e funziona con impostazioni proprie, senza toccare niente del
+computer e senza interferire con l'installazione principale. Per rimuoverla si
+cancella la cartella.
+
+---
+
+## Fare lo zip autonomo (gira senza .NET installato)
+
+Serve per usare l'app su un computer dove non si vuole installare nulla. Sono
+circa 178 MB estratti, 79 compressi, perché si porta dietro il runtime .NET.
+
+**1. Scaricare i pacchetti runtime** — questo passaggio va fatto con `dotnet`,
+non con MSBuild, altrimenti la pubblicazione si ferma con `NETSDK1112`:
+
+```bash
+cd "Code/Desktop Frames"
+dotnet restore "Desktop Frames.csproj" -r win-x64
+```
+
+**2. Pubblicare:**
+
+```bash
+cd "Code"
+"…/MSBuild.exe" "Desktop Frames/Desktop Frames.csproj" -t:publish \
+  -p:Configuration=Release -p:SelfContained=true -p:RuntimeIdentifier=win-x64 \
+  -p:PublishDir="pubauto\\" -v:minimal -nologo
+```
+
+**3. Aggiungere licenze e istruzioni** dentro `pubauto`: `License.md` e
+`Code/LICENSE` (l'MIT chiede che le note di copyright viaggino con le copie) più
+un `LEGGIMI.txt` che dica che non è la versione ufficiale, dove sta quella vera,
+e che le segnalazioni riguardano questa build.
+
+**4. Prima di comprimere, cancellare `pubauto\Profiles`.** Se la build è stata
+avviata per collaudarla si è creata i propri `frames.json` e `options.json`:
+finirebbero nell'archivio, e chi lo apre si troverebbe i frame di qualcun altro.
+
+**5. Comprimere** e verificare. Attenzione: negli archivi creati da
+`Compress-Archive` i percorsi usano la barra rovesciata (`it\Desktop
+Frames.resources.dll`), quindi un controllo che cerca `it/...` dà un falso
+negativo.
+
+**6. Ricordarsi di cancellare `pubauto`** dopo, per non lasciarlo nel repository.
+
+### Perché non pubblicarlo come release su GitHub
+
+La licenza MIT lo permette senza riserve. Il problema non è legale ma di
+rapporto: una release sul fork diventa una distribuzione parallela, e le
+segnalazioni degli utenti finiscono a limbo666 per una build che non ha
+compilato. Con l'aggravante del tempismo, mentre gli si stanno proponendo dei
+contributi. Lo zip su Drive o su una chiavetta copre lo stesso bisogno senza
+nulla di tutto questo.
+
+---
+
 ## La regola che ha salvato l'app più di una volta
 
 I valori scritti nei file di configurazione — `Medium`, `Details`, `Gray`, i nomi
