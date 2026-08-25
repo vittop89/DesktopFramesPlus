@@ -31,6 +31,12 @@ namespace Desktop_Frames
         private const string RUN_KEY_PATH = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
         private const string APP_NAME = "Desktop Frames +"; // --- FIX: Ensures new registry entries use the correct name ---
 
+        // --- NEW: Logon task ---
+        // The same name, so the two never coexist unnoticed. The Run key is kept as
+        // the fallback and for reading older installations, but a task is what the
+        // checkbox creates now: see SetStartupEntry for why.
+        private const string TASK_NAME = "Desktop Frames +";
+
         private static readonly List<HiddenFrame> HiddenFrames = new List<HiddenFrame>();
     
         private ToolStripMenuItem _showHiddenFramesItem;
@@ -615,8 +621,9 @@ namespace Desktop_Frames
         {
             try
             {
-                // A. Update the Registry (The new reliable way)
-                SetRegistryStartup(enable);
+                // A. Update the startup entry (a logon task, or the Run key if the
+                //    task cannot be created)
+                SetStartupEntry(enable);
 
                 // ====================================================================
                 // [LEGACY "FENCES" MIGRATION - DO NOT REMOVE]
@@ -666,9 +673,9 @@ namespace Desktop_Frames
             {
                 try
                 {
-                    SetRegistryStartup(true); // Create Registry Key
+                    SetStartupEntry(true); // Create the logon task, or the Run key
                     File.Delete(shortcutPath); // Delete Old Shortcut
-                    LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General, "TrayManager: Migrated startup from Shortcut to Registry.");
+                    LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General, "TrayManager: Migrated startup from Shortcut to a logon task.");
                 }
                 catch (Exception ex)
                 {
@@ -680,7 +687,202 @@ namespace Desktop_Frames
             RegistryHelper.SetStartupMigrated();
         }
 
-        // 3. Helper to write/delete the Registry Key
+        // 3. Helper to write/delete the startup entry
+        //
+        // A task that runs at logon, rather than a value under Run.
+        //
+        // The Run key is read by Explorer, once the shell is up, and Explorer then
+        // holds those entries back by another ten seconds by default. For a program
+        // whose windows are meant to look like part of the desktop, arriving a
+        // quarter of a minute after the desktop is the one thing it should not do.
+        // The key also has no order: which of its entries goes first is not
+        // something that can be written anywhere.
+        //
+        // A logon task is started by the Task Scheduler service instead, alongside
+        // the shell rather than behind it, and it takes no delay unless one is asked
+        // for. It needs no elevation, so enabling the setting still prompts for
+        // nothing.
+        //
+        // If the task cannot be created - a policy that forbids it, the service
+        // disabled - the Run key is written instead. Late is better than never, and
+        // a checkbox that silently does nothing is worse than either.
+        private void SetStartupEntry(bool enable)
+        {
+            if (!enable)
+            {
+                DeleteLogonTask();
+                SetRegistryStartup(false);
+                return;
+            }
+
+            if (CreateLogonTask())
+            {
+                // Exactly one of the two may survive. Both, and the program starts
+                // twice at every logon, with the single-instance mutex quietly
+                // killing the second copy.
+                SetRegistryStartup(false);
+                return;
+            }
+
+            LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                "TrayManager: Could not create the logon task, using the Run key instead.");
+            SetRegistryStartup(true);
+        }
+
+        /// <summary>
+        /// Registers the task from an XML description.
+        ///
+        /// The XML is not decoration: the command line form of schtasks cannot say
+        /// any of what matters here, and its defaults are wrong for a program that
+        /// stays open. It would refuse to start on battery, stop the program when
+        /// the machine went onto battery, and terminate it after three days.
+        /// </summary>
+        private bool CreateLogonTask()
+        {
+            string xmlPath = null;
+            try
+            {
+                string exePath = Process.GetCurrentProcess().MainModule.FileName;
+                string workingDir = Path.GetDirectoryName(exePath) ?? string.Empty;
+                string user = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+
+                xmlPath = Path.Combine(Path.GetTempPath(), "DesktopFramesPlus_LogonTask.xml");
+
+                // UTF-16, because schtasks rejects the file otherwise.
+                File.WriteAllText(xmlPath, BuildLogonTaskXml(exePath, workingDir, user),
+                                  System.Text.Encoding.Unicode);
+
+                return RunSchTasks($"/Create /TN \"{TASK_NAME}\" /XML \"{xmlPath}\" /F");
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Error, LogManager.LogCategory.General,
+                    $"TrayManager: Logon task creation failed: {ex.Message}");
+                return false;
+            }
+            finally
+            {
+                try { if (xmlPath != null && File.Exists(xmlPath)) File.Delete(xmlPath); }
+                catch (Exception) { /* a leftover temporary file is not worth a failure */ }
+            }
+        }
+
+        private void DeleteLogonTask()
+        {
+            // Nothing to report when there was no task: turning the setting off
+            // twice, or off before it was ever on, is not a problem.
+            RunSchTasks($"/Delete /TN \"{TASK_NAME}\" /F");
+        }
+
+        private static bool LogonTaskExists()
+        {
+            return RunSchTasks($"/Query /TN \"{TASK_NAME}\"");
+        }
+
+        /// <summary>Runs schtasks out of sight and reports whether it succeeded.</summary>
+        private static bool RunSchTasks(string arguments)
+        {
+            try
+            {
+                var info = new ProcessStartInfo("schtasks.exe", arguments)
+                {
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardError = true
+                };
+
+                using (Process process = Process.Start(info))
+                {
+                    if (process == null) return false;
+
+                    // Only the error stream is read, and to the end: redirecting both
+                    // and reading them one after the other is how a child process ends
+                    // up waiting on a full pipe forever.
+                    string error = process.StandardError.ReadToEnd();
+
+                    if (!process.WaitForExit(15000))
+                    {
+                        try { process.Kill(); } catch (Exception) { }
+                        return false;
+                    }
+
+                    // Warn, not Debug: this is the reason the program will fall back
+                    // to the Run key, and a fallback nobody can see is the silent
+                    // failure this whole path exists to avoid.
+                    if (process.ExitCode != 0 && !string.IsNullOrWhiteSpace(error))
+                    {
+                        LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                            $"TrayManager: schtasks said: {error.Trim()}");
+                    }
+
+                    return process.ExitCode == 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    $"TrayManager: schtasks could not be run: {ex.Message}");
+                return false;
+            }
+        }
+
+        private static string BuildLogonTaskXml(string exePath, string workingDir, string user)
+        {
+            string Esc(string value) => System.Security.SecurityElement.Escape(value) ?? string.Empty;
+
+            return
+// Schema 1.2, and only elements that have been in it since Vista. The two
+// Windows 8 additions that a task exported from the Task Scheduler window
+// carries - UseUnifiedSchedulingEngine and DisallowStartOnRemoteAppSession -
+// belong to a later version of the schema and are rejected here. Neither
+// changes anything: the unified engine is what modern Windows uses anyway.
+"<?xml version=\"1.0\" encoding=\"UTF-16\"?>\r\n" +
+"<Task version=\"1.2\" xmlns=\"http://schemas.microsoft.com/windows/2004/02/mit/task\">\r\n" +
+"  <RegistrationInfo>\r\n" +
+"    <Description>Starts Desktop Frames + when signing in, without the delay Explorer applies to the Run key.</Description>\r\n" +
+"  </RegistrationInfo>\r\n" +
+"  <Triggers>\r\n" +
+"    <LogonTrigger>\r\n" +
+"      <Enabled>true</Enabled>\r\n" +
+$"      <UserId>{Esc(user)}</UserId>\r\n" +
+"    </LogonTrigger>\r\n" +
+"  </Triggers>\r\n" +
+"  <Principals>\r\n" +
+"    <Principal id=\"Author\">\r\n" +
+$"      <UserId>{Esc(user)}</UserId>\r\n" +
+"      <LogonType>InteractiveToken</LogonType>\r\n" +
+"      <RunLevel>LeastPrivilege</RunLevel>\r\n" +
+"    </Principal>\r\n" +
+"  </Principals>\r\n" +
+"  <Settings>\r\n" +
+"    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>\r\n" +
+"    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>\r\n" +
+"    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>\r\n" +
+"    <AllowHardTerminate>false</AllowHardTerminate>\r\n" +
+"    <StartWhenAvailable>false</StartWhenAvailable>\r\n" +
+"    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>\r\n" +
+"    <IdleSettings>\r\n" +
+"      <StopOnIdleEnd>false</StopOnIdleEnd>\r\n" +
+"      <RestartOnIdle>false</RestartOnIdle>\r\n" +
+"    </IdleSettings>\r\n" +
+"    <AllowStartOnDemand>true</AllowStartOnDemand>\r\n" +
+"    <Enabled>true</Enabled>\r\n" +
+"    <Hidden>false</Hidden>\r\n" +
+"    <RunOnlyIfIdle>false</RunOnlyIfIdle>\r\n" +
+"    <WakeToRun>false</WakeToRun>\r\n" +
+"    <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>\r\n" +
+"    <Priority>6</Priority>\r\n" +
+"  </Settings>\r\n" +
+"  <Actions Context=\"Author\">\r\n" +
+"    <Exec>\r\n" +
+$"      <Command>{Esc(exePath)}</Command>\r\n" +
+$"      <WorkingDirectory>{Esc(workingDir)}</WorkingDirectory>\r\n" +
+"    </Exec>\r\n" +
+"  </Actions>\r\n" +
+"</Task>\r\n";
+        }
+
+        // 4. Helper to write/delete the Registry Key
         private void SetRegistryStartup(bool enable)
         {
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(RUN_KEY_PATH, true))
@@ -701,10 +903,15 @@ namespace Desktop_Frames
             }
         }
 
-        // 4. Status Checker (Replaces IsInStartupFolder)
+        // 5. Status Checker (Replaces IsInStartupFolder)
         private bool CheckIfStartWithWindowsEnabled()
         {
-            // First, check if the Registry Key exists
+            // The task first, since that is what the setting creates now. The Run key
+            // is still read after it: an installation that predates the task, or one
+            // where the task could not be created, must show the checkbox ticked.
+            if (LogonTaskExists()) return true;
+
+            // Then, check if the Registry Key exists
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(RUN_KEY_PATH, false))
             {
                 if (key != null && key.GetValue(APP_NAME) != null)
