@@ -752,7 +752,7 @@ namespace Desktop_Frames
                 File.WriteAllText(xmlPath, BuildLogonTaskXml(exePath, workingDir, user),
                                   System.Text.Encoding.Unicode);
 
-                return RunSchTasks($"/Create /TN \"{TASK_NAME}\" /XML \"{xmlPath}\" /F");
+                return RunSchTasks($"/Create /TN \"{TASK_NAME}\" /XML \"{xmlPath}\" /F", logFailure: true);
             }
             catch (Exception ex)
             {
@@ -771,16 +771,25 @@ namespace Desktop_Frames
         {
             // Nothing to report when there was no task: turning the setting off
             // twice, or off before it was ever on, is not a problem.
-            RunSchTasks($"/Delete /TN \"{TASK_NAME}\" /F");
+            RunSchTasks($"/Delete /TN \"{TASK_NAME}\" /F", logFailure: false);
         }
 
         private static bool LogonTaskExists()
         {
-            return RunSchTasks($"/Query /TN \"{TASK_NAME}\"");
+            // "No task by that name" is the answer to a question, not a fault, and it
+            // is the answer every time the setting is simply off. Logging it put a
+            // warning in the log at every single start.
+            return RunSchTasks($"/Query /TN \"{TASK_NAME}\"", logFailure: false);
         }
 
-        /// <summary>Runs schtasks out of sight and reports whether it succeeded.</summary>
-        private static bool RunSchTasks(string arguments)
+        /// <summary>
+        /// Runs schtasks out of sight and reports whether it succeeded.
+        ///
+        /// Only the caller knows whether a failure means anything: creating the task
+        /// and failing changes what the program does and has to be written down,
+        /// while asking whether a task exists and hearing "no" is an ordinary answer.
+        /// </summary>
+        private static bool RunSchTasks(string arguments, bool logFailure)
         {
             try
             {
@@ -809,7 +818,7 @@ namespace Desktop_Frames
                     // Warn, not Debug: this is the reason the program will fall back
                     // to the Run key, and a fallback nobody can see is the silent
                     // failure this whole path exists to avoid.
-                    if (process.ExitCode != 0 && !string.IsNullOrWhiteSpace(error))
+                    if (logFailure && process.ExitCode != 0 && !string.IsNullOrWhiteSpace(error))
                     {
                         LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
                             $"TrayManager: schtasks said: {error.Trim()}");
@@ -820,6 +829,7 @@ namespace Desktop_Frames
             }
             catch (Exception ex)
             {
+                // Always worth a line: schtasks itself failing to run is never normal.
                 LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
                     $"TrayManager: schtasks could not be run: {ex.Message}");
                 return false;
