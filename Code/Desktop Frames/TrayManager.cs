@@ -91,9 +91,11 @@ namespace Desktop_Frames
             // 1. AUTO-MIGRATION: Check if we need to move from Shortcut to Registry
             PerformStartupMigration();
            
-            // 2. Check status using the NEW logic (Registry check + Shortcut fallback)
+            // 2. Check status using the NEW logic (Task check + Registry check + Shortcut fallback)
             IsStartWithWindows = CheckIfStartWithWindowsEnabled();
 
+            // 2b. Move an installation that still starts from the Run key onto a task
+            UpgradeRunKeyToLogonTask();
 
             // 3. Start Remote Info System (Runs 25s later)
             RemoteInfoManager.Initialize();
@@ -730,6 +732,40 @@ namespace Desktop_Frames
         }
 
         /// <summary>
+        /// Moves an installation that still starts from the Run key onto a logon task.
+        ///
+        /// Creating the task happens when the setting is switched on, and somebody who
+        /// already had it on never switches it on again: the box is drawn ticked
+        /// because the Run key is there, saving changes nothing, and the program would
+        /// go on starting the slow way for ever. The one case the setting cannot
+        /// cover is the one every existing installation is in.
+        ///
+        /// So it happens here instead, once, on its own. If the task cannot be
+        /// created the Run key is left exactly where it is, and the program starts as
+        /// it did yesterday.
+        /// </summary>
+        private void UpgradeRunKeyToLogonTask()
+        {
+            if (!IsStartWithWindows) return;
+            if (LogonTaskExists()) return;
+            if (!RunKeyEntryExists()) return;
+
+            if (!CreateLogonTask()) return;
+
+            SetRegistryStartup(false);
+            LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.Settings,
+                "TrayManager: Startup moved from the Run key to a logon task.");
+        }
+
+        private static bool RunKeyEntryExists()
+        {
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(RUN_KEY_PATH, false))
+            {
+                return key != null && key.GetValue(APP_NAME) != null;
+            }
+        }
+
+        /// <summary>
         /// Registers the task from an XML description.
         ///
         /// The XML is not decoration: the command line form of schtasks cannot say
@@ -922,13 +958,7 @@ $"      <WorkingDirectory>{Esc(workingDir)}</WorkingDirectory>\r\n" +
             if (LogonTaskExists()) return true;
 
             // Then, check if the Registry Key exists
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(RUN_KEY_PATH, false))
-            {
-                if (key != null && key.GetValue(APP_NAME) != null)
-                {
-                    return true;
-                }
-            }
+            if (RunKeyEntryExists()) return true;
 
             // ====================================================================
             // [LEGACY "FENCES" MIGRATION - DO NOT REMOVE]
