@@ -285,6 +285,12 @@ chiavetta — e funziona con impostazioni proprie, senza toccare niente del
 computer e senza interferire con l'installazione principale. Per rimuoverla si
 cancella la cartella.
 
+L'unica cosa che *non* è portatile è l'avvio automatico: l'attività al logon
+registra il percorso completo dell'eseguibile. Sul ramo `startup-scheduled-task`
+il programma se ne accorge da solo — all'avvio confronta il percorso nel task con
+dove si trova davvero, e se differiscono riscrive il task. Sposta pure la
+cartella, l'avvio la segue al primo lancio successivo.
+
 ---
 
 ## Fare lo zip autonomo (gira senza .NET installato)
