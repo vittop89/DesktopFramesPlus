@@ -15,15 +15,32 @@ Scarica da https://visualstudio.microsoft.com/downloads/ → *Tools for Visual
 Studio* → **Build Tools for Visual Studio 2022**. In fase di installazione
 seleziona il carico di lavoro **.NET desktop build tools**.
 
-MSBuild finisce qui:
+MSBuild finisce qui — **la variante amd64, non quella accanto**:
 
 ```
-C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe
+C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\amd64\MSBuild.exe
 ```
+
+Quella senza `amd64` è a 32 bit e cerca un `dotnet` a 32 bit. Con l'SDK x64 —
+cioè quello normale — fallisce con `MSB4236: l'SDK 'Microsoft.NET.Sdk' non è
+stato trovato`, che sembra un SDK mancante e non lo è. Su questa macchina la
+prima volta ha funzionato lo stesso solo perché `dotnet` era già nel PATH della
+shell; su un PC pulito no.
 
 **2. .NET 8 SDK** — https://dotnet.microsoft.com/download/dotnet/8.0
 
 **3. Git** e, se comodo, GitHub Desktop.
+
+Entrambi si installano da riga di comando, il che evita di cercare la spunta
+giusta dentro l'installer di Visual Studio:
+
+```bash
+winget install --id Microsoft.DotNet.SDK.8 -e --accept-package-agreements
+```
+
+```bash
+winget install --id Microsoft.VisualStudio.2022.BuildTools -e --override "--quiet --wait --norestart --add Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools --includeRecommended"
+```
 
 ### Perché non basta `dotnet build`
 
@@ -38,9 +55,13 @@ Build Tools. Non è un difetto da correggere: è come il progetto è fatto.
 ## Compilare
 
 ```bash
+export PATH="/c/Program Files/dotnet:$PATH"
 cd "Code"
-"/c/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/MSBuild.exe" "Desktop Frames.sln" -p:Configuration=Release -v:minimal -nologo
+"/c/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" "Desktop Frames.sln" -p:Configuration=Release -v:minimal -nologo
 ```
+
+La riga `export` serve nelle shell aperte prima di installare l'SDK, che non ne
+conoscono ancora il percorso. Metterla sempre non costa niente.
 
 Il risultato finisce in
 `Code/Desktop Frames/bin/Release/net8.0-windows7.0/`, con una sottocartella per
@@ -100,20 +121,106 @@ Get-WinEvent -FilterHashtable @{LogName='Application';ProviderName='.NET Runtime
 
 ---
 
+## Smart App Control: il nemico da riconoscere
+
+Costato quattro giorni, il 26-30 agosto 2026. Vale la pena saperlo riconoscere in
+cinque minuti la prossima volta, su questo PC o su un altro.
+
+**Cos'è.** Una protezione di Windows 11 che giudica ogni eseguibile e ogni DLL
+per firma e reputazione. Quello che compili tu non è firmato e non ha
+reputazione, quindi ogni build è un tiro di dado. Non ha esclusioni, non legge il
+tuo archivio certificati, e non esiste modo di dirgli che un file è tuo. Un
+certificato autofirmato non serve a niente; uno vero deve prima costruirsi una
+reputazione che un fork personale non avrà mai.
+
+**Come si presenta.** Tre facce diverse dello stesso problema, e nessuna dice il
+proprio nome:
+
+| Cosa vedi | Cosa è successo |
+|---|---|
+| interfaccia in inglese su Windows italiano | bloccato `it\Desktop Frames.resources.dll`, e .NET ricade in silenzio sulle risorse neutre |
+| l'app non parte, nessun messaggio | bloccato `Desktop Frames.dll` |
+| non parte con Windows, ma a mano sì | bloccato l'exe alla creazione del processo |
+
+**La trappola che mi ha fatto perdere due giorni.** Un blocco al *caricamento di
+una DLL* lascia l'evento CodeIntegrity 3077. Un blocco alla *creazione del
+processo* **non lascia niente**: né 3077, né l'evento 9707 di Explorer, perché il
+comando non è mai partito. Cercare 3077 e non trovarlo non assolve SAC.
+
+**Come si verifica in due comandi.**
+
+```powershell
+(Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy').VerifiedAndReputablePolicyState
+```
+
+0 = spento, 1 = acceso, 2 = valutazione.
+
+```powershell
+Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-CodeIntegrity/Operational';Id=3077,3033} |
+  Select-Object -First 5 TimeCreated, Message
+```
+
+E per sapere se Explorer ha davvero provato ad avviare qualcosa all'accesso —
+l'evento 9707 elenca ogni comando lanciato dalla chiave `Run`:
+
+```powershell
+Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-Shell-Core/Operational';Id=9707} |
+  Sort-Object TimeCreated | Select-Object TimeCreated, Message
+```
+
+**Il rimedio provvisorio, se serve far girare l'app subito senza toccare SAC:**
+i pacchetti `.resx` nella cartella `Languages` accanto all'eseguibile sono file
+di testo, non codice, e SAC non ha niente da bloccare. Coprono la traduzione, non
+l'eseguibile. Da togliere appena i satelliti compilati tornano a caricarsi: i
+pacchetti **vincono** sulle risorse compilate, e dimenticarli lì significa
+ritrovarsi stringhe vecchie dopo un aggiornamento, senza capire perché.
+
+**Il rimedio vero.** Spegnerlo, dal pannello Sicurezza di Windows → Controllo app
+e browser. Windows avverte che è irreversibile; sul mio sistema l'opzione per
+riaccenderlo è rimasta lo stesso, ma non ci conterei. Se il pannello offre
+**Valutazione**, quella è la scelta migliore: non blocca, osserva, e su una
+macchina dove si compila dovrebbe spegnersi da sé.
+
+---
+
 ## I rami e a cosa servono
 
-| Ramo | Cos'è | Si propone? |
+| Ramo | Cos'è | Stato |
 |---|---|---|
 | `main` | il codice di limbo666, intatto | — |
-| `add-localization` | traduzione: motore + 9 pacchetti | sì |
-| `fix-extension-wildcards` | correzione dei jolly nelle estensioni | sì |
-| `portal-paste-and-drop` | trascinamento e incolla nei portal | sì |
-| `portal-folder-tracking` | frame che non si perde se la cartella cambia | sì |
+| `add-localization` | traduzione: motore + 9 pacchetti | **fuso**, PR #136 |
+| `fix-altgr-spotsearch` | hotkey ricerca che non mangia AltGr | **fuso**, PR #138 |
+| `fix-extension-wildcards` | correzione dei jolly nelle estensioni | PR #139 aperta, chiude la issue #135 |
+| `translate-missed-strings` | 5 testi sfuggiti alla localizzazione | PR #140 aperta |
+| `wait-for-desktop` | attende il desktop di Explorer invece di darlo per scontato | pronto, da proporre |
+| `portal-paste-and-drop` | trascinamento e incolla nei portal | da ribasare, poi proporre |
+| `portal-folder-tracking` | frame che non si perde se la cartella cambia | da ribasare, poi proporre |
+| `startup-scheduled-task` | avvio con Windows via attività al logon | **mai**: cambia il comportamento per tutti |
 | `personal-build` | tutti insieme, la build che uso io | **mai** |
 
-I tre rami di proposta partono dallo stesso punto e **non condividono file fra
-loro**: così limbo666 può accettarne uno e rifiutare gli altri, in qualunque
-ordine.
+I rami di proposta **non condividono file fra loro**: così limbo666 può
+accettarne uno e rifiutare gli altri, in qualunque ordine.
+
+Con un'eccezione consapevole: `translate-missed-strings` traduce anche il titolo
+del frame creato al primo avvio, e quella riga sta in `FrameManager.cs`, che i
+due rami portal toccano. Sono regioni lontanissime dello stesso file e git le
+fonde da sé. La regola serve a evitare conflitti, non a evitare che due rami
+nominino lo stesso file.
+
+### Descrizioni delle PR: corte
+
+Il ragionamento va nel **messaggio di commit**, che resta attaccato al codice per
+sempre. La descrizione della PR serve a chi decide se aprirla: bastano il difetto
+in una riga, la garanzia che niente di esistente cambia comportamento, e il
+`Closes #nnn` se c'è una issue. La prima versione della #139 era lunga il triplo
+e non diceva niente di più.
+
+### Le issue aperte da te sono la corsia preferenziale
+
+La #139 nasce dalla issue #135, aperta mesi prima con l'analisi della causa
+dentro. Chi rilegge non deve né riprodurre il difetto né decidere se sia un
+difetto: è già scritto, da chi lo ha trovato. Vale la pena aprire la issue anche
+quando la correzione ce l'hai già in mano.
 
 `personal-build` contiene in più alcuni commit di traduzione delle funzionalità
 nuove. Non possono stare sui rami di proposta: su quello della traduzione
@@ -153,6 +260,13 @@ Dopo un riallineamento la storia è riscritta, quindi GitHub Desktop propone il
 *pull* invece del *push*. **Non accettarlo**: rimetterebbe dentro la versione
 precedente. La via che funziona è cancellare il ramo su github.com e poi
 *Publish branch*.
+
+### I commit già fusi spariscono, ed è giusto così
+
+`personal-build` porta la copia locale di commit che nel frattempo limbo666 ha
+accettato — oggi quello dell'AltGr. Al rebase git li riconosce come già applicati
+e li lascia cadere. Non è un errore e non hai perso niente: quel codice adesso
+arriva da `main`.
 
 ---
 
