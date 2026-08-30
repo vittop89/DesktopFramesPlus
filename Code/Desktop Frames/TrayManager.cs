@@ -94,8 +94,10 @@ namespace Desktop_Frames
             // 2. Check status using the NEW logic (Task check + Registry check + Shortcut fallback)
             IsStartWithWindows = CheckIfStartWithWindowsEnabled();
 
-            // 2b. Move an installation that still starts from the Run key onto a task
+            // 2b. Move an installation that still starts from the Run key onto a task,
+            //     and follow the program if the folder it lives in has been moved
             UpgradeRunKeyToLogonTask();
+            RepointLogonTaskIfMoved();
 
             // 3. Start Remote Info System (Runs 25s later)
             RemoteInfoManager.Initialize();
@@ -755,6 +757,86 @@ namespace Desktop_Frames
             SetRegistryStartup(false);
             LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.Settings,
                 "TrayManager: Startup moved from the Run key to a logon task.");
+        }
+
+        /// <summary>
+        /// Re-registers the task when the program has been moved.
+        ///
+        /// The task holds the full path of the executable, decided when the setting was
+        /// switched on. The program keeps its data next to itself and is meant to be
+        /// copied around, so the folder does move - and when it does, the task goes on
+        /// launching a path where nothing is any more. Silently: the failure belongs to
+        /// Task Scheduler, at logon, where nobody is looking.
+        /// </summary>
+        private void RepointLogonTaskIfMoved()
+        {
+            if (!IsStartWithWindows) return;
+            if (!LogonTaskExists()) return;
+
+            string exePath = Process.GetCurrentProcess().MainModule.FileName;
+            if (LogonTaskPointsAt(exePath)) return;
+
+            if (!CreateLogonTask()) return;
+
+            LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.Settings,
+                $"TrayManager: Logon task now points at {exePath}");
+        }
+
+        /// <summary>
+        /// Whether the task launches this executable.
+        ///
+        /// Says yes when the answer cannot be read, which is the safe way round: an
+        /// unreadable reply is not evidence of a wrong path, and re-registering the task
+        /// at every start over a comparison that never succeeds would be a worse fault
+        /// than the one being fixed.
+        /// </summary>
+        private static bool LogonTaskPointsAt(string exePath)
+        {
+            string xml = ReadLogonTaskXml();
+
+            int start = xml.IndexOf("<Command>", StringComparison.OrdinalIgnoreCase);
+            int end = xml.IndexOf("</Command>", StringComparison.OrdinalIgnoreCase);
+            if (start < 0 || end <= start) return true;
+
+            start += "<Command>".Length;
+            string command = xml.Substring(start, end - start).Trim().Trim('"');
+
+            return string.Equals(command, exePath, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>The task's own XML, or an empty string if it cannot be read.</summary>
+        private static string ReadLogonTaskXml()
+        {
+            try
+            {
+                var info = new ProcessStartInfo("schtasks.exe", $"/Query /TN \"{TASK_NAME}\" /XML ONE")
+                {
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    // schtasks writes the XML as UTF-16, and read as anything else the
+                    // path would never match and the task would be rewritten every start.
+                    StandardOutputEncoding = System.Text.Encoding.Unicode
+                };
+
+                using (Process process = Process.Start(info))
+                {
+                    if (process == null) return string.Empty;
+
+                    string xml = process.StandardOutput.ReadToEnd();
+                    if (!process.WaitForExit(15000))
+                    {
+                        try { process.Kill(); } catch (Exception) { }
+                        return string.Empty;
+                    }
+
+                    return process.ExitCode == 0 ? xml : string.Empty;
+                }
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
         }
 
         private static bool RunKeyEntryExists()
