@@ -8424,6 +8424,34 @@ namespace Desktop_Frames
                             try { newIcon = System.Drawing.Icon.ExtractAssociatedIcon(filePath).ToImageSource(); }
                             catch { newIcon = Utility.GetShellIcon(filePath, false); }
                         }
+
+                        // 3. The Shell can answer with no icon at all, and does: it returns
+                        //    null whenever its own icon cache has lost the entry, which
+                        //    happens to individual programs after an update or a repair and
+                        //    stays that way until the cache is rebuilt.
+                        //
+                        //    Nothing was reading that null. The apply step below skips a null
+                        //    icon, so the placeholder stayed on screen - a blank page, on a
+                        //    shortcut that works, with nothing in the log and no way to tell
+                        //    it apart from an icon still loading. Restarting did not help,
+                        //    because the Shell answered the same way every time.
+                        //
+                        //    Reading the executable directly does not go through that cache.
+                        if (newIcon == null && !isTargetFolder)
+                        {
+                            string iconSource = targetExists ? targetPath : filePath;
+                            try
+                            {
+                                newIcon = System.Drawing.Icon.ExtractAssociatedIcon(iconSource).ToImageSource();
+                                LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.IconHandling,
+                                    $"Shell returned no icon for {iconSource}; read it from the file instead.");
+                            }
+                            catch (Exception ex)
+                            {
+                                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.IconHandling,
+                                    $"No icon available for {iconSource}: {ex.Message}");
+                            }
+                        }
                     }
                 }
                 // CASE E: STANDARD FILES
