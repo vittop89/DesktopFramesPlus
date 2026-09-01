@@ -183,6 +183,59 @@ macchina dove si compila dovrebbe spegnersi da sé.
 
 ---
 
+## Icone che diventano pagine bianche
+
+**Non è l'app: è la cache delle icone di Windows.** Mezza giornata per arrivarci,
+il 1° settembre 2026. Trenta secondi la prossima volta.
+
+Il sintomo: alcuni elementi mostrano la pagina bianca al posto dell'icona. Il
+collegamento funziona, il programma parte, ma l'icona non torna **né riavviando
+l'app, né riavviando il PC, né togliendo e rimettendo l'elemento**.
+
+Succede quando la cache delle icone perde le voci di alcuni programmi — dopo un
+loro aggiornamento o una riparazione. Da quel momento la shell risponde a
+`SHGetFileInfo` con l'icona generica, e l'app disegna quello che le viene dato.
+
+**Il rimedio:**
+
+```bash
+ie4uinit.exe -show
+```
+
+Se non basta, la versione completa — chiude Explorer, cancella le cache, lo
+riavvia. La barra delle applicazioni sparisce per qualche secondo:
+
+```bash
+taskkill /f /im explorer.exe & del /a /q "%LOCALAPPDATA%\IconCache.db" & del /a /q "%LOCALAPPDATA%\Microsoft\Windows\Explorer\iconcache*.db" & start explorer.exe
+```
+
+Poi chiudi e riapri l'app.
+
+### Come riconoscerlo in un minuto, invece che in mezza giornata
+
+La prova che scagiona l'app: estrai l'icona **leggendo l'eseguibile**, che non
+passa dalla cache della shell. Se da qui esce un'icona piena di pixel mentre
+nella frame resta bianca, il guasto è nella cache di Windows.
+
+```powershell
+Add-Type -AssemblyName System.Drawing
+$bmp = [System.Drawing.Icon]::ExtractAssociatedIcon('C:\Program Files\Inkscape\bin\inkscape.exe').ToBitmap()
+$n = 0; for ($y=0; $y -lt $bmp.Height; $y++) { for ($x=0; $x -lt $bmp.Width; $x++) { if ($bmp.GetPixel($x,$y).A -gt 10) { $n++ } } }
+"pixel visibili: $n / $($bmp.Width * $bmp.Height)"
+```
+
+### La lezione di metodo, che vale oltre le icone
+
+Ho perso quelle ore leggendo il codice per dedurre quale strada prendesse,
+inseguendo tre ipotesi sbagliate di fila. Quando finalmente ho messo una riga di
+log nel ramo sospetto, la sonda **non ha stampato niente** — e quel silenzio ha
+detto in un colpo solo che stavo leggendo un file che non veniva mai eseguito.
+
+Quando un difetto non torna, strumentare prima e leggere dopo. Una sonda che non
+stampa è già una risposta.
+
+---
+
 ## I rami e a cosa servono
 
 | Ramo | Cos'è | Stato |
