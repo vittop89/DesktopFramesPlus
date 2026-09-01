@@ -46,14 +46,24 @@ namespace Desktop_Frames
         {
             while (!token.IsCancellationRequested)
             {
-                try
+                int processed = 0;
+                // Batch size of 15 prevents stuttering
+                while (processed < 15 && _loadQueue.TryDequeue(out var request))
                 {
-                    int processed = 0;
-                    // Batch size of 15 prevents stuttering
-                    while (processed < 15 && _loadQueue.TryDequeue(out var request))
-                    {
-                        if (token.IsCancellationRequested) break;
+                    if (token.IsCancellationRequested) break;
 
+                    // One icon at a time, and one icon's failure costs one icon.
+                    //
+                    // This used to be caught around the whole loop, which then broke:
+                    // a single file that threw - a shortcut whose target answers
+                    // slowly, an executable with an icon resource Windows will not
+                    // read - and the loader was gone for the rest of the session.
+                    // Every icon still queued behind it kept the placeholder for
+                    // good, and restarting did not help because the same file threw
+                    // at the same point. Nothing was written down either, so the
+                    // frames simply showed blank pages and the log said nothing.
+                    try
+                    {
                         ImageSource icon = null;
                         lock (IconManager.IconCache)
                         {
@@ -75,11 +85,19 @@ namespace Desktop_Frames
                                 request.OnLoaded?.Invoke();
                             }, System.Windows.Threading.DispatcherPriority.Background);
                         }
-                        processed++;
                     }
-                    await Task.Delay(processed > 0 ? 30 : 100, token);
+                    catch (OperationCanceledException) { return; }
+                    catch (Exception ex)
+                    {
+                        LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.IconHandling,
+                            $"LazyIconLoader: no icon for {request.FilePath}: {ex.Message}");
+                    }
+
+                    processed++;
                 }
-                catch { break; }
+
+                try { await Task.Delay(processed > 0 ? 30 : 100, token); }
+                catch (OperationCanceledException) { return; }
             }
         }
     }
