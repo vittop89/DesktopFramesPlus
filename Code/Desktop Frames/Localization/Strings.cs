@@ -631,6 +631,15 @@ namespace Desktop_Frames.Localization
         public static string AboutWhat => Get("AboutWhat");
 
         // ── Widget plugins ─────────────────────────────────────────────────
+        public static string AgendaAllDay => Get("AgendaAllDay");
+        public static string AgendaFailed => Get("AgendaFailed");
+        public static string AgendaLoading => Get("AgendaLoading");
+        public static string AgendaNotConfigured => Get("AgendaNotConfigured");
+        public static string AgendaNothingScheduled => Get("AgendaNothingScheduled");
+        public static string AgendaSettingsTitle => Get("AgendaSettingsTitle");
+        public static string AgendaSignedOut => Get("AgendaSignedOut");
+        public static string AgendaToday => Get("AgendaToday");
+        public static string AgendaTomorrow => Get("AgendaTomorrow");
         public static string CalcBadgeFade => Get("CalcBadgeFade");
         public static string CalcClear => Get("CalcClear");
         public static string CalcClearHistory => Get("CalcClearHistory");
@@ -709,6 +718,7 @@ namespace Desktop_Frames.Localization
         public static string PhotoSubtleTwist => Get("PhotoSubtleTwist");
         public static string PhotoTransition => Get("PhotoTransition");
         public static string PhotoVerticalWipe => Get("PhotoVerticalWipe");
+        public static string PluginAgenda => Get("PluginAgenda");
         public static string PluginCalculator => Get("PluginCalculator");
         public static string PluginIpInfo => Get("PluginIpInfo");
         public static string PluginPerformance => Get("PluginPerformance");

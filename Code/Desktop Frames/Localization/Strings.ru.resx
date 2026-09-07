@@ -115,6 +115,33 @@
   <data name="AboutWhat" xml:space="preserve">
     <value>Что!?</value>
   </data>
+  <data name="AgendaAllDay" xml:space="preserve">
+    <value>Весь день</value>
+  </data>
+  <data name="AgendaFailed" xml:space="preserve">
+    <value>Не удалось связаться с Google Календарём.</value>
+  </data>
+  <data name="AgendaLoading" xml:space="preserve">
+    <value>Загрузка...</value>
+  </data>
+  <data name="AgendaNotConfigured" xml:space="preserve">
+    <value>Аккаунт Google ещё не настроен. Добавьте клиент Google в настройках.</value>
+  </data>
+  <data name="AgendaNothingScheduled" xml:space="preserve">
+    <value>Ничего не запланировано.</value>
+  </data>
+  <data name="AgendaSettingsTitle" xml:space="preserve">
+    <value>Настройки расписания</value>
+  </data>
+  <data name="AgendaSignedOut" xml:space="preserve">
+    <value>Вход в Google Календарь не выполнен.</value>
+  </data>
+  <data name="AgendaToday" xml:space="preserve">
+    <value>Сегодня</value>
+  </data>
+  <data name="AgendaTomorrow" xml:space="preserve">
+    <value>Завтра</value>
+  </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>ЩЁЛКНИТЕ ПО ЦЕЛЕВОМУ ОКНУ</value>
   </data>
@@ -1520,6 +1547,9 @@
   </data>
   <data name="PhotoVerticalWipe" xml:space="preserve">
     <value>Мягкая вертикальная шторка</value>
+  </data>
+  <data name="PluginAgenda" xml:space="preserve">
+    <value>Расписание</value>
   </data>
   <data name="PluginCalculator" xml:space="preserve">
     <value>Калькулятор</value>

@@ -115,6 +115,33 @@ Hoy la mantiene Nikos Georgousis, que la ha ampliado y la ha hecho más estable 
   <data name="AboutWhat" xml:space="preserve">
     <value>¿¡Cómo!?</value>
   </data>
+  <data name="AgendaAllDay" xml:space="preserve">
+    <value>Todo el día</value>
+  </data>
+  <data name="AgendaFailed" xml:space="preserve">
+    <value>No se puede conectar con Google Calendar.</value>
+  </data>
+  <data name="AgendaLoading" xml:space="preserve">
+    <value>Cargando...</value>
+  </data>
+  <data name="AgendaNotConfigured" xml:space="preserve">
+    <value>Cuenta de Google aún sin configurar. Añade tu cliente de Google en los ajustes.</value>
+  </data>
+  <data name="AgendaNothingScheduled" xml:space="preserve">
+    <value>Nada previsto.</value>
+  </data>
+  <data name="AgendaSettingsTitle" xml:space="preserve">
+    <value>Ajustes de agenda</value>
+  </data>
+  <data name="AgendaSignedOut" xml:space="preserve">
+    <value>No has iniciado sesión en Google Calendar.</value>
+  </data>
+  <data name="AgendaToday" xml:space="preserve">
+    <value>Hoy</value>
+  </data>
+  <data name="AgendaTomorrow" xml:space="preserve">
+    <value>Mañana</value>
+  </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>HAZ CLIC EN LA VENTANA DE DESTINO</value>
   </data>
@@ -1520,6 +1547,9 @@ Cada ventana lee sus textos mientras se construye, así que el cambio se ve al r
   </data>
   <data name="PhotoVerticalWipe" xml:space="preserve">
     <value>Barrido vertical suave</value>
+  </data>
+  <data name="PluginAgenda" xml:space="preserve">
+    <value>Agenda</value>
   </data>
   <data name="PluginCalculator" xml:space="preserve">
     <value>Calculadora</value>
