@@ -3,6 +3,7 @@ using Google.Apis.Auth.OAuth2;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,11 +36,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         private StackPanel? _contentPanel;
 
         // --- State -------------------------------------------------------------
-        private readonly AgendaSession _session = new AgendaSession();
+        private readonly AgendaSession _session = AgendaSession.ForCurrentProfile();
         private readonly AgendaRenderer _renderer = new AgendaRenderer();
 
         private IReadOnlyList<AgendaEvent> _events = new List<AgendaEvent>();
         private GoogleCalendarSource? _source;
+        private GoogleTaskSource? _tasks;
+
+        /// <summary>Said once, not on every refresh, when a stand-in finds no task.</summary>
+        private bool _warnedAboutStandIns;
 
         private AgendaSettings _settings = new AgendaSettings();
         private Dictionary<string, object>? _settingsRef;
@@ -89,6 +94,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Margin = new Thickness(5, 5, 5, 10)
             };
 
+            // Applied to this frame rather than to the program: these suit a frame, and
+            // deciding how every button in the application looks is not a plugin's
+            // business.
+            _rootVisual.Resources.MergedDictionaries.Add(AgendaStyles.Resources);
+
             _contentPanel = new StackPanel();
             _rootVisual.Content = _contentPanel;
 
@@ -104,6 +114,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             _renderer.EditRequested += Edit;
             _renderer.DeleteRequested += Delete;
             _renderer.DayChosen += day => { _anchor = day; Render(); };
+            _renderer.DoneChanged += SetDone;
 
             _session.Changed += OnSessionChanged;
             Render();
@@ -137,7 +148,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             _refreshTimer = null;
 
             _session.Changed -= OnSessionChanged;
-            _session.Cancel();
+
+            // Deliberately not cancelled: the session belongs to the profile now, not to
+            // this frame. Closing one frame while a consent page is open would otherwise
+            // revoke a sign-in the person is in the middle of granting for all of them.
 
             _source?.Dispose();
             _source = null;
@@ -145,9 +159,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         public void ShowSettingsWindow(Window ownerWindow, dynamic frameData)
         {
+            // frameData carried into the callback because that, not the dictionary
+            // handed to Initialize, is what the host writes to disk - see Persist.
             AgendaSettingsWindow.Show(ownerWindow, _session, _settings,
                                       _source?.Calendars ?? new List<AgendaCalendar>(),
-                                      OnSettingsSaved);
+                                      saved => OnSettingsSaved(saved, frameData));
         }
 
         // ==========================================================================
@@ -176,7 +192,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             Render();
         }
 
-        private void OnSettingsSaved(AgendaSettings saved)
+        private void OnSettingsSaved(AgendaSettings saved, dynamic frameData)
         {
             (DateTime wasFrom, DateTime wasTo) = _settings.Range(_anchor);
             (DateTime nowFrom, DateTime nowTo) = saved.Range(_anchor);
@@ -185,7 +201,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             bool calendarsChanged = !saved.SameCalendarsAs(_settings);
 
             _settings = saved;
+
+            // Twice, because they are two different things: the dictionary keeps this
+            // running instance in step, and the frame is what survives a restart.
             _settings.WriteTo(_settingsRef);
+            Persist(frameData);
 
             // The sync marker Google gave us covers the window of the request that
             // produced it. Asking for a wider one, or for a calendar we had not been
@@ -206,9 +226,40 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             Render();
         }
 
+        /// <summary>
+        /// Writes the settings where the host will read them back.
+        ///
+        /// The dictionary handed to Initialize is a copy the host makes from the
+        /// frame and never looks at again: writing to it keeps this instance
+        /// consistent and is forgotten the moment the program closes. What lasts is
+        /// PluginSettings on the frame itself, saved with the rest of frames.json -
+        /// the same route the other plugins take.
+        /// </summary>
+        private void Persist(dynamic frameData)
+        {
+            try
+            {
+                var stored = new Dictionary<string, object>();
+                _settings.WriteTo(stored);
+
+                if (frameData is Newtonsoft.Json.Linq.JObject asJson)
+                    asJson["PluginSettings"] = Newtonsoft.Json.Linq.JObject.FromObject(stored);
+                else
+                    ((IDictionary<string, object>)frameData)["PluginSettings"] = stored;
+
+                FrameDataManager.SaveFrameData();
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.Settings,
+                    $"GoogleAgenda: could not save the frame settings: {ex.Message}");
+            }
+        }
+
         private void StartSource(UserCredential credential)
         {
             _source = new GoogleCalendarSource(credential);
+            _tasks = new GoogleTaskSource(credential);
             _refreshTimer?.Start();
             Refresh();
         }
@@ -219,6 +270,9 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             _source?.Dispose();
             _source = null;
+
+            _tasks?.Dispose();
+            _tasks = null;
 
             _events = new List<AgendaEvent>();
             _loadedOnce = false;
@@ -246,17 +300,41 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             try
             {
                 (DateTime from, DateTime to) = _settings.Range(_anchor);
+                GoogleTaskSource? tasks = _tasks;
 
                 IReadOnlyList<AgendaEvent> events = await Task.Run(
                     () => source.RefreshAsync(from, to, _settings.Calendars, CancellationToken.None))
                     .ConfigureAwait(true);
+
+                IReadOnlyList<AgendaEvent> due = tasks == null
+                    ? new List<AgendaEvent>()
+                    : await Task.Run(() => tasks.LoadAsync(from, to, EveryList, CancellationToken.None))
+                                .ConfigureAwait(true);
 
                 // The source may have been replaced while the answer was in flight - a
                 // sign-out, a settings change - and applying it then would show events
                 // belonging to a session that no longer exists.
                 if (_source != source) return;
 
-                _events = events;
+                // Merged and sorted here rather than kept apart, because a day is one
+                // thing: a task due at eleven belongs between the ten o'clock meeting
+                // and the noon one, not in a list of its own underneath.
+                // Joined, not concatenated: a task with an hour arrives from both
+                // services, and showing both halves is showing one thing twice.
+                List<AgendaEvent> together = AgendaMerge.Join(events, due, out int unjoined);
+
+                if (unjoined > 0 && !_warnedAboutStandIns)
+                {
+                    _warnedAboutStandIns = true;
+                    LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                        $"GoogleAgenda: {unjoined} scheduled tasks came from Calendar with no " +
+                        "matching task, so they stay as untitled blocks.");
+                }
+
+                _events = together
+                    .OrderBy(e => e.IsAllDay ? e.Start.Date : e.Start)
+                    .ThenBy(e => e.Title, StringComparer.CurrentCulture)
+                    .ToList();
                 _loadedOnce = true;
                 _offline = false;
             }
@@ -285,6 +363,36 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// why the check costs nothing: it is here for the day something upstream is
         /// not what it is expected to be.
         /// </summary>
+        /// <summary>Every task list, until there is a reason to choose between them.</summary>
+        private static readonly HashSet<string> EveryList = new HashSet<string>(StringComparer.Ordinal);
+
+        /// <summary>
+        /// Ticks a task, or unticks it.
+        ///
+        /// The list is redrawn from what Google confirms rather than from the click, so
+        /// a refusal leaves the box where it was instead of showing a tick that exists
+        /// only on this screen.
+        /// </summary>
+        private async void SetDone(AgendaEvent item, bool done)
+        {
+            GoogleTaskSource? tasks = _tasks;
+            if (tasks == null || !item.IsTask) return;
+
+            try
+            {
+                await tasks.SetDoneAsync(item, done, CancellationToken.None).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    $"GoogleAgenda: could not change the task: {ex.Message}");
+
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm(Strings.AgendaSaveFailed, Strings.AgendaDeleteEvent);
+            }
+
+            Refresh();
+        }
+
         private void OpenInGoogle(AgendaEvent item)
         {
             if (string.IsNullOrWhiteSpace(item.WebLink)) return;
@@ -324,7 +432,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             var draft = new AgendaEvent { Start = start, End = start.AddHours(1), CanWrite = true };
 
             AgendaEvent? filled = AgendaEventWindow.Show(Window.GetWindow(_rootVisual), draft,
-                                                        source.Calendars, isNew: true);
+                                                        source.Calendars, TaskLists(), isNew: true);
             if (filled != null) Save(filled, isNew: true);
         }
 
@@ -334,9 +442,13 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             if (source == null) return;
 
             AgendaEvent? changed = AgendaEventWindow.Show(Window.GetWindow(_rootVisual), item,
-                                                         source.Calendars, isNew: false);
+                                                         source.Calendars, TaskLists(), isNew: false);
             if (changed != null) Save(changed, isNew: false);
         }
+
+        /// <summary>The lists a task can go in, or none when Tasks is not reachable.</summary>
+        private IReadOnlyList<AgendaTaskList> TaskLists() =>
+            _tasks?.TaskLists ?? new List<AgendaTaskList>();
 
         private async void Save(AgendaEvent item, bool isNew)
         {
@@ -345,7 +457,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             try
             {
-                if (isNew) await source.CreateAsync(item, CancellationToken.None).ConfigureAwait(true);
+                if (item.IsTask)
+                {
+                    GoogleTaskSource? tasks = _tasks;
+                    if (tasks == null) return;
+
+                    if (isNew) await tasks.CreateAsync(item, CancellationToken.None).ConfigureAwait(true);
+                    else await tasks.UpdateAsync(item, CancellationToken.None).ConfigureAwait(true);
+                }
+                else if (isNew) await source.CreateAsync(item, CancellationToken.None).ConfigureAwait(true);
                 else await source.UpdateAsync(item, CancellationToken.None).ConfigureAwait(true);
             }
             catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.PreconditionFailed
@@ -379,7 +499,14 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             try
             {
-                await source.DeleteAsync(item, CancellationToken.None).ConfigureAwait(true);
+                if (item.IsTask)
+                {
+                    GoogleTaskSource? tasks = _tasks;
+                    if (tasks == null) return;
+
+                    await tasks.DeleteAsync(item, CancellationToken.None).ConfigureAwait(true);
+                }
+                else await source.DeleteAsync(item, CancellationToken.None).ConfigureAwait(true);
             }
             catch (Exception ex)
             {
@@ -465,12 +592,12 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             // view rather than the same one elsewhere.
             if (_settings.CanNavigate)
             {
-                bar.Children.Add(Small("‹", () => Move(-1)));
-                bar.Children.Add(Small("›", () => Move(1)));
-                bar.Children.Add(Small("•", ToToday, Strings.AgendaToday));
+                bar.Children.Add(Small(Glyph.Back, () => Move(-1)));
+                bar.Children.Add(Small(Glyph.Forward, () => Move(1)));
+                bar.Children.Add(Small(Glyph.Today, ToToday, Strings.AgendaToday));
             }
 
-            bar.Children.Add(Small("+", Add, Strings.AgendaNewEvent));
+            bar.Children.Add(Small(Glyph.Add, Add, Strings.AgendaNewEvent));
             return bar;
         }
 
@@ -493,16 +620,42 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             Refresh();
         }
 
+        /// <summary>
+        /// The characters on the small buttons.
+        ///
+        /// Taken from the icon font Windows ships with rather than from punctuation. A
+        /// guillemet is a quotation mark being asked to act as an arrow: it sits on the
+        /// text baseline, it is drawn at text weight, and it is smaller than the button
+        /// around it. These are drawn as icons, on the centre line, at the size the
+        /// button was made for.
+        /// </summary>
+        private static class Glyph
+        {
+            public const string Back = "";      // ChevronLeft
+            public const string Forward = "";   // ChevronRight
+            public const string Today = "";     // GoToToday
+            public const string Add = "";       // Add
+        }
+
         private Button Small(string caption, Action action, string? tooltip = null)
         {
             var button = new Button
             {
                 Content = caption,
-                Width = 24,
-                Height = 22,
-                Margin = new Thickness(0, 0, 4, 0),
+                Width = 28,
+                Height = 24,
+                Margin = new Thickness(0, 0, 5, 0),
                 Padding = new Thickness(0),
-                FontSize = 12,
+
+                // Segoe Fluent Icons on Windows 11, the older Segoe MDL2 Assets behind
+                // it: the glyphs used here carry the same code points in both.
+                FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+                FontSize = 13,
+
+                // An icon font has one weight. Asking for a bolder one makes Windows
+                // thicken it artificially, which on a chevron reads as a smudge.
+                FontWeight = FontWeights.Normal,
+
                 Cursor = System.Windows.Input.Cursors.Hand,
                 ToolTip = tooltip
             };

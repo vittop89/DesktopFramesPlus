@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- Seed translation produced with AI assistance and not yet reviewed by a native speaker. Any key that is ever removed falls back to English at runtime. -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -1979,5 +1979,17 @@ Uruchomić ponownie teraz?</value>
   </data>
   <data name="VuSignalGain" xml:space="preserve">
     <value>Wzmocnienie sygnału (mnożnik):</value>
+  </data>
+  <data name="AgendaKindEvent" xml:space="preserve">
+    <value>Wydarzenie</value>
+  </data>
+  <data name="AgendaKindTask" xml:space="preserve">
+    <value>Zadanie</value>
+  </data>
+  <data name="AgendaListLabel" xml:space="preserve">
+    <value>Lista</value>
+  </data>
+  <data name="AgendaTaskNoTime" xml:space="preserve">
+    <value>Google zapisuje tylko datę zadania, nigdy godziny.</value>
   </data>
 </root>

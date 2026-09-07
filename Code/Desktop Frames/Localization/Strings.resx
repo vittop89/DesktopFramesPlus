@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -1978,5 +1978,17 @@ Restart now?</value>
   </data>
   <data name="LastRunAt" xml:space="preserve">
     <value>Last successful run: {0}</value>
+  </data>
+  <data name="AgendaKindEvent" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="AgendaKindTask" xml:space="preserve">
+    <value>Task</value>
+  </data>
+  <data name="AgendaListLabel" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="AgendaTaskNoTime" xml:space="preserve">
+    <value>Google keeps only the date of a task, never a time of day.</value>
   </data>
 </root>

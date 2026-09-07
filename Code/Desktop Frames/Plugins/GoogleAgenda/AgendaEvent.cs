@@ -55,6 +55,27 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// </summary>
         public bool CanWrite { get; set; }
 
+        /// <summary>
+        /// True for something with a tick box rather than a span of time.
+        ///
+        /// Kept as a flag on the same type rather than a type of its own: the frame
+        /// draws one list, and a second type would force every view to know about both
+        /// to put them in the same day in the right order.
+        /// </summary>
+        public bool IsTask { get; set; }
+
+        /// <summary>
+        /// For a calendar entry that merely holds the slot of a task: the link to the
+        /// task it stands for. Empty for everything else, real events included.
+        ///
+        /// Google writes one of these onto the calendar whenever a task is given an
+        /// hour, because the Tasks service has nowhere of its own to keep one.
+        /// </summary>
+        public string MirrorOfTask { get; set; } = string.Empty;
+
+        /// <summary>Ticked. Meaningless unless <see cref="IsTask"/>.</summary>
+        public bool IsDone { get; set; }
+
         public TimeSpan Duration => End - Start;
 
         /// <summary>The day it belongs under, which is how the list groups entries.</summary>

@@ -2053,4 +2053,16 @@
   <data name="MsgTemplateExported" xml:space="preserve">
     <value>语言模板已成功导出！</value>
   </data>
+  <data name="AgendaKindEvent" xml:space="preserve">
+    <value>活动</value>
+  </data>
+  <data name="AgendaKindTask" xml:space="preserve">
+    <value>任务</value>
+  </data>
+  <data name="AgendaListLabel" xml:space="preserve">
+    <value>列表</value>
+  </data>
+  <data name="AgendaTaskNoTime" xml:space="preserve">
+    <value>Google 只保存任务的日期，不保存具体时间。</value>
+  </data>
 </root>

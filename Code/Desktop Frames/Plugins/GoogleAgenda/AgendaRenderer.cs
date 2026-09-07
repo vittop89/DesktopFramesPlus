@@ -41,6 +41,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         public Action<AgendaEvent>? EditRequested;
         public Action<AgendaEvent>? DeleteRequested;
         public Action<DateTime>? DayChosen;
+        public Action<AgendaEvent, bool>? DoneChanged;
 
         private static readonly Brush Faint = new SolidColorBrush(Color.FromArgb(160, 255, 255, 255));
         private static readonly Brush Strong = new SolidColorBrush(Color.FromArgb(220, 255, 255, 255));
@@ -78,10 +79,19 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         }
 
         private UIElement Columns(IReadOnlyList<AgendaEvent> events, DateTime from, int days, bool flashToday) =>
-            AgendaTimeGrid.Build(events, from, days, flashToday,
-                                 e => OpenRequested?.Invoke(e),
-                                 e => EditRequested?.Invoke(e),
-                                 e => DeleteRequested?.Invoke(e));
+            AgendaTimeGrid.Build(events, from, days, flashToday, Actions());
+
+        /// <summary>
+        /// The frame's callbacks in one piece, so every view is handed the same set and
+        /// none of them quietly offers less than the others.
+        /// </summary>
+        private AgendaActions Actions() => new AgendaActions
+        {
+            Open = e => OpenRequested?.Invoke(e),
+            Edit = e => EditRequested?.Invoke(e),
+            Delete = e => DeleteRequested?.Invoke(e),
+            SetDone = (e, done) => DoneChanged?.Invoke(e, done)
+        };
 
         private static DateTime StartOfWeek(DateTime day)
         {
@@ -96,7 +106,21 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private void DrawList(Panel panel, IReadOnlyList<AgendaEvent> events)
         {
-            if (events.Count == 0)
+            // What is over leaves the list. This view answers "what is coming", and a
+            // meeting that finished at nine is not part of that answer - it is only
+            // something to read past. The grids keep it, because there the question is
+            // what a day looked like, not what is left of it.
+            //
+            // Something still running stays: its end has not arrived yet.
+            //
+            // A task follows the other rule: it leaves when it is ticked, not when its
+            // hour passes. An overdue task is the one thing on the list that most needs
+            // to still be on it.
+            List<AgendaEvent> upcoming = events
+                .Where(e => e.IsTask ? !e.IsDone : e.End > DateTime.Now)
+                .ToList();
+
+            if (upcoming.Count == 0)
             {
                 panel.Children.Add(Message(Strings.AgendaNothingScheduled));
                 return;
@@ -104,7 +128,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             DateTime day = DateTime.MinValue;
 
-            foreach (AgendaEvent item in events)
+            foreach (AgendaEvent item in upcoming)
             {
                 if (item.Day != day)
                 {
@@ -253,9 +277,16 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         // PIECES
         // ======================================================================
 
+        /// <summary>
+        /// What falls on one day.
+        ///
+        /// The end is exclusive, for entries lasting all day as much as for timed
+        /// ones: something covering all of yesterday ends at midnight today, and a
+        /// meeting finishing at midnight ends then too. Comparing the end date with
+        /// "on or after" put both of them on today as well.
+        /// </summary>
         private static List<AgendaEvent> OnDay(IReadOnlyList<AgendaEvent> events, DateTime day) =>
-            events.Where(e => e.Start.Date <= day.Date && e.End.Date >= day.Date
-                           && (e.IsAllDay || e.End > day.Date))
+            events.Where(e => e.Start.Date <= day.Date && e.End > day.Date)
                   .OrderBy(e => e.IsAllDay ? 0 : 1)
                   .ThenBy(e => e.Start)
                   .ToList();
@@ -310,6 +341,23 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Margin = new Thickness(0, 0, 8, 0)
             });
 
+            // A task is something to do, so the box that says it is done belongs on it -
+            // and belongs where a finger goes first, before the title.
+            if (item.IsTask)
+            {
+                var box = new CheckBox
+                {
+                    IsChecked = item.IsDone,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 6, 0)
+                };
+
+                box.Checked += (s, e) => DoneChanged?.Invoke(item, true);
+                box.Unchecked += (s, e) => DoneChanged?.Invoke(item, false);
+
+                layout.Children.Add(box);
+            }
+
             var texts = new StackPanel();
 
             texts.Children.Add(new TextBlock
@@ -317,7 +365,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Text = item.Title,
                 FontSize = 12,
                 TextTrimming = TextTrimming.CharacterEllipsis,
-                Foreground = Brushes.White
+                Foreground = Brushes.White,
+
+                // Struck through when done, which is what a tick box means everywhere
+                // else and needs no explaining.
+                TextDecorations = item.IsDone ? TextDecorations.Strikethrough : null
             });
 
             texts.Children.Add(new TextBlock
