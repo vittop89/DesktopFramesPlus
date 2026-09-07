@@ -477,6 +477,24 @@ namespace Desktop_Frames
                 NotificationSound.SoftDing => 5,
                 _ => 0
             };
+            // Attached after the initial selection, so opening the options does not
+            // play anything: a settings window that greets you with a noise is a
+            // settings window nobody opens twice.
+            cbSoundType.SelectionChanged += (s, e) =>
+            {
+                NotificationSound chosen = cbSoundType.SelectedIndex switch
+                {
+                    1 => NotificationSound.DoubleDing,
+                    2 => NotificationSound.SmoothTickle,
+                    3 => NotificationSound.MessageDing,
+                    4 => NotificationSound.GentleDing,
+                    5 => NotificationSound.SoftDing,
+                    _ => NotificationSound.DefaultSound
+                };
+
+                MessageBoxesManager.PreviewNotificationSound(chosen);
+            };
+
             Grid.SetColumn(cbSoundType, 1);
             soundGrid.Children.Add(lblSound);
             soundGrid.Children.Add(cbSoundType);
@@ -1350,10 +1368,14 @@ namespace Desktop_Frames
                 // --- NEW: Broadcast Scrollbar Settings ---
                 Framemanager.RefreshScrollbarSettings();
 
-                _optionsWindow.Close();
+                // The window stays open. Saving and closing were the same gesture, which
+                // left no way to change two things in one visit and made Save
+                // indistinguishable from Cancel to anyone who had changed nothing. The
+                // button beside it closes.
+                SaidItSaved();
 
-                // After the window is closed and everything is on disk, so a restart cannot
-                // lose anything that was just saved.
+                // Everything is on disk by now, so a restart cannot lose what was just
+                // saved.
                 OfferRestartAfterLanguageChange();
             }
             catch (Exception ex)
@@ -1372,10 +1394,49 @@ namespace Desktop_Frames
             Button c = new Button { Content = Strings.BtnCancel, Width = 100, Height = 34, FontWeight = FontWeights.Bold, Background = Brushes.White, BorderBrush = new SolidColorBrush(Color.FromRgb(218, 220, 224)), BorderThickness = new Thickness(1), Margin = new Thickness(0, 0, 10, 0), Cursor = Cursors.Hand };
             c.Click += (s, e) => _optionsWindow.Close();
 
+            _savedNotice = new TextBlock
+            {
+                Text = Strings.MsgOptionsSaved,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 0, 14, 0),
+                Opacity = 0,
+                Foreground = new SolidColorBrush(Color.FromRgb(30, 120, 60)),
+                FontWeight = FontWeights.Bold
+            };
+
+            sp.Children.Add(_savedNotice);
+
             Button sv = new Button { Content = Strings.BtnSave, Width = 100, Height = 34, FontWeight = FontWeights.Bold, Background = new SolidColorBrush(_userAccentColor), Foreground = Brushes.White, BorderThickness = new Thickness(0), Cursor = Cursors.Hand };
             sv.Click += (s, e) => SaveOptions();
 
             sp.Children.Add(c); sp.Children.Add(sv); f.Child = sp; mainGrid.Children.Add(f);
+        }
+
+        /// <summary>Shown for a moment after saving, then faded out.</summary>
+        private static TextBlock _savedNotice;
+
+        /// <summary>
+        /// Says the save happened.
+        ///
+        /// Needed the moment the window stopped closing: a button that does its work
+        /// silently and leaves everything looking the same is a button people press
+        /// twice, then wonder about.
+        /// </summary>
+        private static void SaidItSaved()
+        {
+            if (_savedNotice == null) return;
+
+            _savedNotice.BeginAnimation(UIElement.OpacityProperty, null);
+            _savedNotice.Opacity = 1;
+
+            var fade = new System.Windows.Media.Animation.DoubleAnimation
+            {
+                To = 0,
+                BeginTime = TimeSpan.FromSeconds(1.6),
+                Duration = TimeSpan.FromMilliseconds(600)
+            };
+
+            _savedNotice.BeginAnimation(UIElement.OpacityProperty, fade);
         }
 
         private static void CreateDonationSection(Grid mainGrid)

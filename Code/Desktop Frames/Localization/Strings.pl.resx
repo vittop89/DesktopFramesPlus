@@ -2117,4 +2117,7 @@ Uruchomić ponownie teraz?</value>
   <data name="LblCustomColorShade" xml:space="preserve">
     <value>Jaśniej lub ciemniej</value>
   </data>
+  <data name="MsgOptionsSaved" xml:space="preserve">
+    <value>Zapisano</value>
+  </data>
 </root>

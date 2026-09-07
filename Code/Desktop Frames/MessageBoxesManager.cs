@@ -1347,9 +1347,21 @@ namespace Desktop_Frames
         /// <summary>
         /// Plays the ding.wav sound from embedded resources
         /// </summary>
-        private static void PlayDingSound(NotificationSound? overrideSound = null)
+        /// <summary>
+        /// Plays one sound so somebody choosing it can hear what they chose.
+        ///
+        /// Ignores the mute setting on purpose: this is not a notification, it is an
+        /// answer to a click, and the click can only happen while sounds are switched
+        /// on in the form - which is not yet what is saved on disk.
+        /// </summary>
+        public static void PreviewNotificationSound(NotificationSound sound)
         {
-            if (SettingsManager.EnableSounds == false)
+            PlayDingSound(sound, ignoreMute: true);
+        }
+
+        private static void PlayDingSound(NotificationSound? overrideSound = null, bool ignoreMute = false)
+        {
+            if (!ignoreMute && SettingsManager.EnableSounds == false)
             {
                 LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.UI,
                     "MessageBoxes: Sound is muted, skipping ding sound playback");

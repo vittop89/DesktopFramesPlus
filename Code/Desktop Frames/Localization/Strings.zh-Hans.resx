@@ -2190,4 +2190,7 @@
   <data name="LblCustomColorShade" xml:space="preserve">
     <value>变亮或变暗</value>
   </data>
+  <data name="MsgOptionsSaved" xml:space="preserve">
+    <value>已保存</value>
+  </data>
 </root>

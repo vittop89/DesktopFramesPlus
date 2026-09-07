@@ -2116,4 +2116,7 @@ Restart now?</value>
   <data name="LblCustomColorShade" xml:space="preserve">
     <value>Lighter or darker</value>
   </data>
+  <data name="MsgOptionsSaved" xml:space="preserve">
+    <value>Saved</value>
+  </data>
 </root>

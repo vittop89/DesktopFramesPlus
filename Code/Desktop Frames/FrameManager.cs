@@ -1311,7 +1311,22 @@ namespace Desktop_Frames
 
                     BackupManager.BackupDeletedFrame(frame);
 
-                    FrameDataManager.FrameData.Remove(frame);
+                    // Removed by identifier rather than by reference. The menu item
+                    // captured this frame object when the menu was built, and the list
+                    // it has to be taken out of may since have been rebuilt - a reload,
+                    // an import, a profile switch. Remove(frame) then matches nothing,
+                    // says nothing, and the frame comes back at the next start having
+                    // apparently been deleted: the window closes either way, because it
+                    // is found by its identifier.
+                    string deletedId = frame.Id?.ToString();
+
+                    int removed = FrameDataManager.FrameData.RemoveAll(
+                        f => f?.Id?.ToString() == deletedId);
+
+                    if (removed == 0)
+                        LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                            $"Deleting frame '{frame.Title}' removed nothing: it was not in the list.");
+
                     _heartTextBlocks.Remove(frame);
 
                     // --- BUG FIX: Avoid JObject HashCode Mutation ---

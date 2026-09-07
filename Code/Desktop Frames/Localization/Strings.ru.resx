@@ -2117,4 +2117,7 @@
   <data name="LblCustomColorShade" xml:space="preserve">
     <value>Светлее или темнее</value>
   </data>
+  <data name="MsgOptionsSaved" xml:space="preserve">
+    <value>Сохранено</value>
+  </data>
 </root>
