@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- Seed translation produced with AI assistance and not yet reviewed by a native speaker. Any key that is ever removed falls back to English at runtime. -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -1853,5 +1853,47 @@
   </data>
   <data name="VuSignalGain" xml:space="preserve">
     <value>Усиление сигнала (множитель):</value>
+  </data>
+  <data name="WebPageAddressLabel" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="WebPageBadAddress" xml:space="preserve">
+    <value>Нужен адрес, начинающийся с http:// или https://.</value>
+  </data>
+  <data name="WebPageConfigureHint" xml:space="preserve">
+    <value>Выберите сайт в настройках этой рамки.</value>
+  </data>
+  <data name="WebPageConfinedNote" xml:space="preserve">
+    <value>Окно остаётся на выбранном сайте. Ссылки на другие сайты открываются в обычном браузере, где виден адрес.</value>
+  </data>
+  <data name="WebPageCrashed" xml:space="preserve">
+    <value>Страница перестала отвечать. Закройте это окно и откройте снова.</value>
+  </data>
+  <data name="WebPageNoRuntime" xml:space="preserve">
+    <value>Нет компонента Microsoft Edge WebView2, поэтому страницу нельзя показать. Достаточно установить его один раз.</value>
+  </data>
+  <data name="WebPageNotConfigured" xml:space="preserve">
+    <value>Сайт не выбран</value>
+  </data>
+  <data name="WebPageOnTop" xml:space="preserve">
+    <value>Держать окно поверх других</value>
+  </data>
+  <data name="WebPageOpenedNow" xml:space="preserve">
+    <value>окно открыто</value>
+  </data>
+  <data name="WebPageSettingsTitle" xml:space="preserve">
+    <value>Веб-страница</value>
+  </data>
+  <data name="WebPageSiteLabel" xml:space="preserve">
+    <value>Сайт</value>
+  </data>
+  <data name="PluginWebPage" xml:space="preserve">
+    <value>Веб-страница</value>
+  </data>
+  <data name="WebPageOpenNamed" xml:space="preserve">
+    <value>Открыть {0}</value>
+  </data>
+  <data name="WebPageShowNamed" xml:space="preserve">
+    <value>Показать {0}</value>
   </data>
 </root>

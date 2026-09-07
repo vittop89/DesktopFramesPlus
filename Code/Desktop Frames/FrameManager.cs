@@ -3749,11 +3749,19 @@ namespace Desktop_Frames
                 borderBrush = null;
                 borderThickness = 0;
             }
+            // A frame carrying a browser is opaque, and a rounded corner on an opaque
+            // window leaves the window's own colour showing outside the curve - four dark
+            // tabs poking out past the border. Squared off, there is nothing outside the
+            // curve to show.
+            bool squareForBrowser = frame.ItemsType?.ToString() == "Plugin"
+                                 && frame.PluginId?.ToString() == "WebPage";
+
             Border cborder = new Border
             {
                 Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 0, 0, 0)),
                 // --- APPLY HIDDEN SETTING: Sharp corners if enabled, otherwise default 6px round ---
-                CornerRadius = SettingsManager.FramesWithNoRoundCorners ? new CornerRadius(0) : new CornerRadius(6),
+                CornerRadius = (SettingsManager.FramesWithNoRoundCorners || squareForBrowser)
+                    ? new CornerRadius(0) : new CornerRadius(6),
                 BorderBrush = borderBrush, // Apply border color
                 BorderThickness = new Thickness(borderThickness), // Apply border thickness
                 Child = dp
@@ -4059,12 +4067,23 @@ namespace Desktop_Frames
                 // We'll add the TextBox reference after the window is created
                 // For now, just mark that this will need Note menu items
             }
+            // A frame that carries a browser has to be opaque. WPF draws a window with
+            // AllowsTransparency into a bitmap, and a native child window - which is what
+            // a browser is - never reaches that bitmap: the frame would come up empty
+            // with nothing to explain why. Such a frame gives up the tint, the rounded
+            // corners and the idle fade, which all need the transparency it just gave up.
+            bool carriesABrowser = frame.ItemsType?.ToString() == "Plugin"
+                                && frame.PluginId?.ToString() == "WebPage";
+
             NonActivatingWindow win = new NonActivatingWindow
             {
                 ContextMenu = CnMnFramemanager,
                 AllowDrop = true,
-                AllowsTransparency = true,
-                Background = System.Windows.Media.Brushes.Transparent,
+                AllowsTransparency = !carriesABrowser,
+                Background = carriesABrowser
+                    ? (System.Windows.Media.Brush)new System.Windows.Media.SolidColorBrush(
+                        System.Windows.Media.Color.FromRgb(32, 32, 32))
+                    : System.Windows.Media.Brushes.Transparent,
                 Title = frame.Title?.ToString() ?? "New Frame", // Handle null title
                 ShowInTaskbar = false,
                 WindowStyle = WindowStyle.None,
@@ -4078,6 +4097,22 @@ namespace Desktop_Frames
                 Left = (double)frame.X,
                 Tag = frame.Id?.ToString() ?? Guid.NewGuid().ToString() // Ensure ID exists
             };
+
+            // Windows paints a non-client frame on an opaque borderless window, and its
+            // top edge shows as a pale line above everything the frame draws. There was
+            // none to paint while the window was transparent. Zeroing the glass frame
+            // removes it; the caption height goes with it, because this frame has a title
+            // bar of its own and does not want a second, invisible one taking the clicks.
+            if (carriesABrowser)
+                System.Windows.Shell.WindowChrome.SetWindowChrome(win, new System.Windows.Shell.WindowChrome
+                {
+                    CaptionHeight = 0,
+                    GlassFrameThickness = new Thickness(0),
+                    CornerRadius = new CornerRadius(0),
+                    ResizeBorderThickness = new Thickness(6),
+                    UseAeroCaptionButtons = false
+                });
+
             // Add Note frame specific context menu items after window creation
             if (frame.ItemsType?.ToString() == "Note")
             {

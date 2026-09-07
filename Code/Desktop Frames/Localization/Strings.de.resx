@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- Seed translation produced with AI assistance and not yet reviewed by a native speaker. Any key that is ever removed falls back to English at runtime. -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -1853,5 +1853,47 @@ Jetzt neu starten?</value>
   </data>
   <data name="VuSignalGain" xml:space="preserve">
     <value>Signalverstärkung (Faktor):</value>
+  </data>
+  <data name="WebPageAddressLabel" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="WebPageBadAddress" xml:space="preserve">
+    <value>Dafür wird eine Webadresse mit http:// oder https:// benötigt.</value>
+  </data>
+  <data name="WebPageConfigureHint" xml:space="preserve">
+    <value>Wählen Sie eine Website in den Einstellungen dieses Rahmens.</value>
+  </data>
+  <data name="WebPageConfinedNote" xml:space="preserve">
+    <value>Das Fenster bleibt auf der gewählten Website. Links nach außerhalb öffnen sich im gewohnten Browser, wo die Adresse sichtbar ist.</value>
+  </data>
+  <data name="WebPageCrashed" xml:space="preserve">
+    <value>Die Seite reagiert nicht mehr. Schließen Sie dieses Fenster und öffnen Sie es erneut.</value>
+  </data>
+  <data name="WebPageNoRuntime" xml:space="preserve">
+    <value>Die Microsoft Edge WebView2-Laufzeit fehlt, daher kann die Seite nicht angezeigt werden. Einmal installieren genügt.</value>
+  </data>
+  <data name="WebPageNotConfigured" xml:space="preserve">
+    <value>Noch keine Website gewählt</value>
+  </data>
+  <data name="WebPageOnTop" xml:space="preserve">
+    <value>Fenster im Vordergrund halten</value>
+  </data>
+  <data name="WebPageOpenedNow" xml:space="preserve">
+    <value>Fenster offen</value>
+  </data>
+  <data name="WebPageSettingsTitle" xml:space="preserve">
+    <value>Webseite</value>
+  </data>
+  <data name="WebPageSiteLabel" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="PluginWebPage" xml:space="preserve">
+    <value>Webseite</value>
+  </data>
+  <data name="WebPageOpenNamed" xml:space="preserve">
+    <value>{0} öffnen</value>
+  </data>
+  <data name="WebPageShowNamed" xml:space="preserve">
+    <value>{0} anzeigen</value>
   </data>
 </root>

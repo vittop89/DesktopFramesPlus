@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- Seed translation produced with AI assistance and not yet reviewed by a native speaker. Any key that is ever removed falls back to English at runtime. -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -1853,5 +1853,47 @@ Uruchomić ponownie teraz?</value>
   </data>
   <data name="VuSignalGain" xml:space="preserve">
     <value>Wzmocnienie sygnału (mnożnik):</value>
+  </data>
+  <data name="WebPageAddressLabel" xml:space="preserve">
+    <value>Adres</value>
+  </data>
+  <data name="WebPageBadAddress" xml:space="preserve">
+    <value>Potrzebny jest adres zaczynający się od http:// lub https://.</value>
+  </data>
+  <data name="WebPageConfigureHint" xml:space="preserve">
+    <value>Wybierz witrynę w ustawieniach tej ramki.</value>
+  </data>
+  <data name="WebPageConfinedNote" xml:space="preserve">
+    <value>Okno pozostaje na wybranej witrynie. Odnośniki gdzie indziej otwierają się w zwykłej przeglądarce, gdzie widać adres.</value>
+  </data>
+  <data name="WebPageCrashed" xml:space="preserve">
+    <value>Strona przestała odpowiadać. Zamknij to okno i otwórz je ponownie.</value>
+  </data>
+  <data name="WebPageNoRuntime" xml:space="preserve">
+    <value>Brakuje środowiska Microsoft Edge WebView2, więc strony nie można pokazać. Wystarczy zainstalować je raz.</value>
+  </data>
+  <data name="WebPageNotConfigured" xml:space="preserve">
+    <value>Nie wybrano witryny</value>
+  </data>
+  <data name="WebPageOnTop" xml:space="preserve">
+    <value>Trzymaj okno na wierzchu</value>
+  </data>
+  <data name="WebPageOpenedNow" xml:space="preserve">
+    <value>okno otwarte</value>
+  </data>
+  <data name="WebPageSettingsTitle" xml:space="preserve">
+    <value>Strona internetowa</value>
+  </data>
+  <data name="WebPageSiteLabel" xml:space="preserve">
+    <value>Witryna</value>
+  </data>
+  <data name="PluginWebPage" xml:space="preserve">
+    <value>Strona internetowa</value>
+  </data>
+  <data name="WebPageOpenNamed" xml:space="preserve">
+    <value>Otwórz {0}</value>
+  </data>
+  <data name="WebPageShowNamed" xml:space="preserve">
+    <value>Pokaż {0}</value>
   </data>
 </root>

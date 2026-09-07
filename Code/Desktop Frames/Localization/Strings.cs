@@ -204,6 +204,20 @@ namespace Desktop_Frames.Localization
 
         // ── Shared buttons ─────────────────────────────────────────────────
         public static string BtnApply => Get("BtnApply");
+        public static string PluginWebPage => Get("PluginWebPage");
+        public static string WebPageOpenNamed => Get("WebPageOpenNamed");
+        public static string WebPageShowNamed => Get("WebPageShowNamed");
+        public static string WebPageAddressLabel => Get("WebPageAddressLabel");
+        public static string WebPageBadAddress => Get("WebPageBadAddress");
+        public static string WebPageConfigureHint => Get("WebPageConfigureHint");
+        public static string WebPageConfinedNote => Get("WebPageConfinedNote");
+        public static string WebPageCrashed => Get("WebPageCrashed");
+        public static string WebPageNoRuntime => Get("WebPageNoRuntime");
+        public static string WebPageNotConfigured => Get("WebPageNotConfigured");
+        public static string WebPageOnTop => Get("WebPageOnTop");
+        public static string WebPageOpenedNow => Get("WebPageOpenedNow");
+        public static string WebPageSettingsTitle => Get("WebPageSettingsTitle");
+        public static string WebPageSiteLabel => Get("WebPageSiteLabel");
         public static string BtnApplyToAll => Get("BtnApplyToAll");
         public static string BtnBackup => Get("BtnBackup");
         public static string BtnBrowse => Get("BtnBrowse");

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -1852,5 +1852,47 @@ Restart now?</value>
   </data>
   <data name="LastRunAt" xml:space="preserve">
     <value>Last successful run: {0}</value>
+  </data>
+  <data name="WebPageAddressLabel" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="WebPageBadAddress" xml:space="preserve">
+    <value>That needs a web address beginning with http:// or https://.</value>
+  </data>
+  <data name="WebPageConfigureHint" xml:space="preserve">
+    <value>Choose a site in this frame's settings.</value>
+  </data>
+  <data name="WebPageConfinedNote" xml:space="preserve">
+    <value>The window stays on the chosen site. Links to anywhere else open in your usual browser, where the address is visible.</value>
+  </data>
+  <data name="WebPageCrashed" xml:space="preserve">
+    <value>The page stopped responding. Close this window and open it again.</value>
+  </data>
+  <data name="WebPageNoRuntime" xml:space="preserve">
+    <value>The Microsoft Edge WebView2 runtime is missing, so the page cannot be shown. Installing it once is enough.</value>
+  </data>
+  <data name="WebPageNotConfigured" xml:space="preserve">
+    <value>No site chosen yet</value>
+  </data>
+  <data name="WebPageOnTop" xml:space="preserve">
+    <value>Keep the window in front</value>
+  </data>
+  <data name="WebPageOpenedNow" xml:space="preserve">
+    <value>window open</value>
+  </data>
+  <data name="WebPageSettingsTitle" xml:space="preserve">
+    <value>Web page</value>
+  </data>
+  <data name="WebPageSiteLabel" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="PluginWebPage" xml:space="preserve">
+    <value>Web page</value>
+  </data>
+  <data name="WebPageOpenNamed" xml:space="preserve">
+    <value>Open {0}</value>
+  </data>
+  <data name="WebPageShowNamed" xml:space="preserve">
+    <value>Show {0}</value>
   </data>
 </root>

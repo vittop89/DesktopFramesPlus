@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -1852,5 +1852,47 @@ Vuoi riavviare adesso?</value>
   </data>
   <data name="LastRunAt" xml:space="preserve">
     <value>Ultima esecuzione riuscita: {0}</value>
+  </data>
+  <data name="WebPageAddressLabel" xml:space="preserve">
+    <value>Indirizzo</value>
+  </data>
+  <data name="WebPageBadAddress" xml:space="preserve">
+    <value>Serve un indirizzo web che cominci con http:// o https://.</value>
+  </data>
+  <data name="WebPageConfigureHint" xml:space="preserve">
+    <value>Scegli un sito nelle impostazioni di questo frame.</value>
+  </data>
+  <data name="WebPageConfinedNote" xml:space="preserve">
+    <value>La finestra resta sul sito scelto. I collegamenti altrove si aprono nel browser di sempre, dove l'indirizzo si vede.</value>
+  </data>
+  <data name="WebPageCrashed" xml:space="preserve">
+    <value>La pagina ha smesso di rispondere. Chiudi questa finestra e riaprila.</value>
+  </data>
+  <data name="WebPageNoRuntime" xml:space="preserve">
+    <value>Manca il runtime Microsoft Edge WebView2, quindi la pagina non può essere mostrata. Basta installarlo una volta.</value>
+  </data>
+  <data name="WebPageNotConfigured" xml:space="preserve">
+    <value>Nessun sito scelto</value>
+  </data>
+  <data name="WebPageOnTop" xml:space="preserve">
+    <value>Mantieni la finestra in primo piano</value>
+  </data>
+  <data name="WebPageOpenedNow" xml:space="preserve">
+    <value>finestra aperta</value>
+  </data>
+  <data name="WebPageSettingsTitle" xml:space="preserve">
+    <value>Pagina web</value>
+  </data>
+  <data name="WebPageSiteLabel" xml:space="preserve">
+    <value>Sito</value>
+  </data>
+  <data name="PluginWebPage" xml:space="preserve">
+    <value>Pagina web</value>
+  </data>
+  <data name="WebPageOpenNamed" xml:space="preserve">
+    <value>Apri {0}</value>
+  </data>
+  <data name="WebPageShowNamed" xml:space="preserve">
+    <value>Mostra {0}</value>
   </data>
 </root>
