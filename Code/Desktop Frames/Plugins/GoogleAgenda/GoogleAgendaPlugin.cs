@@ -1,4 +1,4 @@
-using Desktop_Frames.Localization;
+﻿using Desktop_Frames.Localization;
 using Google.Apis.Auth.OAuth2;
 using System;
 using System.Collections.Generic;
@@ -263,13 +263,31 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             Render();
         }
 
+        /// <summary>
+        /// Hands the event to the browser.
+        ///
+        /// The address is checked before it is used. It arrives in a network answer,
+        /// and UseShellExecute hands whatever it is given to Windows, which will
+        /// happily open a file, a settings page or anything else with a registered
+        /// protocol. Google has no reason to send such a thing, and that is exactly
+        /// why the check costs nothing: it is here for the day something upstream is
+        /// not what it is expected to be.
+        /// </summary>
         private void OpenInGoogle(AgendaEvent item)
         {
             if (string.IsNullOrWhiteSpace(item.WebLink)) return;
 
+            if (!Uri.TryCreate(item.WebLink, UriKind.Absolute, out Uri? address)
+                || (address.Scheme != Uri.UriSchemeHttp && address.Scheme != Uri.UriSchemeHttps))
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    "GoogleAgenda: refused to open an event link that is not a web address.");
+                return;
+            }
+
             try
             {
-                Process.Start(new ProcessStartInfo(item.WebLink) { UseShellExecute = true });
+                Process.Start(new ProcessStartInfo(address.AbsoluteUri) { UseShellExecute = true });
             }
             catch (Exception ex)
             {
