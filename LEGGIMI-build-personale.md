@@ -81,6 +81,23 @@ ricompila:
 
 ## Installare la build compilata
 
+> **Si compila sempre da `personal-build`.** Mai da un ramo di lavoro.
+>
+> Sono due decisioni diverse, ed è facile confonderle in una:
+>
+> | | Base | Perché |
+> |---|---|---|
+> | dove si scrive una novità | `upstream/main` | perché la PR parta da una base comune con limbo666 |
+> | cosa si installa | `personal-build` | perché è l'unica che ha tutto |
+>
+> Un ramo di proposta parte da `upstream/main` e quindi **non contiene** portal,
+> wildcard, avvio via task, correzioni delle icone. Installarlo fa sparire tutto
+> quello in silenzio: l'app funziona, l'avvio automatico pure — perché il task in
+> Windows resta — e ci si accorge del vuoto solo settimane dopo, davanti a una
+> funzione che non c'è più.
+>
+> È successo il 7 settembre 2026, per giorni, con il ramo dell'agenda.
+
 L'app installata sta in:
 
 ```
