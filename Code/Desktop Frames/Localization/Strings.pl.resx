@@ -133,8 +133,26 @@ Dziś opiekuje się nim Nikos Georgousis, który je rozbudował oraz uczynił st
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>Ustawienia terminarza</value>
   </data>
+  <data name="AgendaSignedIn" xml:space="preserve">
+    <value>Zalogowano w Kalendarzu Google.</value>
+  </data>
   <data name="AgendaSignedOut" xml:space="preserve">
     <value>Nie zalogowano w Kalendarzu Google.</value>
+  </data>
+  <data name="AgendaSignIn" xml:space="preserve">
+    <value>Zaloguj się przez Google</value>
+  </data>
+  <data name="AgendaSignInAgain" xml:space="preserve">
+    <value>Zaloguj się ponownie</value>
+  </data>
+  <data name="AgendaSignInFailed" xml:space="preserve">
+    <value>Logowanie nie powiodło się.</value>
+  </data>
+  <data name="AgendaSigningIn" xml:space="preserve">
+    <value>Oczekiwanie na przeglądarkę...</value>
+  </data>
+  <data name="AgendaSignOut" xml:space="preserve">
+    <value>Wyloguj</value>
   </data>
   <data name="AgendaToday" xml:space="preserve">
     <value>Dziś</value>

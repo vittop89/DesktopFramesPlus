@@ -133,8 +133,26 @@ Hoje é mantido por Nikos Georgousis, que o alargou e o tornou mais estável e a
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>Definições da agenda</value>
   </data>
+  <data name="AgendaSignedIn" xml:space="preserve">
+    <value>Sessão iniciada no Google Calendar.</value>
+  </data>
   <data name="AgendaSignedOut" xml:space="preserve">
     <value>Sessão não iniciada no Google Calendar.</value>
+  </data>
+  <data name="AgendaSignIn" xml:space="preserve">
+    <value>Iniciar sessão com Google</value>
+  </data>
+  <data name="AgendaSignInAgain" xml:space="preserve">
+    <value>Iniciar sessão novamente</value>
+  </data>
+  <data name="AgendaSignInFailed" xml:space="preserve">
+    <value>O início de sessão não foi concluído.</value>
+  </data>
+  <data name="AgendaSigningIn" xml:space="preserve">
+    <value>A aguardar o navegador...</value>
+  </data>
+  <data name="AgendaSignOut" xml:space="preserve">
+    <value>Terminar sessão</value>
   </data>
   <data name="AgendaToday" xml:space="preserve">
     <value>Hoje</value>
