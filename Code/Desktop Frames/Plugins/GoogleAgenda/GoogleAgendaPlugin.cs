@@ -39,12 +39,12 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         private readonly AgendaSession _session = AgendaSession.ForCurrentProfile();
         private readonly AgendaRenderer _renderer = new AgendaRenderer();
 
-        private IReadOnlyList<AgendaEvent> _events = new List<AgendaEvent>();
-        private GoogleCalendarSource? _source;
-        private GoogleTaskSource? _tasks;
-
-        /// <summary>Said once, not on every refresh, when a stand-in finds no task.</summary>
-        private bool _warnedAboutStandIns;
+        /// <summary>
+        /// The services, the entries and the writing. Everything this frame knows and
+        /// nothing about how it looks - which is the line this class kept crossing
+        /// before it was drawn.
+        /// </summary>
+        private readonly AgendaData _data = new AgendaData();
 
         private AgendaSettings _settings = new AgendaSettings();
         private Dictionary<string, object>? _settingsRef;
@@ -58,15 +58,6 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         /// <summary>Set for one redraw when somebody asks to be taken back to today.</summary>
         private bool _flashToday;
-
-        /// <summary>True once an answer has arrived, so an empty list can be told apart from one nobody has asked for.</summary>
-        private bool _loadedOnce;
-
-        /// <summary>True when the last attempt failed. What is on screen stays: stale is more use than blank.</summary>
-        private bool _offline;
-
-        /// <summary>Guards against the timer starting a refresh that is already running.</summary>
-        private bool _refreshing;
 
         private DispatcherTimer? _refreshTimer;
 
@@ -136,7 +127,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         public void Resume()
         {
-            if (_source == null) return;
+            if (!_data.IsOpen) return;
 
             _refreshTimer?.Start();
             Refresh();
@@ -153,8 +144,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             // this frame. Closing one frame while a consent page is open would otherwise
             // revoke a sign-in the person is in the middle of granting for all of them.
 
-            _source?.Dispose();
-            _source = null;
+            _data.Dispose();
         }
 
         public void ShowSettingsWindow(Window ownerWindow, dynamic frameData)
@@ -162,7 +152,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             // frameData carried into the callback because that, not the dictionary
             // handed to Initialize, is what the host writes to disk - see Persist.
             AgendaSettingsWindow.Show(ownerWindow, _session, _settings,
-                                      _source?.Calendars ?? new List<AgendaCalendar>(),
+                                      _data.Calendars,
                                       saved => OnSettingsSaved(saved, frameData));
         }
 
@@ -182,11 +172,12 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         {
             if (_session.State == AgendaState.SignedIn && _session.Credential != null)
             {
-                if (_source == null) StartSource(_session.Credential);
+                if (!_data.IsOpen) Open(_session.Credential);
             }
             else
             {
-                DropSource();
+                _refreshTimer?.Stop();
+                _data.Follow(null);
             }
 
             Render();
@@ -215,8 +206,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             {
                 UserCredential? credential = _session.Credential;
 
-                DropSource();
-                if (credential != null) StartSource(credential);
+                _refreshTimer?.Stop();
+                _data.Follow(null);
+
+                if (credential != null) Open(credential);
             }
             else
             {
@@ -256,27 +249,12 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             }
         }
 
-        private void StartSource(UserCredential credential)
+        /// <summary>Points the data at a granted session and starts asking.</summary>
+        private void Open(UserCredential credential)
         {
-            _source = new GoogleCalendarSource(credential);
-            _tasks = new GoogleTaskSource(credential);
+            _data.Follow(credential);
             _refreshTimer?.Start();
             Refresh();
-        }
-
-        private void DropSource()
-        {
-            _refreshTimer?.Stop();
-
-            _source?.Dispose();
-            _source = null;
-
-            _tasks?.Dispose();
-            _tasks = null;
-
-            _events = new List<AgendaEvent>();
-            _loadedOnce = false;
-            _offline = false;
         }
 
         // ==========================================================================
@@ -284,71 +262,17 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         // ==========================================================================
 
         /// <summary>
-        /// Asks the source for what changed and redraws.
+        /// Asks for the range this view covers, then redraws whatever came back.
         ///
-        /// A failure keeps whatever is on screen and says so in one line: an agenda
-        /// that empties itself because the network blinked is worse than one showing
-        /// this morning's answer, and the next attempt is a minute away.
+        /// The asking does not throw: a failure keeps what is on screen and shows a
+        /// line saying so, because an agenda that empties itself when the network
+        /// blinks is worse than one showing this morning's answer.
         /// </summary>
         private async void Refresh()
         {
-            GoogleCalendarSource? source = _source;
-            if (source == null || _refreshing) return;
+            (DateTime from, DateTime to) = _settings.Range(_anchor);
 
-            _refreshing = true;
-
-            try
-            {
-                (DateTime from, DateTime to) = _settings.Range(_anchor);
-                GoogleTaskSource? tasks = _tasks;
-
-                IReadOnlyList<AgendaEvent> events = await Task.Run(
-                    () => source.RefreshAsync(from, to, _settings.Calendars, CancellationToken.None))
-                    .ConfigureAwait(true);
-
-                IReadOnlyList<AgendaEvent> due = tasks == null
-                    ? new List<AgendaEvent>()
-                    : await Task.Run(() => tasks.LoadAsync(from, to, EveryList, CancellationToken.None))
-                                .ConfigureAwait(true);
-
-                // The source may have been replaced while the answer was in flight - a
-                // sign-out, a settings change - and applying it then would show events
-                // belonging to a session that no longer exists.
-                if (_source != source) return;
-
-                // Merged and sorted here rather than kept apart, because a day is one
-                // thing: a task due at eleven belongs between the ten o'clock meeting
-                // and the noon one, not in a list of its own underneath.
-                // Joined, not concatenated: a task with an hour arrives from both
-                // services, and showing both halves is showing one thing twice.
-                List<AgendaEvent> together = AgendaMerge.Join(events, due, out int unjoined);
-
-                if (unjoined > 0 && !_warnedAboutStandIns)
-                {
-                    _warnedAboutStandIns = true;
-                    LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
-                        $"GoogleAgenda: {unjoined} scheduled tasks came from Calendar with no " +
-                        "matching task, so they stay as untitled blocks.");
-                }
-
-                _events = together
-                    .OrderBy(e => e.IsAllDay ? e.Start.Date : e.Start)
-                    .ThenBy(e => e.Title, StringComparer.CurrentCulture)
-                    .ToList();
-                _loadedOnce = true;
-                _offline = false;
-            }
-            catch (Exception ex)
-            {
-                _offline = true;
-
-                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
-                    $"GoogleAgenda: refresh failed: {ex.Message}");
-            }
-            finally
-            {
-                _refreshing = false;
-            }
+            await _data.RefreshAsync(from, to, _settings.Calendars).ConfigureAwait(true);
 
             Render();
         }
@@ -363,9 +287,6 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// why the check costs nothing: it is here for the day something upstream is
         /// not what it is expected to be.
         /// </summary>
-        /// <summary>Every task list, until there is a reason to choose between them.</summary>
-        private static readonly HashSet<string> EveryList = new HashSet<string>(StringComparer.Ordinal);
-
         /// <summary>
         /// Ticks a task, or unticks it.
         ///
@@ -375,12 +296,9 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// </summary>
         private async void SetDone(AgendaEvent item, bool done)
         {
-            GoogleTaskSource? tasks = _tasks;
-            if (tasks == null || !item.IsTask) return;
-
             try
             {
-                await tasks.SetDoneAsync(item, done, CancellationToken.None).ConfigureAwait(true);
+                await _data.SetDoneAsync(item, done).ConfigureAwait(true);
             }
             catch (Exception ex)
             {
@@ -418,8 +336,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private void Add()
         {
-            GoogleCalendarSource? source = _source;
-            if (source == null) return;
+            if (!_data.IsOpen) return;
 
             DateTime start = _anchor.Date;
 
@@ -432,41 +349,24 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             var draft = new AgendaEvent { Start = start, End = start.AddHours(1), CanWrite = true };
 
             AgendaEvent? filled = AgendaEventWindow.Show(Window.GetWindow(_rootVisual), draft,
-                                                        source.Calendars, TaskLists(), isNew: true);
+                                                        _data.Calendars, _data.TaskLists, isNew: true);
             if (filled != null) Save(filled, isNew: true);
         }
 
         private void Edit(AgendaEvent item)
         {
-            GoogleCalendarSource? source = _source;
-            if (source == null) return;
+            if (!_data.IsOpen) return;
 
             AgendaEvent? changed = AgendaEventWindow.Show(Window.GetWindow(_rootVisual), item,
-                                                         source.Calendars, TaskLists(), isNew: false);
+                                                         _data.Calendars, _data.TaskLists, isNew: false);
             if (changed != null) Save(changed, isNew: false);
         }
 
-        /// <summary>The lists a task can go in, or none when Tasks is not reachable.</summary>
-        private IReadOnlyList<AgendaTaskList> TaskLists() =>
-            _tasks?.TaskLists ?? new List<AgendaTaskList>();
-
         private async void Save(AgendaEvent item, bool isNew)
         {
-            GoogleCalendarSource? source = _source;
-            if (source == null) return;
-
             try
             {
-                if (item.IsTask)
-                {
-                    GoogleTaskSource? tasks = _tasks;
-                    if (tasks == null) return;
-
-                    if (isNew) await tasks.CreateAsync(item, CancellationToken.None).ConfigureAwait(true);
-                    else await tasks.UpdateAsync(item, CancellationToken.None).ConfigureAwait(true);
-                }
-                else if (isNew) await source.CreateAsync(item, CancellationToken.None).ConfigureAwait(true);
-                else await source.UpdateAsync(item, CancellationToken.None).ConfigureAwait(true);
+                await _data.SaveAsync(item, isNew).ConfigureAwait(true);
             }
             catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.PreconditionFailed
                                                     || ex.HttpStatusCode == HttpStatusCode.Conflict)
@@ -490,23 +390,13 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private async void Delete(AgendaEvent item)
         {
-            GoogleCalendarSource? source = _source;
-            if (source == null) return;
-
             if (!MessageBoxesManager.ShowCustomYesNoMessageBox(
                     Strings.Get("AgendaConfirmDelete", item.Title), Strings.AgendaDeleteEvent))
                 return;
 
             try
             {
-                if (item.IsTask)
-                {
-                    GoogleTaskSource? tasks = _tasks;
-                    if (tasks == null) return;
-
-                    await tasks.DeleteAsync(item, CancellationToken.None).ConfigureAwait(true);
-                }
-                else await source.DeleteAsync(item, CancellationToken.None).ConfigureAwait(true);
+                await _data.DeleteAsync(item).ConfigureAwait(true);
             }
             catch (Exception ex)
             {
@@ -557,9 +447,9 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             // Above the list rather than instead of it: the events are still worth
             // reading, they are simply not known to be current.
-            if (_offline) panel.Children.Add(AgendaRenderer.Message(Strings.AgendaOffline));
+            if (_data.Offline) panel.Children.Add(AgendaRenderer.Message(Strings.AgendaOffline));
 
-            if (!_loadedOnce)
+            if (!_data.LoadedOnce)
             {
                 // An empty calendar and one nobody has read yet look the same from here,
                 // and saying "nothing scheduled" before asking is a guess dressed as an
@@ -569,7 +459,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             }
 
             panel.Children.Add(Toolbar());
-            _renderer.Draw(panel, _events, _settings.View, _anchor, _flashToday);
+            _renderer.Draw(panel, _data.Events, _settings.View, _anchor, _flashToday);
 
             // One redraw only: leaving it set would blink again every time the timer
             // brings new events in, which is a light going off in the corner of the eye
