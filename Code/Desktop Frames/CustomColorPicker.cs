@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,6 +19,100 @@ namespace Desktop_Frames
     /// </summary>
     public static class CustomColorPicker
     {
+        /// <summary>The value the "pick a colour" entry carries, which is never saved.</summary>
+        private const string PickTag = "__pick__";
+
+        /// <summary>
+        /// Adds "pick a colour" to a dropdown of colour names, and makes room for one
+        /// that was picked before.
+        ///
+        /// The entry is a doorway, not a value: choosing it opens the picker and is then
+        /// replaced by whatever came back, because saving the doorway as a colour would
+        /// leave the frame with no colour at all. Cancelling puts the previous choice
+        /// back, so opening the picker and changing your mind costs nothing.
+        ///
+        /// Shared by the frame's settings and the program's, because a colour is a
+        /// colour and two implementations would drift.
+        /// </summary>
+        public static void AttachTo(ComboBox combo, string current = null)
+        {
+            if (!string.IsNullOrWhiteSpace(current) && current.TrimStart().StartsWith("#")
+                && Find(combo, current) == null)
+            {
+                ComboBoxItem restored = MakeItem(current);
+                combo.Items.Add(restored);
+                combo.SelectedItem = restored;
+            }
+
+            combo.Items.Add(new ComboBoxItem { Content = Strings.LblCustomColorPick, Tag = PickTag });
+
+            object previous = combo.SelectedItem;
+
+            combo.SelectionChanged += (s, e) =>
+            {
+                if ((combo.SelectedItem as ComboBoxItem)?.Tag as string != PickTag)
+                {
+                    previous = combo.SelectedItem;
+                    return;
+                }
+
+                string from = (previous as ComboBoxItem)?.Tag as string ?? "Gray";
+                string picked = Show(Window.GetWindow(combo), from);
+
+                if (string.IsNullOrEmpty(picked))
+                {
+                    combo.SelectedItem = previous;
+                    return;
+                }
+
+                ComboBoxItem item = Find(combo, picked);
+
+                if (item == null)
+                {
+                    item = MakeItem(picked);
+
+                    // Before the doorway, so it stays last where somebody expects it.
+                    combo.Items.Insert(combo.Items.Count - 1, item);
+                }
+
+                combo.SelectedItem = item;
+                previous = item;
+            };
+        }
+
+        /// <summary>The entry for a colour already in the list, or null.</summary>
+        public static ComboBoxItem Find(ComboBox combo, string value)
+        {
+            foreach (object entry in combo.Items)
+                if (entry is ComboBoxItem item
+                    && string.Equals(item.Tag as string, value, StringComparison.OrdinalIgnoreCase))
+                    return item;
+
+            return null;
+        }
+
+        /// <summary>An entry showing the colour itself, since "#3A6EA5" tells nobody much.</summary>
+        public static ComboBoxItem MakeItem(string value)
+        {
+            var swatch = new Border
+            {
+                Width = 14,
+                Height = 14,
+                CornerRadius = new CornerRadius(2),
+                Margin = new Thickness(0, 0, 6, 0),
+                BorderThickness = new Thickness(1),
+                BorderBrush = Brushes.Gray,
+                Background = new SolidColorBrush(Utility.GetColorFromName(value)),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            var row = new StackPanel { Orientation = Orientation.Horizontal };
+            row.Children.Add(swatch);
+            row.Children.Add(new TextBlock { Text = value, VerticalAlignment = VerticalAlignment.Center });
+
+            return new ComboBoxItem { Content = row, Tag = value };
+        }
+
         /// <summary>
         /// Shows the picker over <paramref name="owner"/>, starting from
         /// <paramref name="current"/>. Returns the chosen colour as "#RRGGBB", or null

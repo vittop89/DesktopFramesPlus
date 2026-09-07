@@ -94,10 +94,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Margin = new Thickness(5, 5, 5, 10)
             };
 
-            // Applied to this frame rather than to the program: a narrow bar suits a
-            // frame, and deciding that for every scroll bar in the application is not
-            // this plugin's business.
-            _rootVisual.Resources.MergedDictionaries.Add(SlimScrollBars.Resources);
+            // Applied to this frame rather than to the program: these suit a frame, and
+            // deciding how every button in the application looks is not a plugin's
+            // business.
+            _rootVisual.Resources.MergedDictionaries.Add(AgendaStyles.Resources);
 
             _contentPanel = new StackPanel();
             _rootVisual.Content = _contentPanel;

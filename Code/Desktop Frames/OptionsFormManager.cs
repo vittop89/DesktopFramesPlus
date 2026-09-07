@@ -993,6 +993,11 @@ namespace Desktop_Frames
                 .FirstOrDefault(i => string.Equals(i.Tag as string, SettingsManager.SelectedColor, StringComparison.OrdinalIgnoreCase))
                 ?? cbColor.Items.OfType<ComboBoxItem>().FirstOrDefault();
 
+            // The same doorway the frame settings have. Passing the current value as
+            // well, because a colour picked last time is not one of the named twelve and
+            // would otherwise be dropped on the way back in.
+            CustomColorPicker.AttachTo(cbColor, SettingsManager.SelectedColor);
+
             // --- BUG FIX: Disable Color dropdown if Chameleon mode is ON ---
             cbColor.IsEnabled = chamCb.IsChecked != true;
             chamCb.Click += (s, e) => cbColor.IsEnabled = chamCb.IsChecked != true;
