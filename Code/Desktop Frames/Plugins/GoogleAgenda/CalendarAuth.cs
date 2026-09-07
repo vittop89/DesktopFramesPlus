@@ -39,7 +39,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             // settings and every event, and Calendar allows creating and deleting whole
             // calendars. A consent screen should ask for what the program does and
             // nothing past it, so the string is spelled out here on purpose.
-            "https://www.googleapis.com/auth/calendar.calendarlist.readonly"
+            "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+
+            // Tasks are a separate service with a separate permission. The read and
+            // write scope, because ticking one off is the point of showing it.
+            Google.Apis.Tasks.v1.TasksService.Scope.Tasks
         };
 
         /// <summary>

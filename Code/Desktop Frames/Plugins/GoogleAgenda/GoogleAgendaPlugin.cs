@@ -3,6 +3,7 @@ using Google.Apis.Auth.OAuth2;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,6 +41,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private IReadOnlyList<AgendaEvent> _events = new List<AgendaEvent>();
         private GoogleCalendarSource? _source;
+        private GoogleTaskSource? _tasks;
 
         private AgendaSettings _settings = new AgendaSettings();
         private Dictionary<string, object>? _settingsRef;
@@ -104,6 +106,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             _renderer.EditRequested += Edit;
             _renderer.DeleteRequested += Delete;
             _renderer.DayChosen += day => { _anchor = day; Render(); };
+            _renderer.DoneChanged += SetDone;
 
             _session.Changed += OnSessionChanged;
             Render();
@@ -245,6 +248,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         private void StartSource(UserCredential credential)
         {
             _source = new GoogleCalendarSource(credential);
+            _tasks = new GoogleTaskSource(credential);
             _refreshTimer?.Start();
             Refresh();
         }
@@ -255,6 +259,9 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             _source?.Dispose();
             _source = null;
+
+            _tasks?.Dispose();
+            _tasks = null;
 
             _events = new List<AgendaEvent>();
             _loadedOnce = false;
@@ -282,17 +289,29 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             try
             {
                 (DateTime from, DateTime to) = _settings.Range(_anchor);
+                GoogleTaskSource? tasks = _tasks;
 
                 IReadOnlyList<AgendaEvent> events = await Task.Run(
                     () => source.RefreshAsync(from, to, _settings.Calendars, CancellationToken.None))
                     .ConfigureAwait(true);
+
+                IReadOnlyList<AgendaEvent> due = tasks == null
+                    ? new List<AgendaEvent>()
+                    : await Task.Run(() => tasks.LoadAsync(from, to, EveryList, CancellationToken.None))
+                                .ConfigureAwait(true);
 
                 // The source may have been replaced while the answer was in flight - a
                 // sign-out, a settings change - and applying it then would show events
                 // belonging to a session that no longer exists.
                 if (_source != source) return;
 
-                _events = events;
+                // Merged and sorted here rather than kept apart, because a day is one
+                // thing: a task due at eleven belongs between the ten o'clock meeting
+                // and the noon one, not in a list of its own underneath.
+                _events = events.Concat(due)
+                                .OrderBy(e => e.IsAllDay ? e.Start.Date : e.Start)
+                                .ThenBy(e => e.Title, StringComparer.CurrentCulture)
+                                .ToList();
                 _loadedOnce = true;
                 _offline = false;
             }
@@ -321,6 +340,36 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// why the check costs nothing: it is here for the day something upstream is
         /// not what it is expected to be.
         /// </summary>
+        /// <summary>Every task list, until there is a reason to choose between them.</summary>
+        private static readonly HashSet<string> EveryList = new HashSet<string>(StringComparer.Ordinal);
+
+        /// <summary>
+        /// Ticks a task, or unticks it.
+        ///
+        /// The list is redrawn from what Google confirms rather than from the click, so
+        /// a refusal leaves the box where it was instead of showing a tick that exists
+        /// only on this screen.
+        /// </summary>
+        private async void SetDone(AgendaEvent item, bool done)
+        {
+            GoogleTaskSource? tasks = _tasks;
+            if (tasks == null || !item.IsTask) return;
+
+            try
+            {
+                await tasks.SetDoneAsync(item, done, CancellationToken.None).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    $"GoogleAgenda: could not change the task: {ex.Message}");
+
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm(Strings.AgendaSaveFailed, Strings.AgendaDeleteEvent);
+            }
+
+            Refresh();
+        }
+
         private void OpenInGoogle(AgendaEvent item)
         {
             if (string.IsNullOrWhiteSpace(item.WebLink)) return;

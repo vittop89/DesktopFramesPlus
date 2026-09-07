@@ -41,6 +41,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         public Action<AgendaEvent>? EditRequested;
         public Action<AgendaEvent>? DeleteRequested;
         public Action<DateTime>? DayChosen;
+        public Action<AgendaEvent, bool>? DoneChanged;
 
         private static readonly Brush Faint = new SolidColorBrush(Color.FromArgb(160, 255, 255, 255));
         private static readonly Brush Strong = new SolidColorBrush(Color.FromArgb(220, 255, 255, 255));
@@ -102,7 +103,13 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             // what a day looked like, not what is left of it.
             //
             // Something still running stays: its end has not arrived yet.
-            List<AgendaEvent> upcoming = events.Where(e => e.End > DateTime.Now).ToList();
+            //
+            // A task follows the other rule: it leaves when it is ticked, not when its
+            // hour passes. An overdue task is the one thing on the list that most needs
+            // to still be on it.
+            List<AgendaEvent> upcoming = events
+                .Where(e => e.IsTask ? !e.IsDone : e.End > DateTime.Now)
+                .ToList();
 
             if (upcoming.Count == 0)
             {
@@ -325,6 +332,23 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Margin = new Thickness(0, 0, 8, 0)
             });
 
+            // A task is something to do, so the box that says it is done belongs on it -
+            // and belongs where a finger goes first, before the title.
+            if (item.IsTask)
+            {
+                var box = new CheckBox
+                {
+                    IsChecked = item.IsDone,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 6, 0)
+                };
+
+                box.Checked += (s, e) => DoneChanged?.Invoke(item, true);
+                box.Unchecked += (s, e) => DoneChanged?.Invoke(item, false);
+
+                layout.Children.Add(box);
+            }
+
             var texts = new StackPanel();
 
             texts.Children.Add(new TextBlock
@@ -332,7 +356,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Text = item.Title,
                 FontSize = 12,
                 TextTrimming = TextTrimming.CharacterEllipsis,
-                Foreground = Brushes.White
+                Foreground = Brushes.White,
+
+                // Struck through when done, which is what a tick box means everywhere
+                // else and needs no explaining.
+                TextDecorations = item.IsDone ? TextDecorations.Strikethrough : null
             });
 
             texts.Children.Add(new TextBlock
