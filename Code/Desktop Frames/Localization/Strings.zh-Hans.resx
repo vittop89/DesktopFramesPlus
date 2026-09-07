@@ -173,129 +173,6 @@
   <data name="AboutWhat" xml:space="preserve">
     <value>什么！？</value>
   </data>
-  <data name="AgendaAllDay" xml:space="preserve">
-    <value>全天</value>
-  </data>
-  <data name="AgendaBadTime" xml:space="preserve">
-    <value>请使用类似 9:30 的时间格式。</value>
-  </data>
-  <data name="AgendaCalendarLabel" xml:space="preserve">
-    <value>日历</value>
-  </data>
-  <data name="AgendaCalendarsLabel" xml:space="preserve">
-    <value>显示的日历</value>
-  </data>
-  <data name="AgendaConfirmDelete" xml:space="preserve">
-    <value>确定要删除"{0}"吗？</value>
-  </data>
-  <data name="AgendaConflict" xml:space="preserve">
-    <value>该日程已在别处被修改，未被覆盖。较新的版本稍后会显示在这里。</value>
-  </data>
-  <data name="AgendaDateLabel" xml:space="preserve">
-    <value>日期</value>
-  </data>
-  <data name="AgendaDaysLabel" xml:space="preserve">
-    <value>向后天数</value>
-  </data>
-  <data name="AgendaDeleteEvent" xml:space="preserve">
-    <value>删除</value>
-  </data>
-  <data name="AgendaEditEvent" xml:space="preserve">
-    <value>编辑日程</value>
-  </data>
-  <data name="AgendaEndLabel" xml:space="preserve">
-    <value>结束</value>
-  </data>
-  <data name="AgendaFailed" xml:space="preserve">
-    <value>无法连接 Google 日历。</value>
-  </data>
-  <data name="AgendaLoading" xml:space="preserve">
-    <value>正在加载...</value>
-  </data>
-  <data name="AgendaLocationLabel" xml:space="preserve">
-    <value>地点</value>
-  </data>
-  <data name="AgendaNewEvent" xml:space="preserve">
-    <value>新建日程</value>
-  </data>
-  <data name="AgendaNoEventsToday" xml:space="preserve">
-    <value>今天没有安排。</value>
-  </data>
-  <data name="AgendaNotConfigured" xml:space="preserve">
-    <value>尚未配置 Google 账号。请在设置中添加 Google 客户端。</value>
-  </data>
-  <data name="AgendaNothingScheduled" xml:space="preserve">
-    <value>没有安排。</value>
-  </data>
-  <data name="AgendaNoWritableCalendar" xml:space="preserve">
-    <value>找到的日历都不接受新建日程。</value>
-  </data>
-  <data name="AgendaOffline" xml:space="preserve">
-    <value>无法连接 Google。显示最近获取的日程。</value>
-  </data>
-  <data name="AgendaOpenInGoogle" xml:space="preserve">
-    <value>在 Google 日历中打开</value>
-  </data>
-  <data name="AgendaSaveFailed" xml:space="preserve">
-    <value>无法保存更改。</value>
-  </data>
-  <data name="AgendaSettingsTitle" xml:space="preserve">
-    <value>日程设置</value>
-  </data>
-  <data name="AgendaSignedIn" xml:space="preserve">
-    <value>已登录 Google 日历。</value>
-  </data>
-  <data name="AgendaSignedOut" xml:space="preserve">
-    <value>尚未登录 Google 日历。</value>
-  </data>
-  <data name="AgendaSignIn" xml:space="preserve">
-    <value>使用 Google 登录</value>
-  </data>
-  <data name="AgendaSignInAgain" xml:space="preserve">
-    <value>重新登录</value>
-  </data>
-  <data name="AgendaSignInFailed" xml:space="preserve">
-    <value>登录未完成。</value>
-  </data>
-  <data name="AgendaSigningIn" xml:space="preserve">
-    <value>正在等待浏览器...</value>
-  </data>
-  <data name="AgendaSignOut" xml:space="preserve">
-    <value>退出登录</value>
-  </data>
-  <data name="AgendaStartLabel" xml:space="preserve">
-    <value>开始</value>
-  </data>
-  <data name="AgendaTitleLabel" xml:space="preserve">
-    <value>标题</value>
-  </data>
-  <data name="AgendaToday" xml:space="preserve">
-    <value>今天</value>
-  </data>
-  <data name="AgendaTomorrow" xml:space="preserve">
-    <value>明天</value>
-  </data>
-  <data name="AgendaUntitled" xml:space="preserve">
-    <value>（无标题）</value>
-  </data>
-  <data name="AgendaViewDay" xml:space="preserve">
-    <value>日</value>
-  </data>
-  <data name="AgendaViewLabel" xml:space="preserve">
-    <value>视图</value>
-  </data>
-  <data name="AgendaViewList" xml:space="preserve">
-    <value>列表</value>
-  </data>
-  <data name="AgendaViewMonth" xml:space="preserve">
-    <value>月</value>
-  </data>
-  <data name="AgendaViewThreeDays" xml:space="preserve">
-    <value>3 天</value>
-  </data>
-  <data name="AgendaViewWeek" xml:space="preserve">
-    <value>周</value>
-  </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>请点击目标窗口</value>
   </data>
@@ -617,9 +494,6 @@
   <data name="DlgFactoryReset" xml:space="preserve">
     <value>恢复出厂设置</value>
   </data>
-  <data name="DlgFolderNotRenamed" xml:space="preserve">
-    <value>文件夹未重命名</value>
-  </data>
   <data name="DlgFormError" xml:space="preserve">
     <value>窗口错误</value>
   </data>
@@ -644,9 +518,6 @@
   <data name="DlgLoadError" xml:space="preserve">
     <value>加载失败</value>
   </data>
-  <data name="DlgMoveItems" xml:space="preserve">
-    <value>移动项目</value>
-  </data>
   <data name="DlgPasteError" xml:space="preserve">
     <value>粘贴失败</value>
   </data>
@@ -655,9 +526,6 @@
   </data>
   <data name="DlgRenameError" xml:space="preserve">
     <value>重命名失败</value>
-  </data>
-  <data name="DlgRenameFolder" xml:space="preserve">
-    <value>重命名文件夹</value>
   </data>
   <data name="DlgResetComplete" xml:space="preserve">
     <value>重置完成</value>
@@ -703,9 +571,6 @@
   </data>
   <data name="EditShortcutTitle" xml:space="preserve">
     <value>编辑快捷方式</value>
-  </data>
-  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
-    <value>无法把“{0}”放进它自己里面。</value>
   </data>
   <data name="FocusFrameTitle" xml:space="preserve">
     <value>定位面板</value>
@@ -778,36 +643,6 @@
   </data>
   <data name="GaugeRightVu" xml:space="preserve">
     <value>右声道 VU</value>
-  </data>
-  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
-    <value>Ctrl + 在两个门户框之间拖动</value>
-  </data>
-  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
-    <value>改为复制</value>
-  </data>
-  <data name="GestureFromExplorer" xml:space="preserve">
-    <value>从资源管理器拖入门户框</value>
-  </data>
-  <data name="GestureFromExplorerEffect" xml:space="preserve">
-    <value>把文件复制进来</value>
-  </data>
-  <data name="GestureOntoFolder" xml:space="preserve">
-    <value>拖到门户框中的文件夹上</value>
-  </data>
-  <data name="GestureOntoFolderEffect" xml:space="preserve">
-    <value>把该项目放进那个文件夹</value>
-  </data>
-  <data name="GesturePortalToPortal" xml:space="preserve">
-    <value>在两个门户框之间拖动</value>
-  </data>
-  <data name="GesturePortalToPortalEffect" xml:space="preserve">
-    <value>移动该项目</value>
-  </data>
-  <data name="GestureShiftFromExplorer" xml:space="preserve">
-    <value>Shift + 从资源管理器拖入</value>
-  </data>
-  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
-    <value>改为移动</value>
   </data>
   <data name="HkDirectProfile" xml:space="preserve">
     <value>直接切换工作区 [0-9]</value>
@@ -1267,23 +1102,6 @@
   <data name="MsgConfirmImportIntoTab" xml:space="preserve">
     <value>要将“{0}”的内容导入到新标签页吗？</value>
   </data>
-  <data name="MsgConfirmMoveMany" xml:space="preserve">
-    <value>要把 {0} 个项目移动到“{1}”吗？
-
-它们会从现在所在的位置移走。</value>
-  </data>
-  <data name="MsgConfirmMoveOne" xml:space="preserve">
-    <value>要把“{0}”移动到“{1}”吗？
-
-它会从现在所在的位置移走。</value>
-  </data>
-  <data name="MsgConfirmRenameFolder" xml:space="preserve">
-    <value>要把文件夹也重命名为“{0}”吗？
-
-{1}
-
-指向旧名称的快捷方式和其他程序将无法再找到它。</value>
-  </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>要重置所有外观自定义设置吗？</value>
   </data>
@@ -1340,12 +1158,6 @@
   <data name="MsgFileNotFoundInProfile" xml:space="preserve">
     <value>在当前工作区中找不到文件：
 {0}</value>
-  </data>
-  <data name="MsgFolderNameTaken" xml:space="preserve">
-    <value>框已重命名，但文件夹保持原样：已经存在名为“{0}”的项目。</value>
-  </data>
-  <data name="MsgFolderRenameFailed" xml:space="preserve">
-    <value>框已重命名，但文件夹没有：{0}</value>
   </data>
   <data name="MsgFormInitFailed" xml:space="preserve">
     <value>打开窗口时出错：{0}</value>
@@ -1587,9 +1399,6 @@
   <data name="OptChameleon" xml:space="preserve">
     <value>变色龙模式（自动匹配壁纸颜色）</value>
   </data>
-  <data name="OptConfirmPortalMove" xml:space="preserve">
-    <value>在拖动把项目移到另一个门户框之前先询问</value>
-  </data>
   <data name="OptDimensionSnap" xml:space="preserve">
     <value>尺寸吸附</value>
   </data>
@@ -1716,9 +1525,6 @@
   <data name="PhotoVerticalWipe" xml:space="preserve">
     <value>柔和垂直擦拭</value>
   </data>
-  <data name="PluginAgenda" xml:space="preserve">
-    <value>日程</value>
-  </data>
   <data name="PluginCalculator" xml:space="preserve">
     <value>计算器</value>
   </data>
@@ -1820,9 +1626,6 @@
   </data>
   <data name="SecMaintenance" xml:space="preserve">
     <value>维护</value>
-  </data>
-  <data name="SecPortalDragDrop" xml:space="preserve">
-    <value>门户框的拖放</value>
   </data>
   <data name="SecProfileManagement" xml:space="preserve">
     <value>工作区管理</value>
@@ -2123,6 +1926,203 @@
   </data>
   <data name="MsgTemplateExported" xml:space="preserve">
     <value>语言模板已成功导出！</value>
+  </data>
+  <data name="AgendaAllDay" xml:space="preserve">
+    <value>全天</value>
+  </data>
+  <data name="AgendaBadTime" xml:space="preserve">
+    <value>请使用类似 9:30 的时间格式。</value>
+  </data>
+  <data name="AgendaCalendarLabel" xml:space="preserve">
+    <value>日历</value>
+  </data>
+  <data name="AgendaCalendarsLabel" xml:space="preserve">
+    <value>显示的日历</value>
+  </data>
+  <data name="AgendaConfirmDelete" xml:space="preserve">
+    <value>确定要删除"{0}"吗？</value>
+  </data>
+  <data name="AgendaConflict" xml:space="preserve">
+    <value>该日程已在别处被修改，未被覆盖。较新的版本稍后会显示在这里。</value>
+  </data>
+  <data name="AgendaDateLabel" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="AgendaDaysLabel" xml:space="preserve">
+    <value>向后天数</value>
+  </data>
+  <data name="AgendaDeleteEvent" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="AgendaEditEvent" xml:space="preserve">
+    <value>编辑日程</value>
+  </data>
+  <data name="AgendaEndLabel" xml:space="preserve">
+    <value>结束</value>
+  </data>
+  <data name="AgendaFailed" xml:space="preserve">
+    <value>无法连接 Google 日历。</value>
+  </data>
+  <data name="AgendaLoading" xml:space="preserve">
+    <value>正在加载...</value>
+  </data>
+  <data name="AgendaLocationLabel" xml:space="preserve">
+    <value>地点</value>
+  </data>
+  <data name="AgendaNewEvent" xml:space="preserve">
+    <value>新建日程</value>
+  </data>
+  <data name="AgendaNoEventsToday" xml:space="preserve">
+    <value>今天没有安排。</value>
+  </data>
+  <data name="AgendaNotConfigured" xml:space="preserve">
+    <value>尚未配置 Google 账号。请在设置中添加 Google 客户端。</value>
+  </data>
+  <data name="AgendaNothingScheduled" xml:space="preserve">
+    <value>没有安排。</value>
+  </data>
+  <data name="AgendaNoWritableCalendar" xml:space="preserve">
+    <value>找到的日历都不接受新建日程。</value>
+  </data>
+  <data name="AgendaOffline" xml:space="preserve">
+    <value>无法连接 Google。显示最近获取的日程。</value>
+  </data>
+  <data name="AgendaOpenInGoogle" xml:space="preserve">
+    <value>在 Google 日历中打开</value>
+  </data>
+  <data name="AgendaSaveFailed" xml:space="preserve">
+    <value>无法保存更改。</value>
+  </data>
+  <data name="AgendaSettingsTitle" xml:space="preserve">
+    <value>日程设置</value>
+  </data>
+  <data name="AgendaSignedIn" xml:space="preserve">
+    <value>已登录 Google 日历。</value>
+  </data>
+  <data name="AgendaSignedOut" xml:space="preserve">
+    <value>尚未登录 Google 日历。</value>
+  </data>
+  <data name="AgendaSignIn" xml:space="preserve">
+    <value>使用 Google 登录</value>
+  </data>
+  <data name="AgendaSignInAgain" xml:space="preserve">
+    <value>重新登录</value>
+  </data>
+  <data name="AgendaSignInFailed" xml:space="preserve">
+    <value>登录未完成。</value>
+  </data>
+  <data name="AgendaSigningIn" xml:space="preserve">
+    <value>正在等待浏览器...</value>
+  </data>
+  <data name="AgendaSignOut" xml:space="preserve">
+    <value>退出登录</value>
+  </data>
+  <data name="AgendaStartLabel" xml:space="preserve">
+    <value>开始</value>
+  </data>
+  <data name="AgendaTitleLabel" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="AgendaToday" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="AgendaTomorrow" xml:space="preserve">
+    <value>明天</value>
+  </data>
+  <data name="AgendaUntitled" xml:space="preserve">
+    <value>（无标题）</value>
+  </data>
+  <data name="AgendaViewDay" xml:space="preserve">
+    <value>日</value>
+  </data>
+  <data name="AgendaViewLabel" xml:space="preserve">
+    <value>视图</value>
+  </data>
+  <data name="AgendaViewList" xml:space="preserve">
+    <value>列表</value>
+  </data>
+  <data name="AgendaViewMonth" xml:space="preserve">
+    <value>月</value>
+  </data>
+  <data name="AgendaViewThreeDays" xml:space="preserve">
+    <value>3 天</value>
+  </data>
+  <data name="AgendaViewWeek" xml:space="preserve">
+    <value>周</value>
+  </data>
+  <data name="DlgFolderNotRenamed" xml:space="preserve">
+    <value>文件夹未重命名</value>
+  </data>
+  <data name="DlgMoveItems" xml:space="preserve">
+    <value>移动项目</value>
+  </data>
+  <data name="DlgRenameFolder" xml:space="preserve">
+    <value>重命名文件夹</value>
+  </data>
+  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
+    <value>无法把“{0}”放进它自己里面。</value>
+  </data>
+  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
+    <value>Ctrl + 在两个门户框之间拖动</value>
+  </data>
+  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
+    <value>改为复制</value>
+  </data>
+  <data name="GestureFromExplorer" xml:space="preserve">
+    <value>从资源管理器拖入门户框</value>
+  </data>
+  <data name="GestureFromExplorerEffect" xml:space="preserve">
+    <value>把文件复制进来</value>
+  </data>
+  <data name="GestureOntoFolder" xml:space="preserve">
+    <value>拖到门户框中的文件夹上</value>
+  </data>
+  <data name="GestureOntoFolderEffect" xml:space="preserve">
+    <value>把该项目放进那个文件夹</value>
+  </data>
+  <data name="GesturePortalToPortal" xml:space="preserve">
+    <value>在两个门户框之间拖动</value>
+  </data>
+  <data name="GesturePortalToPortalEffect" xml:space="preserve">
+    <value>移动该项目</value>
+  </data>
+  <data name="GestureShiftFromExplorer" xml:space="preserve">
+    <value>Shift + 从资源管理器拖入</value>
+  </data>
+  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
+    <value>改为移动</value>
+  </data>
+  <data name="MsgConfirmMoveMany" xml:space="preserve">
+    <value>要把 {0} 个项目移动到“{1}”吗？
+
+它们会从现在所在的位置移走。</value>
+  </data>
+  <data name="MsgConfirmMoveOne" xml:space="preserve">
+    <value>要把“{0}”移动到“{1}”吗？
+
+它会从现在所在的位置移走。</value>
+  </data>
+  <data name="MsgConfirmRenameFolder" xml:space="preserve">
+    <value>要把文件夹也重命名为“{0}”吗？
+
+{1}
+
+指向旧名称的快捷方式和其他程序将无法再找到它。</value>
+  </data>
+  <data name="MsgFolderNameTaken" xml:space="preserve">
+    <value>框已重命名，但文件夹保持原样：已经存在名为“{0}”的项目。</value>
+  </data>
+  <data name="MsgFolderRenameFailed" xml:space="preserve">
+    <value>框已重命名，但文件夹没有：{0}</value>
+  </data>
+  <data name="OptConfirmPortalMove" xml:space="preserve">
+    <value>在拖动把项目移到另一个门户框之前先询问</value>
+  </data>
+  <data name="PluginAgenda" xml:space="preserve">
+    <value>日程</value>
+  </data>
+  <data name="SecPortalDragDrop" xml:space="preserve">
+    <value>门户框的拖放</value>
   </data>
   <data name="AgendaKindEvent" xml:space="preserve">
     <value>活动</value>
