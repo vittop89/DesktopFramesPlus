@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -122,6 +122,7 @@ namespace Desktop_Frames.Plugins.WebPage
             // already has the switch - the note frames use it to be edited.
             if (_canHostInside && host is NonActivatingWindow frame)
                 frame.EnableFocusPrevention(false);
+
 
             ShowPage();
             Describe();

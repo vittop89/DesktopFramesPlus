@@ -4231,6 +4231,22 @@ namespace Desktop_Frames
                 Left = (double)frame.X,
                 Tag = frame.Id?.ToString() ?? Guid.NewGuid().ToString() // Ensure ID exists
             };
+
+            // Windows paints a non-client frame on an opaque borderless window, and its
+            // top edge shows as a pale line above everything the frame draws. There was
+            // none to paint while the window was transparent. Zeroing the glass frame
+            // removes it; the caption height goes with it, because this frame has a title
+            // bar of its own and does not want a second, invisible one taking the clicks.
+            if (carriesABrowser)
+                System.Windows.Shell.WindowChrome.SetWindowChrome(win, new System.Windows.Shell.WindowChrome
+                {
+                    CaptionHeight = 0,
+                    GlassFrameThickness = new Thickness(0),
+                    CornerRadius = new CornerRadius(0),
+                    ResizeBorderThickness = new Thickness(6),
+                    UseAeroCaptionButtons = false
+                });
+
             // Add Note frame specific context menu items after window creation
             if (frame.ItemsType?.ToString() == "Note")
             {
