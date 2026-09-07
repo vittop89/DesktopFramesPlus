@@ -1,4 +1,4 @@
-using Microsoft.Web.WebView2.Core;
+﻿using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 using System;
 using System.Diagnostics;
@@ -107,7 +107,60 @@ namespace Desktop_Frames.Plugins.WebPage
                 Say(Strings.WebPageCrashed);
             };
 
+            RestoreZoom();
+            _view.ZoomFactorChanged += (s, e) => RememberZoom();
+
             core.Navigate(_site.Address);
+        }
+
+        /// <summary>
+        /// How far the page was zoomed last time.
+        ///
+        /// Kept in a file of its own beside the browser profile rather than in the frame
+        /// settings, because zoom changes with a scroll of the wheel and the frame's
+        /// settings can only be written when the settings window closes. A number that
+        /// can only be saved by opening a dialog is a number that never gets saved.
+        ///
+        /// It belongs to the site, so two frames on the same site agree about it.
+        /// WebView2 does not persist zoom itself - Chromium's own per-origin memory is
+        /// not wired up here - so this is the whole of it.
+        /// </summary>
+        private string ZoomFile =>
+            Path.Combine(ProfileManager.CurrentProfileDir, "WebPage", _site.Slug + ".zoom");
+
+        private void RestoreZoom()
+        {
+            try
+            {
+                if (!File.Exists(ZoomFile)) return;
+
+                if (double.TryParse(File.ReadAllText(ZoomFile), System.Globalization.NumberStyles.Float,
+                                    System.Globalization.CultureInfo.InvariantCulture, out double zoom)
+                    && zoom >= 0.25 && zoom <= 5)
+                    _view.ZoomFactor = zoom;
+            }
+            catch (Exception ex)
+            {
+                // A page at the wrong size is a small thing; refusing to open is not.
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    $"WebPage: could not read the saved zoom: {ex.Message}");
+            }
+        }
+
+        private void RememberZoom()
+        {
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(ZoomFile)!);
+
+                File.WriteAllText(ZoomFile,
+                    _view.ZoomFactor.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    $"WebPage: could not save the zoom: {ex.Message}");
+            }
         }
 
         /// <summary>

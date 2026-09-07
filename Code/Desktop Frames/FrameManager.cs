@@ -3891,11 +3891,19 @@ namespace Desktop_Frames
                 borderBrush = null;
                 borderThickness = 0;
             }
+            // A frame carrying a browser is opaque, and a rounded corner on an opaque
+            // window leaves the window's own colour showing outside the curve - four dark
+            // tabs poking out past the border. Squared off, there is nothing outside the
+            // curve to show.
+            bool squareForBrowser = frame.ItemsType?.ToString() == "Plugin"
+                                 && frame.PluginId?.ToString() == "WebPage";
+
             Border cborder = new Border
             {
                 Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 0, 0, 0)),
                 // --- APPLY HIDDEN SETTING: Sharp corners if enabled, otherwise default 6px round ---
-                CornerRadius = SettingsManager.FramesWithNoRoundCorners ? new CornerRadius(0) : new CornerRadius(6),
+                CornerRadius = (SettingsManager.FramesWithNoRoundCorners || squareForBrowser)
+                    ? new CornerRadius(0) : new CornerRadius(6),
                 BorderBrush = borderBrush, // Apply border color
                 BorderThickness = new Thickness(borderThickness), // Apply border thickness
                 Child = dp
