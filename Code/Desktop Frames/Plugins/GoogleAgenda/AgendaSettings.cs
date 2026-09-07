@@ -76,19 +76,17 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// </summary>
         public (DateTime From, DateTime To) Range(DateTime anchor)
         {
-            DateTime today = DateTime.Today;
-
             switch (View)
             {
                 case AgendaView.Day:
-                    return (today, today.AddDays(1));
+                    return (anchor.Date, anchor.Date.AddDays(1));
 
                 case AgendaView.ThreeDays:
-                    return (today, today.AddDays(3));
+                    return (anchor.Date, anchor.Date.AddDays(3));
 
                 case AgendaView.Week:
                 {
-                    DateTime start = StartOfWeek(today);
+                    DateTime start = StartOfWeek(anchor);
                     return (start, start.AddDays(7));
                 }
 
@@ -100,9 +98,24 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 }
 
                 default:
-                    return (today, today.AddDays(DaysAhead));
+                    // The list answers "what is coming", which is a question about now.
+                    // Moving it backwards would turn it into a different view.
+                    return (DateTime.Today, DateTime.Today.AddDays(DaysAhead));
             }
         }
+
+        /// <summary>How far one press of the arrows moves, in the units the view is made of.</summary>
+        public DateTime Step(DateTime anchor, int direction) => View switch
+        {
+            AgendaView.Day => anchor.AddDays(direction),
+            AgendaView.ThreeDays => anchor.AddDays(3 * direction),
+            AgendaView.Week => anchor.AddDays(7 * direction),
+            AgendaView.Month => anchor.AddMonths(direction),
+            _ => anchor
+        };
+
+        /// <summary>False for the list, which is anchored to today by definition.</summary>
+        public bool CanNavigate => View != AgendaView.List;
 
         public static DateTime StartOfWeek(DateTime day)
         {

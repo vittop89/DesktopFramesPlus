@@ -44,8 +44,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         private AgendaSettings _settings = new AgendaSettings();
         private Dictionary<string, object>? _settingsRef;
 
-        /// <summary>The day the month view has open. Meaningless in the other views.</summary>
-        private DateTime _chosenDay = DateTime.Today;
+        /// <summary>
+        /// The day the view is built around: the one shown, the first of the three, the
+        /// week it belongs to, the month it falls in. Moved by the arrows, and reset to
+        /// today by the dot between them.
+        /// </summary>
+        private DateTime _anchor = DateTime.Today;
+
+        /// <summary>Set for one redraw when somebody asks to be taken back to today.</summary>
+        private bool _flashToday;
 
         /// <summary>True once an answer has arrived, so an empty list can be told apart from one nobody has asked for.</summary>
         private bool _loadedOnce;
@@ -96,7 +103,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             _renderer.OpenRequested += OpenInGoogle;
             _renderer.EditRequested += Edit;
             _renderer.DeleteRequested += Delete;
-            _renderer.DayChosen += day => { _chosenDay = day; Render(); };
+            _renderer.DayChosen += day => { _anchor = day; Render(); };
 
             _session.Changed += OnSessionChanged;
             Render();
@@ -171,8 +178,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private void OnSettingsSaved(AgendaSettings saved)
         {
-            (DateTime wasFrom, DateTime wasTo) = _settings.Range(_chosenDay);
-            (DateTime nowFrom, DateTime nowTo) = saved.Range(_chosenDay);
+            (DateTime wasFrom, DateTime wasTo) = _settings.Range(_anchor);
+            (DateTime nowFrom, DateTime nowTo) = saved.Range(_anchor);
 
             bool windowGrew = nowFrom < wasFrom || nowTo > wasTo;
             bool calendarsChanged = !saved.SameCalendarsAs(_settings);
@@ -238,7 +245,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             try
             {
-                (DateTime from, DateTime to) = _settings.Range(_chosenDay);
+                (DateTime from, DateTime to) = _settings.Range(_anchor);
 
                 IReadOnlyList<AgendaEvent> events = await Task.Run(
                     () => source.RefreshAsync(from, to, _settings.Calendars, CancellationToken.None))
@@ -306,7 +313,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             GoogleCalendarSource? source = _source;
             if (source == null) return;
 
-            DateTime start = _settings.View == AgendaView.Month ? _chosenDay.Date : DateTime.Today;
+            DateTime start = _anchor.Date;
 
             // The next whole hour today, or mid-morning on another day: what somebody
             // adding an event from a desktop frame nearly always means.
@@ -435,10 +442,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             }
 
             panel.Children.Add(Toolbar());
-            _renderer.Draw(panel, _events, _settings.View, _chosenDay);
+            _renderer.Draw(panel, _events, _settings.View, _anchor, _flashToday);
+
+            // One redraw only: leaving it set would blink again every time the timer
+            // brings new events in, which is a light going off in the corner of the eye
+            // once a minute for no reason.
+            _flashToday = false;
         }
 
-        /// <summary>The one row of controls: add an event, and move a month view around.</summary>
+        /// <summary>The one row of controls: move through time, and add an event.</summary>
         private UIElement Toolbar()
         {
             var bar = new StackPanel
@@ -447,15 +459,38 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Margin = new Thickness(0, 0, 0, 6)
             };
 
-            if (_settings.View == AgendaView.Month)
+            // Every view except the list, and each moves by what it is made of: a day, a
+            // group of three, a week, a month. The list answers "what is coming", which
+            // is a question about now, so moving it backwards would make it a different
+            // view rather than the same one elsewhere.
+            if (_settings.CanNavigate)
             {
-                bar.Children.Add(Small("‹", () => { _chosenDay = _chosenDay.AddMonths(-1); Render(); }));
-                bar.Children.Add(Small("›", () => { _chosenDay = _chosenDay.AddMonths(1); Render(); }));
-                bar.Children.Add(Small("•", () => { _chosenDay = DateTime.Today; Render(); }, Strings.AgendaToday));
+                bar.Children.Add(Small("‹", () => Move(-1)));
+                bar.Children.Add(Small("›", () => Move(1)));
+                bar.Children.Add(Small("•", ToToday, Strings.AgendaToday));
             }
 
             bar.Children.Add(Small("+", Add, Strings.AgendaNewEvent));
             return bar;
+        }
+
+        private void Move(int direction)
+        {
+            _anchor = _settings.Step(_anchor, direction);
+
+            // Redrawn at once from what is already held, so the arrows answer
+            // immediately; the request that fills in a range never asked for follows.
+            Render();
+            Refresh();
+        }
+
+        private void ToToday()
+        {
+            _anchor = DateTime.Today;
+            _flashToday = true;
+
+            Render();
+            Refresh();
         }
 
         private Button Small(string caption, Action action, string? tooltip = null)

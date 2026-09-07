@@ -49,6 +49,14 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private bool _calendarsRead;
 
+        /// <summary>
+        /// The range the markers were built for. Google ties a marker to the request
+        /// that produced it, so asking about days outside that request cannot be
+        /// answered incrementally - the markers have to go and the window be read again.
+        /// </summary>
+        private DateTime _loadedFrom = DateTime.MaxValue;
+        private DateTime _loadedTo = DateTime.MinValue;
+
         public GoogleCalendarSource(UserCredential credential)
         {
             _service = new CalendarService(new BaseClientService.Initializer
@@ -77,6 +85,18 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             DateTime from, DateTime to, ISet<string> chosen, CancellationToken token)
         {
             await EnsureCalendarsAsync(token).ConfigureAwait(false);
+
+            // Somebody has paged to a week or a month that was never asked for. The
+            // calendar list survives - it does not depend on dates - but every marker
+            // does, so they go and the new range is read in full.
+            if (from < _loadedFrom || to > _loadedTo)
+            {
+                _markers.Clear();
+                _known.Clear();
+
+                _loadedFrom = from;
+                _loadedTo = to;
+            }
 
             foreach (AgendaCalendar calendar in _calendars.Values.ToList())
             {
