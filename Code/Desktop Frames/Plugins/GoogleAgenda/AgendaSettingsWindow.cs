@@ -1,4 +1,4 @@
-using Desktop_Frames.Localization;
+﻿using Desktop_Frames.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -206,6 +206,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         {
             yield return (AgendaView.List, Strings.AgendaViewList);
             yield return (AgendaView.Day, Strings.AgendaViewDay);
+            yield return (AgendaView.ThreeDays, Strings.AgendaViewThreeDays);
             yield return (AgendaView.Week, Strings.AgendaViewWeek);
             yield return (AgendaView.Month, Strings.AgendaViewMonth);
         }

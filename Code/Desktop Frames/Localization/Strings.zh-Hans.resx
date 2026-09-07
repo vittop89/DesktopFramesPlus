@@ -232,6 +232,9 @@
 <data name="AgendaViewMonth" xml:space="preserve">
     <value>月</value>
   </data>
+<data name="AgendaViewThreeDays" xml:space="preserve">
+    <value>3 天</value>
+  </data>
 <data name="AgendaViewWeek" xml:space="preserve">
     <value>周</value>
   </data>

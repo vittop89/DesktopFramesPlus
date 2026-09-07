@@ -232,6 +232,9 @@
   <data name="AgendaViewMonth" xml:space="preserve">
     <value>Месяц</value>
   </data>
+  <data name="AgendaViewThreeDays" xml:space="preserve">
+    <value>3 дня</value>
+  </data>
   <data name="AgendaViewWeek" xml:space="preserve">
     <value>Неделя</value>
   </data>

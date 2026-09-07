@@ -1,4 +1,4 @@
-using Desktop_Frames.Localization;
+﻿using Desktop_Frames.Localization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,13 +14,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
     /// <summary>How the frame lays the events out.</summary>
     public enum AgendaView
     {
-        /// <summary>The next few days, one after another. The default, and the one a glance suits.</summary>
+        /// <summary>The next few days one after another, compact. What a narrow frame suits.</summary>
         List,
-        /// <summary>Today alone.</summary>
+        /// <summary>Today as a single column of hours.</summary>
         Day,
-        /// <summary>Seven days.</summary>
+        /// <summary>Today, tomorrow and the day after, side by side.</summary>
+        ThreeDays,
+        /// <summary>Seven columns of hours.</summary>
         Week,
-        /// <summary>A month as a grid of days, with the chosen day listed underneath.</summary>
+        /// <summary>A month of day cells, each listing what falls in it.</summary>
         Month
     }
 
@@ -47,12 +49,20 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         {
             switch (view)
             {
+                // Columns of hours, the only shape that answers how full a day is
+                // without anything having to be read.
                 case AgendaView.Day:
-                    DrawDays(panel, events, DateTime.Today, 1);
+                    panel.Children.Add(Columns(events, DateTime.Today, 1));
+                    break;
+
+                case AgendaView.ThreeDays:
+                    panel.Children.Add(Columns(events, DateTime.Today, 3));
                     break;
 
                 case AgendaView.Week:
-                    DrawDays(panel, events, DateTime.Today, 7);
+                    // From the first day of the week as this language counts it, rather
+                    // than from today: a week beginning on a Wednesday is not a week.
+                    panel.Children.Add(Columns(events, StartOfWeek(DateTime.Today), 7));
                     break;
 
                 case AgendaView.Month:
@@ -63,6 +73,19 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                     DrawList(panel, events);
                     break;
             }
+        }
+
+        private UIElement Columns(IReadOnlyList<AgendaEvent> events, DateTime from, int days) =>
+            AgendaTimeGrid.Build(events, from, days,
+                                 e => OpenRequested?.Invoke(e),
+                                 e => EditRequested?.Invoke(e),
+                                 e => DeleteRequested?.Invoke(e));
+
+        private static DateTime StartOfWeek(DateTime day)
+        {
+            DayOfWeek first = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+            int back = ((int)day.DayOfWeek - (int)first + 7) % 7;
+            return day.Date.AddDays(-back);
         }
 
         // ======================================================================
@@ -88,33 +111,6 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 }
 
                 panel.Children.Add(Card(item));
-            }
-        }
-
-        /// <summary>
-        /// A fixed run of days, each with its own heading even when empty.
-        ///
-        /// Empty days are drawn on purpose here: in a week view their absence would
-        /// make a busy Thursday look like it followed Monday.
-        /// </summary>
-        private void DrawDays(Panel panel, IReadOnlyList<AgendaEvent> events, DateTime from, int count)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                DateTime day = from.AddDays(i);
-                List<AgendaEvent> ofDay = OnDay(events, day);
-
-                if (count > 1) panel.Children.Add(DayHeader(day));
-
-                if (ofDay.Count == 0)
-                {
-                    panel.Children.Add(Message(count == 1
-                        ? Strings.AgendaNoEventsToday
-                        : Strings.AgendaNothingScheduled));
-                    continue;
-                }
-
-                foreach (AgendaEvent item in ofDay) panel.Children.Add(Card(item));
             }
         }
 
@@ -186,6 +182,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             var cell = new Border
             {
                 Margin = new Thickness(1),
+                MinHeight = 44,
                 Padding = new Thickness(0, 3, 0, 3),
                 CornerRadius = new CornerRadius(3),
                 Cursor = Cursors.Hand,
@@ -194,7 +191,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                     : Brushes.Transparent
             };
 
-            var stack = new StackPanel { HorizontalAlignment = HorizontalAlignment.Center };
+            var stack = new StackPanel();
 
             stack.Children.Add(new TextBlock
             {
@@ -205,18 +202,40 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 HorizontalAlignment = HorizontalAlignment.Center
             });
 
-            // A dot rather than a count: on a cell this size a number is unreadable,
-            // and "something is happening" is the whole question a month view answers.
-            stack.Children.Add(new Border
+            // The entries themselves rather than a dot. In a narrow frame the titles
+            // trim to a few characters, but the colour still says which calendar and
+            // the count still says how full - and widening the frame turns this into a
+            // real month view rather than a different one.
+            const int Room = 3;
+
+            foreach (AgendaEvent item in ofDay.Take(Room))
             {
-                Width = 4,
-                Height = 4,
-                CornerRadius = new CornerRadius(2),
-                Margin = new Thickness(0, 2, 0, 0),
-                Background = ofDay.Count > 0
-                    ? Colour(ofDay[0].ColourHex)
-                    : Brushes.Transparent
-            });
+                stack.Children.Add(new Border
+                {
+                    Background = AgendaTimeGrid.Tint(item.ColourHex, 200),
+                    CornerRadius = new CornerRadius(2),
+                    Margin = new Thickness(1, 1, 1, 0),
+                    Padding = new Thickness(2, 0, 2, 0),
+                    Child = new TextBlock
+                    {
+                        Text = item.Title,
+                        FontSize = 8,
+                        Foreground = Brushes.White,
+                        TextTrimming = TextTrimming.CharacterEllipsis
+                    }
+                });
+            }
+
+            if (ofDay.Count > Room)
+            {
+                stack.Children.Add(new TextBlock
+                {
+                    Text = "+" + (ofDay.Count - Room),
+                    FontSize = 8,
+                    Foreground = Faint,
+                    Margin = new Thickness(2, 1, 0, 0)
+                });
+            }
 
             cell.Child = stack;
             cell.MouseLeftButtonUp += (s, e) => DayChosen?.Invoke(day);
