@@ -39,6 +39,7 @@ namespace Desktop_Frames.Plugins
             RegisterPlugin("SystemQueueSaturation", Strings.PluginQueueSaturation, () => new SystemQueueSaturationPlugin());
             RegisterPlugin("Calculator", Strings.PluginCalculator, () => new CalculatorPlugin());
             RegisterPlugin("CustomTerminal", Strings.PluginTerminal, () => new CustomTerminalPlugin());
+            RegisterPlugin("GoogleAgenda", Strings.PluginAgenda, () => new GoogleAgenda.GoogleAgendaPlugin());
         }
 
         /// <summary>
