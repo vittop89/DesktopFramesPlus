@@ -1,4 +1,4 @@
-using Google.Apis.Auth.OAuth2;
+﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
@@ -66,15 +66,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 .ToList();
 
         /// <summary>
-        /// The events inside <paramref name="window"/> from today, after taking in
-        /// whatever changed since the last call.
+        /// The events between <paramref name="from"/> and <paramref name="to"/>, after
+        /// taking in whatever changed since the last call.
         /// </summary>
         /// <param name="chosen">
         /// Calendars to look at. Empty means all of them, which is what a frame nobody
         /// has configured should show.
         /// </param>
         public async Task<IReadOnlyList<AgendaEvent>> RefreshAsync(
-            TimeSpan window, ISet<string> chosen, CancellationToken token)
+            DateTime from, DateTime to, ISet<string> chosen, CancellationToken token)
         {
             await EnsureCalendarsAsync(token).ConfigureAwait(false);
 
@@ -83,10 +83,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 if (token.IsCancellationRequested) break;
                 if (!IsChosen(calendar.Id, chosen)) continue;
 
-                await RefreshOneAsync(calendar, window, token).ConfigureAwait(false);
+                await RefreshOneAsync(calendar, from, to, token).ConfigureAwait(false);
             }
 
-            return Within(window, chosen);
+            return Within(from, to, chosen);
         }
 
         // ======================================================================
@@ -143,12 +143,13 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         // EVENTS
         // ======================================================================
 
-        private async Task RefreshOneAsync(AgendaCalendar calendar, TimeSpan window, CancellationToken token)
+        private async Task RefreshOneAsync(AgendaCalendar calendar, DateTime from, DateTime to,
+                                           CancellationToken token)
         {
             try
             {
                 if (!_markers.TryGetValue(calendar.Id, out string? marker) || marker == null)
-                    await LoadWindowAsync(calendar, window, token).ConfigureAwait(false);
+                    await LoadWindowAsync(calendar, from, to, token).ConfigureAwait(false);
                 else
                     await LoadChangesAsync(calendar, marker, token).ConfigureAwait(false);
             }
@@ -161,7 +162,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                     $"GoogleAgenda: sync marker expired for {calendar.Title}, reloading it.");
 
                 Forget(calendar.Id);
-                await LoadWindowAsync(calendar, window, token).ConfigureAwait(false);
+                await LoadWindowAsync(calendar, from, to, token).ConfigureAwait(false);
             }
             catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound
                                                     || ex.HttpStatusCode == HttpStatusCode.Forbidden)
@@ -181,7 +182,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// Google ties the marker to the request that produced it, so every later call
         /// inherits these filters and must not repeat them.
         /// </summary>
-        private async Task LoadWindowAsync(AgendaCalendar calendar, TimeSpan window, CancellationToken token)
+        private async Task LoadWindowAsync(AgendaCalendar calendar, DateTime from, DateTime to,
+                                           CancellationToken token)
         {
             EventsResource.ListRequest request = _service.Events.List(calendar.Id);
 
@@ -190,10 +192,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             // and its time zones - is a project of its own, and this is not it.
             request.SingleEvents = true;
 
-            // Yesterday rather than now, so something still running is not dropped
-            // halfway through the afternoon.
-            request.TimeMinDateTimeOffset = DateTimeOffset.Now.Date.AddDays(-1);
-            request.TimeMaxDateTimeOffset = DateTimeOffset.Now.Date.Add(window);
+            // A day either side of what is shown: an event that began yesterday and is
+            // still running has to appear, and so does one starting on the last evening
+            // of the range.
+            request.TimeMinDateTimeOffset = new DateTimeOffset(from.AddDays(-1));
+            request.TimeMaxDateTimeOffset = new DateTimeOffset(to.AddDays(1));
 
             // Needed so a later change can tell "deleted" apart from "never mentioned".
             request.ShowDeleted = true;
@@ -437,11 +440,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// incremental answer reports changes from the whole calendar and dropping
         /// them early would leave holes only a full reload could fill.
         /// </summary>
-        private IReadOnlyList<AgendaEvent> Within(TimeSpan window, ISet<string> chosen)
+        private IReadOnlyList<AgendaEvent> Within(DateTime from, DateTime to, ISet<string> chosen)
         {
-            DateTime from = DateTime.Now.Date;
-            DateTime to = from.Add(window);
-
             return _known.Values
                 .Where(e => IsChosen(e.CalendarId, chosen))
                 .Where(e => e.End >= from && e.Start < to)

@@ -225,6 +225,7 @@ namespace Desktop_Frames.Localization
         public static string AgendaViewLabel => Get("AgendaViewLabel");
         public static string AgendaViewList => Get("AgendaViewList");
         public static string AgendaViewMonth => Get("AgendaViewMonth");
+        public static string AgendaViewThreeDays => Get("AgendaViewThreeDays");
         public static string AgendaViewWeek => Get("AgendaViewWeek");
         public static string BtnApply => Get("BtnApply");
         public static string BtnApplyToAll => Get("BtnApplyToAll");

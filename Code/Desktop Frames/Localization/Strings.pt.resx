@@ -232,6 +232,9 @@ Hoje é mantido por Nikos Georgousis, que o alargou e o tornou mais estável e a
   <data name="AgendaViewMonth" xml:space="preserve">
     <value>Mês</value>
   </data>
+  <data name="AgendaViewThreeDays" xml:space="preserve">
+    <value>3 dias</value>
+  </data>
   <data name="AgendaViewWeek" xml:space="preserve">
     <value>Semana</value>
   </data>

@@ -171,7 +171,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private void OnSettingsSaved(AgendaSettings saved)
         {
-            bool windowGrew = saved.FetchWindow > _settings.FetchWindow;
+            (DateTime wasFrom, DateTime wasTo) = _settings.Range(_chosenDay);
+            (DateTime nowFrom, DateTime nowTo) = saved.Range(_chosenDay);
+
+            bool windowGrew = nowFrom < wasFrom || nowTo > wasTo;
             bool calendarsChanged = !saved.SameCalendarsAs(_settings);
 
             _settings = saved;
@@ -235,8 +238,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             try
             {
+                (DateTime from, DateTime to) = _settings.Range(_chosenDay);
+
                 IReadOnlyList<AgendaEvent> events = await Task.Run(
-                    () => source.RefreshAsync(_settings.FetchWindow, _settings.Calendars, CancellationToken.None))
+                    () => source.RefreshAsync(from, to, _settings.Calendars, CancellationToken.None))
                     .ConfigureAwait(true);
 
                 // The source may have been replaced while the answer was in flight - a

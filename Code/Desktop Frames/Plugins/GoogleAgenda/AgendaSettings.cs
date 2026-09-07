@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -66,16 +66,50 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         }
 
         /// <summary>
-        /// How far the source has to look for the current view. A month needs the whole
-        /// grid, which can start in the previous month and end in the next.
+        /// The days the current view actually shows.
+        ///
+        /// A pair of dates rather than a length, because two of the views begin before
+        /// today: a week starts on its own first day, and a month grid starts on
+        /// whatever day of the previous month fills the first row. Asking the source
+        /// for "the next N days" would have quietly emptied the part of the week that
+        /// has already happened.
         /// </summary>
-        public TimeSpan FetchWindow => View switch
+        public (DateTime From, DateTime To) Range(DateTime anchor)
         {
-            AgendaView.Day => TimeSpan.FromDays(2),
-            AgendaView.Week => TimeSpan.FromDays(8),
-            AgendaView.Month => TimeSpan.FromDays(45),
-            _ => TimeSpan.FromDays(DaysAhead + 1)
-        };
+            DateTime today = DateTime.Today;
+
+            switch (View)
+            {
+                case AgendaView.Day:
+                    return (today, today.AddDays(1));
+
+                case AgendaView.ThreeDays:
+                    return (today, today.AddDays(3));
+
+                case AgendaView.Week:
+                {
+                    DateTime start = StartOfWeek(today);
+                    return (start, start.AddDays(7));
+                }
+
+                case AgendaView.Month:
+                {
+                    DateTime first = new DateTime(anchor.Year, anchor.Month, 1);
+                    DateTime start = StartOfWeek(first);
+                    return (start, start.AddDays(42));
+                }
+
+                default:
+                    return (today, today.AddDays(DaysAhead));
+            }
+        }
+
+        public static DateTime StartOfWeek(DateTime day)
+        {
+            DayOfWeek first = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+            int back = ((int)day.DayOfWeek - (int)first + 7) % 7;
+            return day.Date.AddDays(-back);
+        }
 
         public bool SameCalendarsAs(AgendaSettings other) =>
             Calendars.SetEquals(other.Calendars);
