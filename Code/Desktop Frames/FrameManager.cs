@@ -72,6 +72,42 @@ namespace Desktop_Frames
             public POINT ptMaxTrackSize;
         }
 
+        [DllImport("dwmapi.dll")]
+        private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int value, int size);
+
+        /// <summary>
+        /// Asks Windows to round a window's corners.
+        ///
+        /// For the frames that had to be made opaque to carry a browser. WPF cannot
+        /// round those itself without leaving the corners of the window showing outside
+        /// the curve, but the compositor rounds the window as a whole - it cuts the
+        /// pixels away rather than painting over them - so the desktop shows through the
+        /// corners exactly as it does for every other frame.
+        ///
+        /// Windows 11 and later. On anything earlier the call fails and the frame keeps
+        /// square corners, which is what it had before this existed.
+        /// </summary>
+        private static void RoundTheCornersOf(Window window)
+        {
+            const int DWMWA_WINDOW_CORNER_PREFERENCE = 33;
+            const int DWMWCP_ROUND = 2;
+
+            try
+            {
+                IntPtr hwnd = new WindowInteropHelper(window).Handle;
+                if (hwnd == IntPtr.Zero) return;
+
+                int preference = DWMWCP_ROUND;
+                DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, ref preference, sizeof(int));
+            }
+            catch (Exception ex)
+            {
+                // A square-cornered frame is a frame that still works.
+                LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.UI,
+                    $"Could not round the frame's corners: {ex.Message}");
+            }
+        }
+
         [DllImport("user32.dll")]
         private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
@@ -3749,10 +3785,11 @@ namespace Desktop_Frames
                 borderBrush = null;
                 borderThickness = 0;
             }
-            // A frame carrying a browser is opaque, and a rounded corner on an opaque
-            // window leaves the window's own colour showing outside the curve - four dark
-            // tabs poking out past the border. Squared off, there is nothing outside the
-            // curve to show.
+            // A frame carrying a browser is opaque, and a rounded corner drawn by WPF on
+            // an opaque window leaves the window's own colour showing outside the curve -
+            // four dark tabs poking out past the border. The border itself is squared off
+            // here, and the rounding is asked of Windows instead: the compositor cuts the
+            // window's own pixels away, so there is nothing outside the curve to show.
             bool squareForBrowser = frame.ItemsType?.ToString() == "Plugin"
                                  && frame.PluginId?.ToString() == "WebPage";
 
@@ -4103,6 +4140,9 @@ namespace Desktop_Frames
             // none to paint while the window was transparent. Zeroing the glass frame
             // removes it; the caption height goes with it, because this frame has a title
             // bar of its own and does not want a second, invisible one taking the clicks.
+            if (carriesABrowser)
+                win.SourceInitialized += (s, e) => RoundTheCornersOf(win);
+
             if (carriesABrowser)
                 System.Windows.Shell.WindowChrome.SetWindowChrome(win, new System.Windows.Shell.WindowChrome
                 {
