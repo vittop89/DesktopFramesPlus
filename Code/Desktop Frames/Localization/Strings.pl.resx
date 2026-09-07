@@ -130,6 +130,9 @@ Dziś opiekuje się nim Nikos Georgousis, który je rozbudował oraz uczynił st
   <data name="AgendaNothingScheduled" xml:space="preserve">
     <value>Nic zaplanowanego.</value>
   </data>
+  <data name="AgendaOffline" xml:space="preserve">
+    <value>Nie można połączyć się z Google. Pokazywane są ostatnio pobrane wydarzenia.</value>
+  </data>
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>Ustawienia terminarza</value>
   </data>
@@ -159,6 +162,9 @@ Dziś opiekuje się nim Nikos Georgousis, który je rozbudował oraz uczynił st
   </data>
   <data name="AgendaTomorrow" xml:space="preserve">
     <value>Jutro</value>
+  </data>
+  <data name="AgendaUntitled" xml:space="preserve">
+    <value>(bez tytułu)</value>
   </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>KLIKNIJ OKNO DOCELOWE</value>

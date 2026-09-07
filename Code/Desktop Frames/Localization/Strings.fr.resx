@@ -130,6 +130,9 @@ Il est aujourd'hui maintenu par Nikos Georgousis, qui l'a enrichi et rendu plus 
   <data name="AgendaNothingScheduled" xml:space="preserve">
     <value>Rien de prévu.</value>
   </data>
+  <data name="AgendaOffline" xml:space="preserve">
+    <value>Google est injoignable. Les derniers événements reçus sont affichés.</value>
+  </data>
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>Paramètres de l'agenda</value>
   </data>
@@ -159,6 +162,9 @@ Il est aujourd'hui maintenu par Nikos Georgousis, qui l'a enrichi et rendu plus 
   </data>
   <data name="AgendaTomorrow" xml:space="preserve">
     <value>Demain</value>
+  </data>
+  <data name="AgendaUntitled" xml:space="preserve">
+    <value>(sans titre)</value>
   </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>CLIQUEZ SUR LA FENÊTRE CIBLE</value>

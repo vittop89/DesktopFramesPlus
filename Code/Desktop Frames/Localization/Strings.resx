@@ -129,6 +129,9 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   <data name="AgendaNothingScheduled" xml:space="preserve">
     <value>Nothing scheduled.</value>
   </data>
+  <data name="AgendaOffline" xml:space="preserve">
+    <value>Google could not be reached. Showing the last events received.</value>
+  </data>
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>Agenda settings</value>
   </data>
@@ -158,6 +161,9 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   </data>
   <data name="AgendaTomorrow" xml:space="preserve">
     <value>Tomorrow</value>
+  </data>
+  <data name="AgendaUntitled" xml:space="preserve">
+    <value>(no title)</value>
   </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>CLICK ON THE TARGET WINDOW</value>

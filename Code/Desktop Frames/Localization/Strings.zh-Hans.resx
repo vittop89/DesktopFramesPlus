@@ -188,6 +188,9 @@
   <data name="AgendaNothingScheduled" xml:space="preserve">
     <value>没有安排。</value>
   </data>
+  <data name="AgendaOffline" xml:space="preserve">
+    <value>无法连接 Google。显示最近获取的日程。</value>
+  </data>
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>日程设置</value>
   </data>
@@ -217,6 +220,9 @@
   </data>
   <data name="AgendaTomorrow" xml:space="preserve">
     <value>明天</value>
+  </data>
+  <data name="AgendaUntitled" xml:space="preserve">
+    <value>（无标题）</value>
   </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>请点击目标窗口</value>

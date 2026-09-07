@@ -130,6 +130,9 @@
   <data name="AgendaNothingScheduled" xml:space="preserve">
     <value>Ничего не запланировано.</value>
   </data>
+  <data name="AgendaOffline" xml:space="preserve">
+    <value>Google недоступен. Показаны последние полученные события.</value>
+  </data>
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>Настройки расписания</value>
   </data>
@@ -159,6 +162,9 @@
   </data>
   <data name="AgendaTomorrow" xml:space="preserve">
     <value>Завтра</value>
+  </data>
+  <data name="AgendaUntitled" xml:space="preserve">
+    <value>(без названия)</value>
   </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>ЩЁЛКНИТЕ ПО ЦЕЛЕВОМУ ОКНУ</value>
