@@ -1,6 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- Seed translation produced with AI assistance and not yet reviewed by a native speaker. Any key that is ever removed falls back to English at runtime. -->
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -62,2017 +120,2008 @@
   <data name="AboutAnd" xml:space="preserve">
     <value> 和 </value>
   </data>
-<data name="AboutBody" xml:space="preserve">
-    <value>Desktop Frames + 在桌面上创建虚拟框，让图标分组归位，整洁又顺手。</value>
+  <data name="AboutBody" xml:space="preserve">
+    <value>Desktop Frames + 可在桌面上创建虚拟面板，方便你分组整理图标，让桌面更整洁、更顺手。</value>
   </data>
-<data name="AboutCreditsBody" xml:space="preserve">
-    <value>Desktop Frames + 是一款面向 Windows 的开源工具，最初由 HakanKokcu 以 BirdyFences 之名开发。
+  <data name="AboutCreditsBody" xml:space="preserve">
+    <value>Desktop Frames + 是一款适用于 Windows 的开源工具，最初由 HakanKokcu 以 BirdyFences 之名开发。
 
-目前由 Nikos Georgousis 维护，他对其加以扩充，使之更稳定、更好用。</value>
+目前由 Nikos Georgousis 维护，并持续改进其功能、稳定性与使用体验。</value>
   </data>
-<data name="AboutDonateBig" xml:space="preserve">
+  <data name="AboutDonateBig" xml:space="preserve">
     <value>捐赠 999,00 €</value>
   </data>
-<data name="AboutDontFeedDragons" xml:space="preserve">
+  <data name="AboutDontFeedDragons" xml:space="preserve">
     <value>请勿投喂龙</value>
   </data>
-<data name="AboutGreatToHaveYou" xml:space="preserve">
-    <value>很高兴见到你</value>
+  <data name="AboutGreatToHaveYou" xml:space="preserve">
+    <value>很高兴你能来</value>
   </data>
-<data name="AboutLicense" xml:space="preserve">
+  <data name="AboutLicense" xml:space="preserve">
     <value>⚖ MIT 许可证</value>
   </data>
-<data name="AboutPleaseDonate" xml:space="preserve">
+  <data name="AboutPleaseDonate" xml:space="preserve">
     <value>请捐赠</value>
   </data>
-<data name="AboutSectionAbout" xml:space="preserve">
+  <data name="AboutSectionAbout" xml:space="preserve">
     <value>关于</value>
   </data>
-<data name="AboutSectionCredits" xml:space="preserve">
+  <data name="AboutSectionCredits" xml:space="preserve">
     <value>致谢</value>
   </data>
-<data name="AboutSoundCredits" xml:space="preserve">
+  <data name="AboutSoundCredits" xml:space="preserve">
     <value>免费音效来自 </value>
   </data>
-<data name="AboutSupportDevelopment" xml:space="preserve">
-    <value>支持开发</value>
+  <data name="AboutSupportDevelopment" xml:space="preserve">
+    <value>支持项目开发</value>
   </data>
-<data name="AboutTagline" xml:space="preserve">
+  <data name="AboutTagline" xml:space="preserve">
     <value>像变魔术一样整理你的桌面。</value>
   </data>
-<data name="AboutThinkAgain" xml:space="preserve">
+  <data name="AboutThinkAgain" xml:space="preserve">
     <value>确定吗？再想想！</value>
   </data>
-<data name="AboutTitle" xml:space="preserve">
+  <data name="AboutTitle" xml:space="preserve">
     <value>关于 Desktop Frames +</value>
   </data>
-<data name="AboutVersion" xml:space="preserve">
+  <data name="AboutVersion" xml:space="preserve">
     <value>版本 {0}</value>
   </data>
-<data name="AboutVisitGitHub" xml:space="preserve">
+  <data name="AboutVisitGitHub" xml:space="preserve">
     <value>⚡ 访问 GitHub 仓库</value>
   </data>
-<data name="AboutWhat" xml:space="preserve">
+  <data name="AboutWhat" xml:space="preserve">
     <value>什么！？</value>
   </data>
-<data name="AgendaAllDay" xml:space="preserve">
+  <data name="AgendaAllDay" xml:space="preserve">
     <value>全天</value>
   </data>
-<data name="AgendaBadTime" xml:space="preserve">
+  <data name="AgendaBadTime" xml:space="preserve">
     <value>请使用类似 9:30 的时间格式。</value>
   </data>
-<data name="AgendaCalendarLabel" xml:space="preserve">
+  <data name="AgendaCalendarLabel" xml:space="preserve">
     <value>日历</value>
   </data>
-<data name="AgendaCalendarsLabel" xml:space="preserve">
+  <data name="AgendaCalendarsLabel" xml:space="preserve">
     <value>显示的日历</value>
   </data>
-<data name="AgendaConfirmDelete" xml:space="preserve">
+  <data name="AgendaConfirmDelete" xml:space="preserve">
     <value>确定要删除"{0}"吗？</value>
   </data>
-<data name="AgendaConflict" xml:space="preserve">
+  <data name="AgendaConflict" xml:space="preserve">
     <value>该日程已在别处被修改，未被覆盖。较新的版本稍后会显示在这里。</value>
   </data>
-<data name="AgendaDateLabel" xml:space="preserve">
+  <data name="AgendaDateLabel" xml:space="preserve">
     <value>日期</value>
   </data>
-<data name="AgendaDaysLabel" xml:space="preserve">
+  <data name="AgendaDaysLabel" xml:space="preserve">
     <value>向后天数</value>
   </data>
-<data name="AgendaDeleteEvent" xml:space="preserve">
+  <data name="AgendaDeleteEvent" xml:space="preserve">
     <value>删除</value>
   </data>
-<data name="AgendaEditEvent" xml:space="preserve">
+  <data name="AgendaEditEvent" xml:space="preserve">
     <value>编辑日程</value>
   </data>
-<data name="AgendaEndLabel" xml:space="preserve">
+  <data name="AgendaEndLabel" xml:space="preserve">
     <value>结束</value>
   </data>
-<data name="AgendaFailed" xml:space="preserve">
+  <data name="AgendaFailed" xml:space="preserve">
     <value>无法连接 Google 日历。</value>
   </data>
-<data name="AgendaLoading" xml:space="preserve">
+  <data name="AgendaLoading" xml:space="preserve">
     <value>正在加载...</value>
   </data>
-<data name="AgendaLocationLabel" xml:space="preserve">
+  <data name="AgendaLocationLabel" xml:space="preserve">
     <value>地点</value>
   </data>
-<data name="AgendaNewEvent" xml:space="preserve">
+  <data name="AgendaNewEvent" xml:space="preserve">
     <value>新建日程</value>
   </data>
-<data name="AgendaNoEventsToday" xml:space="preserve">
+  <data name="AgendaNoEventsToday" xml:space="preserve">
     <value>今天没有安排。</value>
   </data>
-<data name="AgendaNotConfigured" xml:space="preserve">
+  <data name="AgendaNotConfigured" xml:space="preserve">
     <value>尚未配置 Google 账号。请在设置中添加 Google 客户端。</value>
   </data>
-<data name="AgendaNothingScheduled" xml:space="preserve">
+  <data name="AgendaNothingScheduled" xml:space="preserve">
     <value>没有安排。</value>
   </data>
-<data name="AgendaNoWritableCalendar" xml:space="preserve">
+  <data name="AgendaNoWritableCalendar" xml:space="preserve">
     <value>找到的日历都不接受新建日程。</value>
   </data>
-<data name="AgendaOffline" xml:space="preserve">
+  <data name="AgendaOffline" xml:space="preserve">
     <value>无法连接 Google。显示最近获取的日程。</value>
   </data>
-<data name="AgendaOpenInGoogle" xml:space="preserve">
+  <data name="AgendaOpenInGoogle" xml:space="preserve">
     <value>在 Google 日历中打开</value>
   </data>
-<data name="AgendaSaveFailed" xml:space="preserve">
+  <data name="AgendaSaveFailed" xml:space="preserve">
     <value>无法保存更改。</value>
   </data>
-<data name="AgendaSettingsTitle" xml:space="preserve">
+  <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>日程设置</value>
   </data>
-<data name="AgendaSignedIn" xml:space="preserve">
+  <data name="AgendaSignedIn" xml:space="preserve">
     <value>已登录 Google 日历。</value>
   </data>
-<data name="AgendaSignedOut" xml:space="preserve">
+  <data name="AgendaSignedOut" xml:space="preserve">
     <value>尚未登录 Google 日历。</value>
   </data>
-<data name="AgendaSignIn" xml:space="preserve">
+  <data name="AgendaSignIn" xml:space="preserve">
     <value>使用 Google 登录</value>
   </data>
-<data name="AgendaSignInAgain" xml:space="preserve">
+  <data name="AgendaSignInAgain" xml:space="preserve">
     <value>重新登录</value>
   </data>
-<data name="AgendaSignInFailed" xml:space="preserve">
+  <data name="AgendaSignInFailed" xml:space="preserve">
     <value>登录未完成。</value>
   </data>
-<data name="AgendaSigningIn" xml:space="preserve">
+  <data name="AgendaSigningIn" xml:space="preserve">
     <value>正在等待浏览器...</value>
   </data>
-<data name="AgendaSignOut" xml:space="preserve">
+  <data name="AgendaSignOut" xml:space="preserve">
     <value>退出登录</value>
   </data>
-<data name="AgendaStartLabel" xml:space="preserve">
+  <data name="AgendaStartLabel" xml:space="preserve">
     <value>开始</value>
   </data>
-<data name="AgendaTitleLabel" xml:space="preserve">
+  <data name="AgendaTitleLabel" xml:space="preserve">
     <value>标题</value>
   </data>
-<data name="AgendaToday" xml:space="preserve">
+  <data name="AgendaToday" xml:space="preserve">
     <value>今天</value>
   </data>
-<data name="AgendaTomorrow" xml:space="preserve">
+  <data name="AgendaTomorrow" xml:space="preserve">
     <value>明天</value>
   </data>
-<data name="AgendaUntitled" xml:space="preserve">
+  <data name="AgendaUntitled" xml:space="preserve">
     <value>（无标题）</value>
   </data>
-<data name="AgendaViewDay" xml:space="preserve">
+  <data name="AgendaViewDay" xml:space="preserve">
     <value>日</value>
   </data>
-<data name="AgendaViewLabel" xml:space="preserve">
+  <data name="AgendaViewLabel" xml:space="preserve">
     <value>视图</value>
   </data>
-<data name="AgendaViewList" xml:space="preserve">
+  <data name="AgendaViewList" xml:space="preserve">
     <value>列表</value>
   </data>
-<data name="AgendaViewMonth" xml:space="preserve">
+  <data name="AgendaViewMonth" xml:space="preserve">
     <value>月</value>
   </data>
-<data name="AgendaViewThreeDays" xml:space="preserve">
+  <data name="AgendaViewThreeDays" xml:space="preserve">
     <value>3 天</value>
   </data>
-<data name="AgendaViewWeek" xml:space="preserve">
+  <data name="AgendaViewWeek" xml:space="preserve">
     <value>周</value>
   </data>
-<data name="AutomationClickTarget" xml:space="preserve">
+  <data name="AutomationClickTarget" xml:space="preserve">
     <value>请点击目标窗口</value>
   </data>
-<data name="AutomationDeleteSelected" xml:space="preserve">
+  <data name="AutomationDeleteSelected" xml:space="preserve">
     <value>删除所选</value>
   </data>
-<data name="AutomationDoubleClickEdit" xml:space="preserve">
+  <data name="AutomationDoubleClickEdit" xml:space="preserve">
     <value>双击以编辑规则</value>
   </data>
-<data name="AutomationExisting" xml:space="preserve">
+  <data name="AutomationExisting" xml:space="preserve">
     <value>现有规则</value>
   </data>
-<data name="AutomationManage" xml:space="preserve">
+  <data name="AutomationManage" xml:space="preserve">
     <value>管理自动化规则</value>
   </data>
-<data name="AutomationPersistedMode" xml:space="preserve">
-    <value>持久模式（关闭后仍停留在该配置）</value>
+  <data name="AutomationPersistedMode" xml:space="preserve">
+    <value>保持模式（窗口关闭后仍停留在该工作区）</value>
   </data>
-<data name="AutomationPickWindow" xml:space="preserve">
+  <data name="AutomationPickWindow" xml:space="preserve">
     <value>🎯 选择窗口</value>
   </data>
-<data name="AutomationRuleDefinition" xml:space="preserve">
+  <data name="AutomationRuleDefinition" xml:space="preserve">
     <value>规则定义</value>
   </data>
-<data name="AutomationTitle" xml:space="preserve">
+  <data name="AutomationTitle" xml:space="preserve">
     <value>自动化规则</value>
   </data>
-<data name="AutoOrgAddRule" xml:space="preserve">
+  <data name="AutoOrgAddRule" xml:space="preserve">
     <value>+ 添加规则</value>
   </data>
-<data name="AutoOrgBrowseFolder" xml:space="preserve">
+  <data name="AutoOrgBrowseFolder" xml:space="preserve">
     <value>选择文件夹…</value>
   </data>
-<data name="AutoOrgCustomExtensions" xml:space="preserve">
+  <data name="AutoOrgCustomExtensions" xml:space="preserve">
     <value>自定义扩展名（例如 *.zip; *.rar）：</value>
   </data>
-<data name="AutoOrgEnableRule" xml:space="preserve">
+  <data name="AutoOrgEnableRule" xml:space="preserve">
     <value>启用此规则</value>
   </data>
-<data name="AutoOrgFilenameContains" xml:space="preserve">
-    <value>且名称包含（可选，留空表示任意）：</value>
+  <data name="AutoOrgFilenameContains" xml:space="preserve">
+    <value>且文件名包含（可选，留空表示不限）：</value>
   </data>
-<data name="AutoOrgGeneratePortal" xml:space="preserve">
-    <value>为此文件夹创建门户框</value>
+  <data name="AutoOrgGeneratePortal" xml:space="preserve">
+    <value>为此文件夹创建文件夹面板</value>
   </data>
-<data name="AutoOrgIfExists" xml:space="preserve">
+  <data name="AutoOrgIfExists" xml:space="preserve">
     <value>若文件已存在：</value>
   </data>
-<data name="AutoOrgIfExtension" xml:space="preserve">
+  <data name="AutoOrgIfExtension" xml:space="preserve">
     <value>当文件扩展名为：</value>
   </data>
-<data name="AutoOrgMoveTo" xml:space="preserve">
+  <data name="AutoOrgMoveTo" xml:space="preserve">
     <value>移动到：</value>
   </data>
-<data name="AutoOrgRemove" xml:space="preserve">
+  <data name="AutoOrgRemove" xml:space="preserve">
     <value>− 移除</value>
   </data>
-<data name="AutoOrgRuleName" xml:space="preserve">
+  <data name="AutoOrgRuleName" xml:space="preserve">
     <value>规则名称：</value>
   </data>
-<data name="AutoOrgSaveRules" xml:space="preserve">
+  <data name="AutoOrgSaveRules" xml:space="preserve">
     <value>保存规则</value>
   </data>
-<data name="AutoOrgTitle" xml:space="preserve">
+  <data name="AutoOrgTitle" xml:space="preserve">
     <value>智能桌面规则</value>
   </data>
-<data name="BackupSelectExportFile" xml:space="preserve">
-    <value>选择框的导出文件</value>
+  <data name="BackupSelectExportFile" xml:space="preserve">
+    <value>选择面板导出文件</value>
   </data>
-<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-<data name="BtnApply" xml:space="preserve">
+  <data name="BtnApply" xml:space="preserve">
     <value>应用</value>
   </data>
-<data name="BtnApplyToAll" xml:space="preserve">
-    <value>应用到全部</value>
+  <data name="BtnApplyToAll" xml:space="preserve">
+    <value>全部应用</value>
   </data>
-<data name="BtnBackup" xml:space="preserve">
+  <data name="BtnBackup" xml:space="preserve">
     <value>备份</value>
   </data>
-<data name="BtnBrowse" xml:space="preserve">
+  <data name="BtnBrowse" xml:space="preserve">
     <value>浏览…</value>
   </data>
-<data name="BtnCancel" xml:space="preserve">
+  <data name="BtnCancel" xml:space="preserve">
     <value>取消</value>
   </data>
-<data name="BtnClearAllData" xml:space="preserve">
+  <data name="BtnClearAllData" xml:space="preserve">
     <value>清除所有数据</value>
   </data>
-<data name="BtnClose" xml:space="preserve">
+  <data name="BtnClose" xml:space="preserve">
     <value>关闭</value>
   </data>
-<data name="BtnCreate" xml:space="preserve">
+  <data name="BtnCreate" xml:space="preserve">
     <value>新建</value>
   </data>
-<data name="BtnDefault" xml:space="preserve">
+  <data name="BtnDefault" xml:space="preserve">
     <value>默认</value>
   </data>
-<data name="BtnDonate" xml:space="preserve">
+  <data name="BtnDonate" xml:space="preserve">
     <value>♥ 通过 PayPal 捐赠</value>
   </data>
-<data name="BtnExportTemplate" xml:space="preserve">
-    <value>导出语言模板…</value>
-  </data>
-<data name="BtnImportLanguagePack" xml:space="preserve">
-    <value>导入语言包…</value>
-  </data>
-<data name="BtnManageAutomation" xml:space="preserve">
+  <data name="BtnManageAutomation" xml:space="preserve">
     <value>管理自动化</value>
   </data>
-<data name="BtnManageProfiles" xml:space="preserve">
-    <value>管理配置</value>
+  <data name="BtnManageProfiles" xml:space="preserve">
+    <value>管理工作区</value>
   </data>
-<data name="BtnMoveDown" xml:space="preserve">
+  <data name="BtnMoveDown" xml:space="preserve">
     <value>▼ 下移</value>
   </data>
-<data name="BtnMoveUp" xml:space="preserve">
+  <data name="BtnMoveUp" xml:space="preserve">
     <value>▲ 上移</value>
   </data>
-<data name="BtnOpenBackupsFolder" xml:space="preserve">
+  <data name="BtnOpenBackupsFolder" xml:space="preserve">
     <value>打开备份文件夹</value>
   </data>
-<data name="BtnOpenLanguagesFolder" xml:space="preserve">
-    <value>打开语言文件夹</value>
-  </data>
-<data name="BtnOpenLog" xml:space="preserve">
+  <data name="BtnOpenLog" xml:space="preserve">
     <value>打开日志</value>
   </data>
-<data name="BtnOrganizeNow" xml:space="preserve">
+  <data name="BtnOrganizeNow" xml:space="preserve">
     <value>立即整理</value>
   </data>
-<data name="BtnReset" xml:space="preserve">
+  <data name="BtnReset" xml:space="preserve">
     <value>重置</value>
   </data>
-<data name="BtnResetStyles" xml:space="preserve">
+  <data name="BtnResetStyles" xml:space="preserve">
     <value>重置样式</value>
   </data>
-<data name="BtnRestore" xml:space="preserve">
-    <value>恢复…</value>
+  <data name="BtnRestore" xml:space="preserve">
+    <value>还原…</value>
   </data>
-<data name="BtnSave" xml:space="preserve">
+  <data name="BtnSave" xml:space="preserve">
     <value>保存</value>
   </data>
-<data name="BtnSaveToAll" xml:space="preserve">
-    <value>保存到全部</value>
+  <data name="BtnSaveToAll" xml:space="preserve">
+    <value>全部保存</value>
   </data>
-<data name="BtnScreenBoundFrames" xml:space="preserve">
-    <value>将框移回屏幕内</value>
+  <data name="BtnScreenBoundFrames" xml:space="preserve">
+    <value>将面板移回屏幕内</value>
   </data>
-<data name="BtnSmartDesktopRules" xml:space="preserve">
+  <data name="BtnSmartDesktopRules" xml:space="preserve">
     <value>智能桌面规则…</value>
   </data>
-<data name="ButtonNo" xml:space="preserve">
+  <data name="ButtonNo" xml:space="preserve">
     <value>否</value>
   </data>
-<data name="ButtonOk" xml:space="preserve">
+  <data name="ButtonOk" xml:space="preserve">
     <value>确定</value>
   </data>
-<data name="ButtonYes" xml:space="preserve">
+  <data name="ButtonYes" xml:space="preserve">
     <value>是</value>
   </data>
-<data name="CalcBadgeFade" xml:space="preserve">
+  <data name="CalcBadgeFade" xml:space="preserve">
     <value>淡出时长（毫秒）：</value>
   </data>
-<data name="CalcClear" xml:space="preserve">
+  <data name="CalcClear" xml:space="preserve">
     <value>清除</value>
   </data>
-<data name="CalcCleared" xml:space="preserve">
+  <data name="CalcCleared" xml:space="preserve">
     <value>已清除</value>
   </data>
-<data name="CalcClearedAll" xml:space="preserve">
+  <data name="CalcClearedAll" xml:space="preserve">
     <value>已全部清除</value>
   </data>
-<data name="CalcClearHistory" xml:space="preserve">
-    <value>清除历史</value>
+  <data name="CalcClearHistory" xml:space="preserve">
+    <value>清除历史记录</value>
   </data>
-<data name="CalcClearMemory" xml:space="preserve">
-    <value>清除内存与历史</value>
+  <data name="CalcClearMemory" xml:space="preserve">
+    <value>清除存储值和历史记录</value>
   </data>
-<data name="CalcClearOnNewInput" xml:space="preserve">
-    <value>新输入时清空显示（在「=」之后）</value>
+  <data name="CalcClearOnNewInput" xml:space="preserve">
+    <value>新输入时清空显示（在“=”之后）</value>
   </data>
-<data name="CalcCopy" xml:space="preserve">
+  <data name="CalcCopy" xml:space="preserve">
     <value>复制</value>
   </data>
-<data name="CalcDisplayColor" xml:space="preserve">
+  <data name="CalcDisplayColor" xml:space="preserve">
     <value>显示颜色：</value>
   </data>
-<data name="CalcEntryCleared" xml:space="preserve">
-    <value>已清除输入</value>
+  <data name="CalcEntryCleared" xml:space="preserve">
+    <value>当前输入已清除</value>
   </data>
-<data name="CalcErrorDisplay" xml:space="preserve">
+  <data name="CalcErrorDisplay" xml:space="preserve">
     <value>错误</value>
   </data>
-<data name="CalcHistoryColor" xml:space="preserve">
+  <data name="CalcHistoryColor" xml:space="preserve">
     <value>历史颜色：</value>
   </data>
-<data name="CalcPaste" xml:space="preserve">
+  <data name="CalcPaste" xml:space="preserve">
     <value>粘贴</value>
   </data>
-<data name="CalcPercentage" xml:space="preserve">
+  <data name="CalcPercentage" xml:space="preserve">
     <value>百分比</value>
   </data>
-<data name="CalcSettings" xml:space="preserve">
+  <data name="CalcSettings" xml:space="preserve">
     <value>计算器设置</value>
   </data>
-<data name="CalcShowKeypad" xml:space="preserve">
+  <data name="CalcShowKeypad" xml:space="preserve">
     <value>显示虚拟键盘</value>
   </data>
-<data name="CalcShowOperationNames" xml:space="preserve">
-    <value>显示运算名称（例如 加法）</value>
+  <data name="CalcShowOperationNames" xml:space="preserve">
+    <value>显示运算名称（如“加法”）</value>
   </data>
-<data name="CalcShowTape" xml:space="preserve">
-    <value>显示计算纸带</value>
+  <data name="CalcShowTape" xml:space="preserve">
+    <value>显示计算历史记录</value>
   </data>
-<data name="CatArchives" xml:space="preserve">
-    <value>压缩包</value>
-  </data>
-<data name="CatCustomExtensions" xml:space="preserve">
-    <value>自定义扩展名...</value>
-  </data>
-<data name="CatDocuments" xml:space="preserve">
-    <value>文档</value>
-  </data>
-<data name="CatExecutables" xml:space="preserve">
-    <value>可执行文件</value>
-  </data>
-<data name="CatImages" xml:space="preserve">
-    <value>图片</value>
-  </data>
-<data name="ColDateModified" xml:space="preserve">
+  <data name="ColDateModified" xml:space="preserve">
     <value>修改日期</value>
   </data>
-<data name="ColName" xml:space="preserve">
+  <data name="ColName" xml:space="preserve">
     <value>名称</value>
   </data>
-<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-<data name="ColorBeige" xml:space="preserve">
+  <data name="ColorBeige" xml:space="preserve">
     <value>米色</value>
   </data>
-<data name="ColorBismark" xml:space="preserve">
-    <value>Bismark</value>
+  <data name="ColorBismark" xml:space="preserve">
+    <value>俾斯麦灰蓝</value>
   </data>
-<data name="ColorBlack" xml:space="preserve">
+  <data name="ColorBlack" xml:space="preserve">
     <value>黑色</value>
   </data>
-<data name="ColorBlue" xml:space="preserve">
+  <data name="ColorBlue" xml:space="preserve">
     <value>蓝色</value>
   </data>
-<data name="ColorFuchsia" xml:space="preserve">
+  <data name="ColorFuchsia" xml:space="preserve">
     <value>品红</value>
   </data>
-<data name="ColorGray" xml:space="preserve">
+  <data name="ColorGray" xml:space="preserve">
     <value>灰色</value>
   </data>
-<data name="ColorGreen" xml:space="preserve">
+  <data name="ColorGreen" xml:space="preserve">
     <value>绿色</value>
   </data>
-<data name="ColorOrange" xml:space="preserve">
+  <data name="ColorOrange" xml:space="preserve">
     <value>橙色</value>
   </data>
-<data name="ColorPurple" xml:space="preserve">
+  <data name="ColorPurple" xml:space="preserve">
     <value>紫色</value>
   </data>
-<data name="ColorRed" xml:space="preserve">
+  <data name="ColorRed" xml:space="preserve">
     <value>红色</value>
   </data>
-<data name="ColorWhite" xml:space="preserve">
+  <data name="ColorWhite" xml:space="preserve">
     <value>白色</value>
   </data>
-<data name="ColorYellow" xml:space="preserve">
+  <data name="ColorYellow" xml:space="preserve">
     <value>黄色</value>
   </data>
-<data name="ColSize" xml:space="preserve">
+  <data name="ColSize" xml:space="preserve">
     <value>大小</value>
   </data>
-<data name="ColType" xml:space="preserve">
+  <data name="ColType" xml:space="preserve">
     <value>类型</value>
   </data>
-<data name="ConfirmDeleteTitle" xml:space="preserve">
+  <data name="ConfirmDeleteTitle" xml:space="preserve">
     <value>确认删除</value>
   </data>
-<data name="ConflictAutoRename" xml:space="preserve">
-    <value>自动重命名（例如 文件 (1).jpg）</value>
+  <data name="CustomizeTitle" xml:space="preserve">
+    <value>自定义面板</value>
   </data>
-<data name="ConflictOverwrite" xml:space="preserve">
-    <value>覆盖（旧文件移入回收站）</value>
+  <data name="DeleteFrameHeading" xml:space="preserve">
+    <value>删除面板</value>
   </data>
-<data name="ConflictSkip" xml:space="preserve">
-    <value>跳过（保留在桌面）</value>
+  <data name="DeleteFrameQuestion" xml:space="preserve">
+    <value>确定要删除这个面板吗？</value>
   </data>
-<data name="CustomizeTitle" xml:space="preserve">
-    <value>自定义框</value>
-  </data>
-<data name="DeleteFrameHeading" xml:space="preserve">
-    <value>删除框</value>
-  </data>
-<data name="DeleteFrameQuestion" xml:space="preserve">
-    <value>确定要删除这个框吗？</value>
-  </data>
-<data name="DeleteTabTitle" xml:space="preserve">
+  <data name="DeleteTabTitle" xml:space="preserve">
     <value>删除标签页</value>
   </data>
-<data name="DiagCpuQueue" xml:space="preserve">
+  <data name="DiagCpuQueue" xml:space="preserve">
     <value>CPU 队列</value>
   </data>
-<data name="DiagCpuUtilization" xml:space="preserve">
+  <data name="DiagCpuUtilization" xml:space="preserve">
     <value>CPU 使用率</value>
   </data>
-<data name="DiagDiskIo" xml:space="preserve">
+  <data name="DiagDiskIo" xml:space="preserve">
     <value>磁盘 I/O</value>
   </data>
-<data name="DiagRamUtilization" xml:space="preserve">
+  <data name="DiagRamUtilization" xml:space="preserve">
     <value>内存使用率</value>
   </data>
-<data name="DlgApplyError" xml:space="preserve">
+  <data name="DlgApplyError" xml:space="preserve">
     <value>应用失败</value>
   </data>
-<data name="DlgBackup" xml:space="preserve">
+  <data name="DlgBackup" xml:space="preserve">
     <value>备份</value>
   </data>
-<data name="DlgBrowseError" xml:space="preserve">
+  <data name="DlgBrowseError" xml:space="preserve">
     <value>浏览失败</value>
   </data>
-<data name="DlgConfirmImport" xml:space="preserve">
+  <data name="DlgConfirmImport" xml:space="preserve">
     <value>确认导入</value>
   </data>
-<data name="DlgCopyError" xml:space="preserve">
+  <data name="DlgCopyError" xml:space="preserve">
     <value>复制失败</value>
   </data>
-<data name="DlgCopyItem" xml:space="preserve">
+  <data name="DlgCopyItem" xml:space="preserve">
     <value>复制项目</value>
   </data>
-<data name="DlgCriticalError" xml:space="preserve">
+  <data name="DlgCriticalError" xml:space="preserve">
     <value>严重错误</value>
   </data>
-<data name="DlgDefaultError" xml:space="preserve">
+  <data name="DlgDefaultError" xml:space="preserve">
     <value>恢复默认失败</value>
   </data>
-<data name="DlgDeleteProfile" xml:space="preserve">
-    <value>删除配置</value>
+  <data name="DlgDeleteProfile" xml:space="preserve">
+    <value>删除工作区</value>
   </data>
-<data name="DlgDeleteTab" xml:space="preserve">
+  <data name="DlgDeleteTab" xml:space="preserve">
     <value>删除标签页</value>
   </data>
-<data name="DlgError" xml:space="preserve">
+  <data name="DlgError" xml:space="preserve">
     <value>错误</value>
   </data>
-<data name="DlgExportError" xml:space="preserve">
+  <data name="DlgExportError" xml:space="preserve">
     <value>导出失败</value>
   </data>
-<data name="DlgExportSuccessful" xml:space="preserve">
+  <data name="DlgExportSuccessful" xml:space="preserve">
     <value>导出成功</value>
   </data>
-<data name="DlgFactoryReset" xml:space="preserve">
+  <data name="DlgFactoryReset" xml:space="preserve">
     <value>恢复出厂设置</value>
   </data>
-<data name="DlgFolderNotRenamed" xml:space="preserve">
+  <data name="DlgFolderNotRenamed" xml:space="preserve">
     <value>文件夹未重命名</value>
   </data>
-<data name="DlgFormError" xml:space="preserve">
+  <data name="DlgFormError" xml:space="preserve">
     <value>窗口错误</value>
   </data>
-<data name="DlgImportComplete" xml:space="preserve">
+  <data name="DlgImportComplete" xml:space="preserve">
     <value>导入完成</value>
   </data>
-<data name="DlgImportError" xml:space="preserve">
+  <data name="DlgImportError" xml:space="preserve">
     <value>导入失败</value>
   </data>
-<data name="DlgInfo" xml:space="preserve">
+  <data name="DlgInfo" xml:space="preserve">
     <value>提示</value>
   </data>
-<data name="DlgInformation" xml:space="preserve">
+  <data name="DlgInformation" xml:space="preserve">
     <value>信息</value>
   </data>
-<data name="DlgKeyboardCheck" xml:space="preserve">
+  <data name="DlgKeyboardCheck" xml:space="preserve">
     <value>可选：键盘兼容性检查</value>
   </data>
-<data name="DlgLaunchError" xml:space="preserve">
+  <data name="DlgLaunchError" xml:space="preserve">
     <value>启动失败</value>
   </data>
-<data name="DlgLoadError" xml:space="preserve">
+  <data name="DlgLoadError" xml:space="preserve">
     <value>加载失败</value>
   </data>
-<data name="DlgMoveItems" xml:space="preserve">
+  <data name="DlgMoveItems" xml:space="preserve">
     <value>移动项目</value>
   </data>
-<data name="DlgPasteError" xml:space="preserve">
+  <data name="DlgPasteError" xml:space="preserve">
     <value>粘贴失败</value>
   </data>
-<data name="DlgPasteItem" xml:space="preserve">
+  <data name="DlgPasteItem" xml:space="preserve">
     <value>粘贴项目</value>
   </data>
-<data name="DlgRenameError" xml:space="preserve">
+  <data name="DlgRenameError" xml:space="preserve">
     <value>重命名失败</value>
   </data>
-<data name="DlgRenameFolder" xml:space="preserve">
+  <data name="DlgRenameFolder" xml:space="preserve">
     <value>重命名文件夹</value>
   </data>
-<data name="DlgResetComplete" xml:space="preserve">
+  <data name="DlgResetComplete" xml:space="preserve">
     <value>重置完成</value>
   </data>
-<data name="DlgResetSuccessful" xml:space="preserve">
+  <data name="DlgResetSuccessful" xml:space="preserve">
     <value>重置成功</value>
   </data>
-<data name="DlgRestartRequired" xml:space="preserve">
+  <data name="DlgRestartRequired" xml:space="preserve">
     <value>需要重启</value>
   </data>
-<data name="DlgRestore" xml:space="preserve">
+  <data name="DlgRestore" xml:space="preserve">
     <value>还原</value>
   </data>
-<data name="DlgRestoreError" xml:space="preserve">
+  <data name="DlgRestoreError" xml:space="preserve">
     <value>还原失败</value>
   </data>
-<data name="DlgRestoreSettings" xml:space="preserve">
+  <data name="DlgRestoreSettings" xml:space="preserve">
     <value>还原设置</value>
   </data>
-<data name="DlgSaved" xml:space="preserve">
-    <value>已保存</value>
-  </data>
-<data name="DlgSaveError" xml:space="preserve">
+  <data name="DlgSaveError" xml:space="preserve">
     <value>保存失败</value>
   </data>
-<data name="DlgSuccess" xml:space="preserve">
+  <data name="DlgSaved" xml:space="preserve">
+    <value>已保存</value>
+  </data>
+  <data name="DlgSuccess" xml:space="preserve">
     <value>操作成功</value>
   </data>
-<data name="DlgSweepDesktop" xml:space="preserve">
+  <data name="DlgSweepDesktop" xml:space="preserve">
     <value>整理桌面</value>
   </data>
-<data name="DlgUpdatePortalFrame" xml:space="preserve">
-    <value>更新门户框</value>
+  <data name="DlgUpdatePortalFrame" xml:space="preserve">
+    <value>更新文件夹面板</value>
   </data>
-<data name="DlgValidationError" xml:space="preserve">
+  <data name="DlgValidationError" xml:space="preserve">
     <value>输入无效</value>
   </data>
-<data name="EditSelectIcon" xml:space="preserve">
+  <data name="EditSelectIcon" xml:space="preserve">
     <value>选择图标</value>
   </data>
-<data name="EditSelectTarget" xml:space="preserve">
+  <data name="EditSelectTarget" xml:space="preserve">
     <value>选择目标文件</value>
   </data>
-<data name="EditShortcutTitle" xml:space="preserve">
+  <data name="EditShortcutTitle" xml:space="preserve">
     <value>编辑快捷方式</value>
   </data>
-<data name="ErrCannotPlaceInsideItself" xml:space="preserve">
+  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
     <value>无法把“{0}”放进它自己里面。</value>
   </data>
-<data name="FocusFrameTitle" xml:space="preserve">
-    <value>跳转到框</value>
+  <data name="FocusFrameTitle" xml:space="preserve">
+    <value>定位面板</value>
   </data>
-<data name="FocusSearchActive" xml:space="preserve">
-    <value>在活动的框中搜索：</value>
+  <data name="FocusSearchActive" xml:space="preserve">
+    <value>搜索面板：</value>
   </data>
-<data name="FxAgitate" xml:space="preserve">
+  <data name="FxAgitate" xml:space="preserve">
     <value>抖动</value>
   </data>
-<data name="FxBounce" xml:space="preserve">
+  <data name="FxBounce" xml:space="preserve">
     <value>弹跳</value>
   </data>
-<data name="FxElastic" xml:space="preserve">
+  <data name="FxElastic" xml:space="preserve">
     <value>弹性</value>
   </data>
-<data name="FxFadeOut" xml:space="preserve">
+  <data name="FxFadeOut" xml:space="preserve">
     <value>淡出</value>
   </data>
-<data name="FxFlip3D" xml:space="preserve">
+  <data name="FxFlip3D" xml:space="preserve">
     <value>3D 翻转</value>
   </data>
-<data name="FxGrowAndFly" xml:space="preserve">
+  <data name="FxGrowAndFly" xml:space="preserve">
     <value>放大飞出</value>
   </data>
-<data name="FxMatrix" xml:space="preserve">
+  <data name="FxMatrix" xml:space="preserve">
     <value>矩阵</value>
   </data>
-<data name="FxPulse" xml:space="preserve">
+  <data name="FxPulse" xml:space="preserve">
     <value>脉动</value>
   </data>
-<data name="FxRotate" xml:space="preserve">
+  <data name="FxRotate" xml:space="preserve">
     <value>旋转</value>
   </data>
-<data name="FxShockwave" xml:space="preserve">
+  <data name="FxShockwave" xml:space="preserve">
     <value>冲击波</value>
   </data>
-<data name="FxSlideUp" xml:space="preserve">
+  <data name="FxSlideUp" xml:space="preserve">
     <value>上滑</value>
   </data>
-<data name="FxSpiral" xml:space="preserve">
+  <data name="FxSpiral" xml:space="preserve">
     <value>螺旋</value>
   </data>
-<data name="FxSupernova" xml:space="preserve">
+  <data name="FxSupernova" xml:space="preserve">
     <value>超新星</value>
   </data>
-<data name="FxTeleport" xml:space="preserve">
+  <data name="FxTeleport" xml:space="preserve">
     <value>瞬移</value>
   </data>
-<data name="FxZoom" xml:space="preserve">
+  <data name="FxZoom" xml:space="preserve">
     <value>缩放</value>
   </data>
-<data name="GaugeCpu" xml:space="preserve">
+  <data name="GaugeCpu" xml:space="preserve">
     <value>CPU %</value>
   </data>
-<data name="GaugeLeftL" xml:space="preserve">
+  <data name="GaugeLeftL" xml:space="preserve">
     <value>左 (L)</value>
   </data>
-<data name="GaugeLeftVu" xml:space="preserve">
-    <value>左 VU</value>
+  <data name="GaugeLeftVu" xml:space="preserve">
+    <value>左声道 VU</value>
   </data>
-<data name="GaugeMasterVu" xml:space="preserve">
+  <data name="GaugeMasterVu" xml:space="preserve">
     <value>主 VU</value>
   </data>
-<data name="GaugeRam" xml:space="preserve">
+  <data name="GaugeRam" xml:space="preserve">
     <value>RAM %</value>
   </data>
-<data name="GaugeRightR" xml:space="preserve">
+  <data name="GaugeRightR" xml:space="preserve">
     <value>右 (R)</value>
   </data>
-<data name="GaugeRightVu" xml:space="preserve">
-    <value>右 VU</value>
+  <data name="GaugeRightVu" xml:space="preserve">
+    <value>右声道 VU</value>
   </data>
-<data name="GestureCtrlPortalToPortal" xml:space="preserve">
+  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
     <value>Ctrl + 在两个门户框之间拖动</value>
   </data>
-<data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
+  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
     <value>改为复制</value>
   </data>
-<data name="GestureFromExplorer" xml:space="preserve">
+  <data name="GestureFromExplorer" xml:space="preserve">
     <value>从资源管理器拖入门户框</value>
   </data>
-<data name="GestureFromExplorerEffect" xml:space="preserve">
+  <data name="GestureFromExplorerEffect" xml:space="preserve">
     <value>把文件复制进来</value>
   </data>
-<data name="GestureOntoFolder" xml:space="preserve">
+  <data name="GestureOntoFolder" xml:space="preserve">
     <value>拖到门户框中的文件夹上</value>
   </data>
-<data name="GestureOntoFolderEffect" xml:space="preserve">
+  <data name="GestureOntoFolderEffect" xml:space="preserve">
     <value>把该项目放进那个文件夹</value>
   </data>
-<data name="GesturePortalToPortal" xml:space="preserve">
+  <data name="GesturePortalToPortal" xml:space="preserve">
     <value>在两个门户框之间拖动</value>
   </data>
-<data name="GesturePortalToPortalEffect" xml:space="preserve">
+  <data name="GesturePortalToPortalEffect" xml:space="preserve">
     <value>移动该项目</value>
   </data>
-<data name="GestureShiftFromExplorer" xml:space="preserve">
+  <data name="GestureShiftFromExplorer" xml:space="preserve">
     <value>Shift + 从资源管理器拖入</value>
   </data>
-<data name="GestureShiftFromExplorerEffect" xml:space="preserve">
+  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
     <value>改为移动</value>
   </data>
-<data name="HkDirectProfile" xml:space="preserve">
-    <value>直接配置 [0-9]</value>
+  <data name="HkDirectProfile" xml:space="preserve">
+    <value>直接切换工作区 [0-9]</value>
   </data>
-<data name="HkFocusFrame" xml:space="preserve">
-    <value>跳转到框</value>
+  <data name="HkFocusFrame" xml:space="preserve">
+    <value>定位面板</value>
   </data>
-<data name="HkNextProfile" xml:space="preserve">
-    <value>下一个配置</value>
+  <data name="HkNextProfile" xml:space="preserve">
+    <value>下一个工作区</value>
   </data>
-<data name="HkPreviousProfile" xml:space="preserve">
-    <value>上一个配置</value>
+  <data name="HkPreviousProfile" xml:space="preserve">
+    <value>上一个工作区</value>
   </data>
-<data name="HkSpotSearch" xml:space="preserve">
+  <data name="HkSpotSearch" xml:space="preserve">
     <value>快速搜索</value>
   </data>
-<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-<data name="IconPickerHint" xml:space="preserve">
-    <value>从可用图标中选择一个，然后点击确定</value>
+  <data name="IconPickerHint" xml:space="preserve">
+    <value>从可用图标中选择一个，然后单击“确定”。</value>
   </data>
-<data name="IconPickerTitle" xml:space="preserve">
+  <data name="IconPickerTitle" xml:space="preserve">
     <value>选择图标</value>
   </data>
-<data name="ImportTabNoFrames" xml:space="preserve">
-    <value>没有其他可导入的数据框。</value>
+  <data name="ImportTabNoFrames" xml:space="preserve">
+    <value>没有其他可导入的面板。</value>
   </data>
-<data name="ImportTabPrompt" xml:space="preserve">
-    <value>选择要导入的框或标签页：</value>
+  <data name="ImportTabPrompt" xml:space="preserve">
+    <value>选择要导入的面板或标签页：</value>
   </data>
-<data name="ImportTabTitle" xml:space="preserve">
+  <data name="ImportTabTitle" xml:space="preserve">
     <value>导入标签页</value>
   </data>
-<data name="ItemAgitate" xml:space="preserve">
+  <data name="ItemAgitate" xml:space="preserve">
     <value>抖动</value>
   </data>
-<data name="ItemBeige" xml:space="preserve">
+  <data name="ItemBeige" xml:space="preserve">
     <value>米色</value>
   </data>
-<data name="ItemBismark" xml:space="preserve">
-    <value>Bismark</value>
+  <data name="ItemBismark" xml:space="preserve">
+    <value>俾斯麦灰蓝</value>
   </data>
-<data name="ItemBlack" xml:space="preserve">
+  <data name="ItemBlack" xml:space="preserve">
     <value>黑色</value>
   </data>
-<data name="ItemBlue" xml:space="preserve">
+  <data name="ItemBlue" xml:space="preserve">
     <value>蓝色</value>
   </data>
-<data name="ItemBounce" xml:space="preserve">
+  <data name="ItemBounce" xml:space="preserve">
     <value>弹跳</value>
   </data>
-<data name="ItemDefault" xml:space="preserve">
+  <data name="ItemDefault" xml:space="preserve">
     <value>默认</value>
   </data>
-<data name="ItemDetails" xml:space="preserve">
-    <value>列表</value>
+  <data name="ItemDetails" xml:space="preserve">
+    <value>详细信息</value>
   </data>
-<data name="ItemElastic" xml:space="preserve">
+  <data name="ItemElastic" xml:space="preserve">
     <value>弹性</value>
   </data>
-<data name="ItemFadeOut" xml:space="preserve">
+  <data name="ItemFadeOut" xml:space="preserve">
     <value>淡出</value>
   </data>
-<data name="ItemFlip3D" xml:space="preserve">
+  <data name="ItemFlip3D" xml:space="preserve">
     <value>3D 翻转</value>
   </data>
-<data name="ItemFuchsia" xml:space="preserve">
+  <data name="ItemFuchsia" xml:space="preserve">
     <value>品红</value>
   </data>
-<data name="ItemGray" xml:space="preserve">
+  <data name="ItemGray" xml:space="preserve">
     <value>灰色</value>
   </data>
-<data name="ItemGreen" xml:space="preserve">
+  <data name="ItemGreen" xml:space="preserve">
     <value>绿色</value>
   </data>
-<data name="ItemGrowAndFly" xml:space="preserve">
+  <data name="ItemGrowAndFly" xml:space="preserve">
     <value>放大飞出</value>
   </data>
-<data name="ItemHuge" xml:space="preserve">
+  <data name="ItemHuge" xml:space="preserve">
     <value>特大</value>
   </data>
-<data name="ItemIcons" xml:space="preserve">
+  <data name="ItemIcons" xml:space="preserve">
     <value>图标</value>
   </data>
-<data name="ItemLarge" xml:space="preserve">
+  <data name="ItemLarge" xml:space="preserve">
     <value>大</value>
   </data>
-<data name="ItemMatrix" xml:space="preserve">
+  <data name="ItemMatrix" xml:space="preserve">
     <value>矩阵</value>
   </data>
-<data name="ItemMedium" xml:space="preserve">
+  <data name="ItemMedium" xml:space="preserve">
     <value>中</value>
   </data>
-<data name="ItemOrange" xml:space="preserve">
+  <data name="ItemOrange" xml:space="preserve">
     <value>橙色</value>
   </data>
-<data name="ItemPulse" xml:space="preserve">
+  <data name="ItemPulse" xml:space="preserve">
     <value>脉动</value>
   </data>
-<data name="ItemPurple" xml:space="preserve">
+  <data name="ItemPurple" xml:space="preserve">
     <value>紫色</value>
   </data>
-<data name="ItemRed" xml:space="preserve">
+  <data name="ItemRed" xml:space="preserve">
     <value>红色</value>
   </data>
-<data name="ItemRotate" xml:space="preserve">
+  <data name="ItemRotate" xml:space="preserve">
     <value>旋转</value>
   </data>
-<data name="ItemShockwave" xml:space="preserve">
+  <data name="ItemShockwave" xml:space="preserve">
     <value>冲击波</value>
   </data>
-<data name="ItemSlideUp" xml:space="preserve">
+  <data name="ItemSlideUp" xml:space="preserve">
     <value>上滑</value>
   </data>
-<data name="ItemSmall" xml:space="preserve">
+  <data name="ItemSmall" xml:space="preserve">
     <value>小</value>
   </data>
-<data name="ItemSpiral" xml:space="preserve">
+  <data name="ItemSpiral" xml:space="preserve">
     <value>螺旋</value>
   </data>
-<data name="ItemSupernova" xml:space="preserve">
+  <data name="ItemSupernova" xml:space="preserve">
     <value>超新星</value>
   </data>
-<data name="ItemTeal" xml:space="preserve">
-    <value>青色</value>
+  <data name="ItemTeal" xml:space="preserve">
+    <value>蓝绿色</value>
   </data>
-<data name="ItemTeleport" xml:space="preserve">
+  <data name="ItemTeleport" xml:space="preserve">
     <value>瞬移</value>
   </data>
-<data name="ItemTiny" xml:space="preserve">
+  <data name="ItemTiny" xml:space="preserve">
     <value>极小</value>
   </data>
-<data name="ItemWhite" xml:space="preserve">
+  <data name="ItemWhite" xml:space="preserve">
     <value>白色</value>
   </data>
-<data name="ItemYellow" xml:space="preserve">
+  <data name="ItemYellow" xml:space="preserve">
     <value>黄色</value>
   </data>
-<data name="ItemZoom" xml:space="preserve">
+  <data name="ItemZoom" xml:space="preserve">
     <value>缩放</value>
   </data>
-<data name="KeyComma" xml:space="preserve">
+  <data name="KeyComma" xml:space="preserve">
     <value>逗号 (,)</value>
   </data>
-<data name="KeyEnter" xml:space="preserve">
+  <data name="KeyEnter" xml:space="preserve">
     <value>回车</value>
   </data>
-<data name="KeyEscape" xml:space="preserve">
+  <data name="KeyEscape" xml:space="preserve">
     <value>Esc</value>
   </data>
-<data name="KeyPeriod" xml:space="preserve">
+  <data name="KeyPeriod" xml:space="preserve">
     <value>句点 (.)</value>
   </data>
-<data name="KeySpace" xml:space="preserve">
+  <data name="KeySpace" xml:space="preserve">
     <value>空格</value>
   </data>
-<data name="KeyTab" xml:space="preserve">
+  <data name="KeyTab" xml:space="preserve">
     <value>Tab</value>
   </data>
-<data name="KeyTilde" xml:space="preserve">
+  <data name="KeyTilde" xml:space="preserve">
     <value>波浪号 (~)</value>
   </data>
-<data name="LangAutomatic" xml:space="preserve">
-    <value>自动（跟随 Windows）</value>
-  </data>
-<data name="LanguagePackBadName" xml:space="preserve">
-    <value>文件名必须是区域代码，例如 zh-Hans.resx 或 pt-BR.resx。</value>
-  </data>
-<data name="LanguagePackFilter" xml:space="preserve">
-    <value>语言包 (*.resx)|*.resx</value>
-  </data>
-<data name="LanguagePackImported" xml:space="preserve">
-    <value>语言包已安装：{0}。重启后可在列表中看到。</value>
-  </data>
-<data name="LastRunAt" xml:space="preserve">
-    <value>上次成功运行：{0}</value>
-  </data>
-<data name="LastRunNever" xml:space="preserve">
-    <value>上次成功运行：从未</value>
-  </data>
-<data name="LblActivationDelay" xml:space="preserve">
+  <data name="LblActivationDelay" xml:space="preserve">
     <value>激活延迟：</value>
   </data>
-<data name="LblArguments" xml:space="preserve">
+  <data name="LblArguments" xml:space="preserve">
     <value>参数：</value>
   </data>
-<data name="LblBoldTitleText" xml:space="preserve">
+  <data name="LblBoldTitleText" xml:space="preserve">
     <value>标题加粗</value>
   </data>
-<data name="LblColor" xml:space="preserve">
+  <data name="LblColor" xml:space="preserve">
     <value>颜色</value>
   </data>
-<data name="LblCustomColor" xml:space="preserve">
+  <data name="LblCustomColor" xml:space="preserve">
     <value>自定义颜色：</value>
   </data>
-<data name="LblCustomLaunchEffect" xml:space="preserve">
+  <data name="LblCustomLaunchEffect" xml:space="preserve">
     <value>自定义启动效果：</value>
   </data>
-<data name="LblDefaultPortalView" xml:space="preserve">
-    <value>默认门户视图：</value>
+  <data name="LblDefaultPortalView" xml:space="preserve">
+    <value>默认文件夹面板视图：</value>
   </data>
-<data name="LblDisableTextShadow" xml:space="preserve">
+  <data name="LblDisableTextShadow" xml:space="preserve">
     <value>关闭文字阴影</value>
   </data>
-<data name="LblDisplayName" xml:space="preserve">
+  <data name="LblDisplayName" xml:space="preserve">
     <value>显示名称：</value>
   </data>
-<data name="LblDonate" xml:space="preserve">
+  <data name="LblDonate" xml:space="preserve">
     <value>通过捐赠支持本项目的维护与开发</value>
   </data>
-<data name="LblEffect" xml:space="preserve">
+  <data name="LblEffect" xml:space="preserve">
     <value>效果</value>
   </data>
-<data name="LblEnabledRules" xml:space="preserve">
+  <data name="LblEnabledRules" xml:space="preserve">
     <value>已启用：{0}</value>
   </data>
-<data name="LblEnableProfileAutomation" xml:space="preserve">
-    <value>启用配置自动化</value>
+  <data name="LblEnableProfileAutomation" xml:space="preserve">
+    <value>启用工作区自动切换</value>
   </data>
-<data name="LblFontFamily" xml:space="preserve">
+  <data name="LblFontFamily" xml:space="preserve">
     <value>字体：</value>
   </data>
-<data name="LblFontSize" xml:space="preserve">
+  <data name="LblFontSize" xml:space="preserve">
     <value>字号：</value>
   </data>
-<data name="LblFrameBorderColor" xml:space="preserve">
+  <data name="LblFrameBorderColor" xml:space="preserve">
     <value>边框颜色：</value>
   </data>
-<data name="LblFrameBorderThickness" xml:space="preserve">
+  <data name="LblFrameBorderThickness" xml:space="preserve">
     <value>边框粗细：</value>
   </data>
-<data name="LblGrayscaleIcons" xml:space="preserve">
+  <data name="LblGrayscaleIcons" xml:space="preserve">
     <value>灰度图标</value>
   </data>
-<data name="LblIcon" xml:space="preserve">
+  <data name="LblIcon" xml:space="preserve">
     <value>图标：</value>
   </data>
-<data name="LblIconSize" xml:space="preserve">
+  <data name="LblIconSize" xml:space="preserve">
     <value>图标大小：</value>
   </data>
-<data name="LblIconSpacing" xml:space="preserve">
+  <data name="LblIconSpacing" xml:space="preserve">
     <value>图标间距：</value>
   </data>
-<data name="LblLanguage" xml:space="preserve">
-    <value>界面语言：</value>
-  </data>
-<data name="LblLockIcon" xml:space="preserve">
+  <data name="LblLockIcon" xml:space="preserve">
     <value>锁定图标</value>
   </data>
-<data name="LblMenuIcon" xml:space="preserve">
+  <data name="LblMenuIcon" xml:space="preserve">
     <value>菜单图标</value>
   </data>
-<data name="LblMinimumLogLevel" xml:space="preserve">
+  <data name="LblMinimumLogLevel" xml:space="preserve">
     <value>最低日志级别</value>
   </data>
-<data name="LblNotificationSound" xml:space="preserve">
+  <data name="LblNotificationSound" xml:space="preserve">
     <value>通知声音：</value>
   </data>
-<data name="LblPortalView" xml:space="preserve">
-    <value>门户视图：</value>
+  <data name="LblPortalView" xml:space="preserve">
+    <value>文件夹面板视图：</value>
   </data>
-<data name="LblProcessName" xml:space="preserve">
+  <data name="LblProcessName" xml:space="preserve">
     <value>进程名称（选择或输入）：</value>
   </data>
-<data name="LblSpellCheck" xml:space="preserve">
+  <data name="LblSpellCheck" xml:space="preserve">
     <value>拼写检查</value>
   </data>
-<data name="LblTargetPath" xml:space="preserve">
+  <data name="LblTargetPath" xml:space="preserve">
     <value>目标路径：</value>
   </data>
-<data name="LblTargetProfile" xml:space="preserve">
-    <value>要激活的配置：</value>
+  <data name="LblTargetProfile" xml:space="preserve">
+    <value>目标工作区：</value>
   </data>
-<data name="LblTextColor" xml:space="preserve">
+  <data name="LblTextColor" xml:space="preserve">
     <value>文字颜色：</value>
   </data>
-<data name="LblTitleTextColor" xml:space="preserve">
+  <data name="LblTitleTextColor" xml:space="preserve">
     <value>标题颜色：</value>
   </data>
-<data name="LblTitleTextSize" xml:space="preserve">
-    <value>标题大小：</value>
+  <data name="LblTitleTextSize" xml:space="preserve">
+    <value>标题字号：</value>
   </data>
-<data name="LblTotalRules" xml:space="preserve">
+  <data name="LblTotalRules" xml:space="preserve">
     <value>规则总数：{0}</value>
   </data>
-<data name="LblWordWrap" xml:space="preserve">
+  <data name="LblWordWrap" xml:space="preserve">
     <value>自动换行</value>
   </data>
-<data name="MenuAbout" xml:space="preserve">
+  <data name="MenuAbout" xml:space="preserve">
     <value>关于…</value>
   </data>
-<data name="MenuAddPlugin" xml:space="preserve">
-    <value>添加小组件 | 插件</value>
+  <data name="MenuAddPlugin" xml:space="preserve">
+    <value>添加小组件/插件</value>
   </data>
-<data name="MenuAddSpacer" xml:space="preserve">
+  <data name="MenuAddSpacer" xml:space="preserve">
     <value>添加间隔</value>
   </data>
-<data name="MenuAlwaysOnTop" xml:space="preserve">
+  <data name="MenuAlwaysOnTop" xml:space="preserve">
     <value>始终置顶</value>
   </data>
-<data name="MenuAlwaysRunAsAdmin" xml:space="preserve">
+  <data name="MenuAlwaysRunAsAdmin" xml:space="preserve">
     <value>始终以管理员身份运行</value>
   </data>
-<data name="MenuAlwaysRunAsDifferentUser" xml:space="preserve">
+  <data name="MenuAlwaysRunAsDifferentUser" xml:space="preserve">
     <value>始终以其他用户身份运行</value>
   </data>
-<data name="MenuAutoRoll" xml:space="preserve">
+  <data name="MenuAutoRoll" xml:space="preserve">
     <value>自动收起</value>
   </data>
-<data name="MenuClearDeadShortcuts" xml:space="preserve">
+  <data name="MenuClearDeadShortcuts" xml:space="preserve">
     <value>清除失效的快捷方式</value>
   </data>
-<data name="MenuCopyFolderPath" xml:space="preserve">
+  <data name="MenuCopyFolderPath" xml:space="preserve">
     <value>复制文件夹路径</value>
   </data>
-<data name="MenuCopyItem" xml:space="preserve">
+  <data name="MenuCopyItem" xml:space="preserve">
     <value>复制项目</value>
   </data>
-<data name="MenuCopyItemPath" xml:space="preserve">
+  <data name="MenuCopyItemPath" xml:space="preserve">
     <value>复制项目路径</value>
   </data>
-<data name="MenuCopyPath" xml:space="preserve">
+  <data name="MenuCopyPath" xml:space="preserve">
     <value>复制路径</value>
   </data>
-<data name="MenuCustomize" xml:space="preserve">
+  <data name="MenuCustomize" xml:space="preserve">
     <value>自定义…</value>
   </data>
-<data name="MenuCutItem" xml:space="preserve">
+  <data name="MenuCutItem" xml:space="preserve">
     <value>剪切项目</value>
   </data>
-<data name="MenuDeleteItem" xml:space="preserve">
+  <data name="MenuDeleteItem" xml:space="preserve">
     <value>删除项目</value>
   </data>
-<data name="MenuDeleteThisFrame" xml:space="preserve">
-    <value>删除此框</value>
+  <data name="MenuDeleteThisFrame" xml:space="preserve">
+    <value>删除此面板</value>
   </data>
-<data name="MenuEdit" xml:space="preserve">
+  <data name="MenuEdit" xml:space="preserve">
     <value>编辑…</value>
   </data>
-<data name="MenuEnableTabs" xml:space="preserve">
-    <value>在此框启用标签页</value>
+  <data name="MenuEnableTabs" xml:space="preserve">
+    <value>为此面板启用标签页</value>
   </data>
-<data name="MenuExit" xml:space="preserve">
+  <data name="MenuExit" xml:space="preserve">
     <value>退出</value>
   </data>
-<data name="MenuExportAllIcons" xml:space="preserve">
+  <data name="MenuExportAllIcons" xml:space="preserve">
     <value>将所有图标导出到桌面</value>
   </data>
-<data name="MenuExportThisFrame" xml:space="preserve">
-    <value>导出此框</value>
+  <data name="MenuExportThisFrame" xml:space="preserve">
+    <value>导出此面板</value>
   </data>
-<data name="MenuFolderPath" xml:space="preserve">
+  <data name="MenuFolderPath" xml:space="preserve">
     <value>文件夹路径</value>
   </data>
-<data name="MenuFullPath" xml:space="preserve">
+  <data name="MenuFullPath" xml:space="preserve">
     <value>完整路径</value>
   </data>
-<data name="MenuHideFrame" xml:space="preserve">
-    <value>隐藏此框</value>
+  <data name="MenuHideFrame" xml:space="preserve">
+    <value>隐藏此面板</value>
   </data>
-<data name="MenuImportFrame" xml:space="preserve">
-    <value>导入框…</value>
+  <data name="MenuImportFrame" xml:space="preserve">
+    <value>导入面板…</value>
   </data>
-<data name="MenuMove" xml:space="preserve">
+  <data name="MenuMove" xml:space="preserve">
     <value>移动…</value>
   </data>
-<data name="MenuNameAfterPath" xml:space="preserve">
-    <value>用目标路径命名此框</value>
+  <data name="MenuNameAfterPath" xml:space="preserve">
+    <value>以目标路径命名此面板</value>
   </data>
-<data name="MenuNewFrame" xml:space="preserve">
-    <value>新建框</value>
+  <data name="MenuNewFrame" xml:space="preserve">
+    <value>新建面板</value>
   </data>
-<data name="MenuNewNoteFrame" xml:space="preserve">
-    <value>新建便签框</value>
+  <data name="MenuNewNoteFrame" xml:space="preserve">
+    <value>新建便签面板</value>
   </data>
-<data name="MenuNewPortalFrame" xml:space="preserve">
-    <value>新建门户框</value>
+  <data name="MenuNewPortalFrame" xml:space="preserve">
+    <value>新建文件夹面板</value>
   </data>
-<data name="MenuNoPluginsAvailable" xml:space="preserve">
-    <value>（当前级别没有可用插件）</value>
+  <data name="MenuNoPluginsAvailable" xml:space="preserve">
+    <value>（此级别没有可用插件）</value>
   </data>
-<data name="MenuOpenFrameFolder" xml:space="preserve">
-    <value>打开框所在文件夹</value>
+  <data name="MenuOpenFrameFolder" xml:space="preserve">
+    <value>打开面板所在文件夹</value>
   </data>
-<data name="MenuOpenTargetFolder" xml:space="preserve">
+  <data name="MenuOpenTargetFolder" xml:space="preserve">
     <value>打开目标文件夹…</value>
   </data>
-<data name="MenuOpenWith" xml:space="preserve">
+  <data name="MenuOpenWith" xml:space="preserve">
     <value>打开方式…</value>
   </data>
-<data name="MenuOptions" xml:space="preserve">
+  <data name="MenuOptions" xml:space="preserve">
     <value>选项…</value>
   </data>
-<data name="MenuPasteItem" xml:space="preserve">
+  <data name="MenuPasteItem" xml:space="preserve">
     <value>粘贴项目</value>
   </data>
-<data name="MenuPeekBehind" xml:space="preserve">
-    <value>查看背后</value>
+  <data name="MenuPeekBehind" xml:space="preserve">
+    <value>临时查看桌面</value>
   </data>
-<data name="MenuPluginSettings" xml:space="preserve">
+  <data name="MenuPluginSettings" xml:space="preserve">
     <value>插件设置…</value>
   </data>
-<data name="MenuRemove" xml:space="preserve">
+  <data name="MenuRemove" xml:space="preserve">
     <value>移除</value>
   </data>
-<data name="MenuRenameItem" xml:space="preserve">
+  <data name="MenuRenameItem" xml:space="preserve">
     <value>重命名项目</value>
   </data>
-<data name="MenuResetColumns" xml:space="preserve">
+  <data name="MenuResetColumns" xml:space="preserve">
     <value>重置列</value>
   </data>
-<data name="MenuResetSorting" xml:space="preserve">
+  <data name="MenuResetSorting" xml:space="preserve">
     <value>重置排序</value>
   </data>
-<data name="MenuRestoreLastDeleted" xml:space="preserve">
-    <value>恢复上次删除的框</value>
+  <data name="MenuRestoreLastDeleted" xml:space="preserve">
+    <value>还原上次删除的面板</value>
   </data>
-<data name="MenuRunAsAdmin" xml:space="preserve">
+  <data name="MenuRunAsAdmin" xml:space="preserve">
     <value>以管理员身份运行</value>
   </data>
-<data name="MenuRunAsDifferentUser" xml:space="preserve">
+  <data name="MenuRunAsDifferentUser" xml:space="preserve">
     <value>以其他用户身份运行…</value>
   </data>
-<data name="MenuSendToDesktop" xml:space="preserve">
+  <data name="MenuSendToDesktop" xml:space="preserve">
     <value>发送到桌面</value>
   </data>
-<data name="MenuSpacerBlank" xml:space="preserve">
+  <data name="MenuSpacerBlank" xml:space="preserve">
     <value>空白</value>
   </data>
-<data name="MenuSpacerDot" xml:space="preserve">
+  <data name="MenuSpacerDot" xml:space="preserve">
     <value>圆点</value>
   </data>
-<data name="MenuViewAsDetails" xml:space="preserve">
-    <value>以列表显示</value>
+  <data name="MenuViewAsDetails" xml:space="preserve">
+    <value>以详细信息显示</value>
   </data>
-<data name="MoveItemPrompt" xml:space="preserve">
-    <value>选择目标框或标签页：</value>
+  <data name="MoveItemPrompt" xml:space="preserve">
+    <value>选择目标面板或标签页：</value>
   </data>
-<data name="MoveItemTitle" xml:space="preserve">
+  <data name="MoveItemTitle" xml:space="preserve">
     <value>移动项目到…</value>
   </data>
-<data name="MoveMainItems" xml:space="preserve">
+  <data name="MoveMainItems" xml:space="preserve">
     <value>📋 主要项目</value>
   </data>
-<data name="MsgAddItemFailed" xml:space="preserve">
+  <data name="MsgAddItemFailed" xml:space="preserve">
     <value>无法添加 {0}：{1}</value>
   </data>
-<data name="MsgApplyChangesFailed" xml:space="preserve">
+  <data name="MsgApplyChangesFailed" xml:space="preserve">
     <value>应用更改时出错：{0}</value>
   </data>
-<data name="MsgApplySettingsFailed" xml:space="preserve">
+  <data name="MsgApplySettingsFailed" xml:space="preserve">
     <value>应用设置时出错：{0}</value>
   </data>
-<data name="MsgBackupDone" xml:space="preserve">
+  <data name="MsgBackupDone" xml:space="preserve">
     <value>备份完成。</value>
   </data>
-<data name="MsgBackupFailed" xml:space="preserve">
+  <data name="MsgBackupFailed" xml:space="preserve">
     <value>备份过程中出错：{0}</value>
   </data>
-<data name="MsgCannotDeleteLastTab" xml:space="preserve">
+  <data name="MsgCannotDeleteLastTab" xml:space="preserve">
     <value>无法删除最后一个标签页。</value>
   </data>
-<data name="MsgConfirmDeleteProfile" xml:space="preserve">
-    <value>确定要删除配置“{0}”吗？
+  <data name="MsgConfirmDeleteProfile" xml:space="preserve">
+    <value>确定要删除工作区“{0}”吗？
 此操作无法撤销。</value>
   </data>
-<data name="MsgConfirmDisableCtrlAltHotkeys" xml:space="preserve">
-    <value>配置快捷键当前设为 Ctrl+Alt。
+  <data name="MsgConfirmDisableCtrlAltHotkeys" xml:space="preserve">
+    <value>工作区快捷键当前使用 Ctrl+Alt。
 
-在许多国际键盘上，Windows 把这个组合同时用作 'AltGr' 键。这会导致无法输入 @、€、[ 或 { 等字符。
+在许多国际键盘布局中，Windows 也会将此组合视为 AltGr 键，可能导致 @、€、[、{ 等字符无法正常输入。
 
-• 点击“是”将其禁用（解决输入问题）
-• 点击“否”保留它们（如果一切正常）</value>
+• 选择“是”以禁用这些快捷键（解决输入问题）
+• 选择“否”以保留这些快捷键（如果当前使用正常）</value>
   </data>
-<data name="MsgConfirmFactoryReset" xml:space="preserve">
-    <value>警告：将删除当前配置的所有框、快捷方式和设置！
+  <data name="MsgConfirmFactoryReset" xml:space="preserve">
+    <value>警告：这将删除当前工作区的所有面板、快捷方式和设置！
 
 确定要继续吗？</value>
   </data>
-<data name="MsgConfirmImportIntoTab" xml:space="preserve">
-    <value>把“{0}”的内容导入到新标签页吗？</value>
+  <data name="MsgConfirmImportIntoTab" xml:space="preserve">
+    <value>要将“{0}”的内容导入到新标签页吗？</value>
   </data>
-<data name="MsgConfirmMoveMany" xml:space="preserve">
+  <data name="MsgConfirmMoveMany" xml:space="preserve">
     <value>要把 {0} 个项目移动到“{1}”吗？
 
 它们会从现在所在的位置移走。</value>
   </data>
-<data name="MsgConfirmMoveOne" xml:space="preserve">
+  <data name="MsgConfirmMoveOne" xml:space="preserve">
     <value>要把“{0}”移动到“{1}”吗？
 
 它会从现在所在的位置移走。</value>
   </data>
-<data name="MsgConfirmRenameFolder" xml:space="preserve">
+  <data name="MsgConfirmRenameFolder" xml:space="preserve">
     <value>要把文件夹也重命名为“{0}”吗？
 
 {1}
 
 指向旧名称的快捷方式和其他程序将无法再找到它。</value>
   </data>
-<data name="MsgConfirmResetCustomizations" xml:space="preserve">
-    <value>要重置所有外观自定义吗？</value>
+  <data name="MsgConfirmResetCustomizations" xml:space="preserve">
+    <value>要重置所有外观自定义设置吗？</value>
   </data>
-<data name="MsgConfirmRestoreSettings" xml:space="preserve">
-    <value>此备份还包含配置设置（options.json）。
+  <data name="MsgConfirmRestoreSettings" xml:space="preserve">
+    <value>此备份还包含设置文件（options.json）。
 
 是否同时还原全局设置？</value>
   </data>
-<data name="MsgConfirmSetPortalHome" xml:space="preserve">
-    <value>把这个文件夹设为新的来源吗？
+  <data name="MsgConfirmSetPortalHome" xml:space="preserve">
+    <value>要将此文件夹设为新的起始目录吗？
 
 {0}</value>
   </data>
-<data name="MsgConfirmSweepDesktop" xml:space="preserve">
-    <value>桌面上已有的文件将按你的规则移动到目标文件夹。
+  <data name="MsgConfirmSweepDesktop" xml:space="preserve">
+    <value>桌面上已有的文件将按照你的规则移动到目标位置。
 
 继续吗？</value>
   </data>
-<data name="MsgCopyItemFailed" xml:space="preserve">
+  <data name="MsgCopyItemFailed" xml:space="preserve">
     <value>复制项目时出错：{0}</value>
   </data>
-<data name="MsgCopyPathFailed" xml:space="preserve">
+  <data name="MsgCopyPathFailed" xml:space="preserve">
     <value>无法复制路径。</value>
   </data>
-<data name="MsgCreateProfileFailed" xml:space="preserve">
-    <value>无法创建配置。名称无效或已存在。</value>
+  <data name="MsgCreateProfileFailed" xml:space="preserve">
+    <value>无法创建工作区。名称无效或已存在。</value>
   </data>
-<data name="MsgCustomizationsReset" xml:space="preserve">
-    <value>所有外观自定义已重置。
-图标和框的位置保持不变。</value>
+  <data name="MsgCustomizationsReset" xml:space="preserve">
+    <value>所有外观自定义设置已重置。
+图标和面板的位置保持不变。</value>
   </data>
-<data name="MsgDeleteItemFailed" xml:space="preserve">
+  <data name="MsgDeleteItemFailed" xml:space="preserve">
     <value>无法删除该项目。</value>
   </data>
-<data name="MsgDesktopOrganized" xml:space="preserve">
+  <data name="MsgDesktopOrganized" xml:space="preserve">
     <value>桌面整理完成。</value>
   </data>
-<data name="MsgDestinationFolderGone" xml:space="preserve">
+  <data name="MsgDestinationFolderGone" xml:space="preserve">
     <value>目标文件夹“{0}”已不存在。</value>
   </data>
-<data name="MsgEditNotAvailable" xml:space="preserve">
+  <data name="MsgEditNotAvailable" xml:space="preserve">
     <value>此类项目无法编辑。</value>
   </data>
-<data name="MsgExportFailed" xml:space="preserve">
+  <data name="MsgExportFailed" xml:space="preserve">
     <value>导出失败：{0}</value>
   </data>
-<data name="MsgExportIconsFailed" xml:space="preserve">
+  <data name="MsgExportIconsFailed" xml:space="preserve">
     <value>导出图标时出错：{0}</value>
   </data>
-<data name="MsgFactoryResetDone" xml:space="preserve">
+  <data name="MsgFactoryResetDone" xml:space="preserve">
     <value>已恢复出厂设置。
-应用程序将重新启动。</value>
+程序将重新启动。</value>
   </data>
-<data name="MsgFileNotFoundInProfile" xml:space="preserve">
-    <value>在当前配置中找不到文件：
+  <data name="MsgFileNotFoundInProfile" xml:space="preserve">
+    <value>在当前工作区中找不到文件：
 {0}</value>
   </data>
-<data name="MsgFolderNameTaken" xml:space="preserve">
+  <data name="MsgFolderNameTaken" xml:space="preserve">
     <value>框已重命名，但文件夹保持原样：已经存在名为“{0}”的项目。</value>
   </data>
-<data name="MsgFolderRenameFailed" xml:space="preserve">
+  <data name="MsgFolderRenameFailed" xml:space="preserve">
     <value>框已重命名，但文件夹没有：{0}</value>
   </data>
-<data name="MsgFormInitFailed" xml:space="preserve">
+  <data name="MsgFormInitFailed" xml:space="preserve">
     <value>打开窗口时出错：{0}</value>
   </data>
-<data name="MsgFrameExportedTo" xml:space="preserve">
-    <value>框已导出到：
+  <data name="MsgFrameExportedTo" xml:space="preserve">
+    <value>面板已导出到：
 {0}</value>
   </data>
-<data name="MsgFrameImported" xml:space="preserve">
-    <value>框导入成功。</value>
+  <data name="MsgFrameImported" xml:space="preserve">
+    <value>面板导入成功。</value>
   </data>
-<data name="MsgFramesMovedIntoBounds" xml:space="preserve">
-    <value>已检查所有框并移回屏幕可见范围内。</value>
+  <data name="MsgFramesMovedIntoBounds" xml:space="preserve">
+    <value>已检查并将所有面板移回屏幕可见区域内。</value>
   </data>
-<data name="MsgGenericError" xml:space="preserve">
+  <data name="MsgGenericError" xml:space="preserve">
     <value>错误：{0}</value>
   </data>
-<data name="MsgGlobalSettingsRestored" xml:space="preserve">
+  <data name="MsgGlobalSettingsRestored" xml:space="preserve">
     <value>全局设置已还原。
-应用程序将重新启动以应用更改。</value>
+程序将重新启动以应用更改。</value>
   </data>
-<data name="MsgHotkeysSavedRestartNeeded" xml:space="preserve">
-    <value>全局快捷键已保存并应用到所有配置。
+  <data name="MsgHotkeysSavedRestartNeeded" xml:space="preserve">
+    <value>全局快捷键已保存并应用到所有工作区。
 
-请重新启动 Desktop Frames 以启用。</value>
+请重启 Desktop Frames + 以启用这些快捷键。</value>
   </data>
-<data name="MsgImportFailed" xml:space="preserve">
+  <data name="MsgImportFailed" xml:space="preserve">
     <value>导入失败：{0}</value>
   </data>
-<data name="MsgImportFrameFailed" xml:space="preserve">
-    <value>无法导入框：{0}</value>
+  <data name="MsgImportFrameFailed" xml:space="preserve">
+    <value>无法导入面板：{0}</value>
   </data>
-<data name="MsgInitFailed" xml:space="preserve">
+  <data name="MsgInitFailed" xml:space="preserve">
     <value>初始化出错：{0}</value>
   </data>
-<data name="MsgInvalidFileOrFolder" xml:space="preserve">
+  <data name="MsgInvalidFileOrFolder" xml:space="preserve">
     <value>无效的文件或文件夹：{0}</value>
   </data>
-<data name="MsgInvalidUrlFile" xml:space="preserve">
+  <data name="MsgInvalidUrlFile" xml:space="preserve">
     <value>无效的 .url 文件：{0}</value>
   </data>
-<data name="MsgItemCopiedReady" xml:space="preserve">
+  <data name="MsgItemCopiedReady" xml:space="preserve">
     <value>已复制项目“{0}”，可以粘贴了。</value>
   </data>
-<data name="MsgLaunchFailed" xml:space="preserve">
+  <data name="MsgLaunchFailed" xml:space="preserve">
     <value>启动时出错：{0}</value>
   </data>
-<data name="MsgLoadFramePropertiesFailed" xml:space="preserve">
-    <value>加载框属性时出错：{0}</value>
+  <data name="MsgLoadFramePropertiesFailed" xml:space="preserve">
+    <value>加载面板属性时出错：{0}</value>
   </data>
-<data name="MsgLogFileNotFound" xml:space="preserve">
+  <data name="MsgLogFileNotFound" xml:space="preserve">
     <value>找不到日志文件。</value>
   </data>
-<data name="MsgMoveFailed" xml:space="preserve">
+  <data name="MsgMoveFailed" xml:space="preserve">
     <value>移动失败：{0}</value>
   </data>
-<data name="MsgNameAlreadyExists" xml:space="preserve">
+  <data name="MsgNameAlreadyExists" xml:space="preserve">
     <value>已存在同名的文件或文件夹。</value>
   </data>
-<data name="MsgNameAndTargetRequired" xml:space="preserve">
+  <data name="MsgNameAndTargetRequired" xml:space="preserve">
     <value>显示名称和目标路径不能为空。</value>
   </data>
-<data name="MsgNoFrameToRestore" xml:space="preserve">
-    <value>没有可还原的框</value>
+  <data name="MsgNoFrameToRestore" xml:space="preserve">
+    <value>没有可还原的面板。</value>
   </data>
-<data name="MsgNoItemToPaste" xml:space="preserve">
-    <value>没有可粘贴的项目</value>
+  <data name="MsgNoItemToPaste" xml:space="preserve">
+    <value>没有可粘贴的项目。</value>
   </data>
-<data name="MsgNoPortalDestination" xml:space="preserve">
-    <value>此门户框尚未设置目标文件夹。</value>
+  <data name="MsgNoPortalDestination" xml:space="preserve">
+    <value>此文件夹面板尚未设置目标文件夹。</value>
   </data>
-<data name="MsgOpenCustomizeFailed" xml:space="preserve">
+  <data name="MsgOpenCustomizeFailed" xml:space="preserve">
     <value>打开自定义窗口时出错：{0}</value>
   </data>
-<data name="MsgOpenFileBrowserFailed" xml:space="preserve">
+  <data name="MsgOpenFileBrowserFailed" xml:space="preserve">
     <value>打开文件选择器时出错：{0}</value>
   </data>
-<data name="MsgOpenTextFormatFailed" xml:space="preserve">
+  <data name="MsgOpenTextFormatFailed" xml:space="preserve">
     <value>打开文本格式窗口时出错：{0}</value>
   </data>
-<data name="MsgPasteItemFailed" xml:space="preserve">
+  <data name="MsgPasteItemFailed" xml:space="preserve">
     <value>粘贴项目时出错：{0}</value>
   </data>
-<data name="MsgPortalInitFailed" xml:space="preserve">
-    <value>无法初始化门户框：{0}</value>
+  <data name="MsgPortalInitFailed" xml:space="preserve">
+    <value>无法初始化文件夹面板：{0}</value>
   </data>
-<data name="MsgProfileCreated" xml:space="preserve">
-    <value>配置“{0}”创建成功。</value>
+  <data name="MsgProfileCreated" xml:space="preserve">
+    <value>工作区“{0}”创建成功。</value>
   </data>
-<data name="MsgProfileNameInvalid" xml:space="preserve">
-    <value>名称无效，或配置已存在。</value>
+  <data name="MsgProfileNameInvalid" xml:space="preserve">
+    <value>名称无效，或同名工作区已存在。</value>
   </data>
-<data name="MsgProfileSystemError" xml:space="preserve">
-    <value>配置系统错误：{0}</value>
+  <data name="MsgProfileSystemError" xml:space="preserve">
+    <value>工作区系统错误：{0}</value>
   </data>
-<data name="MsgRecycleBinFailed" xml:space="preserve">
+  <data name="MsgRecycleBinFailed" xml:space="preserve">
     <value>无法把该项目移入回收站。</value>
   </data>
-<data name="MsgReloadFramesFailed" xml:space="preserve">
-    <value>重新加载框时出错：{0}</value>
+  <data name="MsgReloadFramesFailed" xml:space="preserve">
+    <value>重新加载面板时出错：{0}</value>
   </data>
-<data name="MsgReloadingFramesFailed" xml:space="preserve">
-    <value>重新加载框时出错：{0}</value>
+  <data name="MsgReloadingFramesFailed" xml:space="preserve">
+    <value>重新加载面板时出错：{0}</value>
   </data>
-<data name="MsgRenameItemFailed" xml:space="preserve">
+  <data name="MsgRenameItemFailed" xml:space="preserve">
     <value>无法重命名该项目：{0}</value>
   </data>
-<data name="MsgRenameProfileFailed" xml:space="preserve">
-    <value>重命名失败。名称可能已被占用或无效。</value>
+  <data name="MsgRenameProfileFailed" xml:space="preserve">
+    <value>重命名失败。名称可能无效或已被其他工作区使用。</value>
   </data>
-<data name="MsgResetCustomizationsFailed" xml:space="preserve">
+  <data name="MsgResetCustomizationsFailed" xml:space="preserve">
     <value>重置自定义设置时出错：{0}</value>
   </data>
-<data name="MsgResetDefaultsFailed" xml:space="preserve">
+  <data name="MsgResetDefaultsFailed" xml:space="preserve">
     <value>恢复默认值时出错：{0}</value>
   </data>
-<data name="MsgResetFailed" xml:space="preserve">
+  <data name="MsgResetFailed" xml:space="preserve">
     <value>重置失败：{0}</value>
   </data>
-<data name="MsgRestartForLanguage" xml:space="preserve">
-    <value>语言已保存。
+  <data name="MsgRestartForLanguage" xml:space="preserve">
+    <value>语言设置已保存。
 
-每个窗口在创建时读取自己的文字，因此更改会在程序重启后生效。
+界面语言将在程序重启后生效。
 
 现在重启吗？</value>
   </data>
-<data name="MsgRestoreDefaultsFailed" xml:space="preserve">
+  <data name="MsgRestoreDefaultsFailed" xml:space="preserve">
     <value>还原默认值时出错：{0}</value>
   </data>
-<data name="MsgRestoreDone" xml:space="preserve">
+  <data name="MsgRestoreDone" xml:space="preserve">
     <value>还原完成。</value>
   </data>
-<data name="MsgRestoreFailed" xml:space="preserve">
+  <data name="MsgRestoreFailed" xml:space="preserve">
     <value>还原失败：{0}</value>
   </data>
-<data name="MsgRestoreFrameFailed" xml:space="preserve">
-    <value>还原框时出错：{0}</value>
+  <data name="MsgRestoreFrameFailed" xml:space="preserve">
+    <value>还原面板时出错：{0}</value>
   </data>
-<data name="MsgRulesSaved" xml:space="preserve">
+  <data name="MsgRulesSaved" xml:space="preserve">
     <value>规则已保存并生效。</value>
   </data>
-<data name="MsgRunAsAdminFailed" xml:space="preserve">
+  <data name="MsgRunAsAdminFailed" xml:space="preserve">
     <value>以管理员身份运行时出错：{0}</value>
   </data>
-<data name="MsgSaveChangesFailed" xml:space="preserve">
+  <data name="MsgSaveChangesFailed" xml:space="preserve">
     <value>保存更改时出错：{0}</value>
   </data>
-<data name="MsgSaveSettingsFailed" xml:space="preserve">
+  <data name="MsgSaveSettingsFailed" xml:space="preserve">
     <value>保存设置时出错：{0}</value>
   </data>
-<data name="MsgSaveShortcutFailed" xml:space="preserve">
+  <data name="MsgSaveShortcutFailed" xml:space="preserve">
     <value>无法保存快捷方式：{0}</value>
   </data>
-<data name="MsgTargetNotFound" xml:space="preserve">
+  <data name="MsgTargetNotFound" xml:space="preserve">
     <value>找不到目标：
 {0}</value>
   </data>
-<data name="MsgTemplateExported" xml:space="preserve">
-    <value>语言模板已成功导出！</value>
-  </data>
-<data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-<data name="NetChecking" xml:space="preserve">
+  <data name="NetChecking" xml:space="preserve">
     <value>检查中…</value>
   </data>
-<data name="NetExternal" xml:space="preserve">
+  <data name="NetExternal" xml:space="preserve">
     <value>外部网络</value>
   </data>
-<data name="NetIpLabel" xml:space="preserve">
+  <data name="NetIpLabel" xml:space="preserve">
     <value>IP：</value>
   </data>
-<data name="NetLocalAdapters" xml:space="preserve">
+  <data name="NetLocalAdapters" xml:space="preserve">
     <value>本地网卡</value>
   </data>
-<data name="NetNoInterfaces" xml:space="preserve">
-    <value>没有活动的网络接口。</value>
+  <data name="NetNoInterfaces" xml:space="preserve">
+    <value>未找到活动的网络接口。</value>
   </data>
-<data name="NetOffline" xml:space="preserve">
+  <data name="NetOffline" xml:space="preserve">
     <value>离线</value>
   </data>
-<data name="NetPublicWan" xml:space="preserve">
+  <data name="NetPublicWan" xml:space="preserve">
     <value>公网 WAN 地址</value>
   </data>
-<data name="NetSelectInterfaces" xml:space="preserve">
-    <value>选择要显示的接口：</value>
+  <data name="NetSelectInterfaces" xml:space="preserve">
+    <value>选择要显示的网络接口：</value>
   </data>
-<data name="NetSettings" xml:space="preserve">
-    <value>网络监视设置</value>
+  <data name="NetSettings" xml:space="preserve">
+    <value>网络监控设置</value>
   </data>
-<data name="NetShowDisconnected" xml:space="preserve">
+  <data name="NetShowDisconnected" xml:space="preserve">
     <value>显示已断开的接口</value>
   </data>
-<data name="NetShowPublicWan" xml:space="preserve">
+  <data name="NetShowPublicWan" xml:space="preserve">
     <value>显示公网 WAN IP</value>
   </data>
-<data name="NetStatusDown" xml:space="preserve">
+  <data name="NetStatusDown" xml:space="preserve">
     <value>未连接</value>
   </data>
-<data name="NetStatusUp" xml:space="preserve">
+  <data name="NetStatusUp" xml:space="preserve">
     <value>已连接</value>
   </data>
-<data name="NetUnreachable" xml:space="preserve">
+  <data name="NetUnreachable" xml:space="preserve">
     <value>无法访问</value>
   </data>
-<data name="NoteAutoOrganize" xml:space="preserve">
-    <value>提示：自动整理会持续监视桌面上的新文件。当某个文件符合已启用规则的条件时，会被真正移动到指定的门户框或文件夹。可用于长期保持桌面整洁，并让下载文件自动归位。</value>
+  <data name="NoteAutoOrganize" xml:space="preserve">
+    <value>提示：自动整理会持续监视桌面上的新文件。符合已启用规则的文件会被实际移动到指定的文件夹面板或目标文件夹，可用于长期保持桌面整洁，并让下载文件自动归位。</value>
   </data>
-<data name="NoteAutoRoll" xml:space="preserve">
-    <value>提示：自动收起需在每个框的右键菜单中单独启用。</value>
+  <data name="NoteAutoRoll" xml:space="preserve">
+    <value>提示：需在每个面板的右键菜单中逐一开启自动收起功能。</value>
   </data>
-<data name="NoteClearAll" xml:space="preserve">
+  <data name="NoteClearAll" xml:space="preserve">
     <value>清除全部文字</value>
   </data>
-<data name="NoteClickEdit" xml:space="preserve">
-    <value>点击编辑便签内容</value>
+  <data name="NoteClickEdit" xml:space="preserve">
+    <value>单击以编辑便签内容</value>
   </data>
-<data name="NoteClickFinish" xml:space="preserve">
-    <value>点击结束编辑</value>
+  <data name="NoteClickFinish" xml:space="preserve">
+    <value>单击以完成编辑</value>
   </data>
-<data name="NoteCopyAll" xml:space="preserve">
+  <data name="NoteCopyAll" xml:space="preserve">
     <value>复制全部文字</value>
   </data>
-<data name="NoteHotkeysRestart" xml:space="preserve">
-    <value>提示：全局快捷键的更改需重启程序后生效。</value>
+  <data name="NoteHotkeysRestart" xml:space="preserve">
+    <value>提示：全局快捷键更改将在程序重启后生效。</value>
   </data>
-<data name="NoteLanguageRestart" xml:space="preserve">
-    <value>注意：语言在程序重启后生效。放入 Languages 文件夹的语言包会在下次启动时读取。</value>
-  </data>
-<data name="NoteTextFormat" xml:space="preserve">
+  <data name="NoteTextFormat" xml:space="preserve">
     <value>文字格式…</value>
   </data>
-<data name="NotificationDontShowAgain" xml:space="preserve">
+  <data name="NotificationDontShowAgain" xml:space="preserve">
     <value>不再显示此消息</value>
   </data>
-<data name="NotificationTitle" xml:space="preserve">
+  <data name="NotificationTitle" xml:space="preserve">
     <value>Desktop Frames + - 通知</value>
   </data>
-<data name="OptAutoHideFrames" xml:space="preserve">
-    <value>自动隐藏框</value>
+  <data name="OptAutoHideFrames" xml:space="preserve">
+    <value>自动隐藏面板</value>
   </data>
-<data name="OptAutomaticBackup" xml:space="preserve">
+  <data name="OptAutomaticBackup" xml:space="preserve">
     <value>自动备份（每日）</value>
   </data>
-<data name="OptAutoOrganize" xml:space="preserve">
+  <data name="OptAutoOrganize" xml:space="preserve">
     <value>启用自动整理</value>
   </data>
-<data name="OptChameleon" xml:space="preserve">
-    <value>变色龙模式（取用壁纸颜色）</value>
+  <data name="OptChameleon" xml:space="preserve">
+    <value>变色龙模式（自动匹配壁纸颜色）</value>
   </data>
-<data name="OptConfirmPortalMove" xml:space="preserve">
+  <data name="OptConfirmPortalMove" xml:space="preserve">
     <value>在拖动把项目移到另一个门户框之前先询问</value>
   </data>
-<data name="OptDimensionSnap" xml:space="preserve">
-    <value>同时吸附尺寸</value>
+  <data name="OptDimensionSnap" xml:space="preserve">
+    <value>尺寸吸附</value>
   </data>
-<data name="OptDisableScrollbars" xml:space="preserve">
+  <data name="OptDisableScrollbars" xml:space="preserve">
     <value>隐藏滚动条</value>
   </data>
-<data name="OptEnableLogging" xml:space="preserve">
+  <data name="OptEnableLogging" xml:space="preserve">
     <value>记录日志</value>
   </data>
-<data name="OptEnableSounds" xml:space="preserve">
+  <data name="OptEnableSounds" xml:space="preserve">
     <value>启用声音</value>
   </data>
-<data name="OptExecutionToasts" xml:space="preserve">
-    <value>显示执行通知</value>
+  <data name="OptExecutionToasts" xml:space="preserve">
+    <value>显示运行通知</value>
   </data>
-<data name="OptFocusFrameHotkey" xml:space="preserve">
-    <value>跳转到框的快捷键</value>
+  <data name="OptFocusFrameHotkey" xml:space="preserve">
+    <value>定位面板快捷键</value>
   </data>
-<data name="OptFrameTint" xml:space="preserve">
-    <value>将框的色调同时应用到图标和文字</value>
+  <data name="OptFrameTint" xml:space="preserve">
+    <value>将面板色调同时应用到图标和文字</value>
   </data>
-<data name="OptHideIconsRunning" xml:space="preserve">
-    <value>程序运行时隐藏 Windows 图标</value>
+  <data name="OptHideIconsRunning" xml:space="preserve">
+    <value>运行期间隐藏 Windows 桌面图标</value>
   </data>
-<data name="OptHideIconsWhenHidden" xml:space="preserve">
-    <value>框隐藏时隐藏 Windows 图标</value>
+  <data name="OptHideIconsWhenHidden" xml:space="preserve">
+    <value>面板隐藏时一并隐藏 Windows 桌面图标</value>
   </data>
-<data name="OptIdleFadeOut" xml:space="preserve">
-    <value>空闲时淡出框</value>
+  <data name="OptIdleFadeOut" xml:space="preserve">
+    <value>空闲时淡出面板</value>
   </data>
-<data name="OptionsHeading" xml:space="preserve">
+  <data name="OptionsHeading" xml:space="preserve">
     <value>选项</value>
   </data>
-<data name="OptionsTitle" xml:space="preserve">
+  <data name="OptionsTitle" xml:space="preserve">
     <value>Desktop Frames + - 选项</value>
   </data>
-<data name="OptNewFrameContextMenu" xml:space="preserve">
-    <value>在桌面右键菜单中显示「新建框」</value>
+  <data name="OptNewFrameContextMenu" xml:space="preserve">
+    <value>在桌面右键菜单中显示“新建面板”</value>
   </data>
-<data name="OptNoteWatermark" xml:space="preserve">
-    <value>便签框水印（即将推出）</value>
+  <data name="OptNoteWatermark" xml:space="preserve">
+    <value>便签面板水印（即将推出）</value>
   </data>
-<data name="OptPortalWatermark" xml:space="preserve">
-    <value>门户框水印</value>
+  <data name="OptPortalWatermark" xml:space="preserve">
+    <value>文件夹面板水印</value>
   </data>
-<data name="OptProfileHotkeys" xml:space="preserve">
-    <value>切换配置的快捷键</value>
+  <data name="OptProfileHotkeys" xml:space="preserve">
+    <value>工作区切换快捷键</value>
   </data>
-<data name="OptRecycleBin" xml:space="preserve">
-    <value>门户框的「删除项目」使用回收站</value>
+  <data name="OptRecycleBin" xml:space="preserve">
+    <value>文件夹面板中的“删除项目”改为放入回收站</value>
   </data>
-<data name="OptSingleClick" xml:space="preserve">
+  <data name="OptSingleClick" xml:space="preserve">
     <value>单击即可打开</value>
   </data>
-<data name="OptSnapNearFrames" xml:space="preserve">
-    <value>吸附相邻的框</value>
+  <data name="OptSnapNearFrames" xml:space="preserve">
+    <value>与相邻面板吸附</value>
   </data>
-<data name="OptSpotSearchHotkey" xml:space="preserve">
+  <data name="OptSpotSearchHotkey" xml:space="preserve">
     <value>快速搜索快捷键</value>
   </data>
-<data name="OptStartWithWindows" xml:space="preserve">
+  <data name="OptStartWithWindows" xml:space="preserve">
     <value>随 Windows 启动</value>
   </data>
-<data name="OptTrayIcon" xml:space="preserve">
+  <data name="OptTrayIcon" xml:space="preserve">
     <value>在通知区域显示图标</value>
   </data>
-<data name="PerfDynamicColors" xml:space="preserve">
-    <value>按数值为柱条着色</value>
+  <data name="PerfDynamicColors" xml:space="preserve">
+    <value>根据数值自动调整条形颜色</value>
   </data>
-<data name="PerfRefreshRate" xml:space="preserve">
-    <value>刷新频率（毫秒）：</value>
+  <data name="PerfRefreshRate" xml:space="preserve">
+    <value>刷新间隔（毫秒）：</value>
   </data>
-<data name="PerfSensors" xml:space="preserve">
+  <data name="PerfSensors" xml:space="preserve">
     <value>要显示的传感器：</value>
   </data>
-<data name="PerfSettings" xml:space="preserve">
-    <value>性能设置</value>
+  <data name="PerfSettings" xml:space="preserve">
+    <value>性能监视器设置</value>
   </data>
-<data name="PerfStaticBarColor" xml:space="preserve">
-    <value>固定柱条颜色：</value>
+  <data name="PerfStaticBarColor" xml:space="preserve">
+    <value>固定条形颜色：</value>
   </data>
-<data name="PerfThemeLayout" xml:space="preserve">
+  <data name="PerfThemeLayout" xml:space="preserve">
     <value>主题与布局</value>
   </data>
-<data name="PerfVisualStyle" xml:space="preserve">
+  <data name="PerfVisualStyle" xml:space="preserve">
     <value>视觉样式：</value>
   </data>
-<data name="PhotoBlurCrossfade" xml:space="preserve">
-    <value>模糊交叉淡化</value>
+  <data name="PhotoBlurCrossfade" xml:space="preserve">
+    <value>模糊淡入淡出</value>
   </data>
-<data name="PhotoCropToFill" xml:space="preserve">
-    <value>裁剪填满</value>
+  <data name="PhotoCropToFill" xml:space="preserve">
+    <value>裁剪并填满</value>
   </data>
-<data name="PhotoCrossfade" xml:space="preserve">
-    <value>经典交叉淡化</value>
+  <data name="PhotoCrossfade" xml:space="preserve">
+    <value>经典淡入淡出</value>
   </data>
-<data name="PhotoFitInside" xml:space="preserve">
+  <data name="PhotoFitInside" xml:space="preserve">
     <value>完整显示</value>
   </data>
-<data name="PhotoFitMode" xml:space="preserve">
+  <data name="PhotoFitMode" xml:space="preserve">
     <value>图片适配方式：</value>
   </data>
-<data name="PhotoLiveRescan" xml:space="preserve">
-    <value>持续重扫文件夹（检测新增或删除的图片）</value>
+  <data name="PhotoLiveRescan" xml:space="preserve">
+    <value>实时监视文件夹（自动检测图片的增减）</value>
   </data>
-<data name="PhotoNoTransition" xml:space="preserve">
+  <data name="PhotoNoTransition" xml:space="preserve">
     <value>无（立即切换）</value>
   </data>
-<data name="PhotoOriginalSize" xml:space="preserve">
+  <data name="PhotoOriginalSize" xml:space="preserve">
     <value>原始尺寸（不缩放）</value>
   </data>
-<data name="PhotoSettings" xml:space="preserve">
+  <data name="PhotoSettings" xml:space="preserve">
     <value>相框设置</value>
   </data>
-<data name="PhotoStretch" xml:space="preserve">
+  <data name="PhotoStretch" xml:space="preserve">
     <value>拉伸填满（会变形）</value>
   </data>
-<data name="PhotoSubtleTwist" xml:space="preserve">
+  <data name="PhotoSubtleTwist" xml:space="preserve">
     <value>轻微扭转</value>
   </data>
-<data name="PhotoTransition" xml:space="preserve">
+  <data name="PhotoTransition" xml:space="preserve">
     <value>过渡效果：</value>
   </data>
-<data name="PhotoVerticalWipe" xml:space="preserve">
-    <value>柔和垂直擦除</value>
+  <data name="PhotoVerticalWipe" xml:space="preserve">
+    <value>柔和垂直擦拭</value>
   </data>
-<data name="PluginAgenda" xml:space="preserve">
+  <data name="PluginAgenda" xml:space="preserve">
     <value>日程</value>
   </data>
-<data name="PluginCalculator" xml:space="preserve">
+  <data name="PluginCalculator" xml:space="preserve">
     <value>计算器</value>
   </data>
-<data name="PluginIpInfo" xml:space="preserve">
+  <data name="PluginIpInfo" xml:space="preserve">
     <value>IP 信息</value>
   </data>
-<data name="PluginPerformance" xml:space="preserve">
-    <value>性能仪表</value>
+  <data name="PluginPerformance" xml:space="preserve">
+    <value>性能监视器</value>
   </data>
-<data name="PluginPhotoFrame" xml:space="preserve">
+  <data name="PluginPhotoFrame" xml:space="preserve">
     <value>相框</value>
   </data>
-<data name="PluginQueueSaturation" xml:space="preserve">
-    <value>队列饱和度</value>
-  </data>
-<data name="PluginTerminal" xml:space="preserve">
-    <value>终端</value>
-  </data>
-<data name="PluginVuMeter" xml:space="preserve">
-    <value>VU 表</value>
-  </data>
-<data name="ProfileActive" xml:space="preserve">
-    <value>活动</value>
-  </data>
-<data name="ProfileManagerTitle" xml:space="preserve">
-    <value>配置管理</value>
-  </data>
-<data name="QueueConfig" xml:space="preserve">
-    <value>系统队列配置</value>
-  </data>
-<data name="QueueDiagnosticSettings" xml:space="preserve">
-    <value>诊断面板设置</value>
-  </data>
-<data name="QueueDynamicColors" xml:space="preserve">
-    <value>动态配色（绿/黄/红）</value>
-  </data>
-<data name="QueueInitializing" xml:space="preserve">
-    <value>[正在初始化…]</value>
-  </data>
-<data name="QueueRefreshRate" xml:space="preserve">
-    <value>刷新频率：</value>
-  </data>
-<data name="QueueShowCores" xml:space="preserve">
-    <value>显示检测到的逻辑核心数</value>
-  </data>
-<data name="QueueShowTitle" xml:space="preserve">
-    <value>显示标题（系统队列饱和度）</value>
-  </data>
-<data name="QueueShowValues" xml:space="preserve">
-    <value>显示数值（每核线程数与待处理 I/O）</value>
-  </data>
-<data name="QueueTitle" xml:space="preserve">
+  <data name="PluginQueueSaturation" xml:space="preserve">
     <value>系统队列饱和度</value>
   </data>
-<data name="QueueWmiError" xml:space="preserve">
+  <data name="PluginTerminal" xml:space="preserve">
+    <value>终端</value>
+  </data>
+  <data name="PluginVuMeter" xml:space="preserve">
+    <value>VU 电平表</value>
+  </data>
+  <data name="ProfileActive" xml:space="preserve">
+    <value>当前使用中</value>
+  </data>
+  <data name="ProfileManagerTitle" xml:space="preserve">
+    <value>工作区管理</value>
+  </data>
+  <data name="QueueConfig" xml:space="preserve">
+    <value>系统队列配置</value>
+  </data>
+  <data name="QueueDiagnosticSettings" xml:space="preserve">
+    <value>诊断面板设置</value>
+  </data>
+  <data name="QueueDynamicColors" xml:space="preserve">
+    <value>动态配色（绿/黄/红）</value>
+  </data>
+  <data name="QueueInitializing" xml:space="preserve">
+    <value>[正在初始化…]</value>
+  </data>
+  <data name="QueueRefreshRate" xml:space="preserve">
+    <value>刷新间隔：</value>
+  </data>
+  <data name="QueueShowCores" xml:space="preserve">
+    <value>显示检测到的逻辑核心数</value>
+  </data>
+  <data name="QueueShowTitle" xml:space="preserve">
+    <value>显示标题（系统队列饱和度）</value>
+  </data>
+  <data name="QueueShowValues" xml:space="preserve">
+    <value>显示数值（每个核心的线程数与待处理 I/O）</value>
+  </data>
+  <data name="QueueTitle" xml:space="preserve">
+    <value>系统队列饱和度</value>
+  </data>
+  <data name="QueueWmiError" xml:space="preserve">
     <value>[WMI 错误]</value>
   </data>
-<data name="RandomNameAdjectives" xml:space="preserve">
-    <value>高,低,小,广,宽,细,平,劲,冷,暖,柔,硬,暗,淡,快,慢,深,长,短,弯,薄,亮,轻,锐,钝,响,静,冷峻,和,齐,粗,滑,勇,烈,朴,旧,干,湿,强,弱</value>
+  <data name="RandomNameAdjectives" xml:space="preserve">
+    <value>高,低,小,大,远,近,长,短,深,浅,宽,窄,冷,暖,明,暗,清,静,青,赤,白,黑,金,银,古,新,荒,绿,幽,孤,晴,雾,风,雪,云,月,星,晨,暮,夜</value>
   </data>
-<data name="RandomNameFormat" xml:space="preserve">
+  <data name="RandomNameFormat" xml:space="preserve">
     <value>{0}{1}</value>
   </data>
-<data name="RandomNamePlaces" xml:space="preserve">
-    <value>湾,丘,湖,澳,峰,礁,沙丘,谷,原,坳,岩,岸,坡,渡,岬,崖,沼,塘,壁,林,洼,隘,洞,脊,瀑,丛,溪,崖角,径,尖</value>
+  <data name="RandomNamePlaces" xml:space="preserve">
+    <value>湾,丘,湖,峰,礁,沙,谷,原,岩,岸,坡,渡,岬,崖,沼,塘,林,洼,隘,洞,脊,瀑,溪,径,岭,川,泉,岛,港,滩</value>
   </data>
-<data name="SearchPlaceholder" xml:space="preserve">
+  <data name="SearchPlaceholder" xml:space="preserve">
     <value>输入以搜索…</value>
   </data>
-<data name="SearchTitle" xml:space="preserve">
-    <value>Desktop Frames 搜索</value>
+  <data name="SearchTitle" xml:space="preserve">
+    <value>Desktop Frames + 搜索</value>
   </data>
-<data name="SecAppearance" xml:space="preserve">
+  <data name="SecAppearance" xml:space="preserve">
     <value>外观</value>
   </data>
-<data name="SecAutoHideFrames" xml:space="preserve">
-    <value>自动隐藏框</value>
+  <data name="SecAutoHideFrames" xml:space="preserve">
+    <value>自动隐藏面板</value>
   </data>
-<data name="SecDesktopIconVisibility" xml:space="preserve">
+  <data name="SecDesktopIconVisibility" xml:space="preserve">
     <value>桌面图标可见性</value>
   </data>
-<data name="SecIcons" xml:space="preserve">
+  <data name="SecIcons" xml:space="preserve">
     <value>图标</value>
   </data>
-<data name="SecIdleAutoRoll" xml:space="preserve">
+  <data name="SecIdleAutoRoll" xml:space="preserve">
     <value>空闲自动收起</value>
   </data>
-<data name="SecIdleFadeOut" xml:space="preserve">
+  <data name="SecIdleFadeOut" xml:space="preserve">
     <value>空闲淡出</value>
   </data>
-<data name="SecLanguage" xml:space="preserve">
-    <value>语言</value>
-  </data>
-<data name="SecLog" xml:space="preserve">
+  <data name="SecLog" xml:space="preserve">
     <value>日志</value>
   </data>
-<data name="SecLogCategories" xml:space="preserve">
+  <data name="SecLogCategories" xml:space="preserve">
     <value>日志类别</value>
   </data>
-<data name="SecLogConfiguration" xml:space="preserve">
+  <data name="SecLogConfiguration" xml:space="preserve">
     <value>日志配置</value>
   </data>
-<data name="SecMaintenance" xml:space="preserve">
+  <data name="SecMaintenance" xml:space="preserve">
     <value>维护</value>
   </data>
-<data name="SecPortalDragDrop" xml:space="preserve">
+  <data name="SecPortalDragDrop" xml:space="preserve">
     <value>门户框的拖放</value>
   </data>
-<data name="SecProfileManagement" xml:space="preserve">
-    <value>配置管理</value>
+  <data name="SecProfileManagement" xml:space="preserve">
+    <value>工作区管理</value>
   </data>
-<data name="SecProfileSwitching" xml:space="preserve">
-    <value>配置切换</value>
+  <data name="SecProfileSwitching" xml:space="preserve">
+    <value>工作区切换</value>
   </data>
-<data name="SecSelections" xml:space="preserve">
+  <data name="SecSelections" xml:space="preserve">
     <value>选项</value>
   </data>
-<data name="SecSmartDesktopAuto" xml:space="preserve">
+  <data name="SecSmartDesktopAuto" xml:space="preserve">
     <value>智能桌面（自动整理）</value>
   </data>
-<data name="SecStartup" xml:space="preserve">
+  <data name="SecStartup" xml:space="preserve">
     <value>启动</value>
   </data>
-<data name="SecUtilities" xml:space="preserve">
+  <data name="SecUtilities" xml:space="preserve">
     <value>实用工具</value>
   </data>
-<data name="SldAutoHideTime" xml:space="preserve">
-    <value>隐藏前等待（秒）</value>
+  <data name="SldAutoHideTime" xml:space="preserve">
+    <value>自动隐藏延迟（秒）</value>
   </data>
-<data name="SldFadeTargetOpacity" xml:space="preserve">
-    <value>淡出不透明度（%）</value>
+  <data name="SldFadeTargetOpacity" xml:space="preserve">
+    <value>淡出后的不透明度（%）</value>
   </data>
-<data name="SldFrameTint" xml:space="preserve">
-    <value>框色调</value>
+  <data name="SldFrameTint" xml:space="preserve">
+    <value>面板色调</value>
   </data>
-<data name="SldIdleTime" xml:space="preserve">
+  <data name="SldIdleTime" xml:space="preserve">
     <value>空闲时间（秒）</value>
   </data>
-<data name="SldMenuTint" xml:space="preserve">
+  <data name="SldMenuTint" xml:space="preserve">
     <value>菜单色调</value>
   </data>
-<data name="SndDefault" xml:space="preserve">
+  <data name="SndDefault" xml:space="preserve">
     <value>默认声音</value>
   </data>
-<data name="SndDoubleDing" xml:space="preserve">
-    <value>双叮</value>
+  <data name="SndDoubleDing" xml:space="preserve">
+    <value>叮叮</value>
   </data>
-<data name="SndGentleDing" xml:space="preserve">
-    <value>轻柔叮</value>
+  <data name="SndGentleDing" xml:space="preserve">
+    <value>轻柔提示音</value>
   </data>
-<data name="SndMessageDing" xml:space="preserve">
-    <value>消息叮</value>
+  <data name="SndMessageDing" xml:space="preserve">
+    <value>消息提示音</value>
   </data>
-<data name="SndSmoothTickle" xml:space="preserve">
+  <data name="SndSmoothTickle" xml:space="preserve">
     <value>轻触</value>
   </data>
-<data name="SndSoftDing" xml:space="preserve">
-    <value>柔和叮</value>
+  <data name="SndSoftDing" xml:space="preserve">
+    <value>柔和提示音</value>
   </data>
-<data name="TabAddNew" xml:space="preserve">
-    <value>添加标签页</value>
+  <data name="TabAddNew" xml:space="preserve">
+    <value>新建标签页</value>
   </data>
-<data name="TabAddNewHint" xml:space="preserve">
-    <value>添加标签页（Ctrl+单击可导入）</value>
+  <data name="TabAddNewHint" xml:space="preserve">
+    <value>新建标签页（Ctrl+单击可导入）</value>
   </data>
-<data name="TabAppearance" xml:space="preserve">
-    <value>外观</value>
+  <data name="TabFrame" xml:space="preserve">
+    <value>面板</value>
   </data>
-<data name="TabFrame" xml:space="preserve">
-    <value>框</value>
-  </data>
-<data name="TabGeneral" xml:space="preserve">
+  <data name="TabGeneral" xml:space="preserve">
     <value>常规</value>
   </data>
-<data name="TabHotkeys" xml:space="preserve">
+  <data name="TabHotkeys" xml:space="preserve">
     <value>快捷键</value>
   </data>
-<data name="TabIcons" xml:space="preserve">
+  <data name="TabIcons" xml:space="preserve">
     <value>图标</value>
   </data>
-<data name="TabIdleBehaviors" xml:space="preserve">
-    <value>空闲行为</value>
+  <data name="TabLookDeeper" xml:space="preserve">
+    <value>高级</value>
   </data>
-<data name="TabInterface" xml:space="preserve">
-    <value>界面</value>
-  </data>
-<data name="TabLookDeeper" xml:space="preserve">
-    <value>深入</value>
-  </data>
-<data name="TabMoveLeft" xml:space="preserve">
+  <data name="TabMoveLeft" xml:space="preserve">
     <value>左移</value>
   </data>
-<data name="TabMoveRight" xml:space="preserve">
+  <data name="TabMoveRight" xml:space="preserve">
     <value>右移</value>
   </data>
-<data name="TabProfiles" xml:space="preserve">
-    <value>配置</value>
+  <data name="TabProfiles" xml:space="preserve">
+    <value>工作区</value>
   </data>
-<data name="TabRename" xml:space="preserve">
+  <data name="TabRename" xml:space="preserve">
     <value>重命名标签页</value>
   </data>
-<data name="TabSmartDesktop" xml:space="preserve">
+  <data name="TabSmartDesktop" xml:space="preserve">
     <value>智能桌面</value>
   </data>
-<data name="TabStyleFx" xml:space="preserve">
+  <data name="TabStyleFx" xml:space="preserve">
     <value>样式与效果</value>
   </data>
-<data name="TabTitle" xml:space="preserve">
+  <data name="TabTitle" xml:space="preserve">
     <value>标题</value>
   </data>
-<data name="TabTools" xml:space="preserve">
+  <data name="TabTools" xml:space="preserve">
     <value>工具</value>
   </data>
-<data name="TargetPortalFrame" xml:space="preserve">
-    <value>门户框：{0}</value>
-  </data>
-<data name="TermClearHistory" xml:space="preserve">
+  <data name="TermClearHistory" xml:space="preserve">
     <value>清除命令历史</value>
   </data>
-<data name="TermConsoleOptions" xml:space="preserve">
+  <data name="TermConsoleOptions" xml:space="preserve">
     <value>控制台选项</value>
   </data>
-<data name="TermHistoryCleared" xml:space="preserve">
+  <data name="TermHistoryCleared" xml:space="preserve">
     <value>历史已清除。</value>
   </data>
-<data name="TermProcessExited" xml:space="preserve">
+  <data name="TermProcessExited" xml:space="preserve">
     <value>[进程已退出，正在重启…]</value>
   </data>
-<data name="TermRestarting" xml:space="preserve">
+  <data name="TermRestarting" xml:space="preserve">
     <value>[正在重启会话…]</value>
   </data>
-<data name="TermSelectStartupDir" xml:space="preserve">
+  <data name="TermSelectStartupDir" xml:space="preserve">
     <value>选择终端的启动目录</value>
   </data>
-<data name="TermSettings" xml:space="preserve">
+  <data name="TermSettings" xml:space="preserve">
     <value>终端设置</value>
   </data>
-<data name="TermStartupDirectory" xml:space="preserve">
+  <data name="TermStartupDirectory" xml:space="preserve">
     <value>启动目录：</value>
   </data>
-<data name="TermTargetShell" xml:space="preserve">
-    <value>命令解释器：</value>
+  <data name="TermTargetShell" xml:space="preserve">
+    <value>默认 Shell：</value>
   </data>
-<data name="TextAppearance" xml:space="preserve">
+  <data name="TextAppearance" xml:space="preserve">
     <value>文字外观</value>
   </data>
-<data name="TextBehavior" xml:space="preserve">
+  <data name="TextBehavior" xml:space="preserve">
     <value>文字行为</value>
   </data>
-<data name="TextFormatTitle" xml:space="preserve">
+  <data name="TextFormatTitle" xml:space="preserve">
     <value>文字格式</value>
   </data>
-<data name="TooltipAutoReposition" xml:space="preserve">
-    <value>自动重新定位已启用（隐藏设置）：框已自行管理。</value>
+  <data name="TooltipAutoReposition" xml:space="preserve">
+    <value>已启用自动重新定位（隐藏设置）：面板会自动管理位置。</value>
   </data>
-<data name="TooltipBlankSpacer" xml:space="preserve">
-    <value>空白间隔（按住 CTRL 可移动）</value>
+  <data name="TooltipBlankSpacer" xml:space="preserve">
+    <value>空白间隔（按住 Ctrl 拖动）</value>
   </data>
-<data name="TooltipChameleon" xml:space="preserve">
-    <value>框会自动变色，与桌面背景融为一体。</value>
+  <data name="TooltipChameleon" xml:space="preserve">
+    <value>面板会自动变色，以匹配桌面背景。</value>
   </data>
-<data name="TooltipClearFilter" xml:space="preserve">
+  <data name="TooltipClearFilter" xml:space="preserve">
     <value>清除筛选并关闭</value>
   </data>
-<data name="TooltipFilterFiles" xml:space="preserve">
-    <value>筛选文件（例如「*.jpg」，或用「&gt;*.tmp」排除）</value>
+  <data name="TooltipFilterFiles" xml:space="preserve">
+    <value>筛选文件（例如“*.jpg”；使用“&gt;*.tmp”可排除）</value>
   </data>
-<data name="TooltipGoUp" xml:space="preserve">
-    <value>上级文件夹</value>
+  <data name="TooltipGoUp" xml:space="preserve">
+    <value>转到上级文件夹</value>
   </data>
-<data name="TooltipSetHome" xml:space="preserve">
-    <value>将当前视图设为此框的主目录</value>
+  <data name="TooltipSetHome" xml:space="preserve">
+    <value>将当前文件夹设为此文件夹面板的起始目录</value>
   </data>
-<data name="TrayCreateNewProfile" xml:space="preserve">
-    <value>新建配置…</value>
+  <data name="TrayCreateNewProfile" xml:space="preserve">
+    <value>新建工作区…</value>
   </data>
-<data name="TrayExportDoneText" xml:space="preserve">
+  <data name="TrayExportDoneText" xml:space="preserve">
     <value>注册表值已导出到程序文件夹。</value>
   </data>
-<data name="TrayExportDoneTitle" xml:space="preserve">
-    <value>Desktop Frames Plus</value>
+  <data name="TrayExportDoneTitle" xml:space="preserve">
+    <value>Desktop Frames +</value>
   </data>
-<data name="TrayExportFailedText" xml:space="preserve">
+  <data name="TrayExportFailedText" xml:space="preserve">
     <value>导出注册表值失败，请查看日志。</value>
   </data>
-<data name="TrayExportFailedTitle" xml:space="preserve">
-    <value>Desktop Frames Plus - 错误</value>
+  <data name="TrayExportFailedTitle" xml:space="preserve">
+    <value>Desktop Frames + - 错误</value>
   </data>
-<data name="TrayFocusFrame" xml:space="preserve">
-    <value>转到框...（{0}）</value>
+  <data name="TrayFocusFrame" xml:space="preserve">
+    <value>定位面板…（{0}）</value>
   </data>
-<data name="TrayManageProfiles" xml:space="preserve">
-    <value>管理配置…</value>
+  <data name="TrayManageProfiles" xml:space="preserve">
+    <value>管理工作区…</value>
   </data>
-<data name="TrayProfiles" xml:space="preserve">
-    <value>配置</value>
+  <data name="TrayProfiles" xml:space="preserve">
+    <value>工作区</value>
   </data>
-<data name="TrayReloadAllFrames" xml:space="preserve">
-    <value>重新加载所有框</value>
+  <data name="TrayReloadAllFrames" xml:space="preserve">
+    <value>重新加载所有面板</value>
   </data>
-<data name="TrayReloadingFrames" xml:space="preserve">
-    <value>正在重新加载框…</value>
+  <data name="TrayReloadingFrames" xml:space="preserve">
+    <value>正在重新加载面板…</value>
   </data>
-<data name="TrayShowHiddenFrames" xml:space="preserve">
-    <value>显示隐藏的框</value>
+  <data name="TrayShowHiddenFrames" xml:space="preserve">
+    <value>显示隐藏的面板</value>
   </data>
-<data name="UpdateAvailable" xml:space="preserve">
+  <data name="UpdateAvailable" xml:space="preserve">
     <value>有可用更新</value>
   </data>
-<data name="ViewDetails" xml:space="preserve">
-    <value>列表</value>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>详细信息</value>
   </data>
-<data name="ViewIcons" xml:space="preserve">
+  <data name="ViewIcons" xml:space="preserve">
     <value>图标</value>
   </data>
-<data name="VuAttack" xml:space="preserve">
-    <value>响应速度（起振，毫秒）：</value>
+  <data name="VuAttack" xml:space="preserve">
+    <value>指针上升响应（毫秒）：</value>
   </data>
-<data name="VuAttackHint" xml:space="preserve">
-    <value>默认：25 | 越低跳动越快 | 范围：1 - 1000</value>
+  <data name="VuAttackHint" xml:space="preserve">
+    <value>默认：25 | 越小，指针上升越快 | 范围：1–1000</value>
   </data>
-<data name="VuBallistics" xml:space="preserve">
-    <value>响应与调校</value>
+  <data name="VuBallistics" xml:space="preserve">
+    <value>动态响应</value>
   </data>
-<data name="VuDecay" xml:space="preserve">
-    <value>平滑度（衰减，毫秒）：</value>
+  <data name="VuDecay" xml:space="preserve">
+    <value>指针回落响应（毫秒）：</value>
   </data>
-<data name="VuDecayHint" xml:space="preserve">
-    <value>默认：200 | 越高回落越柔和 | 范围：10 - 3000</value>
+  <data name="VuDecayHint" xml:space="preserve">
+    <value>默认：200 | 越大，指针回落越平滑 | 范围：10–3000</value>
   </data>
-<data name="VuDisplayOptions" xml:space="preserve">
+  <data name="VuDisplayOptions" xml:space="preserve">
     <value>显示选项</value>
   </data>
-<data name="VuGainHint" xml:space="preserve">
-    <value>默认：1.2 | 越高越灵敏 | 范围：0.1 - 10.0</value>
+  <data name="VuGainHint" xml:space="preserve">
+    <value>默认：1.2 | 越大越灵敏 | 范围：0.1 - 10.0</value>
   </data>
-<data name="VuLayoutMode" xml:space="preserve">
+  <data name="VuLayoutMode" xml:space="preserve">
     <value>布局：</value>
   </data>
-<data name="VuSettings" xml:space="preserve">
-    <value>VU 表设置</value>
+  <data name="VuSettings" xml:space="preserve">
+    <value>VU 电平表设置</value>
   </data>
-<data name="VuSignalGain" xml:space="preserve">
+  <data name="VuSignalGain" xml:space="preserve">
     <value>信号增益（倍数）：</value>
+  </data>
+  <data name="SecLanguage" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="LblLanguage" xml:space="preserve">
+    <value>界面语言：</value>
+  </data>
+  <data name="LangAutomatic" xml:space="preserve">
+    <value>自动（跟随 Windows）</value>
+  </data>
+  <data name="BtnImportLanguagePack" xml:space="preserve">
+    <value>导入语言包…</value>
+  </data>
+  <data name="BtnOpenLanguagesFolder" xml:space="preserve">
+    <value>打开语言文件夹</value>
+  </data>
+  <data name="LanguagePackFilter" xml:space="preserve">
+    <value>语言包 (*.resx)|*.resx</value>
+  </data>
+  <data name="LanguagePackImported" xml:space="preserve">
+    <value>语言包已安装：{0}。重启后即可在列表中选择。</value>
+  </data>
+  <data name="LanguagePackBadName" xml:space="preserve">
+    <value>文件名必须使用语言区域代码，例如 zh-Hans.resx 或 pt-BR.resx。</value>
+  </data>
+  <data name="NoteLanguageRestart" xml:space="preserve">
+    <value>提示：界面语言将在程序重启后生效。放入 Languages 文件夹的语言包会在下次启动时加载。</value>
+  </data>
+  <data name="CatImages" xml:space="preserve">
+    <value>图片</value>
+  </data>
+  <data name="CatDocuments" xml:space="preserve">
+    <value>文档</value>
+  </data>
+  <data name="CatExecutables" xml:space="preserve">
+    <value>可执行文件</value>
+  </data>
+  <data name="CatArchives" xml:space="preserve">
+    <value>压缩文件</value>
+  </data>
+  <data name="CatCustomExtensions" xml:space="preserve">
+    <value>自定义扩展名…</value>
+  </data>
+  <data name="ConflictAutoRename" xml:space="preserve">
+    <value>自动重命名（例如“文件 (1).jpg”）</value>
+  </data>
+  <data name="ConflictOverwrite" xml:space="preserve">
+    <value>覆盖（旧文件移入回收站）</value>
+  </data>
+  <data name="ConflictSkip" xml:space="preserve">
+    <value>跳过（保留在桌面）</value>
+  </data>
+  <data name="TargetPortalFrame" xml:space="preserve">
+    <value>文件夹面板：{0}</value>
+  </data>
+  <data name="LastRunNever" xml:space="preserve">
+    <value>上次成功运行：尚未运行</value>
+  </data>
+  <data name="LastRunAt" xml:space="preserve">
+    <value>上次成功运行：{0}</value>
+  </data>
+  <data name="TabInterface" xml:space="preserve">
+    <value>界面</value>
+  </data>
+  <data name="TabAppearance" xml:space="preserve">
+    <value>外观</value>
+  </data>
+  <data name="TabIdleBehaviors" xml:space="preserve">
+    <value>空闲行为</value>
+  </data>
+  <data name="BtnExportTemplate" xml:space="preserve">
+    <value>导出语言模板…</value>
+  </data>
+  <data name="MsgTemplateExported" xml:space="preserve">
+    <value>语言模板已成功导出！</value>
   </data>
 </root>
