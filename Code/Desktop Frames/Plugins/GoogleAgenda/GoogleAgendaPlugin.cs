@@ -145,9 +145,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         public void ShowSettingsWindow(Window ownerWindow, dynamic frameData)
         {
+            // frameData carried into the callback because that, not the dictionary
+            // handed to Initialize, is what the host writes to disk - see Persist.
             AgendaSettingsWindow.Show(ownerWindow, _session, _settings,
                                       _source?.Calendars ?? new List<AgendaCalendar>(),
-                                      OnSettingsSaved);
+                                      saved => OnSettingsSaved(saved, frameData));
         }
 
         // ==========================================================================
@@ -176,7 +178,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             Render();
         }
 
-        private void OnSettingsSaved(AgendaSettings saved)
+        private void OnSettingsSaved(AgendaSettings saved, dynamic frameData)
         {
             (DateTime wasFrom, DateTime wasTo) = _settings.Range(_anchor);
             (DateTime nowFrom, DateTime nowTo) = saved.Range(_anchor);
@@ -185,7 +187,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             bool calendarsChanged = !saved.SameCalendarsAs(_settings);
 
             _settings = saved;
+
+            // Twice, because they are two different things: the dictionary keeps this
+            // running instance in step, and the frame is what survives a restart.
             _settings.WriteTo(_settingsRef);
+            Persist(frameData);
 
             // The sync marker Google gave us covers the window of the request that
             // produced it. Asking for a wider one, or for a calendar we had not been
@@ -204,6 +210,36 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             }
 
             Render();
+        }
+
+        /// <summary>
+        /// Writes the settings where the host will read them back.
+        ///
+        /// The dictionary handed to Initialize is a copy the host makes from the
+        /// frame and never looks at again: writing to it keeps this instance
+        /// consistent and is forgotten the moment the program closes. What lasts is
+        /// PluginSettings on the frame itself, saved with the rest of frames.json -
+        /// the same route the other plugins take.
+        /// </summary>
+        private void Persist(dynamic frameData)
+        {
+            try
+            {
+                var stored = new Dictionary<string, object>();
+                _settings.WriteTo(stored);
+
+                if (frameData is Newtonsoft.Json.Linq.JObject asJson)
+                    asJson["PluginSettings"] = Newtonsoft.Json.Linq.JObject.FromObject(stored);
+                else
+                    ((IDictionary<string, object>)frameData)["PluginSettings"] = stored;
+
+                FrameDataManager.SaveFrameData();
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.Settings,
+                    $"GoogleAgenda: could not save the frame settings: {ex.Message}");
+            }
         }
 
         private void StartSource(UserCredential credential)

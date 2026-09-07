@@ -96,7 +96,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private void DrawList(Panel panel, IReadOnlyList<AgendaEvent> events)
         {
-            if (events.Count == 0)
+            // What is over leaves the list. This view answers "what is coming", and a
+            // meeting that finished at nine is not part of that answer - it is only
+            // something to read past. The grids keep it, because there the question is
+            // what a day looked like, not what is left of it.
+            //
+            // Something still running stays: its end has not arrived yet.
+            List<AgendaEvent> upcoming = events.Where(e => e.End > DateTime.Now).ToList();
+
+            if (upcoming.Count == 0)
             {
                 panel.Children.Add(Message(Strings.AgendaNothingScheduled));
                 return;
@@ -104,7 +112,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             DateTime day = DateTime.MinValue;
 
-            foreach (AgendaEvent item in events)
+            foreach (AgendaEvent item in upcoming)
             {
                 if (item.Day != day)
                 {
