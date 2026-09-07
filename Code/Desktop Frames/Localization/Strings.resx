@@ -132,8 +132,26 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>Agenda settings</value>
   </data>
+  <data name="AgendaSignedIn" xml:space="preserve">
+    <value>Signed in to Google Calendar.</value>
+  </data>
   <data name="AgendaSignedOut" xml:space="preserve">
     <value>Not signed in to Google Calendar.</value>
+  </data>
+  <data name="AgendaSignIn" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="AgendaSignInAgain" xml:space="preserve">
+    <value>Sign in again</value>
+  </data>
+  <data name="AgendaSignInFailed" xml:space="preserve">
+    <value>Sign-in did not complete.</value>
+  </data>
+  <data name="AgendaSigningIn" xml:space="preserve">
+    <value>Waiting for the browser...</value>
+  </data>
+  <data name="AgendaSignOut" xml:space="preserve">
+    <value>Sign out</value>
   </data>
   <data name="AgendaToday" xml:space="preserve">
     <value>Today</value>

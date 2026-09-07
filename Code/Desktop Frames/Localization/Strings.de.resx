@@ -133,8 +133,26 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>Agenda-Einstellungen</value>
   </data>
+  <data name="AgendaSignedIn" xml:space="preserve">
+    <value>Bei Google Kalender angemeldet.</value>
+  </data>
   <data name="AgendaSignedOut" xml:space="preserve">
     <value>Nicht bei Google Kalender angemeldet.</value>
+  </data>
+  <data name="AgendaSignIn" xml:space="preserve">
+    <value>Mit Google anmelden</value>
+  </data>
+  <data name="AgendaSignInAgain" xml:space="preserve">
+    <value>Erneut anmelden</value>
+  </data>
+  <data name="AgendaSignInFailed" xml:space="preserve">
+    <value>Anmeldung nicht abgeschlossen.</value>
+  </data>
+  <data name="AgendaSigningIn" xml:space="preserve">
+    <value>Warten auf den Browser...</value>
+  </data>
+  <data name="AgendaSignOut" xml:space="preserve">
+    <value>Abmelden</value>
   </data>
   <data name="AgendaToday" xml:space="preserve">
     <value>Heute</value>

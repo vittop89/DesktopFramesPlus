@@ -133,8 +133,26 @@ Il est aujourd'hui maintenu par Nikos Georgousis, qui l'a enrichi et rendu plus 
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>Paramètres de l'agenda</value>
   </data>
+  <data name="AgendaSignedIn" xml:space="preserve">
+    <value>Connecté à Google Agenda.</value>
+  </data>
   <data name="AgendaSignedOut" xml:space="preserve">
     <value>Non connecté à Google Agenda.</value>
+  </data>
+  <data name="AgendaSignIn" xml:space="preserve">
+    <value>Se connecter avec Google</value>
+  </data>
+  <data name="AgendaSignInAgain" xml:space="preserve">
+    <value>Se reconnecter</value>
+  </data>
+  <data name="AgendaSignInFailed" xml:space="preserve">
+    <value>La connexion n'a pas abouti.</value>
+  </data>
+  <data name="AgendaSigningIn" xml:space="preserve">
+    <value>En attente du navigateur...</value>
+  </data>
+  <data name="AgendaSignOut" xml:space="preserve">
+    <value>Se déconnecter</value>
   </data>
   <data name="AgendaToday" xml:space="preserve">
     <value>Aujourd'hui</value>

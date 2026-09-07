@@ -660,7 +660,13 @@ namespace Desktop_Frames.Localization
         public static string AgendaNotConfigured => Get("AgendaNotConfigured");
         public static string AgendaNothingScheduled => Get("AgendaNothingScheduled");
         public static string AgendaSettingsTitle => Get("AgendaSettingsTitle");
+        public static string AgendaSignIn => Get("AgendaSignIn");
+        public static string AgendaSignInAgain => Get("AgendaSignInAgain");
+        public static string AgendaSignInFailed => Get("AgendaSignInFailed");
+        public static string AgendaSignOut => Get("AgendaSignOut");
+        public static string AgendaSignedIn => Get("AgendaSignedIn");
         public static string AgendaSignedOut => Get("AgendaSignedOut");
+        public static string AgendaSigningIn => Get("AgendaSigningIn");
         public static string AgendaToday => Get("AgendaToday");
         public static string AgendaTomorrow => Get("AgendaTomorrow");
         public static string CalcBadgeFade => Get("CalcBadgeFade");

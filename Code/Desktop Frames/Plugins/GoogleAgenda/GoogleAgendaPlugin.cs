@@ -1,4 +1,4 @@
-﻿using Desktop_Frames.Localization;
+using Desktop_Frames.Localization;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -11,42 +11,26 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
     /// <summary>
     /// Shows a calendar in a frame.
     ///
-    /// This class owns the frame: the visual tree, the refresh timer, and the
-    /// plugin life cycle. It does not talk to Google. Everything that does will
-    /// live behind an agenda source, handed to it in a later step, and speaks
-    /// only in <see cref="AgendaEvent"/> - so the list here does not change when
-    /// the source does.
+    /// This class owns the frame: the visual tree, the refresh timer, and the plugin
+    /// life cycle. It does not talk to Google. Signing in belongs to
+    /// <see cref="AgendaSession"/>, and the events themselves arrive as
+    /// <see cref="AgendaEvent"/>, so nothing here changes when the source does.
     /// </summary>
     public class GoogleAgendaPlugin : IFramePlugin
     {
         public string PluginId => "GoogleAgenda";
         public string DisplayName => "Agenda";
 
-        // 3 while it is being built: the plugin list only offers it to someone
-        // who has raised the availability level on purpose.
+        // 3 while it is being built: the plugin list only offers it to somebody who
+        // has raised the availability level on purpose.
         public int DevelopmentState => 3;
-
-        /// <summary>What the frame is currently able to show.</summary>
-        private enum AgendaState
-        {
-            /// <summary>No Google credentials on this installation yet.</summary>
-            NotConfigured,
-            /// <summary>Credentials are there, nobody has signed in.</summary>
-            SignedOut,
-            /// <summary>Signed in, waiting for the first answer.</summary>
-            Loading,
-            /// <summary>Showing events.</summary>
-            Ready,
-            /// <summary>Something failed and the frame says so instead of staying blank.</summary>
-            Failed
-        }
 
         // --- Visual tree -------------------------------------------------------
         private ScrollViewer? _rootVisual;
         private StackPanel? _contentPanel;
 
         // --- State -------------------------------------------------------------
-        private AgendaState _state = AgendaState.NotConfigured;
+        private readonly AgendaSession _session = new AgendaSession();
         private readonly List<AgendaEvent> _events = new List<AgendaEvent>();
 
         // --- Settings and refresh ---------------------------------------------
@@ -54,18 +38,18 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         private DispatcherTimer? _refreshTimer;
 
         /// <summary>
-        /// How often the source is asked for changes. Not a design compromise:
-        /// Google only pushes changes to a public HTTPS address it can call, which
-        /// a program on someone's desktop does not have. Every desktop calendar
-        /// client polls, and asks only for what changed since last time, so a quiet
-        /// calendar costs an empty answer a minute.
+        /// How often the source is asked for changes. Not a compromise: Google pushes
+        /// changes only to a public HTTPS address it can call, which a program on
+        /// somebody's desktop does not have. Every desktop calendar client polls, and
+        /// asks only for what changed since last time, so a quiet calendar costs an
+        /// empty answer a minute.
         /// </summary>
         private static readonly TimeSpan RefreshInterval = TimeSpan.FromSeconds(60);
 
         public FrameworkElement CreateVisualElement()
         {
-            // Same shape and spacing as the other plugins, so a frame holding this
-            // one sits at the same distance from its edges as the rest.
+            // Same shape and spacing as the other plugins, so a frame holding this one
+            // sits at the same distance from its edges as the rest.
             _rootVisual = new ScrollViewer
             {
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
@@ -84,10 +68,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         {
             _settingsRef = settings;
 
-            _state = AgendaCredentials.AreAvailable()
-                ? AgendaState.SignedOut
-                : AgendaState.NotConfigured;
-
+            _session.Changed += Render;
             Render();
 
             _refreshTimer = new DispatcherTimer(DispatcherPriority.Background)
@@ -96,14 +77,14 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             };
             _refreshTimer.Tick += (s, e) => Refresh();
 
-            // Left stopped on purpose: there is nothing to ask until somebody has
-            // signed in, and a timer running against a source that is not there
-            // only burns wake-ups.
+            // Not awaited: building a frame must not wait on a disk read, and the
+            // session announces itself once it knows the answer.
+            _ = _session.ResumeAsync();
         }
 
         /// <summary>
-        /// Asks the source for what changed. Empty until the source exists; the
-        /// timer that drives it is already in place so the wiring is one method.
+        /// Asks the source for what changed. Empty until the source exists; the timer
+        /// that will drive it is already in place, so the wiring is one method.
         /// </summary>
         private void Refresh()
         {
@@ -114,8 +95,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         // ==========================================================================
 
         /// <summary>
-        /// Draws whatever the current state allows. One entry point, so a state
-        /// change never has to remember which parts of the frame to touch.
+        /// Draws whatever the current state allows. One entry point, so a change of
+        /// state can never leave half the frame behind.
         /// </summary>
         private void Render()
         {
@@ -124,7 +105,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             panel.Children.Clear();
 
-            switch (_state)
+            switch (_session.State)
             {
                 case AgendaState.NotConfigured:
                     panel.Children.Add(CreateMessageCard(Strings.AgendaNotConfigured));
@@ -132,17 +113,19 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
                 case AgendaState.SignedOut:
                     panel.Children.Add(CreateMessageCard(Strings.AgendaSignedOut));
+                    panel.Children.Add(CreateSignInButton());
                     break;
 
-                case AgendaState.Loading:
-                    panel.Children.Add(CreateMessageCard(Strings.AgendaLoading));
+                case AgendaState.SigningIn:
+                    panel.Children.Add(CreateMessageCard(Strings.AgendaSigningIn));
                     break;
 
                 case AgendaState.Failed:
-                    panel.Children.Add(CreateMessageCard(Strings.AgendaFailed));
+                    panel.Children.Add(CreateMessageCard(_session.LastError ?? Strings.AgendaFailed));
+                    panel.Children.Add(CreateSignInButton());
                     break;
 
-                case AgendaState.Ready:
+                case AgendaState.SignedIn:
                     RenderEvents(panel);
                     break;
             }
@@ -150,13 +133,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private void RenderEvents(StackPanel panel)
         {
+            // Nothing has been asked for yet: the events arrive with the source, in the
+            // step after this one.
             if (_events.Count == 0)
             {
-                panel.Children.Add(CreateMessageCard(Strings.AgendaNothingScheduled));
+                panel.Children.Add(CreateMessageCard(Strings.AgendaLoading));
                 return;
             }
 
-            // Grouped by day, with the day written once above its entries. Drawing
+            // Grouped by day, with the day written once above its entries. Repeating
             // the date on every line reads as noise on a frame this narrow.
             DateTime currentDay = DateTime.MinValue;
 
@@ -172,6 +157,26 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             }
         }
 
+        /// <summary>
+        /// The only control in the frame that starts something. It is here as well as
+        /// in the settings window because the frame is where somebody notices that the
+        /// agenda is not showing anything.
+        /// </summary>
+        private Button CreateSignInButton()
+        {
+            var button = new Button
+            {
+                Content = Strings.AgendaSignIn,
+                Margin = new Thickness(0, 8, 0, 0),
+                Padding = new Thickness(10, 5, 10, 5),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Cursor = System.Windows.Input.Cursors.Hand
+            };
+
+            button.Click += (s, e) => _ = _session.SignInAsync();
+            return button;
+        }
+
         private TextBlock CreateDayHeader(DateTime day)
         {
             return new TextBlock
@@ -185,9 +190,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         }
 
         /// <summary>
-        /// "Today" and "Tomorrow" instead of a date, because those are the two days
+        /// "Today" and "Tomorrow" rather than a date, because those are the two days
         /// somebody glancing at a desktop frame is actually asking about. The words
-        /// and the date format both follow the language the program is running in.
+        /// follow the program's language; the date follows the regional format, which
+        /// Windows keeps separate on purpose.
         /// </summary>
         private static string FormatDayHeader(DateTime day)
         {
@@ -211,8 +217,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             var layout = new StackPanel { Orientation = Orientation.Horizontal };
 
-            // The calendar's own colour, so entries from different calendars stay
-            // apart without a second line of text explaining which is which.
+            // The calendar's own colour, so entries from different calendars stay apart
+            // without a second line of text explaining which is which.
             layout.Children.Add(new Border
             {
                 Width = 4,
@@ -292,14 +298,14 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         public void Pause()
         {
-            // A hidden frame must not keep asking: the answers are thrown away and
-            // the quota is not.
+            // A hidden frame must not keep asking: the answers are thrown away and the
+            // quota is not.
             _refreshTimer?.Stop();
         }
 
         public void Resume()
         {
-            if (_state == AgendaState.Ready || _state == AgendaState.Loading)
+            if (_session.State == AgendaState.SignedIn)
             {
                 _refreshTimer?.Start();
                 Refresh();
@@ -310,11 +316,14 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         {
             _refreshTimer?.Stop();
             _refreshTimer = null;
+
+            _session.Changed -= Render;
+            _session.Cancel();
         }
 
         public void ShowSettingsWindow(Window ownerWindow, dynamic frameData)
         {
-            AgendaSettingsWindow.Show(ownerWindow, frameData, _settingsRef);
+            AgendaSettingsWindow.Show(ownerWindow, _session, _settingsRef);
         }
     }
 }

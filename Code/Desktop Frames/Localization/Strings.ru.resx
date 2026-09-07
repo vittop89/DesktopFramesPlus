@@ -133,8 +133,26 @@
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>Настройки расписания</value>
   </data>
+  <data name="AgendaSignedIn" xml:space="preserve">
+    <value>Выполнен вход в Google Календарь.</value>
+  </data>
   <data name="AgendaSignedOut" xml:space="preserve">
     <value>Вход в Google Календарь не выполнен.</value>
+  </data>
+  <data name="AgendaSignIn" xml:space="preserve">
+    <value>Войти через Google</value>
+  </data>
+  <data name="AgendaSignInAgain" xml:space="preserve">
+    <value>Войти заново</value>
+  </data>
+  <data name="AgendaSignInFailed" xml:space="preserve">
+    <value>Вход не завершён.</value>
+  </data>
+  <data name="AgendaSigningIn" xml:space="preserve">
+    <value>Ожидание браузера...</value>
+  </data>
+  <data name="AgendaSignOut" xml:space="preserve">
+    <value>Выйти</value>
   </data>
   <data name="AgendaToday" xml:space="preserve">
     <value>Сегодня</value>
