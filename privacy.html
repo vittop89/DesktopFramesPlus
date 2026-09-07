@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Privacy policy — Desktop Frames + Agenda</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { max-width: 42rem; margin: 3rem auto; padding: 0 1.25rem;
+         font: 16px/1.6 system-ui, -apple-system, Segoe UI, sans-serif; }
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.1rem; margin-top: 2rem; }
+  .sub { color: #6b7280; margin-top: -.5rem; }
+  a { color: #2563eb; }
+  code { font-size: .95em; }
+</style>
+
+<h1>Privacy policy</h1>
+<p class="sub">Agenda plugin for the Desktop Frames + personal build. Last updated September 2026.</p>
+
+<h2>In short</h2>
+<p>The Agenda plugin puts two parties in touch: the computer it runs on, and Google.
+There is no server in between, nothing is collected, and nothing is shared with
+anyone else. Whoever wrote this program cannot see anybody's calendar, and has no
+system in which they could.</p>
+
+<h2>What it uses</h2>
+<p>With the account holder's consent, the plugin reads and writes events in their
+Google Calendar through the <code>calendar.events</code> scope. Events are drawn in
+a frame on the desktop and held in memory only while the program is running.</p>
+<p>No other scope is requested: not the calendar list, not account settings, not
+mail, not contacts.</p>
+
+<h2>Where things stay</h2>
+<p>On the account holder's computer. The token Google issues is kept in the
+program's own folder, encrypted with Windows DPAPI and tied to the Windows account
+that saved it, so a copy carried anywhere else cannot be read.</p>
+
+<h2>What does not happen</h2>
+<ul>
+  <li>no calendar data is sent to anyone other than Google</li>
+  <li>no analytics, profiling or usage statistics</li>
+  <li>no data is sold or passed on</li>
+  <li>no account to create: there is nothing to register with</li>
+</ul>
+
+<h2>Withdrawing access</h2>
+<p>At any time, from
+<a href="https://myaccount.google.com/connections">myaccount.google.com/connections</a>,
+or by signing out from the plugin's settings. Either way the token held on the
+computer is deleted.</p>
+
+<h2>Contact</h2>
+<p>Questions and reports:
+<a href="https://github.com/vittop89/DesktopFramesPlus/issues">github.com/vittop89/DesktopFramesPlus/issues</a></p>
+
+<p style="margin-top:2rem;color:#6b7280;font-size:.9rem">This policy covers a personal
+build of <a href="https://github.com/limbo666/DesktopFramesPlus">Desktop Frames +</a>
+and the calendar plugin added to it. It does not speak for the original project.</p>
