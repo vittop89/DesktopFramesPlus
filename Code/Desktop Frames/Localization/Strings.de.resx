@@ -2096,4 +2096,16 @@ Jetzt neu starten?</value>
   <data name="WebPageCrashed" xml:space="preserve">
     <value>Die Seite reagiert nicht mehr. Schließen Sie dieses Fenster und öffnen Sie es erneut.</value>
   </data>
+  <data name="WebPageOpenNamed" xml:space="preserve">
+    <value>{0} öffnen</value>
+  </data>
+  <data name="WebPageShowNamed" xml:space="preserve">
+    <value>{0} anzeigen</value>
+  </data>
+  <data name="WebPageOpenedNow" xml:space="preserve">
+    <value>Fenster offen</value>
+  </data>
+  <data name="WebPageConfigureHint" xml:space="preserve">
+    <value>Wählen Sie eine Website in den Einstellungen dieses Rahmens.</value>
+  </data>
 </root>

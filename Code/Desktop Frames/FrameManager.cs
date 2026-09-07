@@ -4201,12 +4201,23 @@ namespace Desktop_Frames
                 // We'll add the TextBox reference after the window is created
                 // For now, just mark that this will need Note menu items
             }
+            // A frame that carries a browser has to be opaque. WPF draws a window with
+            // AllowsTransparency into a bitmap, and a native child window - which is what
+            // a browser is - never reaches that bitmap: the frame would come up empty
+            // with nothing to explain why. Such a frame gives up the tint, the rounded
+            // corners and the idle fade, which all need the transparency it just gave up.
+            bool carriesABrowser = frame.ItemsType?.ToString() == "Plugin"
+                                && frame.PluginId?.ToString() == "WebPage";
+
             NonActivatingWindow win = new NonActivatingWindow
             {
                 ContextMenu = CnMnFramemanager,
                 AllowDrop = true,
-                AllowsTransparency = true,
-                Background = System.Windows.Media.Brushes.Transparent,
+                AllowsTransparency = !carriesABrowser,
+                Background = carriesABrowser
+                    ? (System.Windows.Media.Brush)new System.Windows.Media.SolidColorBrush(
+                        System.Windows.Media.Color.FromRgb(32, 32, 32))
+                    : System.Windows.Media.Brushes.Transparent,
                 Title = frame.Title?.ToString() ?? "New Frame", // Handle null title
                 ShowInTaskbar = false,
                 WindowStyle = WindowStyle.None,

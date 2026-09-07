@@ -2096,4 +2096,16 @@
   <data name="WebPageCrashed" xml:space="preserve">
     <value>Страница перестала отвечать. Закройте это окно и откройте снова.</value>
   </data>
+  <data name="WebPageOpenNamed" xml:space="preserve">
+    <value>Открыть {0}</value>
+  </data>
+  <data name="WebPageShowNamed" xml:space="preserve">
+    <value>Показать {0}</value>
+  </data>
+  <data name="WebPageOpenedNow" xml:space="preserve">
+    <value>окно открыто</value>
+  </data>
+  <data name="WebPageConfigureHint" xml:space="preserve">
+    <value>Выберите сайт в настройках этой рамки.</value>
+  </data>
 </root>

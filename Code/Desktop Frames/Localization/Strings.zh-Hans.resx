@@ -2169,4 +2169,16 @@
   <data name="WebPageCrashed" xml:space="preserve">
     <value>页面已停止响应。请关闭此窗口后重新打开。</value>
   </data>
+  <data name="WebPageOpenNamed" xml:space="preserve">
+    <value>打开 {0}</value>
+  </data>
+  <data name="WebPageShowNamed" xml:space="preserve">
+    <value>显示 {0}</value>
+  </data>
+  <data name="WebPageOpenedNow" xml:space="preserve">
+    <value>窗口已打开</value>
+  </data>
+  <data name="WebPageConfigureHint" xml:space="preserve">
+    <value>请在此相框的设置中选择网站。</value>
+  </data>
 </root>

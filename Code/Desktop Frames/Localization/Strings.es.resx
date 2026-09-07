@@ -2096,4 +2096,16 @@ Cada ventana lee sus textos mientras se construye, así que el cambio se ve al r
   <data name="WebPageCrashed" xml:space="preserve">
     <value>La página ha dejado de responder. Cierra esta ventana y vuelve a abrirla.</value>
   </data>
+  <data name="WebPageOpenNamed" xml:space="preserve">
+    <value>Abrir {0}</value>
+  </data>
+  <data name="WebPageShowNamed" xml:space="preserve">
+    <value>Mostrar {0}</value>
+  </data>
+  <data name="WebPageOpenedNow" xml:space="preserve">
+    <value>ventana abierta</value>
+  </data>
+  <data name="WebPageConfigureHint" xml:space="preserve">
+    <value>Elige un sitio en los ajustes de este marco.</value>
+  </data>
 </root>

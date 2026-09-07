@@ -2096,4 +2096,16 @@ Redémarrer maintenant ?</value>
   <data name="WebPageCrashed" xml:space="preserve">
     <value>La page ne répond plus. Fermez cette fenêtre et rouvrez-la.</value>
   </data>
+  <data name="WebPageOpenNamed" xml:space="preserve">
+    <value>Ouvrir {0}</value>
+  </data>
+  <data name="WebPageShowNamed" xml:space="preserve">
+    <value>Afficher {0}</value>
+  </data>
+  <data name="WebPageOpenedNow" xml:space="preserve">
+    <value>fenêtre ouverte</value>
+  </data>
+  <data name="WebPageConfigureHint" xml:space="preserve">
+    <value>Choisissez un site dans les réglages de ce cadre.</value>
+  </data>
 </root>

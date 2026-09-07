@@ -2096,4 +2096,16 @@ Reiniciar agora?</value>
   <data name="WebPageCrashed" xml:space="preserve">
     <value>A página deixou de responder. Feche esta janela e abra-a de novo.</value>
   </data>
+  <data name="WebPageOpenNamed" xml:space="preserve">
+    <value>Abrir {0}</value>
+  </data>
+  <data name="WebPageShowNamed" xml:space="preserve">
+    <value>Mostrar {0}</value>
+  </data>
+  <data name="WebPageOpenedNow" xml:space="preserve">
+    <value>janela aberta</value>
+  </data>
+  <data name="WebPageConfigureHint" xml:space="preserve">
+    <value>Escolha um site nas definições desta moldura.</value>
+  </data>
 </root>

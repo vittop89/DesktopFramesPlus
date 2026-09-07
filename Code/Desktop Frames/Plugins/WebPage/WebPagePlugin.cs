@@ -8,17 +8,18 @@ using Desktop_Frames.Localization;
 namespace Desktop_Frames.Plugins.WebPage
 {
     /// <summary>
-    /// A frame that opens a site in a window of its own - Google Keep, Todoist, a
-    /// webmail, whatever somebody puts in the address.
+    /// A frame showing a site - Google Keep, Todoist, a webmail, whatever address is
+    /// put in the settings.
     ///
-    /// The frame is the way in, not the container. That is not a simplification: a frame
-    /// is created with AllowsTransparency and as a NonActivatingWindow, and a browser
-    /// needs both a surface a native window can draw on and the keyboard focus that
-    /// window refuses. So the frame holds a button and the site gets a real window.
+    /// The page lives in the frame when the frame can carry it. That is not always: a
+    /// frame built with AllowsTransparency is drawn into a bitmap, and a browser is a
+    /// native child window that never reaches that bitmap. Web page frames are created
+    /// opaque so they can, and this plugin looks at the window it was given rather than
+    /// assuming - so a frame made before that rule existed still works, with the page in
+    /// a window of its own.
     ///
-    /// Nothing here reads or writes the site's content. The page is the site's own, the
-    /// session is the site's own, and this plugin only decides where it is allowed to
-    /// go.
+    /// Nothing here reads or writes the site's content. The page and the session are the
+    /// site's own; this plugin only decides where the browser is allowed to go.
     /// </summary>
     public class WebPagePlugin : IFramePlugin
     {
@@ -26,26 +27,33 @@ namespace Desktop_Frames.Plugins.WebPage
 
         public string DisplayName => "Web page";
 
-        // In development, like the agenda: it is new, and the setting that gates these
-        // is the honest place to say so.
         public int DevelopmentState => 3;
 
         private WebPageSettings _settings = new WebPageSettings();
 
-        private StackPanel? _panel;
+        private Grid? _root;
+        private StackPanel? _launcher;
         private TextBlock? _caption;
+        private TextBlock? _hint;
         private Button? _open;
 
-        /// <summary>
-        /// The window while it is open, so a second click raises the one that exists
-        /// instead of starting a second browser on the same profile - which Chromium
-        /// will not share, and which would fail confusingly.
-        /// </summary>
+        /// <summary>The page inside the frame, when the frame can hold it.</summary>
+        private WebPageBrowser? _inside;
+
+        /// <summary>The page in a window, when it cannot.</summary>
         private WebPageWindow? _window;
+
+        /// <summary>
+        /// True once the host window has been found to be opaque, which is the only
+        /// condition under which a browser can be seen inside it.
+        /// </summary>
+        private bool _canHostInside;
 
         public FrameworkElement CreateVisualElement()
         {
-            _panel = new StackPanel
+            _root = new Grid();
+
+            _launcher = new StackPanel
             {
                 Margin = new Thickness(12),
                 VerticalAlignment = VerticalAlignment.Center
@@ -57,46 +65,129 @@ namespace Desktop_Frames.Plugins.WebPage
                 Foreground = Brushes.White,
                 TextTrimming = TextTrimming.CharacterEllipsis,
                 TextAlignment = TextAlignment.Center,
-                Margin = new Thickness(0, 0, 0, 10)
+                Margin = new Thickness(0, 0, 0, 8)
+            };
+
+            // Said only when there is nothing to click. A frame offering a dead button
+            // teaches nothing; one that says where the setting lives costs a line.
+            _hint = new TextBlock
+            {
+                Text = Strings.WebPageConfigureHint,
+                FontSize = 11,
+                Foreground = Brushes.White,
+                Opacity = 0.7,
+                TextWrapping = TextWrapping.Wrap,
+                TextAlignment = TextAlignment.Center
             };
 
             _open = new Button
             {
-                Content = Strings.WebPageOpen,
                 Height = 30,
                 Padding = new Thickness(14, 0, 14, 0),
                 HorizontalAlignment = HorizontalAlignment.Center
             };
 
-            _open.Click += (s, e) => Open();
+            _open.Click += (s, e) => OpenWindow();
 
-            _panel.Children.Add(_caption);
-            _panel.Children.Add(_open);
+            _launcher.Children.Add(_caption);
+            _launcher.Children.Add(_hint);
+            _launcher.Children.Add(_open);
 
-            return _panel;
+            _root.Children.Add(_launcher);
+
+            return _root;
         }
 
         public void Initialize(FrameworkElement visual, Dictionary<string, object> settings)
         {
             _settings = WebPageSettings.Read(settings);
+
+            // Asked of the window rather than assumed of the program. The answer decides
+            // whether this frame shows a page or a button, and getting it wrong in the
+            // hopeful direction means a frame that looks empty for no visible reason.
+            visual.Loaded += (s, e) => Attach(visual);
+
             Describe();
         }
 
-        private void Describe()
+        private void Attach(FrameworkElement visual)
         {
-            if (_caption == null || _open == null) return;
+            Window? host = Window.GetWindow(visual);
+            if (host == null) return;
 
-            _caption.Text = _settings.IsConfigured ? _settings.Site.Name : Strings.WebPageNotConfigured;
-            _open.IsEnabled = _settings.IsConfigured;
+            _canHostInside = !host.AllowsTransparency;
+
+            // A frame refuses the keyboard by default, which is right for a frame full of
+            // icons and wrong for one holding a page somebody types into. The program
+            // already has the switch - the note frames use it to be edited.
+            if (_canHostInside && host is NonActivatingWindow frame)
+                frame.EnableFocusPrevention(false);
+
+            ShowPage();
+            Describe();
         }
 
-        private void Open()
+        /// <summary>Puts the page in the frame, when the frame can hold one.</summary>
+        private void ShowPage()
+        {
+            if (!_canHostInside || !_settings.IsConfigured || _root == null) return;
+            if (_inside != null) return;
+
+            _inside = new WebPageBrowser(_settings.Site);
+            _root.Children.Insert(0, _inside);
+        }
+
+        private void HidePage()
+        {
+            if (_inside == null || _root == null) return;
+
+            _inside.Stop();
+            _root.Children.Remove(_inside);
+            _inside = null;
+        }
+
+        /// <summary>
+        /// Puts the frame in the shape of what is true right now.
+        ///
+        /// When the page is inside, the frame is the page and the launcher goes away.
+        /// Otherwise the button names the site: "Open" alone is a question - open what? -
+        /// and the frame is the only thing that knows the answer.
+        /// </summary>
+        private void Describe()
+        {
+            if (_caption == null || _open == null || _hint == null || _launcher == null) return;
+
+            if (_inside != null)
+            {
+                _launcher.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            _launcher.Visibility = Visibility.Visible;
+
+            if (!_settings.IsConfigured)
+            {
+                _caption.Text = Strings.WebPageNotConfigured;
+                _hint.Visibility = Visibility.Visible;
+                _open.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            string site = _settings.Site.Name;
+            bool open = _window != null;
+
+            _caption.Text = open ? site + " — " + Strings.WebPageOpenedNow : site;
+            _hint.Visibility = Visibility.Collapsed;
+            _open.Visibility = Visibility.Visible;
+            _open.Content = Strings.Get(open ? "WebPageShowNamed" : "WebPageOpenNamed", site);
+        }
+
+        private void OpenWindow()
         {
             if (!_settings.IsConfigured) return;
 
             if (_window != null)
             {
-                // Already there, possibly behind something or minimised.
                 if (_window.WindowState == WindowState.Minimized)
                     _window.WindowState = WindowState.Normal;
 
@@ -109,27 +200,28 @@ namespace Desktop_Frames.Plugins.WebPage
 
             window.Closed += (s, e) =>
             {
-                // Where it was left is worth keeping, but only in memory: writing it
-                // needs the frame's data, which arrives with the settings window. It
-                // reaches disk the next time anything else is saved.
                 if (window.Placement is WebPageSettings.Rect where) _settings.Bounds = where;
 
                 _window = null;
+                Describe();
             };
 
             window.Show();
+            Describe();
         }
 
         public void ShowSettingsWindow(Window ownerWindow, dynamic frameData)
         {
             if (!WebPageSettingsWindow.Show(ownerWindow, _settings)) return;
 
-            Describe();
             Persist(frameData);
 
-            // A site change makes the open window the wrong one. Closing it is clearer
-            // than leaving yesterday's page in front of today's setting.
+            // The site changed, so whatever is on screen is the previous one.
+            HidePage();
             _window?.Close();
+
+            ShowPage();
+            Describe();
         }
 
         private void Persist(dynamic frameData)
@@ -155,9 +247,9 @@ namespace Desktop_Frames.Plugins.WebPage
 
         public void Pause()
         {
-            // Nothing to pause. The frame holds a button; the window, if it is open, is
-            // the person's own window and closing it because a frame scrolled out of
-            // sight would lose whatever they were typing.
+            // Left running on purpose. A rolled-up frame is still a page somebody may be
+            // halfway through writing on, and tearing down the browser to save a frame
+            // that is about to be rolled back down would lose it.
         }
 
         public void Resume()
@@ -166,6 +258,8 @@ namespace Desktop_Frames.Plugins.WebPage
 
         public void Cleanup()
         {
+            HidePage();
+
             _window?.Close();
             _window = null;
         }

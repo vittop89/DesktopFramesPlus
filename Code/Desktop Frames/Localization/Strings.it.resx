@@ -2095,4 +2095,16 @@ Vuoi riavviare adesso?</value>
   <data name="WebPageCrashed" xml:space="preserve">
     <value>La pagina ha smesso di rispondere. Chiudi questa finestra e riaprila.</value>
   </data>
+  <data name="WebPageOpenNamed" xml:space="preserve">
+    <value>Apri {0}</value>
+  </data>
+  <data name="WebPageShowNamed" xml:space="preserve">
+    <value>Mostra {0}</value>
+  </data>
+  <data name="WebPageOpenedNow" xml:space="preserve">
+    <value>finestra aperta</value>
+  </data>
+  <data name="WebPageConfigureHint" xml:space="preserve">
+    <value>Scegli un sito nelle impostazioni di questo frame.</value>
+  </data>
 </root>

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Desktop_Frames.Plugins.WebPage
@@ -43,16 +43,22 @@ namespace Desktop_Frames.Plugins.WebPage
                 Address = "https://keep.google.com/",
                 Slug = "keep",
 
-                // Signing in leaves keep.google.com for Google's account pages and comes
-                // back, so those have to be allowed or the sign-in dead-ends.
-                Hosts = new List<string> { "keep.google.com", "accounts.google.com", "accounts.youtube.com" }
+                // The whole of google.com rather than the two subdomains the site is
+                // reached at. Signing in wanders further than it looks - account
+                // chooser, consent, cookie check, two-step verification, and back - and
+                // each of those lives somewhere slightly different. Naming the
+                // subdomains meant the sign-in finished somewhere unlisted and the
+                // window handed the finished session to the real browser.
+                //
+                // googleusercontent.com is where an attachment opens.
+                Hosts = new List<string> { "google.com", "googleusercontent.com", "youtube.com" }
             },
             new WebPageSite
             {
                 Name = "Google Tasks",
                 Address = "https://tasks.google.com/",
                 Slug = "tasks",
-                Hosts = new List<string> { "tasks.google.com", "accounts.google.com" }
+                Hosts = new List<string> { "google.com", "googleusercontent.com" }
             },
             new WebPageSite
             {
