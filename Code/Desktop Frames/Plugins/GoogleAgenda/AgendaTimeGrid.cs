@@ -36,6 +36,12 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         private static readonly Brush Line = new SolidColorBrush(Color.FromArgb(28, 255, 255, 255));
         private static readonly Brush Strong = new SolidColorBrush(Color.FromArgb(220, 255, 255, 255));
 
+        /// <summary>
+        /// The current-time line. Red because no calendar hands red to an event by
+        /// default, so the marker cannot be mistaken for something booked.
+        /// </summary>
+        private static readonly Brush Now = new SolidColorBrush(Color.FromRgb(234, 67, 53));
+
         public static UIElement Build(IReadOnlyList<AgendaEvent> events, DateTime from, int days,
                                       bool flashToday,
                                       Action<AgendaEvent>? open, Action<AgendaEvent>? edit,
@@ -266,11 +272,57 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 }
             }
 
+            // Last, so it lies over the events rather than under them: a line hidden
+            // behind a block would be worse than no line at all.
+            AddNowLine(canvas, day, firstHour, lastHour);
+
             if (flashToday && day == DateTime.Today) FlashToday(framed);
 
             Grid.SetColumn(framed, index + 1);
             Grid.SetRow(framed, 2);
             root.Children.Add(framed);
+        }
+
+        /// <summary>
+        /// The line marking the current time across today's column.
+        ///
+        /// It answers, without reading anything, the two questions somebody glances at
+        /// a calendar for: what is happening now, and how much of the day is left.
+        ///
+        /// It moves with the minute refresh rather than a timer of its own. The grid is
+        /// rebuilt each time the events are asked for, so the line lands in its new
+        /// place for free - and a second timer running all day to shift a line by two
+        /// pixels would be paying for precision nobody looks for.
+        /// </summary>
+        private static void AddNowLine(Canvas canvas, DateTime day, int firstHour, int lastHour)
+        {
+            if (day != DateTime.Today) return;
+
+            double hours = DateTime.Now.TimeOfDay.TotalHours;
+            if (hours < firstHour || hours > lastHour) return;
+
+            double top = (hours - firstHour) * HourHeight;
+
+            var line = new Border { Height = 1, Background = Now };
+            Canvas.SetTop(line, top);
+            Canvas.SetLeft(line, 0);
+            Panel.SetZIndex(line, 100);
+            canvas.Children.Add(line);
+            canvas.SizeChanged += (s, e) => line.Width = canvas.ActualWidth;
+
+            // The dot at the left end is what makes the line read as a marker rather
+            // than as another hour rule.
+            var knob = new Border
+            {
+                Width = 7,
+                Height = 7,
+                CornerRadius = new CornerRadius(4),
+                Background = Now
+            };
+            Canvas.SetTop(knob, top - 3);
+            Canvas.SetLeft(knob, -3);
+            Panel.SetZIndex(knob, 101);
+            canvas.Children.Add(knob);
         }
 
         /// <summary>
