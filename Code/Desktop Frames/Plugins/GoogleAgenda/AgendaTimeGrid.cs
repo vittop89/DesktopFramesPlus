@@ -230,43 +230,31 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 canvas.SizeChanged += (s, e) => rule.Width = canvas.ActualWidth;
             }
 
-            List<AgendaEvent> ofDay = events
-                .Where(e => !e.IsAllDay && e.Start.Date <= day && e.End > day && e.Start < day.AddDays(1))
-                .OrderBy(e => e.Start)
-                .ToList();
+            // Where everything goes is worked out first, and separately: that part is
+            // arithmetic and is checked by tests, while what follows is only drawing.
+            List<AgendaEvent> ofDay = AgendaLayout.OfDay(events, day);
 
-            // Overlapping events share the width instead of hiding one another, which
-            // is the whole reason a grid beats a list for a busy morning.
-            List<List<AgendaEvent>> lanes = IntoLanes(ofDay);
-
-            for (int laneIndex = 0; laneIndex < lanes.Count; laneIndex++)
+            foreach (AgendaPlacement placement in AgendaLayout.Place(ofDay, day, firstHour))
             {
-                foreach (AgendaEvent item in lanes[laneIndex])
+                AgendaEvent item = placement.Item;
+
+                Border block = Block(item, placement.SpanHours * HourHeight, actions);
+
+                Canvas.SetTop(block, placement.TopHours * HourHeight);
+                block.Height = Math.Max(HourHeight / 2, placement.SpanHours * HourHeight - 2);
+
+                int lane = placement.Lane;
+                int laneCount = placement.Lanes;
+
+                void Place()
                 {
-                    DateTime start = item.Start < day ? day : item.Start;
-                    DateTime end = item.End > day.AddDays(1) ? day.AddDays(1) : item.End;
-
-                    double top = (start - day).TotalHours - firstHour;
-                    double span = (end - start).TotalHours;
-
-                    Border block = Block(item, span * HourHeight, actions);
-
-                    Canvas.SetTop(block, Math.Max(0, top * HourHeight));
-                    block.Height = Math.Max(HourHeight / 2, span * HourHeight - 2);
-
-                    int lane = laneIndex;
-                    int laneCount = lanes.Count;
-
-                    void Place()
-                    {
-                        double width = Math.Max(10, canvas.ActualWidth / laneCount);
-                        block.Width = width - 2;
-                        Canvas.SetLeft(block, lane * width);
-                    }
-
-                    canvas.SizeChanged += (s, e) => Place();
-                    canvas.Children.Add(block);
+                    double width = Math.Max(10, canvas.ActualWidth / laneCount);
+                    block.Width = width - 2;
+                    Canvas.SetLeft(block, lane * width);
                 }
+
+                canvas.SizeChanged += (s, e) => Place();
+                canvas.Children.Add(block);
             }
 
             // Last, so it lies over the events rather than under them: a line hidden
@@ -320,30 +308,6 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             Canvas.SetLeft(knob, -3);
             Panel.SetZIndex(knob, 101);
             canvas.Children.Add(knob);
-        }
-
-        /// <summary>
-        /// Puts events into as few side-by-side lanes as their overlaps allow: an event
-        /// goes in the first lane whose last entry has already finished.
-        /// </summary>
-        private static List<List<AgendaEvent>> IntoLanes(List<AgendaEvent> ofDay)
-        {
-            var lanes = new List<List<AgendaEvent>>();
-
-            foreach (AgendaEvent item in ofDay)
-            {
-                List<AgendaEvent>? free = lanes.FirstOrDefault(l => l[l.Count - 1].End <= item.Start);
-
-                if (free == null)
-                {
-                    free = new List<AgendaEvent>();
-                    lanes.Add(free);
-                }
-
-                free.Add(item);
-            }
-
-            return lanes.Count == 0 ? new List<List<AgendaEvent>>() : lanes;
         }
 
         // ======================================================================

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -27,6 +27,8 @@
              Link="Linked\AgendaTaskList.cs" />
     <Compile Include="..\Desktop Frames\Plugins\GoogleAgenda\AgendaMerge.cs"
              Link="Linked\AgendaMerge.cs" />
+    <Compile Include="..\Desktop Frames\Plugins\GoogleAgenda\AgendaLayout.cs"
+             Link="Linked\AgendaLayout.cs" />
     <Compile Include="..\Desktop Frames\Plugins\WebPage\WebPageSite.cs"
              Link="Linked\WebPageSite.cs" />
   </ItemGroup>
