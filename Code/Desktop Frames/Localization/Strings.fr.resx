@@ -118,11 +118,50 @@ Il est aujourd'hui maintenu par Nikos Georgousis, qui l'a enrichi et rendu plus 
   <data name="AgendaAllDay" xml:space="preserve">
     <value>Toute la journée</value>
   </data>
+  <data name="AgendaBadTime" xml:space="preserve">
+    <value>Indiquez une heure comme 9:30.</value>
+  </data>
+  <data name="AgendaCalendarLabel" xml:space="preserve">
+    <value>Agenda</value>
+  </data>
+  <data name="AgendaCalendarsLabel" xml:space="preserve">
+    <value>Agendas affichés</value>
+  </data>
+  <data name="AgendaConfirmDelete" xml:space="preserve">
+    <value>Supprimer "{0}" ?</value>
+  </data>
+  <data name="AgendaConflict" xml:space="preserve">
+    <value>L'événement a été modifié ailleurs et n'a pas été écrasé. La version la plus récente apparaîtra ici sous peu.</value>
+  </data>
+  <data name="AgendaDateLabel" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="AgendaDaysLabel" xml:space="preserve">
+    <value>Jours à venir</value>
+  </data>
+  <data name="AgendaDeleteEvent" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="AgendaEditEvent" xml:space="preserve">
+    <value>Modifier l'événement</value>
+  </data>
+  <data name="AgendaEndLabel" xml:space="preserve">
+    <value>Fin</value>
+  </data>
   <data name="AgendaFailed" xml:space="preserve">
     <value>Google Agenda est injoignable.</value>
   </data>
   <data name="AgendaLoading" xml:space="preserve">
     <value>Chargement...</value>
+  </data>
+  <data name="AgendaLocationLabel" xml:space="preserve">
+    <value>Lieu</value>
+  </data>
+  <data name="AgendaNewEvent" xml:space="preserve">
+    <value>Nouvel événement</value>
+  </data>
+  <data name="AgendaNoEventsToday" xml:space="preserve">
+    <value>Rien aujourd'hui.</value>
   </data>
   <data name="AgendaNotConfigured" xml:space="preserve">
     <value>Compte Google pas encore configuré. Ajoutez votre client Google dans les paramètres.</value>
@@ -130,8 +169,17 @@ Il est aujourd'hui maintenu par Nikos Georgousis, qui l'a enrichi et rendu plus 
   <data name="AgendaNothingScheduled" xml:space="preserve">
     <value>Rien de prévu.</value>
   </data>
+  <data name="AgendaNoWritableCalendar" xml:space="preserve">
+    <value>Aucun des agendas trouvés n'accepte de nouveaux événements.</value>
+  </data>
   <data name="AgendaOffline" xml:space="preserve">
     <value>Google est injoignable. Les derniers événements reçus sont affichés.</value>
+  </data>
+  <data name="AgendaOpenInGoogle" xml:space="preserve">
+    <value>Ouvrir dans Google Agenda</value>
+  </data>
+  <data name="AgendaSaveFailed" xml:space="preserve">
+    <value>La modification n'a pas pu être enregistrée.</value>
   </data>
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>Paramètres de l'agenda</value>
@@ -157,6 +205,12 @@ Il est aujourd'hui maintenu par Nikos Georgousis, qui l'a enrichi et rendu plus 
   <data name="AgendaSignOut" xml:space="preserve">
     <value>Se déconnecter</value>
   </data>
+  <data name="AgendaStartLabel" xml:space="preserve">
+    <value>Début</value>
+  </data>
+  <data name="AgendaTitleLabel" xml:space="preserve">
+    <value>Titre</value>
+  </data>
   <data name="AgendaToday" xml:space="preserve">
     <value>Aujourd'hui</value>
   </data>
@@ -165,6 +219,21 @@ Il est aujourd'hui maintenu par Nikos Georgousis, qui l'a enrichi et rendu plus 
   </data>
   <data name="AgendaUntitled" xml:space="preserve">
     <value>(sans titre)</value>
+  </data>
+  <data name="AgendaViewDay" xml:space="preserve">
+    <value>Jour</value>
+  </data>
+  <data name="AgendaViewLabel" xml:space="preserve">
+    <value>Affichage</value>
+  </data>
+  <data name="AgendaViewList" xml:space="preserve">
+    <value>Liste</value>
+  </data>
+  <data name="AgendaViewMonth" xml:space="preserve">
+    <value>Mois</value>
+  </data>
+  <data name="AgendaViewWeek" xml:space="preserve">
+    <value>Semaine</value>
   </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>CLIQUEZ SUR LA FENÊTRE CIBLE</value>

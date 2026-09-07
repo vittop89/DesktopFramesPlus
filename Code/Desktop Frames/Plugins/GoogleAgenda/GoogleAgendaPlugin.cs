@@ -1,12 +1,13 @@
-﻿using Desktop_Frames.Localization;
+using Desktop_Frames.Localization;
+using Google.Apis.Auth.OAuth2;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace Desktop_Frames.Plugins.GoogleAgenda
@@ -14,10 +15,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
     /// <summary>
     /// Shows a calendar in a frame.
     ///
-    /// This class owns the frame: the visual tree, the refresh timer, and the plugin
-    /// life cycle. It does not talk to Google. Signing in belongs to
-    /// <see cref="AgendaSession"/>, and the events themselves arrive as
-    /// <see cref="AgendaEvent"/>, so nothing here changes when the source does.
+    /// This class owns the frame and decides what happens: the life cycle, the
+    /// refresh timer, and the commands somebody triggers. It does not draw - that is
+    /// <see cref="AgendaRenderer"/> - and it does not talk to Google - that is
+    /// <see cref="GoogleCalendarSource"/>. What passes between them is
+    /// <see cref="AgendaEvent"/>, so neither has to know about the other.
     /// </summary>
     public class GoogleAgendaPlugin : IFramePlugin
     {
@@ -34,37 +36,39 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         // --- State -------------------------------------------------------------
         private readonly AgendaSession _session = new AgendaSession();
-        private List<AgendaEvent> _events = new List<AgendaEvent>();
+        private readonly AgendaRenderer _renderer = new AgendaRenderer();
+
+        private IReadOnlyList<AgendaEvent> _events = new List<AgendaEvent>();
         private GoogleCalendarSource? _source;
 
-        /// <summary>True once an answer has arrived, so an empty list can be told apart from a list nobody has asked for.</summary>
+        private AgendaSettings _settings = new AgendaSettings();
+        private Dictionary<string, object>? _settingsRef;
+
+        /// <summary>The day the month view has open. Meaningless in the other views.</summary>
+        private DateTime _chosenDay = DateTime.Today;
+
+        /// <summary>True once an answer has arrived, so an empty list can be told apart from one nobody has asked for.</summary>
         private bool _loadedOnce;
 
-        /// <summary>True when the last attempt failed. The events already on screen stay: stale is more use than blank.</summary>
+        /// <summary>True when the last attempt failed. What is on screen stays: stale is more use than blank.</summary>
         private bool _offline;
 
-        /// <summary>Guards against a slow refresh being started again by the timer while it is still running.</summary>
+        /// <summary>Guards against the timer starting a refresh that is already running.</summary>
         private bool _refreshing;
 
-        /// <summary>
-        /// How far ahead the frame looks. Two weeks is what fits the question a
-        /// desktop agenda answers - what is coming - without turning the frame into
-        /// something to scroll.
-        /// </summary>
-        private static readonly TimeSpan Window = TimeSpan.FromDays(14);
-
-        // --- Settings and refresh ---------------------------------------------
-        private Dictionary<string, object>? _settingsRef;
         private DispatcherTimer? _refreshTimer;
 
         /// <summary>
         /// How often the source is asked for changes. Not a compromise: Google pushes
         /// changes only to a public HTTPS address it can call, which a program on
         /// somebody's desktop does not have. Every desktop calendar client polls, and
-        /// asks only for what changed since last time, so a quiet calendar costs an
-        /// empty answer a minute.
+        /// asks only for what changed, so a quiet calendar costs an empty answer.
         /// </summary>
         private static readonly TimeSpan RefreshInterval = TimeSpan.FromSeconds(60);
+
+        // ==========================================================================
+        // LIFE CYCLE
+        // ==========================================================================
 
         public FrameworkElement CreateVisualElement()
         {
@@ -78,7 +82,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Margin = new Thickness(5, 5, 5, 10)
             };
 
-            _contentPanel = new StackPanel { Orientation = Orientation.Vertical };
+            _contentPanel = new StackPanel();
             _rootVisual.Content = _contentPanel;
 
             return _rootVisual;
@@ -87,14 +91,17 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         public void Initialize(FrameworkElement visual, Dictionary<string, object> settings)
         {
             _settingsRef = settings;
+            _settings = AgendaSettings.Read(settings);
+
+            _renderer.OpenRequested += OpenInGoogle;
+            _renderer.EditRequested += Edit;
+            _renderer.DeleteRequested += Delete;
+            _renderer.DayChosen += day => { _chosenDay = day; Render(); };
 
             _session.Changed += OnSessionChanged;
             Render();
 
-            _refreshTimer = new DispatcherTimer(DispatcherPriority.Background)
-            {
-                Interval = RefreshInterval
-            };
+            _refreshTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = RefreshInterval };
             _refreshTimer.Tick += (s, e) => Refresh();
 
             // Not awaited: building a frame must not wait on a disk read, and the
@@ -102,47 +109,122 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             _ = _session.ResumeAsync();
         }
 
+        public void Pause()
+        {
+            // A hidden frame must not keep asking: the answers are thrown away and the
+            // quota is not.
+            _refreshTimer?.Stop();
+        }
+
+        public void Resume()
+        {
+            if (_source == null) return;
+
+            _refreshTimer?.Start();
+            Refresh();
+        }
+
+        public void Cleanup()
+        {
+            _refreshTimer?.Stop();
+            _refreshTimer = null;
+
+            _session.Changed -= OnSessionChanged;
+            _session.Cancel();
+
+            _source?.Dispose();
+            _source = null;
+        }
+
+        public void ShowSettingsWindow(Window ownerWindow, dynamic frameData)
+        {
+            AgendaSettingsWindow.Show(ownerWindow, _session, _settings,
+                                      _source?.Calendars ?? new List<AgendaCalendar>(),
+                                      OnSettingsSaved);
+        }
+
+        // ==========================================================================
+        // REACTING
+        // ==========================================================================
+
         /// <summary>
         /// Follows the session: opens a source when somebody signs in, closes it when
         /// they leave, and redraws either way.
         ///
-        /// Separate from <see cref="Render"/> on purpose. Drawing must be something
-        /// that can be called at any moment without consequences; opening a connection
-        /// to Google is not, and hiding it inside a redraw is how a window resize ends
-        /// up making network calls.
+        /// Separate from <see cref="Render"/> on purpose. Drawing must be safe to call
+        /// at any moment; opening a connection to Google is not, and hiding that inside
+        /// a redraw is how resizing a window ends up making network calls.
         /// </summary>
         private void OnSessionChanged()
         {
             if (_session.State == AgendaState.SignedIn && _session.Credential != null)
             {
-                if (_source == null)
-                {
-                    _source = new GoogleCalendarSource(_session.Credential);
-                    _refreshTimer?.Start();
-                    Refresh();
-                }
+                if (_source == null) StartSource(_session.Credential);
             }
             else
             {
-                _refreshTimer?.Stop();
-
-                _source?.Dispose();
-                _source = null;
-
-                _events = new List<AgendaEvent>();
-                _loadedOnce = false;
-                _offline = false;
+                DropSource();
             }
 
             Render();
         }
 
+        private void OnSettingsSaved(AgendaSettings saved)
+        {
+            bool windowGrew = saved.FetchWindow > _settings.FetchWindow;
+            bool calendarsChanged = !saved.SameCalendarsAs(_settings);
+
+            _settings = saved;
+            _settings.WriteTo(_settingsRef);
+
+            // The sync marker Google gave us covers the window of the request that
+            // produced it. Asking for a wider one, or for a calendar we had not been
+            // reading, cannot be answered from that marker - so the source starts afresh
+            // rather than being left to report events it was never told about.
+            if (windowGrew || calendarsChanged)
+            {
+                UserCredential? credential = _session.Credential;
+
+                DropSource();
+                if (credential != null) StartSource(credential);
+            }
+            else
+            {
+                Refresh();
+            }
+
+            Render();
+        }
+
+        private void StartSource(UserCredential credential)
+        {
+            _source = new GoogleCalendarSource(credential);
+            _refreshTimer?.Start();
+            Refresh();
+        }
+
+        private void DropSource()
+        {
+            _refreshTimer?.Stop();
+
+            _source?.Dispose();
+            _source = null;
+
+            _events = new List<AgendaEvent>();
+            _loadedOnce = false;
+            _offline = false;
+        }
+
+        // ==========================================================================
+        // TALKING TO THE SOURCE
+        // ==========================================================================
+
         /// <summary>
         /// Asks the source for what changed and redraws.
         ///
-        /// A failure keeps whatever is already on screen and says so in one line: an
-        /// agenda that empties itself because the network blinked is worse than one
-        /// showing this morning's answer, and the next attempt is sixty seconds away.
+        /// A failure keeps whatever is on screen and says so in one line: an agenda
+        /// that empties itself because the network blinked is worse than one showing
+        /// this morning's answer, and the next attempt is a minute away.
         /// </summary>
         private async void Refresh()
         {
@@ -153,16 +235,16 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             try
             {
-                IReadOnlyList<AgendaEvent> events =
-                    await Task.Run(() => source.RefreshAsync(Window, CancellationToken.None))
-                              .ConfigureAwait(true);
+                IReadOnlyList<AgendaEvent> events = await Task.Run(
+                    () => source.RefreshAsync(_settings.FetchWindow, _settings.Calendars, CancellationToken.None))
+                    .ConfigureAwait(true);
 
-                // The source may have been closed while the answer was in flight - a
-                // sign-out, or the frame going away - and applying it then would put
-                // events under a session that no longer exists.
+                // The source may have been replaced while the answer was in flight - a
+                // sign-out, a settings change - and applying it then would show events
+                // belonging to a session that no longer exists.
                 if (_source != source) return;
 
-                _events = events.ToList();
+                _events = events;
                 _loadedOnce = true;
                 _offline = false;
             }
@@ -181,8 +263,107 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             Render();
         }
 
+        private void OpenInGoogle(AgendaEvent item)
+        {
+            if (string.IsNullOrWhiteSpace(item.WebLink)) return;
+
+            try
+            {
+                Process.Start(new ProcessStartInfo(item.WebLink) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    $"GoogleAgenda: could not open the event in a browser: {ex.Message}");
+            }
+        }
+
+        private void Add()
+        {
+            GoogleCalendarSource? source = _source;
+            if (source == null) return;
+
+            DateTime start = _settings.View == AgendaView.Month ? _chosenDay.Date : DateTime.Today;
+
+            // The next whole hour today, or mid-morning on another day: what somebody
+            // adding an event from a desktop frame nearly always means.
+            start = start.Date == DateTime.Today
+                ? DateTime.Now.Date.AddHours(DateTime.Now.Hour + 1)
+                : start.AddHours(9);
+
+            var draft = new AgendaEvent { Start = start, End = start.AddHours(1), CanWrite = true };
+
+            AgendaEvent? filled = AgendaEventWindow.Show(Window.GetWindow(_rootVisual), draft,
+                                                        source.Calendars, isNew: true);
+            if (filled != null) Save(filled, isNew: true);
+        }
+
+        private void Edit(AgendaEvent item)
+        {
+            GoogleCalendarSource? source = _source;
+            if (source == null) return;
+
+            AgendaEvent? changed = AgendaEventWindow.Show(Window.GetWindow(_rootVisual), item,
+                                                         source.Calendars, isNew: false);
+            if (changed != null) Save(changed, isNew: false);
+        }
+
+        private async void Save(AgendaEvent item, bool isNew)
+        {
+            GoogleCalendarSource? source = _source;
+            if (source == null) return;
+
+            try
+            {
+                if (isNew) await source.CreateAsync(item, CancellationToken.None).ConfigureAwait(true);
+                else await source.UpdateAsync(item, CancellationToken.None).ConfigureAwait(true);
+            }
+            catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.PreconditionFailed
+                                                    || ex.HttpStatusCode == HttpStatusCode.Conflict)
+            {
+                // Somebody changed the same event elsewhere between reading it and
+                // saving. Google refused instead of overwriting, and saying so is the
+                // whole reason for asking it to: a change that vanishes without a word
+                // is the worst outcome available here.
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm(Strings.AgendaConflict, Strings.AgendaEditEvent);
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    $"GoogleAgenda: saving an event failed: {ex.Message}");
+
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm(Strings.AgendaSaveFailed, Strings.AgendaEditEvent);
+            }
+
+            Refresh();
+        }
+
+        private async void Delete(AgendaEvent item)
+        {
+            GoogleCalendarSource? source = _source;
+            if (source == null) return;
+
+            if (!MessageBoxesManager.ShowCustomYesNoMessageBox(
+                    Strings.Get("AgendaConfirmDelete", item.Title), Strings.AgendaDeleteEvent))
+                return;
+
+            try
+            {
+                await source.DeleteAsync(item, CancellationToken.None).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    $"GoogleAgenda: deleting an event failed: {ex.Message}");
+
+                MessageBoxesManager.ShowOKOnlyMessageBoxForm(Strings.AgendaSaveFailed, Strings.AgendaDeleteEvent);
+            }
+
+            Refresh();
+        }
+
         // ==========================================================================
-        // RENDERING
+        // DRAWING
         // ==========================================================================
 
         /// <summary>
@@ -199,66 +380,85 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             switch (_session.State)
             {
                 case AgendaState.NotConfigured:
-                    panel.Children.Add(CreateMessageCard(Strings.AgendaNotConfigured));
-                    break;
-
-                case AgendaState.SignedOut:
-                    panel.Children.Add(CreateMessageCard(Strings.AgendaSignedOut));
-                    panel.Children.Add(CreateSignInButton());
-                    break;
+                    panel.Children.Add(AgendaRenderer.Message(Strings.AgendaNotConfigured));
+                    return;
 
                 case AgendaState.SigningIn:
-                    panel.Children.Add(CreateMessageCard(Strings.AgendaSigningIn));
-                    break;
+                    panel.Children.Add(AgendaRenderer.Message(Strings.AgendaSigningIn));
+                    return;
+
+                case AgendaState.SignedOut:
+                    panel.Children.Add(AgendaRenderer.Message(Strings.AgendaSignedOut));
+                    panel.Children.Add(SignInButton());
+                    return;
 
                 case AgendaState.Failed:
-                    panel.Children.Add(CreateMessageCard(_session.LastError ?? Strings.AgendaFailed));
-                    panel.Children.Add(CreateSignInButton());
-                    break;
-
-                case AgendaState.SignedIn:
-                    // Above the list rather than instead of it: the events are still
-                    // worth reading, they are simply not known to be current.
-                    if (_offline) panel.Children.Add(CreateMessageCard(Strings.AgendaOffline));
-                    RenderEvents(panel);
-                    break;
+                    panel.Children.Add(AgendaRenderer.Message(_session.LastError ?? Strings.AgendaFailed));
+                    panel.Children.Add(SignInButton());
+                    return;
             }
-        }
 
-        private void RenderEvents(StackPanel panel)
-        {
-            if (_events.Count == 0)
+            // Above the list rather than instead of it: the events are still worth
+            // reading, they are simply not known to be current.
+            if (_offline) panel.Children.Add(AgendaRenderer.Message(Strings.AgendaOffline));
+
+            if (!_loadedOnce)
             {
-                // An empty calendar and a calendar nobody has read yet look the same
-                // from here, and telling somebody there is nothing scheduled before
-                // having asked would be a guess dressed as an answer.
-                panel.Children.Add(CreateMessageCard(
-                    _loadedOnce ? Strings.AgendaNothingScheduled : Strings.AgendaLoading));
+                // An empty calendar and one nobody has read yet look the same from here,
+                // and saying "nothing scheduled" before asking is a guess dressed as an
+                // answer.
+                panel.Children.Add(AgendaRenderer.Message(Strings.AgendaLoading));
                 return;
             }
 
-            // Grouped by day, with the day written once above its entries. Repeating
-            // the date on every line reads as noise on a frame this narrow.
-            DateTime currentDay = DateTime.MinValue;
+            panel.Children.Add(Toolbar());
+            _renderer.Draw(panel, _events, _settings.View, _chosenDay);
+        }
 
-            foreach (AgendaEvent item in _events)
+        /// <summary>The one row of controls: add an event, and move a month view around.</summary>
+        private UIElement Toolbar()
+        {
+            var bar = new StackPanel
             {
-                if (item.Day != currentDay)
-                {
-                    currentDay = item.Day;
-                    panel.Children.Add(CreateDayHeader(currentDay));
-                }
+                Orientation = Orientation.Horizontal,
+                Margin = new Thickness(0, 0, 0, 6)
+            };
 
-                panel.Children.Add(CreateEventCard(item));
+            if (_settings.View == AgendaView.Month)
+            {
+                bar.Children.Add(Small("‹", () => { _chosenDay = _chosenDay.AddMonths(-1); Render(); }));
+                bar.Children.Add(Small("›", () => { _chosenDay = _chosenDay.AddMonths(1); Render(); }));
+                bar.Children.Add(Small("•", () => { _chosenDay = DateTime.Today; Render(); }, Strings.AgendaToday));
             }
+
+            bar.Children.Add(Small("+", Add, Strings.AgendaNewEvent));
+            return bar;
+        }
+
+        private Button Small(string caption, Action action, string? tooltip = null)
+        {
+            var button = new Button
+            {
+                Content = caption,
+                Width = 24,
+                Height = 22,
+                Margin = new Thickness(0, 0, 4, 0),
+                Padding = new Thickness(0),
+                FontSize = 12,
+                Cursor = System.Windows.Input.Cursors.Hand,
+                ToolTip = tooltip
+            };
+
+            button.Click += (s, e) => action();
+            return button;
         }
 
         /// <summary>
-        /// The only control in the frame that starts something. It is here as well as
-        /// in the settings window because the frame is where somebody notices that the
-        /// agenda is not showing anything.
+        /// Offered in the frame as well as in the settings window: the frame is where
+        /// somebody notices the agenda is showing nothing, and sending them hunting
+        /// through a menu from there is a small cruelty.
         /// </summary>
-        private Button CreateSignInButton()
+        private Button SignInButton()
         {
             var button = new Button
             {
@@ -271,158 +471,6 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             button.Click += (s, e) => _ = _session.SignInAsync();
             return button;
-        }
-
-        private TextBlock CreateDayHeader(DateTime day)
-        {
-            return new TextBlock
-            {
-                Text = FormatDayHeader(day),
-                FontWeight = FontWeights.Bold,
-                FontSize = 12,
-                Foreground = new SolidColorBrush(Color.FromArgb(200, 255, 255, 255)),
-                Margin = new Thickness(2, 10, 2, 4)
-            };
-        }
-
-        /// <summary>
-        /// "Today" and "Tomorrow" rather than a date, because those are the two days
-        /// somebody glancing at a desktop frame is actually asking about. The words
-        /// follow the program's language; the date follows the regional format, which
-        /// Windows keeps separate on purpose.
-        /// </summary>
-        private static string FormatDayHeader(DateTime day)
-        {
-            DateTime today = DateTime.Today;
-
-            if (day == today) return Strings.AgendaToday;
-            if (day == today.AddDays(1)) return Strings.AgendaTomorrow;
-
-            return day.ToString("ddd d MMM", System.Globalization.CultureInfo.CurrentCulture);
-        }
-
-        private Border CreateEventCard(AgendaEvent item)
-        {
-            var card = new Border
-            {
-                Background = new SolidColorBrush(Color.FromArgb(20, 255, 255, 255)),
-                CornerRadius = new CornerRadius(4),
-                Padding = new Thickness(8, 6, 8, 6),
-                Margin = new Thickness(0, 0, 0, 4)
-            };
-
-            var layout = new StackPanel { Orientation = Orientation.Horizontal };
-
-            // The calendar's own colour, so entries from different calendars stay apart
-            // without a second line of text explaining which is which.
-            layout.Children.Add(new Border
-            {
-                Width = 4,
-                CornerRadius = new CornerRadius(2),
-                Background = ParseColourOrDefault(item.ColourHex),
-                Margin = new Thickness(0, 0, 8, 0)
-            });
-
-            var texts = new StackPanel { Orientation = Orientation.Vertical };
-
-            texts.Children.Add(new TextBlock
-            {
-                Text = item.Title,
-                FontSize = 12,
-                TextTrimming = TextTrimming.CharacterEllipsis,
-                Foreground = new SolidColorBrush(Colors.White)
-            });
-
-            texts.Children.Add(new TextBlock
-            {
-                Text = FormatWhen(item),
-                FontSize = 11,
-                Foreground = new SolidColorBrush(Color.FromArgb(160, 255, 255, 255))
-            });
-
-            layout.Children.Add(texts);
-            card.Child = layout;
-
-            return card;
-        }
-
-        private static string FormatWhen(AgendaEvent item)
-        {
-            if (item.IsAllDay) return Strings.AgendaAllDay;
-
-            return item.Start.ToString("HH:mm", System.Globalization.CultureInfo.CurrentCulture)
-                 + " - "
-                 + item.End.ToString("HH:mm", System.Globalization.CultureInfo.CurrentCulture);
-        }
-
-        private static SolidColorBrush ParseColourOrDefault(string hex)
-        {
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(hex))
-                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString(hex));
-            }
-            catch (Exception)
-            {
-                // A colour the source invented is not worth a blank frame.
-            }
-
-            return new SolidColorBrush(Color.FromRgb(100, 150, 255));
-        }
-
-        /// <summary>The one card every state that is not a list of events shows.</summary>
-        private Border CreateMessageCard(string message)
-        {
-            return new Border
-            {
-                Background = new SolidColorBrush(Color.FromArgb(15, 255, 255, 255)),
-                CornerRadius = new CornerRadius(4),
-                Padding = new Thickness(10),
-                Child = new TextBlock
-                {
-                    Text = message,
-                    FontSize = 12,
-                    TextWrapping = TextWrapping.Wrap,
-                    Foreground = new SolidColorBrush(Color.FromArgb(180, 255, 255, 255))
-                }
-            };
-        }
-
-        // ==========================================================================
-        // LIFE CYCLE
-        // ==========================================================================
-
-        public void Pause()
-        {
-            // A hidden frame must not keep asking: the answers are thrown away and the
-            // quota is not.
-            _refreshTimer?.Stop();
-        }
-
-        public void Resume()
-        {
-            if (_session.State == AgendaState.SignedIn && _source != null)
-            {
-                _refreshTimer?.Start();
-                Refresh();
-            }
-        }
-
-        public void Cleanup()
-        {
-            _refreshTimer?.Stop();
-            _refreshTimer = null;
-
-            _session.Changed -= OnSessionChanged;
-            _session.Cancel();
-
-            _source?.Dispose();
-            _source = null;
-        }
-
-        public void ShowSettingsWindow(Window ownerWindow, dynamic frameData)
-        {
-            AgendaSettingsWindow.Show(ownerWindow, _session, _settingsRef);
         }
     }
 }

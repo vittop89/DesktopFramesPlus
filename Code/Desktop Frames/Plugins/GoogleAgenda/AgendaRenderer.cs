@@ -1,0 +1,395 @@
+using Desktop_Frames.Localization;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using System.Windows.Media;
+
+namespace Desktop_Frames.Plugins.GoogleAgenda
+{
+    /// <summary>How the frame lays the events out.</summary>
+    public enum AgendaView
+    {
+        /// <summary>The next few days, one after another. The default, and the one a glance suits.</summary>
+        List,
+        /// <summary>Today alone.</summary>
+        Day,
+        /// <summary>Seven days.</summary>
+        Week,
+        /// <summary>A month as a grid of days, with the chosen day listed underneath.</summary>
+        Month
+    }
+
+    /// <summary>
+    /// Turns a list of events into the contents of a frame.
+    ///
+    /// Kept away from the plugin because they change for different reasons: the
+    /// plugin changes when the life cycle or the source does, this changes when
+    /// somebody wants a different layout. It holds no state of its own and reaches
+    /// for nothing - everything it draws is passed in, and everything it wants done
+    /// goes back out through the callbacks.
+    /// </summary>
+    public class AgendaRenderer
+    {
+        public Action<AgendaEvent>? OpenRequested;
+        public Action<AgendaEvent>? EditRequested;
+        public Action<AgendaEvent>? DeleteRequested;
+        public Action<DateTime>? DayChosen;
+
+        private static readonly Brush Faint = new SolidColorBrush(Color.FromArgb(160, 255, 255, 255));
+        private static readonly Brush Strong = new SolidColorBrush(Color.FromArgb(220, 255, 255, 255));
+
+        public void Draw(Panel panel, IReadOnlyList<AgendaEvent> events, AgendaView view, DateTime chosenDay)
+        {
+            switch (view)
+            {
+                case AgendaView.Day:
+                    DrawDays(panel, events, DateTime.Today, 1);
+                    break;
+
+                case AgendaView.Week:
+                    DrawDays(panel, events, DateTime.Today, 7);
+                    break;
+
+                case AgendaView.Month:
+                    DrawMonth(panel, events, chosenDay);
+                    break;
+
+                default:
+                    DrawList(panel, events);
+                    break;
+            }
+        }
+
+        // ======================================================================
+        // LIST AND DAYS
+        // ======================================================================
+
+        private void DrawList(Panel panel, IReadOnlyList<AgendaEvent> events)
+        {
+            if (events.Count == 0)
+            {
+                panel.Children.Add(Message(Strings.AgendaNothingScheduled));
+                return;
+            }
+
+            DateTime day = DateTime.MinValue;
+
+            foreach (AgendaEvent item in events)
+            {
+                if (item.Day != day)
+                {
+                    day = item.Day;
+                    panel.Children.Add(DayHeader(day));
+                }
+
+                panel.Children.Add(Card(item));
+            }
+        }
+
+        /// <summary>
+        /// A fixed run of days, each with its own heading even when empty.
+        ///
+        /// Empty days are drawn on purpose here: in a week view their absence would
+        /// make a busy Thursday look like it followed Monday.
+        /// </summary>
+        private void DrawDays(Panel panel, IReadOnlyList<AgendaEvent> events, DateTime from, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                DateTime day = from.AddDays(i);
+                List<AgendaEvent> ofDay = OnDay(events, day);
+
+                if (count > 1) panel.Children.Add(DayHeader(day));
+
+                if (ofDay.Count == 0)
+                {
+                    panel.Children.Add(Message(count == 1
+                        ? Strings.AgendaNoEventsToday
+                        : Strings.AgendaNothingScheduled));
+                    continue;
+                }
+
+                foreach (AgendaEvent item in ofDay) panel.Children.Add(Card(item));
+            }
+        }
+
+        // ======================================================================
+        // MONTH
+        // ======================================================================
+
+        /// <summary>
+        /// The month around the chosen day as a grid, then that day's events below.
+        ///
+        /// Titles do not fit a cell in a frame this narrow, so a busy day is marked
+        /// with a dot and reading it takes one click. Pretending otherwise would give
+        /// six characters of every title, which is worse than none.
+        /// </summary>
+        private void DrawMonth(Panel panel, IReadOnlyList<AgendaEvent> events, DateTime chosenDay)
+        {
+            DateTime first = new DateTime(chosenDay.Year, chosenDay.Month, 1);
+
+            CultureInfo culture = CultureInfo.CurrentCulture;
+            DayOfWeek weekStarts = culture.DateTimeFormat.FirstDayOfWeek;
+
+            int lead = ((int)first.DayOfWeek - (int)weekStarts + 7) % 7;
+            DateTime gridStart = first.AddDays(-lead);
+
+            panel.Children.Add(new TextBlock
+            {
+                Text = culture.TextInfo.ToTitleCase(first.ToString("MMMM yyyy", culture)),
+                FontWeight = FontWeights.Bold,
+                FontSize = 12,
+                Foreground = Strong,
+                Margin = new Thickness(2, 0, 2, 6)
+            });
+
+            var grid = new UniformGrid { Columns = 7, Margin = new Thickness(0, 0, 0, 8) };
+
+            for (int i = 0; i < 7; i++)
+            {
+                DateTime headed = gridStart.AddDays(i);
+                grid.Children.Add(new TextBlock
+                {
+                    Text = culture.DateTimeFormat.GetShortestDayName(headed.DayOfWeek),
+                    FontSize = 9,
+                    Foreground = Faint,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(0, 0, 0, 2)
+                });
+            }
+
+            for (int i = 0; i < 42; i++)
+            {
+                DateTime day = gridStart.AddDays(i);
+                grid.Children.Add(MonthCell(day, first.Month, chosenDay, OnDay(events, day)));
+            }
+
+            panel.Children.Add(grid);
+            panel.Children.Add(DayHeader(chosenDay));
+
+            List<AgendaEvent> chosen = OnDay(events, chosenDay);
+            if (chosen.Count == 0) panel.Children.Add(Message(Strings.AgendaNoEventsToday));
+            else foreach (AgendaEvent item in chosen) panel.Children.Add(Card(item));
+        }
+
+        private Border MonthCell(DateTime day, int month, DateTime chosenDay, List<AgendaEvent> ofDay)
+        {
+            bool thisMonth = day.Month == month;
+            bool isToday = day == DateTime.Today;
+            bool isChosen = day == chosenDay.Date;
+
+            var cell = new Border
+            {
+                Margin = new Thickness(1),
+                Padding = new Thickness(0, 3, 0, 3),
+                CornerRadius = new CornerRadius(3),
+                Cursor = Cursors.Hand,
+                Background = isChosen
+                    ? new SolidColorBrush(Color.FromArgb(60, 255, 255, 255))
+                    : Brushes.Transparent
+            };
+
+            var stack = new StackPanel { HorizontalAlignment = HorizontalAlignment.Center };
+
+            stack.Children.Add(new TextBlock
+            {
+                Text = day.Day.ToString(CultureInfo.CurrentCulture),
+                FontSize = 10,
+                FontWeight = isToday ? FontWeights.Bold : FontWeights.Normal,
+                Foreground = thisMonth ? Strong : Faint,
+                HorizontalAlignment = HorizontalAlignment.Center
+            });
+
+            // A dot rather than a count: on a cell this size a number is unreadable,
+            // and "something is happening" is the whole question a month view answers.
+            stack.Children.Add(new Border
+            {
+                Width = 4,
+                Height = 4,
+                CornerRadius = new CornerRadius(2),
+                Margin = new Thickness(0, 2, 0, 0),
+                Background = ofDay.Count > 0
+                    ? Colour(ofDay[0].ColourHex)
+                    : Brushes.Transparent
+            });
+
+            cell.Child = stack;
+            cell.MouseLeftButtonUp += (s, e) => DayChosen?.Invoke(day);
+
+            return cell;
+        }
+
+        // ======================================================================
+        // PIECES
+        // ======================================================================
+
+        private static List<AgendaEvent> OnDay(IReadOnlyList<AgendaEvent> events, DateTime day) =>
+            events.Where(e => e.Start.Date <= day.Date && e.End.Date >= day.Date
+                           && (e.IsAllDay || e.End > day.Date))
+                  .OrderBy(e => e.IsAllDay ? 0 : 1)
+                  .ThenBy(e => e.Start)
+                  .ToList();
+
+        private static TextBlock DayHeader(DateTime day)
+        {
+            return new TextBlock
+            {
+                Text = HeaderText(day),
+                FontWeight = FontWeights.Bold,
+                FontSize = 12,
+                Foreground = Strong,
+                Margin = new Thickness(2, 10, 2, 4)
+            };
+        }
+
+        /// <summary>
+        /// "Today" and "Tomorrow" rather than a date, because those are the two days
+        /// somebody glancing at a desktop frame is asking about. The words follow the
+        /// program's language; the date follows the regional format, which Windows
+        /// keeps separate on purpose.
+        /// </summary>
+        private static string HeaderText(DateTime day)
+        {
+            if (day.Date == DateTime.Today) return Strings.AgendaToday;
+            if (day.Date == DateTime.Today.AddDays(1)) return Strings.AgendaTomorrow;
+
+            return day.ToString("ddd d MMM", CultureInfo.CurrentCulture);
+        }
+
+        private Border Card(AgendaEvent item)
+        {
+            var card = new Border
+            {
+                Background = new SolidColorBrush(Color.FromArgb(20, 255, 255, 255)),
+                CornerRadius = new CornerRadius(4),
+                Padding = new Thickness(8, 6, 8, 6),
+                Margin = new Thickness(0, 0, 0, 4),
+                Cursor = Cursors.Hand,
+                ToolTip = Tooltip(item)
+            };
+
+            var layout = new StackPanel { Orientation = Orientation.Horizontal };
+
+            // The calendar's own colour, so entries from different calendars stay apart
+            // without a line of text explaining which is which.
+            layout.Children.Add(new Border
+            {
+                Width = 4,
+                CornerRadius = new CornerRadius(2),
+                Background = Colour(item.ColourHex),
+                Margin = new Thickness(0, 0, 8, 0)
+            });
+
+            var texts = new StackPanel();
+
+            texts.Children.Add(new TextBlock
+            {
+                Text = item.Title,
+                FontSize = 12,
+                TextTrimming = TextTrimming.CharacterEllipsis,
+                Foreground = Brushes.White
+            });
+
+            texts.Children.Add(new TextBlock
+            {
+                Text = When(item),
+                FontSize = 11,
+                Foreground = Faint
+            });
+
+            layout.Children.Add(texts);
+            card.Child = layout;
+
+            // A double click hands the event to Google's own editor, which can do
+            // everything a frame should not try to.
+            card.MouseLeftButtonUp += (s, e) =>
+            {
+                if (e.ClickCount == 2) OpenRequested?.Invoke(item);
+            };
+
+            card.ContextMenu = Menu(item);
+            return card;
+        }
+
+        private ContextMenu Menu(AgendaEvent item)
+        {
+            var menu = new ContextMenu();
+
+            if (item.CanWrite)
+            {
+                var edit = new MenuItem { Header = Strings.AgendaEditEvent };
+                edit.Click += (s, e) => EditRequested?.Invoke(item);
+                menu.Items.Add(edit);
+
+                var remove = new MenuItem { Header = Strings.AgendaDeleteEvent };
+                remove.Click += (s, e) => DeleteRequested?.Invoke(item);
+                menu.Items.Add(remove);
+
+                menu.Items.Add(new Separator());
+            }
+
+            var open = new MenuItem { Header = Strings.AgendaOpenInGoogle };
+            open.Click += (s, e) => OpenRequested?.Invoke(item);
+            menu.Items.Add(open);
+
+            return menu;
+        }
+
+        private static string Tooltip(AgendaEvent item)
+        {
+            var parts = new List<string> { item.Title, When(item) };
+
+            if (!string.IsNullOrWhiteSpace(item.Location)) parts.Add(item.Location);
+            if (!string.IsNullOrWhiteSpace(item.Description)) parts.Add(item.Description);
+
+            return string.Join(Environment.NewLine, parts);
+        }
+
+        private static string When(AgendaEvent item)
+        {
+            if (item.IsAllDay) return Strings.AgendaAllDay;
+
+            return item.Start.ToString("HH:mm", CultureInfo.CurrentCulture)
+                 + " - "
+                 + item.End.ToString("HH:mm", CultureInfo.CurrentCulture);
+        }
+
+        private static SolidColorBrush Colour(string hex)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(hex))
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString(hex));
+            }
+            catch (Exception)
+            {
+                // A colour the source invented is not worth a blank frame.
+            }
+
+            return new SolidColorBrush(Color.FromRgb(100, 150, 255));
+        }
+
+        public static Border Message(string text)
+        {
+            return new Border
+            {
+                Background = new SolidColorBrush(Color.FromArgb(15, 255, 255, 255)),
+                CornerRadius = new CornerRadius(4),
+                Padding = new Thickness(10),
+                Margin = new Thickness(0, 0, 0, 4),
+                Child = new TextBlock
+                {
+                    Text = text,
+                    FontSize = 12,
+                    TextWrapping = TextWrapping.Wrap,
+                    Foreground = new SolidColorBrush(Color.FromArgb(180, 255, 255, 255))
+                }
+            };
+        }
+    }
+}

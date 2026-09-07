@@ -14,34 +14,40 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
     /// <summary>
     /// The one class that talks to Google.
     ///
-    /// It keeps its own copy of the events it has been told about and asks only for
-    /// what has changed since last time, which is what makes a refresh every minute
+    /// It keeps its own copy of what it has been told and asks only for what has
+    /// changed since last time, which is what makes a refresh every minute
     /// reasonable: after the first load, a quiet calendar answers with an empty list
-    /// and a new token.
+    /// and a fresh marker.
     ///
-    /// Only the primary calendar, because the scope this plugin asks for is events
-    /// and nothing else - listing somebody's other calendars would mean asking for
-    /// permission to read the list, which is more than showing an agenda needs.
+    /// Everything above this class speaks in <see cref="AgendaEvent"/> and
+    /// <see cref="AgendaCalendar"/> and knows nothing about Google.
     /// </summary>
     public class GoogleCalendarSource : IDisposable
     {
-        private const string PrimaryCalendar = "primary";
-
         private readonly CalendarService _service;
 
+        private readonly Dictionary<string, AgendaCalendar> _calendars =
+            new Dictionary<string, AgendaCalendar>(StringComparer.Ordinal);
+
         /// <summary>
-        /// Everything Google has mentioned, by identifier. Held rather than rebuilt
-        /// because an incremental answer says "this one changed", not "here is
-        /// everything" - without somewhere to apply it to, the answer means nothing.
+        /// Google's "you know everything up to here", one per calendar: each has its
+        /// own history, and a single marker for all of them would be meaningless.
+        /// </summary>
+        private readonly Dictionary<string, string?> _markers =
+            new Dictionary<string, string?>(StringComparer.Ordinal);
+
+        /// <summary>
+        /// Everything Google has mentioned, keyed by calendar and event together -
+        /// identifiers are unique inside a calendar, not across them.
+        ///
+        /// Held rather than rebuilt because an incremental answer says "this one
+        /// changed", not "here is everything": without somewhere to apply it, the
+        /// answer means nothing.
         /// </summary>
         private readonly Dictionary<string, AgendaEvent> _known =
             new Dictionary<string, AgendaEvent>(StringComparer.Ordinal);
 
-        /// <summary>
-        /// Google's marker for "you know everything up to here". Null before the first
-        /// load, and cleared whenever Google says it has gone stale.
-        /// </summary>
-        private string? _syncToken;
+        private bool _calendarsRead;
 
         public GoogleCalendarSource(UserCredential credential)
         {
@@ -52,44 +58,132 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             });
         }
 
+        /// <summary>The calendars found, own calendar first, then by name.</summary>
+        public IReadOnlyList<AgendaCalendar> Calendars =>
+            _calendars.Values
+                .OrderByDescending(c => c.IsPrimary)
+                .ThenBy(c => c.Title, StringComparer.CurrentCulture)
+                .ToList();
+
         /// <summary>
-        /// The events falling inside <paramref name="window"/> from today, after
-        /// taking in whatever changed since the last call.
+        /// The events inside <paramref name="window"/> from today, after taking in
+        /// whatever changed since the last call.
         /// </summary>
-        public async Task<IReadOnlyList<AgendaEvent>> RefreshAsync(TimeSpan window, CancellationToken token)
+        /// <param name="chosen">
+        /// Calendars to look at. Empty means all of them, which is what a frame nobody
+        /// has configured should show.
+        /// </param>
+        public async Task<IReadOnlyList<AgendaEvent>> RefreshAsync(
+            TimeSpan window, ISet<string> chosen, CancellationToken token)
+        {
+            await EnsureCalendarsAsync(token).ConfigureAwait(false);
+
+            foreach (AgendaCalendar calendar in _calendars.Values.ToList())
+            {
+                if (token.IsCancellationRequested) break;
+                if (!IsChosen(calendar.Id, chosen)) continue;
+
+                await RefreshOneAsync(calendar, window, token).ConfigureAwait(false);
+            }
+
+            return Within(window, chosen);
+        }
+
+        // ======================================================================
+        // CALENDARS
+        // ======================================================================
+
+        /// <summary>
+        /// Reads the calendar list once per session.
+        ///
+        /// Once, because it changes when somebody adds or removes a calendar - a thing
+        /// that happens on the order of months, not minutes - and asking every minute
+        /// would spend quota to be told the same answer.
+        /// </summary>
+        private async Task EnsureCalendarsAsync(CancellationToken token)
+        {
+            if (_calendarsRead) return;
+
+            string? page = null;
+
+            do
+            {
+                CalendarListResource.ListRequest request = _service.CalendarList.List();
+                request.PageToken = page;
+                request.ShowHidden = false;
+
+                CalendarList answer = await request.ExecuteAsync(token).ConfigureAwait(false);
+
+                foreach (CalendarListEntry entry in answer.Items ?? new List<CalendarListEntry>())
+                {
+                    if (string.IsNullOrEmpty(entry.Id)) continue;
+
+                    _calendars[entry.Id] = new AgendaCalendar
+                    {
+                        Id = entry.Id,
+                        Title = entry.Summary ?? entry.Id,
+                        ColourHex = entry.BackgroundColor ?? string.Empty,
+                        IsPrimary = entry.Primary ?? false,
+
+                        // "owner" and "writer" may add events; "reader" and
+                        // "freeBusyReader" may not. Holiday feeds and calendars shared
+                        // for viewing land in the second group.
+                        CanWrite = entry.AccessRole == "owner" || entry.AccessRole == "writer"
+                    };
+                }
+
+                page = answer.NextPageToken;
+            }
+            while (!string.IsNullOrEmpty(page) && !token.IsCancellationRequested);
+
+            _calendarsRead = true;
+        }
+
+        // ======================================================================
+        // EVENTS
+        // ======================================================================
+
+        private async Task RefreshOneAsync(AgendaCalendar calendar, TimeSpan window, CancellationToken token)
         {
             try
             {
-                if (_syncToken == null)
-                    await LoadEverythingAsync(window, token).ConfigureAwait(false);
+                if (!_markers.TryGetValue(calendar.Id, out string? marker) || marker == null)
+                    await LoadWindowAsync(calendar, window, token).ConfigureAwait(false);
                 else
-                    await LoadChangesAsync(token).ConfigureAwait(false);
+                    await LoadChangesAsync(calendar, marker, token).ConfigureAwait(false);
             }
             catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.Gone)
             {
-                // 410 is Google saying the marker is too old to be useful - it happens
-                // after a long time offline, and it is part of the protocol rather than
-                // a fault. The answer is to forget what we know and ask again in full.
+                // 410 is Google saying the marker is too old to be useful. It happens
+                // after a long time offline and is part of the protocol, not a fault:
+                // forget this calendar and read its window again.
                 LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
-                    "GoogleAgenda: sync marker expired, reloading the whole window.");
+                    $"GoogleAgenda: sync marker expired for {calendar.Title}, reloading it.");
 
-                _syncToken = null;
-                _known.Clear();
-
-                await LoadEverythingAsync(window, token).ConfigureAwait(false);
+                Forget(calendar.Id);
+                await LoadWindowAsync(calendar, window, token).ConfigureAwait(false);
             }
+            catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound
+                                                    || ex.HttpStatusCode == HttpStatusCode.Forbidden)
+            {
+                // A calendar removed or no longer shared with us. Dropping it is the
+                // whole response: retrying every minute would fail every minute.
+                LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
+                    $"GoogleAgenda: calendar {calendar.Title} is no longer readable, dropping it.");
 
-            return Within(window);
+                Forget(calendar.Id);
+                _calendars.Remove(calendar.Id);
+            }
         }
 
         /// <summary>
-        /// The first load, which also decides what the marker will cover: Google ties
-        /// it to the request that produced it, so every later call inherits these
-        /// filters and must not repeat them.
+        /// The first read of a calendar, which also decides what its marker covers:
+        /// Google ties the marker to the request that produced it, so every later call
+        /// inherits these filters and must not repeat them.
         /// </summary>
-        private async Task LoadEverythingAsync(TimeSpan window, CancellationToken token)
+        private async Task LoadWindowAsync(AgendaCalendar calendar, TimeSpan window, CancellationToken token)
         {
-            EventsResource.ListRequest request = _service.Events.List(PrimaryCalendar);
+            EventsResource.ListRequest request = _service.Events.List(calendar.Id);
 
             // Repetitions expanded by Google into one entry per occurrence. Reading a
             // recurrence rule correctly - with its exceptions, its cancelled instances
@@ -105,75 +199,73 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             request.ShowDeleted = true;
             request.MaxResults = 250;
 
-            await ReadPagesAsync(request, token).ConfigureAwait(false);
+            await ReadPagesAsync(calendar, request, token).ConfigureAwait(false);
         }
 
         /// <summary>
-        /// What changed since the marker. The filters of the first request are carried
-        /// by the marker itself, and sending them again is refused by the API.
+        /// What changed since the marker. The filters of the first request travel with
+        /// the marker, and sending them again is refused by the API.
         /// </summary>
-        private async Task LoadChangesAsync(CancellationToken token)
+        private async Task LoadChangesAsync(AgendaCalendar calendar, string marker, CancellationToken token)
         {
-            EventsResource.ListRequest request = _service.Events.List(PrimaryCalendar);
-            request.SyncToken = _syncToken;
+            EventsResource.ListRequest request = _service.Events.List(calendar.Id);
+            request.SyncToken = marker;
             request.MaxResults = 250;
 
-            await ReadPagesAsync(request, token).ConfigureAwait(false);
+            await ReadPagesAsync(calendar, request, token).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Walks the pages of an answer and applies each one.
         ///
         /// The new marker arrives only with the last page: taking one from an earlier
-        /// page would record that we know things we have not read yet, and those
-        /// events would never appear.
+        /// page would record that we know about events we have not read, and they
+        /// would never appear.
         /// </summary>
-        private async Task ReadPagesAsync(EventsResource.ListRequest request, CancellationToken token)
+        private async Task ReadPagesAsync(AgendaCalendar calendar, EventsResource.ListRequest request,
+                                          CancellationToken token)
         {
-            string? pageToken = null;
+            string? page = null;
 
             do
             {
-                request.PageToken = pageToken;
+                request.PageToken = page;
 
                 Events answer = await request.ExecuteAsync(token).ConfigureAwait(false);
 
                 foreach (Event item in answer.Items ?? new List<Event>())
-                    Apply(item);
+                    Apply(calendar, item);
 
-                pageToken = answer.NextPageToken;
+                page = answer.NextPageToken;
 
                 if (!string.IsNullOrEmpty(answer.NextSyncToken))
-                    _syncToken = answer.NextSyncToken;
+                    _markers[calendar.Id] = answer.NextSyncToken;
             }
-            while (!string.IsNullOrEmpty(pageToken) && !token.IsCancellationRequested);
+            while (!string.IsNullOrEmpty(page) && !token.IsCancellationRequested);
         }
 
         /// <summary>Takes one event in, or removes it when Google says it is gone.</summary>
-        private void Apply(Event item)
+        private void Apply(AgendaCalendar calendar, Event item)
         {
             if (string.IsNullOrEmpty(item.Id)) return;
 
+            string key = KeyOf(calendar.Id, item.Id);
+
             if (string.Equals(item.Status, "cancelled", StringComparison.Ordinal))
             {
-                _known.Remove(item.Id);
+                _known.Remove(key);
                 return;
             }
 
-            AgendaEvent? mapped = Map(item);
-            if (mapped == null)
-            {
-                // An entry with no usable time cannot be placed on a day, and a frame
-                // is a list of days. Better absent than drawn at midnight of an
-                // arbitrary one.
-                _known.Remove(item.Id);
-                return;
-            }
+            AgendaEvent? mapped = Map(calendar, item);
 
-            _known[item.Id] = mapped;
+            // An entry with no usable time cannot be placed on a day, and the frame is
+            // a list of days. Better absent than drawn at midnight of an arbitrary one.
+            if (mapped == null) _known.Remove(key);
+            else _known[key] = mapped;
         }
 
-        private static AgendaEvent? Map(Event item)
+        private static AgendaEvent? Map(AgendaCalendar calendar, Event item)
         {
             bool allDay = item.Start?.Date != null;
 
@@ -196,7 +288,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             return new AgendaEvent
             {
                 Id = item.Id ?? string.Empty,
-                CalendarId = PrimaryCalendar,
+                CalendarId = calendar.Id,
                 Title = string.IsNullOrWhiteSpace(item.Summary)
                     ? Localization.Strings.AgendaUntitled
                     : item.Summary,
@@ -205,23 +297,153 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Start = start,
                 End = end,
                 IsAllDay = allDay,
+                ColourHex = calendar.ColourHex,
                 WebLink = item.HtmlLink ?? string.Empty,
-                ETag = item.ETag ?? string.Empty
+                ETag = item.ETag ?? string.Empty,
+                CanWrite = calendar.CanWrite
             };
         }
 
+        // ======================================================================
+        // WRITING
+        // ======================================================================
+
+        /// <summary>Adds an event and returns it as Google recorded it.</summary>
+        public async Task<AgendaEvent> CreateAsync(AgendaEvent draft, CancellationToken token)
+        {
+            AgendaCalendar calendar = CalendarFor(draft.CalendarId);
+
+            Event created = await _service.Events
+                .Insert(ToGoogle(draft, new Event()), calendar.Id)
+                .ExecuteAsync(token).ConfigureAwait(false);
+
+            Apply(calendar, created);
+            return Map(calendar, created) ?? draft;
+        }
+
         /// <summary>
-        /// The part of what we know that belongs on screen, in the order it will be
-        /// drawn. The filter is applied here rather than when taking events in,
-        /// because an incremental answer reports changes from the whole calendar and
-        /// dropping them early would leave holes the next full load would have to fix.
+        /// Saves a change to an existing event.
+        ///
+        /// The version marker read with the event is sent back, so Google refuses the
+        /// write if the event changed elsewhere in the meantime rather than quietly
+        /// overwriting it. The refusal arrives as 412, and the caller is expected to
+        /// tell somebody rather than swallow it: a change that disappears without a
+        /// word is the worst outcome available here.
         /// </summary>
-        private IReadOnlyList<AgendaEvent> Within(TimeSpan window)
+        public async Task<AgendaEvent> UpdateAsync(AgendaEvent edited, CancellationToken token)
+        {
+            AgendaCalendar calendar = CalendarFor(edited.CalendarId);
+
+            Event current = await _service.Events.Get(calendar.Id, edited.Id)
+                                                 .ExecuteAsync(token).ConfigureAwait(false);
+
+            EventsResource.UpdateRequest request =
+                _service.Events.Update(ToGoogle(edited, current), calendar.Id, edited.Id);
+
+            if (!string.IsNullOrEmpty(edited.ETag)) request.ETagAction = Google.Apis.ETagAction.IfMatch;
+
+            Event saved = await request.ExecuteAsync(token).ConfigureAwait(false);
+
+            Apply(calendar, saved);
+            return Map(calendar, saved) ?? edited;
+        }
+
+        /// <summary>Removes an event. An event already gone is not an error.</summary>
+        public async Task DeleteAsync(AgendaEvent item, CancellationToken token)
+        {
+            AgendaCalendar calendar = CalendarFor(item.CalendarId);
+
+            try
+            {
+                await _service.Events.Delete(calendar.Id, item.Id)
+                                     .ExecuteAsync(token).ConfigureAwait(false);
+            }
+            catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound
+                                                    || ex.HttpStatusCode == HttpStatusCode.Gone)
+            {
+                // Deleted from the phone a moment ago. The desired state has been
+                // reached by someone else, which is not a failure.
+            }
+
+            _known.Remove(KeyOf(calendar.Id, item.Id));
+        }
+
+        /// <summary>
+        /// Copies our fields onto a Google event, leaving everything we do not model -
+        /// guests, reminders, conferencing, recurrence - exactly as it was. That is
+        /// why an update reads the event first: writing a fresh object would silently
+        /// strip whatever this program does not know about.
+        /// </summary>
+        private static Event ToGoogle(AgendaEvent source, Event target)
+        {
+            target.Summary = source.Title;
+            target.Location = string.IsNullOrWhiteSpace(source.Location) ? null : source.Location;
+            target.Description = string.IsNullOrWhiteSpace(source.Description) ? null : source.Description;
+
+            if (source.IsAllDay)
+            {
+                target.Start = new EventDateTime { Date = source.Start.ToString("yyyy-MM-dd") };
+
+                // Google treats the end of an all-day event as exclusive: a single day
+                // ends on the following one. Sending the same date makes an event with
+                // no length, which the API rejects.
+                DateTime last = source.End.Date <= source.Start.Date
+                    ? source.Start.Date.AddDays(1)
+                    : source.End.Date;
+
+                target.End = new EventDateTime { Date = last.ToString("yyyy-MM-dd") };
+            }
+            else
+            {
+                target.Start = new EventDateTime { DateTimeDateTimeOffset = new DateTimeOffset(source.Start) };
+                target.End = new EventDateTime { DateTimeDateTimeOffset = new DateTimeOffset(source.End) };
+            }
+
+            return target;
+        }
+
+        // ======================================================================
+        // HELPERS
+        // ======================================================================
+
+        private AgendaCalendar CalendarFor(string id)
+        {
+            if (!string.IsNullOrEmpty(id) && _calendars.TryGetValue(id, out AgendaCalendar? found))
+                return found;
+
+            AgendaCalendar? primary = _calendars.Values.FirstOrDefault(c => c.IsPrimary);
+            if (primary != null) return primary;
+
+            throw new InvalidOperationException("No writable calendar is known yet.");
+        }
+
+        private static string KeyOf(string calendarId, string eventId) => calendarId + "\n" + eventId;
+
+        private static bool IsChosen(string calendarId, ISet<string> chosen) =>
+            chosen.Count == 0 || chosen.Contains(calendarId);
+
+        private void Forget(string calendarId)
+        {
+            _markers.Remove(calendarId);
+
+            foreach (string key in _known.Keys.Where(k => k.StartsWith(calendarId + "\n", StringComparison.Ordinal)).ToList())
+                _known.Remove(key);
+        }
+
+        /// <summary>
+        /// The part of what we know that belongs on screen, in the order it is drawn.
+        ///
+        /// The window is applied here rather than when taking events in, because an
+        /// incremental answer reports changes from the whole calendar and dropping
+        /// them early would leave holes only a full reload could fill.
+        /// </summary>
+        private IReadOnlyList<AgendaEvent> Within(TimeSpan window, ISet<string> chosen)
         {
             DateTime from = DateTime.Now.Date;
             DateTime to = from.Add(window);
 
             return _known.Values
+                .Where(e => IsChosen(e.CalendarId, chosen))
                 .Where(e => e.End >= from && e.Start < to)
                 .OrderBy(e => e.IsAllDay ? e.Start.Date : e.Start)
                 .ThenBy(e => e.Title, StringComparer.CurrentCulture)
