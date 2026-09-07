@@ -2108,4 +2108,13 @@ Reiniciar agora?</value>
   <data name="WebPageConfigureHint" xml:space="preserve">
     <value>Escolha um site nas definições desta moldura.</value>
   </data>
+  <data name="LblCustomColorPick" xml:space="preserve">
+    <value>Escolher uma cor…</value>
+  </data>
+  <data name="LblCustomColorWheel" xml:space="preserve">
+    <value>Mais cores…</value>
+  </data>
+  <data name="LblCustomColorShade" xml:space="preserve">
+    <value>Mais claro ou mais escuro</value>
+  </data>
 </root>

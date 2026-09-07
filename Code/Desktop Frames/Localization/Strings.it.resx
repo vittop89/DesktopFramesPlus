@@ -2107,4 +2107,13 @@ Vuoi riavviare adesso?</value>
   <data name="WebPageConfigureHint" xml:space="preserve">
     <value>Scegli un sito nelle impostazioni di questo frame.</value>
   </data>
+  <data name="LblCustomColorPick" xml:space="preserve">
+    <value>Scegli un colore…</value>
+  </data>
+  <data name="LblCustomColorWheel" xml:space="preserve">
+    <value>Altri colori…</value>
+  </data>
+  <data name="LblCustomColorShade" xml:space="preserve">
+    <value>Più chiaro o più scuro</value>
+  </data>
 </root>

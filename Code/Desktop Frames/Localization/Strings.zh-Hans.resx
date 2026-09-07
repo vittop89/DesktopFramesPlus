@@ -2181,4 +2181,13 @@
   <data name="WebPageConfigureHint" xml:space="preserve">
     <value>请在此相框的设置中选择网站。</value>
   </data>
+  <data name="LblCustomColorPick" xml:space="preserve">
+    <value>选择颜色…</value>
+  </data>
+  <data name="LblCustomColorWheel" xml:space="preserve">
+    <value>更多颜色…</value>
+  </data>
+  <data name="LblCustomColorShade" xml:space="preserve">
+    <value>变亮或变暗</value>
+  </data>
 </root>

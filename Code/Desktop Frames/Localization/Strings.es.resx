@@ -2108,4 +2108,13 @@ Cada ventana lee sus textos mientras se construye, así que el cambio se ve al r
   <data name="WebPageConfigureHint" xml:space="preserve">
     <value>Elige un sitio en los ajustes de este marco.</value>
   </data>
+  <data name="LblCustomColorPick" xml:space="preserve">
+    <value>Elegir un color…</value>
+  </data>
+  <data name="LblCustomColorWheel" xml:space="preserve">
+    <value>Más colores…</value>
+  </data>
+  <data name="LblCustomColorShade" xml:space="preserve">
+    <value>Más claro o más oscuro</value>
+  </data>
 </root>

@@ -2108,4 +2108,13 @@
   <data name="WebPageConfigureHint" xml:space="preserve">
     <value>Выберите сайт в настройках этой рамки.</value>
   </data>
+  <data name="LblCustomColorPick" xml:space="preserve">
+    <value>Выбрать цвет…</value>
+  </data>
+  <data name="LblCustomColorWheel" xml:space="preserve">
+    <value>Другие цвета…</value>
+  </data>
+  <data name="LblCustomColorShade" xml:space="preserve">
+    <value>Светлее или темнее</value>
+  </data>
 </root>

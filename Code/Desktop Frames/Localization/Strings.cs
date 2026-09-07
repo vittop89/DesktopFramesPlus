@@ -205,6 +205,9 @@ namespace Desktop_Frames.Localization
         // ── Shared buttons ─────────────────────────────────────────────────
         public static string AgendaBadTime => Get("AgendaBadTime");
         public static string AgendaCalendarLabel => Get("AgendaCalendarLabel");
+        public static string LblCustomColorPick => Get("LblCustomColorPick");
+        public static string LblCustomColorWheel => Get("LblCustomColorWheel");
+        public static string LblCustomColorShade => Get("LblCustomColorShade");
         public static string WebPageOpenedNow => Get("WebPageOpenedNow");
         public static string WebPageConfigureHint => Get("WebPageConfigureHint");
         public static string PluginWebPage => Get("PluginWebPage");

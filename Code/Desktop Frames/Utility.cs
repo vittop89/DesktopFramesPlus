@@ -237,10 +237,35 @@ namespace Desktop_Frames
         }
 
 
+        /// <summary>The thirteen colours offered by name, in the order they are shown.</summary>
+        public static readonly string[] NamedColors =
+        {
+            "Red", "Green", "Teal", "Blue", "Bismark", "White", "Beige",
+            "Gray", "Black", "Purple", "Fuchsia", "Yellow", "Orange"
+        };
+
         public static Color GetColorFromName(string colorName)
         {
             // The specialized Chameleon tab hook
             if (colorName == "Chameleon") return WallpaperColorManager.CurrentWallpaperColor;
+
+            // A colour picked rather than named arrives as "#RRGGBB". Reading it here
+            // means every caller that already asks for a colour by name gets custom
+            // colours for free - the frame file, the global option, the tabs, all of
+            // them - without a second kind of setting to store and migrate.
+            if (!string.IsNullOrWhiteSpace(colorName) && colorName.TrimStart().StartsWith("#"))
+            {
+                try
+                {
+                    return (Color)ColorConverter.ConvertFromString(colorName.Trim());
+                }
+                catch (Exception)
+                {
+                    // Hand-edited into nonsense. Falling through to Transparent is what
+                    // every other unknown value does.
+                    return Colors.Transparent;
+                }
+            }
 
             // Normalize the string to absolutely prevent case-sensitivity bugs
             string normalizedColor = colorName?.Trim().ToLower() ?? "";

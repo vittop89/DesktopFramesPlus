@@ -2108,4 +2108,13 @@ Jetzt neu starten?</value>
   <data name="WebPageConfigureHint" xml:space="preserve">
     <value>Wählen Sie eine Website in den Einstellungen dieses Rahmens.</value>
   </data>
+  <data name="LblCustomColorPick" xml:space="preserve">
+    <value>Farbe wählen…</value>
+  </data>
+  <data name="LblCustomColorWheel" xml:space="preserve">
+    <value>Weitere Farben…</value>
+  </data>
+  <data name="LblCustomColorShade" xml:space="preserve">
+    <value>Heller oder dunkler</value>
+  </data>
 </root>

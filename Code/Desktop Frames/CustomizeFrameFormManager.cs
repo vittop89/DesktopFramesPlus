@@ -440,8 +440,10 @@ namespace Desktop_Frames
             StackPanel frameStack = new StackPanel { Orientation = Orientation.Vertical };
 
             CreateDropdownField(frameStack, Strings.LblCustomColor, _validColors, out _cmbCustomColor);
+            EnableCustomColor(_cmbCustomColor);
             CreateDropdownField(frameStack, Strings.LblCustomLaunchEffect, _validEffects, out _cmbCustomLaunchEffect);
             CreateDropdownField(frameStack, Strings.LblFrameBorderColor, _validColors, out _cmbframeBorderColor);
+            EnableCustomColor(_cmbframeBorderColor);
             CreateNumericField(frameStack, Strings.LblFrameBorderThickness, 0, 5, out _nudframeBorderThickness);
 
 			frameGroupBox.Content = frameStack;
@@ -464,6 +466,7 @@ namespace Desktop_Frames
             StackPanel titleStack = new StackPanel { Orientation = Orientation.Vertical };
 
             CreateDropdownField(titleStack, Strings.LblTitleTextColor, _validColors, out _cmbTitleTextColor);
+            EnableCustomColor(_cmbTitleTextColor);
             CreateDropdownField(titleStack, Strings.LblTitleTextSize, _validTextSizes, out _cmbTitleTextSize);
             CreateCheckboxField(titleStack, Strings.LblBoldTitleText, out _chkBoldTitleText);
 
@@ -498,6 +501,7 @@ namespace Desktop_Frames
             CreateDropdownField(iconsStack, Strings.LblIconSize, _validIconSizes, out _cmbIconSize);
             CreateNumericField(iconsStack, Strings.LblIconSpacing, 0, 20, out _nudIconSpacing);
             CreateDropdownField(iconsStack, Strings.LblTextColor, _validColors, out _cmbTextColor);
+            EnableCustomColor(_cmbTextColor);
             CreateCheckboxField(iconsStack, Strings.LblDisableTextShadow, out _chkDisableTextShadow);
             CreateCheckboxField(iconsStack, Strings.LblGrayscaleIcons, out _chkGrayscaleIcons);
 
@@ -1091,6 +1095,80 @@ namespace Desktop_Frames
             }
         }
 
+        /// <summary>The value a "pick a colour" entry carries, which is never saved.</summary>
+        private const string PickColorTag = "__pick__";
+
+        /// <summary>
+        /// Adds "pick a colour" to a colour dropdown.
+        ///
+        /// The entry is a doorway, not a value: choosing it opens the picker and is then
+        /// replaced by whatever came back, because saving "__pick__" as a colour would
+        /// give the frame no colour at all. Cancelling puts the previous choice back, so
+        /// opening the picker and changing your mind costs nothing.
+        /// </summary>
+        private void EnableCustomColor(ComboBox comboBox)
+        {
+            comboBox.Items.Add(new ComboBoxItem { Content = Strings.LblCustomColorPick, Tag = PickColorTag });
+
+            object previous = comboBox.SelectedItem;
+
+            comboBox.SelectionChanged += (s, e) =>
+            {
+                if ((comboBox.SelectedItem as ComboBoxItem)?.Tag as string != PickColorTag)
+                {
+                    previous = comboBox.SelectedItem;
+                    return;
+                }
+
+                string from = (previous as ComboBoxItem)?.Tag as string ?? "Gray";
+                string picked = CustomColorPicker.Show(Window.GetWindow(comboBox), from);
+
+                if (string.IsNullOrEmpty(picked))
+                {
+                    comboBox.SelectedItem = previous;
+                    return;
+                }
+
+                ComboBoxItem item = FindColorItem(comboBox, picked) ?? MakeColorItem(picked);
+                if (!comboBox.Items.Contains(item)) comboBox.Items.Insert(comboBox.Items.Count - 1, item);
+
+                comboBox.SelectedItem = item;
+                previous = item;
+            };
+        }
+
+        private static ComboBoxItem FindColorItem(ComboBox comboBox, string value)
+        {
+            foreach (object entry in comboBox.Items)
+                if (entry is ComboBoxItem item
+                    && string.Equals(item.Tag as string, value, StringComparison.OrdinalIgnoreCase))
+                    return item;
+
+            return null;
+        }
+
+        /// <summary>An entry showing the colour itself, since "#3A6EA5" tells nobody much.</summary>
+        private static ComboBoxItem MakeColorItem(string value)
+        {
+            var swatch = new Border
+            {
+                Width = 14,
+                Height = 14,
+                CornerRadius = new CornerRadius(2),
+                Margin = new Thickness(0, 0, 6, 0),
+                BorderThickness = new Thickness(1),
+                BorderBrush = System.Windows.Media.Brushes.Gray,
+                Background = new System.Windows.Media.SolidColorBrush(Utility.GetColorFromName(value)),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            var row = new StackPanel { Orientation = Orientation.Horizontal };
+            row.Children.Add(swatch);
+            row.Children.Add(new TextBlock { Text = value, VerticalAlignment = VerticalAlignment.Center });
+
+            return new ComboBoxItem { Content = row, Tag = value };
+        }
+
         private void LoadDropdownValue(ComboBox comboBox, string currentValue, string propertyName)
         {
             try
@@ -1110,6 +1188,16 @@ namespace Desktop_Frames
                             LogManager.Log(LogManager.LogLevel.Debug, LogManager.LogCategory.UI, $"Set {propertyName} to '{currentValue}'");
                             return;
                         }
+                    }
+
+                    // A colour that was picked rather than named is not in the list -
+                    // it was invented by whoever picked it - so the list learns it here
+                    // instead of quietly resetting the frame to Default.
+                    if (currentValue.TrimStart().StartsWith("#"))
+                    {
+                        comboBox.Items.Insert(comboBox.Items.Count, MakeColorItem(currentValue));
+                        comboBox.SelectedIndex = comboBox.Items.Count - 1;
+                        return;
                     }
 
                     comboBox.SelectedIndex = 0;

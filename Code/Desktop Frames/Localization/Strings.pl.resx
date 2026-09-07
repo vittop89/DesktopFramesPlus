@@ -2108,4 +2108,13 @@ Uruchomić ponownie teraz?</value>
   <data name="WebPageConfigureHint" xml:space="preserve">
     <value>Wybierz witrynę w ustawieniach tej ramki.</value>
   </data>
+  <data name="LblCustomColorPick" xml:space="preserve">
+    <value>Wybierz kolor…</value>
+  </data>
+  <data name="LblCustomColorWheel" xml:space="preserve">
+    <value>Więcej kolorów…</value>
+  </data>
+  <data name="LblCustomColorShade" xml:space="preserve">
+    <value>Jaśniej lub ciemniej</value>
+  </data>
 </root>
