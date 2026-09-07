@@ -37,6 +37,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         private static readonly Brush Strong = new SolidColorBrush(Color.FromArgb(220, 255, 255, 255));
 
         public static UIElement Build(IReadOnlyList<AgendaEvent> events, DateTime from, int days,
+                                      bool flashToday,
                                       Action<AgendaEvent>? open, Action<AgendaEvent>? edit,
                                       Action<AgendaEvent>? delete)
         {
@@ -58,7 +59,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             AddHourLabels(root, firstHour, lastHour);
 
             for (int i = 0; i < columnDays.Count; i++)
-                AddDayColumn(root, i, columnDays[i], events, firstHour, lastHour, open, edit, delete);
+                AddDayColumn(root, i, columnDays[i], events, firstHour, lastHour, flashToday,
+                             open, edit, delete);
 
             return root;
         }
@@ -190,7 +192,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         // ======================================================================
 
         private static void AddDayColumn(Grid root, int index, DateTime day, IReadOnlyList<AgendaEvent> events,
-                                         int firstHour, int lastHour,
+                                         int firstHour, int lastHour, bool flashToday,
                                          Action<AgendaEvent>? open, Action<AgendaEvent>? edit,
                                          Action<AgendaEvent>? delete)
         {
@@ -263,6 +265,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                     canvas.Children.Add(block);
                 }
             }
+
+            if (flashToday && day == DateTime.Today) FlashToday(framed);
 
             Grid.SetColumn(framed, index + 1);
             Grid.SetRow(framed, 2);
@@ -413,6 +417,34 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             menu.Items.Add(openItem);
 
             target.ContextMenu = menu;
+        }
+
+        /// <summary>
+        /// Blinks a day's background, so that pressing "today" after paging through
+        /// three months says where today went instead of leaving somebody to find the
+        /// bold number themselves.
+        ///
+        /// Three quick pulses rather than one slow fade: a single change of colour on a
+        /// grid this busy is easy to miss entirely, and anything longer turns into
+        /// decoration on a frame somebody has to keep looking at all day.
+        /// </summary>
+        internal static void FlashToday(Border target)
+        {
+            var brush = new SolidColorBrush(Color.FromArgb(10, 255, 255, 255));
+            target.Background = brush;
+
+            var pulse = new System.Windows.Media.Animation.ColorAnimation
+            {
+                To = Color.FromArgb(150, 255, 214, 0),
+                Duration = TimeSpan.FromMilliseconds(200),
+                AutoReverse = true,
+                RepeatBehavior = new System.Windows.Media.Animation.RepeatBehavior(3)
+            };
+
+            // Started when the element reaches the screen: an animation begun on a
+            // control that is not in the visual tree yet plays to nobody.
+            target.Loaded += (s, e) =>
+                brush.BeginAnimation(SolidColorBrush.ColorProperty, pulse);
         }
 
         /// <summary>

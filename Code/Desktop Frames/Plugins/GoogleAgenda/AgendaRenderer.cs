@@ -45,28 +45,30 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         private static readonly Brush Faint = new SolidColorBrush(Color.FromArgb(160, 255, 255, 255));
         private static readonly Brush Strong = new SolidColorBrush(Color.FromArgb(220, 255, 255, 255));
 
-        public void Draw(Panel panel, IReadOnlyList<AgendaEvent> events, AgendaView view, DateTime chosenDay)
+        public void Draw(Panel panel, IReadOnlyList<AgendaEvent> events, AgendaView view,
+                         DateTime anchor, bool flashToday = false)
         {
             switch (view)
             {
                 // Columns of hours, the only shape that answers how full a day is
                 // without anything having to be read.
                 case AgendaView.Day:
-                    panel.Children.Add(Columns(events, DateTime.Today, 1));
+                    panel.Children.Add(Columns(events, anchor.Date, 1, flashToday));
                     break;
 
                 case AgendaView.ThreeDays:
-                    panel.Children.Add(Columns(events, DateTime.Today, 3));
+                    panel.Children.Add(Columns(events, anchor.Date, 3, flashToday));
                     break;
 
                 case AgendaView.Week:
                     // From the first day of the week as this language counts it, rather
-                    // than from today: a week beginning on a Wednesday is not a week.
-                    panel.Children.Add(Columns(events, StartOfWeek(DateTime.Today), 7));
+                    // than from the day being looked at: a week beginning on a Wednesday
+                    // is not a week.
+                    panel.Children.Add(Columns(events, StartOfWeek(anchor), 7, flashToday));
                     break;
 
                 case AgendaView.Month:
-                    DrawMonth(panel, events, chosenDay);
+                    DrawMonth(panel, events, anchor, flashToday);
                     break;
 
                 default:
@@ -75,8 +77,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             }
         }
 
-        private UIElement Columns(IReadOnlyList<AgendaEvent> events, DateTime from, int days) =>
-            AgendaTimeGrid.Build(events, from, days,
+        private UIElement Columns(IReadOnlyList<AgendaEvent> events, DateTime from, int days, bool flashToday) =>
+            AgendaTimeGrid.Build(events, from, days, flashToday,
                                  e => OpenRequested?.Invoke(e),
                                  e => EditRequested?.Invoke(e),
                                  e => DeleteRequested?.Invoke(e));
@@ -125,7 +127,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// with a dot and reading it takes one click. Pretending otherwise would give
         /// six characters of every title, which is worse than none.
         /// </summary>
-        private void DrawMonth(Panel panel, IReadOnlyList<AgendaEvent> events, DateTime chosenDay)
+        private void DrawMonth(Panel panel, IReadOnlyList<AgendaEvent> events, DateTime chosenDay,
+                               bool flashToday = false)
         {
             DateTime first = new DateTime(chosenDay.Year, chosenDay.Month, 1);
 
@@ -162,7 +165,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             for (int i = 0; i < 42; i++)
             {
                 DateTime day = gridStart.AddDays(i);
-                grid.Children.Add(MonthCell(day, first.Month, chosenDay, OnDay(events, day)));
+                grid.Children.Add(MonthCell(day, first.Month, chosenDay, OnDay(events, day), flashToday));
             }
 
             panel.Children.Add(grid);
@@ -173,7 +176,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             else foreach (AgendaEvent item in chosen) panel.Children.Add(Card(item));
         }
 
-        private Border MonthCell(DateTime day, int month, DateTime chosenDay, List<AgendaEvent> ofDay)
+        private Border MonthCell(DateTime day, int month, DateTime chosenDay, List<AgendaEvent> ofDay,
+                                 bool flashToday)
         {
             bool thisMonth = day.Month == month;
             bool isToday = day == DateTime.Today;
@@ -239,6 +243,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             cell.Child = stack;
             cell.MouseLeftButtonUp += (s, e) => DayChosen?.Invoke(day);
+
+            if (flashToday && isToday) AgendaTimeGrid.FlashToday(cell);
 
             return cell;
         }
