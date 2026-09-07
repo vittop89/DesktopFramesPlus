@@ -22,6 +22,13 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// <summary>
         /// Merges the calendar's stand-ins into the tasks they stand for.
         ///
+        /// The tasks handed in are <em>changed in place</em> when a stand-in is found for
+        /// them, and this is deliberate: the task is the thing that survives the join, so
+        /// giving it a new identity would leave two objects for one entry and invite the
+        /// caller to draw the stale one. It holds because the sources build their answers
+        /// fresh on every refresh. A caller that ever passes a cached list must copy it
+        /// first, or its cache will quietly acquire hours it did not ask for.
+        ///
         /// <paramref name="unjoined"/> counts the stand-ins that found no task. Those are
         /// kept rather than dropped: an untitled block is poor, but it is better than an
         /// appointment quietly disappearing because the task behind it sat in a list the
