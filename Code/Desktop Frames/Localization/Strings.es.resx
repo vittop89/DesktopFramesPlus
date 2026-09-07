@@ -2063,4 +2063,37 @@ Cada ventana lee sus textos mientras se construye, así que el cambio se ve al r
   <data name="AgendaTaskNoTime" xml:space="preserve">
     <value>Google solo guarda la fecha de una tarea, nunca la hora.</value>
   </data>
+  <data name="PluginWebPage" xml:space="preserve">
+    <value>Página web</value>
+  </data>
+  <data name="WebPageOpen" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="WebPageNotConfigured" xml:space="preserve">
+    <value>Ningún sitio elegido</value>
+  </data>
+  <data name="WebPageSettingsTitle" xml:space="preserve">
+    <value>Página web</value>
+  </data>
+  <data name="WebPageSiteLabel" xml:space="preserve">
+    <value>Sitio</value>
+  </data>
+  <data name="WebPageAddressLabel" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
+  <data name="WebPageOnTop" xml:space="preserve">
+    <value>Mantener la ventana delante</value>
+  </data>
+  <data name="WebPageConfinedNote" xml:space="preserve">
+    <value>La ventana se queda en el sitio elegido. Los enlaces a otros lugares se abren en tu navegador de siempre, donde la dirección se ve.</value>
+  </data>
+  <data name="WebPageBadAddress" xml:space="preserve">
+    <value>Hace falta una dirección web que empiece por http:// o https://.</value>
+  </data>
+  <data name="WebPageNoRuntime" xml:space="preserve">
+    <value>Falta el runtime Microsoft Edge WebView2, así que la página no puede mostrarse. Basta con instalarlo una vez.</value>
+  </data>
+  <data name="WebPageCrashed" xml:space="preserve">
+    <value>La página ha dejado de responder. Cierra esta ventana y vuelve a abrirla.</value>
+  </data>
 </root>

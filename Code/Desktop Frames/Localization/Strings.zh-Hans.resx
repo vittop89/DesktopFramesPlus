@@ -2136,4 +2136,37 @@
   <data name="AgendaTaskNoTime" xml:space="preserve">
     <value>Google 只保存任务的日期，不保存具体时间。</value>
   </data>
+  <data name="PluginWebPage" xml:space="preserve">
+    <value>网页</value>
+  </data>
+  <data name="WebPageOpen" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="WebPageNotConfigured" xml:space="preserve">
+    <value>尚未选择网站</value>
+  </data>
+  <data name="WebPageSettingsTitle" xml:space="preserve">
+    <value>网页</value>
+  </data>
+  <data name="WebPageSiteLabel" xml:space="preserve">
+    <value>网站</value>
+  </data>
+  <data name="WebPageAddressLabel" xml:space="preserve">
+    <value>地址</value>
+  </data>
+  <data name="WebPageOnTop" xml:space="preserve">
+    <value>窗口始终置顶</value>
+  </data>
+  <data name="WebPageConfinedNote" xml:space="preserve">
+    <value>窗口只停留在所选网站。指向其他地方的链接会在常用浏览器中打开，那里能看到地址。</value>
+  </data>
+  <data name="WebPageBadAddress" xml:space="preserve">
+    <value>需要以 http:// 或 https:// 开头的网址。</value>
+  </data>
+  <data name="WebPageNoRuntime" xml:space="preserve">
+    <value>缺少 Microsoft Edge WebView2 运行时，因此无法显示页面。安装一次即可。</value>
+  </data>
+  <data name="WebPageCrashed" xml:space="preserve">
+    <value>页面已停止响应。请关闭此窗口后重新打开。</value>
+  </data>
 </root>

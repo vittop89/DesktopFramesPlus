@@ -40,6 +40,7 @@ namespace Desktop_Frames.Plugins
             RegisterPlugin("Calculator", Strings.PluginCalculator, () => new CalculatorPlugin());
             RegisterPlugin("CustomTerminal", Strings.PluginTerminal, () => new CustomTerminalPlugin());
             RegisterPlugin("GoogleAgenda", Strings.PluginAgenda, () => new GoogleAgenda.GoogleAgendaPlugin());
+            RegisterPlugin("WebPage", Strings.PluginWebPage, () => new WebPage.WebPagePlugin());
         }
 
         /// <summary>

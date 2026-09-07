@@ -2062,4 +2062,37 @@ Vuoi riavviare adesso?</value>
   <data name="AgendaTaskNoTime" xml:space="preserve">
     <value>Google conserva solo la data di un'attività, mai l'ora.</value>
   </data>
+  <data name="PluginWebPage" xml:space="preserve">
+    <value>Pagina web</value>
+  </data>
+  <data name="WebPageOpen" xml:space="preserve">
+    <value>Apri</value>
+  </data>
+  <data name="WebPageNotConfigured" xml:space="preserve">
+    <value>Nessun sito scelto</value>
+  </data>
+  <data name="WebPageSettingsTitle" xml:space="preserve">
+    <value>Pagina web</value>
+  </data>
+  <data name="WebPageSiteLabel" xml:space="preserve">
+    <value>Sito</value>
+  </data>
+  <data name="WebPageAddressLabel" xml:space="preserve">
+    <value>Indirizzo</value>
+  </data>
+  <data name="WebPageOnTop" xml:space="preserve">
+    <value>Mantieni la finestra in primo piano</value>
+  </data>
+  <data name="WebPageConfinedNote" xml:space="preserve">
+    <value>La finestra resta sul sito scelto. I collegamenti altrove si aprono nel browser di sempre, dove l'indirizzo si vede.</value>
+  </data>
+  <data name="WebPageBadAddress" xml:space="preserve">
+    <value>Serve un indirizzo web che cominci con http:// o https://.</value>
+  </data>
+  <data name="WebPageNoRuntime" xml:space="preserve">
+    <value>Manca il runtime Microsoft Edge WebView2, quindi la pagina non può essere mostrata. Basta installarlo una volta.</value>
+  </data>
+  <data name="WebPageCrashed" xml:space="preserve">
+    <value>La pagina ha smesso di rispondere. Chiudi questa finestra e riaprila.</value>
+  </data>
 </root>

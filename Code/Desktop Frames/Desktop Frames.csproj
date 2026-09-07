@@ -156,6 +156,10 @@
 		     ways that surface weeks later as "it stopped updating". -->
 		<PackageReference Include="Google.Apis.Calendar.v3" Version="1.75.0.4206" />
 		<PackageReference Include="Google.Apis.Tasks.v1" Version="1.74.0.3958" />
+		<!-- The browser used by the web page frame. Edge WebView2 rather than a
+		     bundled engine: the runtime ships with Windows 11 and updates itself,
+		     so the program neither carries a browser nor ages with one. -->
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
 		<PackageReference Include="NAudio" Version="2.2.1" />
 		<!-- 13.0.4 rather than 13.0.1 because Google.Apis.Core asks for it. The step
 		     is a patch release inside the same major version, and it carries the fix

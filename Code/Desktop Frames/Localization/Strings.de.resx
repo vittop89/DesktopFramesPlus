@@ -2063,4 +2063,37 @@ Jetzt neu starten?</value>
   <data name="AgendaTaskNoTime" xml:space="preserve">
     <value>Google speichert bei einer Aufgabe nur das Datum, nie eine Uhrzeit.</value>
   </data>
+  <data name="PluginWebPage" xml:space="preserve">
+    <value>Webseite</value>
+  </data>
+  <data name="WebPageOpen" xml:space="preserve">
+    <value>Öffnen</value>
+  </data>
+  <data name="WebPageNotConfigured" xml:space="preserve">
+    <value>Noch keine Website gewählt</value>
+  </data>
+  <data name="WebPageSettingsTitle" xml:space="preserve">
+    <value>Webseite</value>
+  </data>
+  <data name="WebPageSiteLabel" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="WebPageAddressLabel" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="WebPageOnTop" xml:space="preserve">
+    <value>Fenster im Vordergrund halten</value>
+  </data>
+  <data name="WebPageConfinedNote" xml:space="preserve">
+    <value>Das Fenster bleibt auf der gewählten Website. Links nach außerhalb öffnen sich im gewohnten Browser, wo die Adresse sichtbar ist.</value>
+  </data>
+  <data name="WebPageBadAddress" xml:space="preserve">
+    <value>Dafür wird eine Webadresse mit http:// oder https:// benötigt.</value>
+  </data>
+  <data name="WebPageNoRuntime" xml:space="preserve">
+    <value>Die Microsoft Edge WebView2-Laufzeit fehlt, daher kann die Seite nicht angezeigt werden. Einmal installieren genügt.</value>
+  </data>
+  <data name="WebPageCrashed" xml:space="preserve">
+    <value>Die Seite reagiert nicht mehr. Schließen Sie dieses Fenster und öffnen Sie es erneut.</value>
+  </data>
 </root>

@@ -2063,4 +2063,37 @@
   <data name="AgendaTaskNoTime" xml:space="preserve">
     <value>Google сохраняет только дату задачи, но не время.</value>
   </data>
+  <data name="PluginWebPage" xml:space="preserve">
+    <value>Веб-страница</value>
+  </data>
+  <data name="WebPageOpen" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="WebPageNotConfigured" xml:space="preserve">
+    <value>Сайт не выбран</value>
+  </data>
+  <data name="WebPageSettingsTitle" xml:space="preserve">
+    <value>Веб-страница</value>
+  </data>
+  <data name="WebPageSiteLabel" xml:space="preserve">
+    <value>Сайт</value>
+  </data>
+  <data name="WebPageAddressLabel" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="WebPageOnTop" xml:space="preserve">
+    <value>Держать окно поверх других</value>
+  </data>
+  <data name="WebPageConfinedNote" xml:space="preserve">
+    <value>Окно остаётся на выбранном сайте. Ссылки на другие сайты открываются в обычном браузере, где виден адрес.</value>
+  </data>
+  <data name="WebPageBadAddress" xml:space="preserve">
+    <value>Нужен адрес, начинающийся с http:// или https://.</value>
+  </data>
+  <data name="WebPageNoRuntime" xml:space="preserve">
+    <value>Нет компонента Microsoft Edge WebView2, поэтому страницу нельзя показать. Достаточно установить его один раз.</value>
+  </data>
+  <data name="WebPageCrashed" xml:space="preserve">
+    <value>Страница перестала отвечать. Закройте это окно и откройте снова.</value>
+  </data>
 </root>

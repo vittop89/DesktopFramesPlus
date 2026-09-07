@@ -205,6 +205,17 @@ namespace Desktop_Frames.Localization
         // ── Shared buttons ─────────────────────────────────────────────────
         public static string AgendaBadTime => Get("AgendaBadTime");
         public static string AgendaCalendarLabel => Get("AgendaCalendarLabel");
+        public static string PluginWebPage => Get("PluginWebPage");
+        public static string WebPageOpen => Get("WebPageOpen");
+        public static string WebPageNotConfigured => Get("WebPageNotConfigured");
+        public static string WebPageSettingsTitle => Get("WebPageSettingsTitle");
+        public static string WebPageSiteLabel => Get("WebPageSiteLabel");
+        public static string WebPageAddressLabel => Get("WebPageAddressLabel");
+        public static string WebPageOnTop => Get("WebPageOnTop");
+        public static string WebPageConfinedNote => Get("WebPageConfinedNote");
+        public static string WebPageBadAddress => Get("WebPageBadAddress");
+        public static string WebPageNoRuntime => Get("WebPageNoRuntime");
+        public static string WebPageCrashed => Get("WebPageCrashed");
         public static string AgendaKindEvent => Get("AgendaKindEvent");
         public static string AgendaKindTask => Get("AgendaKindTask");
         public static string AgendaListLabel => Get("AgendaListLabel");
