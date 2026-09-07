@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>Desktop_Frames.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      The files under test are linked rather than reached through a project
+      reference, and that is not laziness. The program is a WinExe with COM
+      references, so `dotnet build` refuses it outright (MSB4803) and it has to be
+      built by classic MSBuild; a test project referencing it would inherit that
+      and could not be run with `dotnet test`.
+
+      What is linked here is exactly the part that has no such ties: no WPF, no
+      logging, no Google client - plain logic over plain objects. That it can be
+      compiled on its own is a property worth keeping, and this file is what
+      notices if it stops being true.
+    -->
+    <Compile Include="..\Desktop Frames\Plugins\WebPage\WebPageSite.cs"
+             Link="Linked\WebPageSite.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
+</Project>
