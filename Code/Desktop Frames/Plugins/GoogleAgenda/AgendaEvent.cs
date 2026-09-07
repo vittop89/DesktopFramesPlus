@@ -64,6 +64,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// </summary>
         public bool IsTask { get; set; }
 
+        /// <summary>
+        /// For a calendar entry that merely holds the slot of a task: the link to the
+        /// task it stands for. Empty for everything else, real events included.
+        ///
+        /// Google writes one of these onto the calendar whenever a task is given an
+        /// hour, because the Tasks service has nowhere of its own to keep one.
+        /// </summary>
+        public string MirrorOfTask { get; set; } = string.Empty;
+
         /// <summary>Ticked. Meaningless unless <see cref="IsTask"/>.</summary>
         public bool IsDone { get; set; }
 

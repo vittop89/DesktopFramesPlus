@@ -1,5 +1,6 @@
-using Google.Apis.Auth.OAuth2;
+﻿using Google.Apis.Auth.OAuth2;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,6 +38,40 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
     {
         private CancellationTokenSource? _signInCancellation;
 
+        /// <summary>
+        /// The sessions in use, one for each profile.
+        ///
+        /// Shared rather than made per frame, because the thing being shared is not a
+        /// saving: a second frame holding a second session sits on "signed out" while
+        /// the first one draws the calendar, and no amount of redrawing reconciles
+        /// them - they are answering from different state. One profile is one account,
+        /// so one profile is one session.
+        /// </summary>
+        private static readonly Dictionary<string, AgendaSession> Shared =
+            new Dictionary<string, AgendaSession>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>The session for the profile now open, made once and then reused.</summary>
+        public static AgendaSession ForCurrentProfile()
+        {
+            string profile = ProfileManager.CurrentProfileDir;
+
+            lock (Shared)
+            {
+                if (!Shared.TryGetValue(profile, out AgendaSession? existing))
+                {
+                    existing = new AgendaSession();
+                    Shared[profile] = existing;
+                }
+
+                return existing;
+            }
+        }
+
+        private readonly object _gate = new object();
+
+        /// <summary>The resume already under way, or already finished.</summary>
+        private Task? _resume;
+
         public AgendaState State { get; private set; } = AgendaState.NotConfigured;
 
         public UserCredential? Credential { get; private set; }
@@ -54,7 +89,18 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// "nothing to resume" quietly. A program that greets somebody with a consent
         /// page because their computer just started has misunderstood what consent is.
         /// </summary>
-        public async Task ResumeAsync()
+        public Task ResumeAsync()
+        {
+            // Every frame asks, because no frame can draw before it knows the answer -
+            // but it is one answer, and reading the stored token twice over would race
+            // two sign-in states against each other for no gain.
+            lock (_gate)
+            {
+                return _resume ??= ResumeOnceAsync();
+            }
+        }
+
+        private async Task ResumeOnceAsync()
         {
             if (!AgendaCredentials.AreAvailable())
             {

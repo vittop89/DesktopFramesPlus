@@ -36,12 +36,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         private StackPanel? _contentPanel;
 
         // --- State -------------------------------------------------------------
-        private readonly AgendaSession _session = new AgendaSession();
+        private readonly AgendaSession _session = AgendaSession.ForCurrentProfile();
         private readonly AgendaRenderer _renderer = new AgendaRenderer();
 
         private IReadOnlyList<AgendaEvent> _events = new List<AgendaEvent>();
         private GoogleCalendarSource? _source;
         private GoogleTaskSource? _tasks;
+
+        /// <summary>Said once, not on every refresh, when a stand-in finds no task.</summary>
+        private bool _warnedAboutStandIns;
 
         private AgendaSettings _settings = new AgendaSettings();
         private Dictionary<string, object>? _settingsRef;
@@ -140,7 +143,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             _refreshTimer = null;
 
             _session.Changed -= OnSessionChanged;
-            _session.Cancel();
+
+            // Deliberately not cancelled: the session belongs to the profile now, not to
+            // this frame. Closing one frame while a consent page is open would otherwise
+            // revoke a sign-in the person is in the middle of granting for all of them.
 
             _source?.Dispose();
             _source = null;
@@ -308,10 +314,22 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 // Merged and sorted here rather than kept apart, because a day is one
                 // thing: a task due at eleven belongs between the ten o'clock meeting
                 // and the noon one, not in a list of its own underneath.
-                _events = events.Concat(due)
-                                .OrderBy(e => e.IsAllDay ? e.Start.Date : e.Start)
-                                .ThenBy(e => e.Title, StringComparer.CurrentCulture)
-                                .ToList();
+                // Joined, not concatenated: a task with an hour arrives from both
+                // services, and showing both halves is showing one thing twice.
+                List<AgendaEvent> together = AgendaMerge.Join(events, due, out int unjoined);
+
+                if (unjoined > 0 && !_warnedAboutStandIns)
+                {
+                    _warnedAboutStandIns = true;
+                    LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                        $"GoogleAgenda: {unjoined} scheduled tasks came from Calendar with no " +
+                        "matching task, so they stay as untitled blocks.");
+                }
+
+                _events = together
+                    .OrderBy(e => e.IsAllDay ? e.Start.Date : e.Start)
+                    .ThenBy(e => e.Title, StringComparer.CurrentCulture)
+                    .ToList();
                 _loadedOnce = true;
                 _offline = false;
             }
@@ -409,7 +427,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             var draft = new AgendaEvent { Start = start, End = start.AddHours(1), CanWrite = true };
 
             AgendaEvent? filled = AgendaEventWindow.Show(Window.GetWindow(_rootVisual), draft,
-                                                        source.Calendars, isNew: true);
+                                                        source.Calendars, TaskLists(), isNew: true);
             if (filled != null) Save(filled, isNew: true);
         }
 
@@ -419,9 +437,13 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             if (source == null) return;
 
             AgendaEvent? changed = AgendaEventWindow.Show(Window.GetWindow(_rootVisual), item,
-                                                         source.Calendars, isNew: false);
+                                                         source.Calendars, TaskLists(), isNew: false);
             if (changed != null) Save(changed, isNew: false);
         }
+
+        /// <summary>The lists a task can go in, or none when Tasks is not reachable.</summary>
+        private IReadOnlyList<AgendaTaskList> TaskLists() =>
+            _tasks?.TaskLists ?? new List<AgendaTaskList>();
 
         private async void Save(AgendaEvent item, bool isNew)
         {
@@ -430,7 +452,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             try
             {
-                if (isNew) await source.CreateAsync(item, CancellationToken.None).ConfigureAwait(true);
+                if (item.IsTask)
+                {
+                    GoogleTaskSource? tasks = _tasks;
+                    if (tasks == null) return;
+
+                    if (isNew) await tasks.CreateAsync(item, CancellationToken.None).ConfigureAwait(true);
+                    else await tasks.UpdateAsync(item, CancellationToken.None).ConfigureAwait(true);
+                }
+                else if (isNew) await source.CreateAsync(item, CancellationToken.None).ConfigureAwait(true);
                 else await source.UpdateAsync(item, CancellationToken.None).ConfigureAwait(true);
             }
             catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.PreconditionFailed
@@ -464,7 +494,14 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             try
             {
-                await source.DeleteAsync(item, CancellationToken.None).ConfigureAwait(true);
+                if (item.IsTask)
+                {
+                    GoogleTaskSource? tasks = _tasks;
+                    if (tasks == null) return;
+
+                    await tasks.DeleteAsync(item, CancellationToken.None).ConfigureAwait(true);
+                }
+                else await source.DeleteAsync(item, CancellationToken.None).ConfigureAwait(true);
             }
             catch (Exception ex)
             {

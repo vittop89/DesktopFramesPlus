@@ -44,8 +44,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         public static UIElement Build(IReadOnlyList<AgendaEvent> events, DateTime from, int days,
                                       bool flashToday,
-                                      Action<AgendaEvent>? open, Action<AgendaEvent>? edit,
-                                      Action<AgendaEvent>? delete)
+                                      AgendaActions actions)
         {
             List<DateTime> columnDays = Enumerable.Range(0, days).Select(i => from.Date.AddDays(i)).ToList();
 
@@ -61,12 +60,12 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });   // hours
 
             AddHeaders(root, columnDays);
-            AddAllDayStrip(root, events, columnDays, open, edit, delete);
+            AddAllDayStrip(root, events, columnDays, actions);
             AddHourLabels(root, firstHour, lastHour);
 
             for (int i = 0; i < columnDays.Count; i++)
                 AddDayColumn(root, i, columnDays[i], events, firstHour, lastHour, flashToday,
-                             open, edit, delete);
+                             actions);
 
             return root;
         }
@@ -143,8 +142,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// would make the day look busy at an hour it is not.
         /// </summary>
         private static void AddAllDayStrip(Grid root, IReadOnlyList<AgendaEvent> events, List<DateTime> days,
-                                           Action<AgendaEvent>? open, Action<AgendaEvent>? edit,
-                                           Action<AgendaEvent>? delete)
+                                           AgendaActions actions)
         {
             for (int i = 0; i < days.Count; i++)
             {
@@ -159,7 +157,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 var stack = new StackPanel { Margin = new Thickness(1, 0, 1, 4) };
 
                 foreach (AgendaEvent item in ofDay)
-                    stack.Children.Add(Chip(item, open, edit, delete));
+                    stack.Children.Add(Chip(item, actions));
 
                 Grid.SetColumn(stack, i + 1);
                 Grid.SetRow(stack, 1);
@@ -199,8 +197,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private static void AddDayColumn(Grid root, int index, DateTime day, IReadOnlyList<AgendaEvent> events,
                                          int firstHour, int lastHour, bool flashToday,
-                                         Action<AgendaEvent>? open, Action<AgendaEvent>? edit,
-                                         Action<AgendaEvent>? delete)
+                                         AgendaActions actions)
         {
             double height = (lastHour - firstHour) * HourHeight;
 
@@ -252,7 +249,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                     double top = (start - day).TotalHours - firstHour;
                     double span = (end - start).TotalHours;
 
-                    Border block = Block(item, span * HourHeight, open, edit, delete);
+                    Border block = Block(item, span * HourHeight, actions);
 
                     Canvas.SetTop(block, Math.Max(0, top * HourHeight));
                     block.Height = Math.Max(HourHeight / 2, span * HourHeight - 2);
@@ -361,8 +358,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// Using one layout for both would either waste a tall block or clip a short
         /// one to nothing.
         /// </summary>
-        private static Border Block(AgendaEvent item, double height, Action<AgendaEvent>? open,
-                                    Action<AgendaEvent>? edit, Action<AgendaEvent>? delete)
+        private static Border Block(AgendaEvent item, double height, AgendaActions actions)
         {
             string from = item.Start.ToString("HH:mm", CultureInfo.CurrentCulture);
             string to = item.End.ToString("HH:mm", CultureInfo.CurrentCulture);
@@ -373,51 +369,141 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 CornerRadius = new CornerRadius(3),
                 Padding = new Thickness(4, 1, 3, 1),
                 Cursor = Cursors.Hand,
+
+                // A backstop for the awkward sizes: whatever the text does, it stops at
+                // the edge of its own event rather than being read across somebody
+                // else's.
+                ClipToBounds = true,
                 ToolTip = item.Title + Environment.NewLine + from + " - " + to
                         + (string.IsNullOrWhiteSpace(item.Location) ? "" : Environment.NewLine + item.Location)
             };
 
             if (height >= HourHeight * 1.4)
             {
-                var stack = new StackPanel();
+                // A grid rather than a stack, because a stack gives each child all the
+                // height it asks for. A long title then wraps to three lines and grows
+                // straight out of the block and over the next one, and the ellipsis
+                // never appears - nothing ever told the text it had run out of room.
+                // Here the hours take what they need and the title takes what is left,
+                // which is the constraint that makes trimming happen at all.
+                var stack = new Grid();
+                stack.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                stack.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-                stack.Children.Add(new TextBlock
+                var title = new TextBlock
                 {
                     Text = item.Title,
                     FontSize = 10,
                     Foreground = Brushes.White,
                     TextWrapping = TextWrapping.Wrap,
-                    TextTrimming = TextTrimming.CharacterEllipsis
-                });
+                    TextTrimming = TextTrimming.CharacterEllipsis,
+                    TextDecorations = item.IsDone ? TextDecorations.Strikethrough : null
+                };
 
-                stack.Children.Add(new TextBlock
+                var hours = new TextBlock
                 {
                     Text = from + " - " + to,
                     FontSize = 9,
                     Foreground = new SolidColorBrush(Color.FromArgb(200, 255, 255, 255)),
                     TextTrimming = TextTrimming.CharacterEllipsis
-                });
+                };
+
+                Grid.SetRow(hours, 1);
+                stack.Children.Add(hours);
+
+                if (item.IsTask)
+                {
+                    // The box takes what it needs and the title takes the rest, so a
+                    // long title still runs out of room and trims instead of pushing
+                    // the box off the block.
+                    var titleRow = new Grid();
+                    titleRow.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                    titleRow.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+                    CheckBox tick = Tick(item, actions);
+                    Grid.SetColumn(tick, 0);
+                    Grid.SetColumn(title, 1);
+
+                    titleRow.Children.Add(tick);
+                    titleRow.Children.Add(title);
+
+                    Grid.SetRow(titleRow, 0);
+                    stack.Children.Add(titleRow);
+                }
+                else
+                {
+                    Grid.SetRow(title, 0);
+                    stack.Children.Add(title);
+                }
 
                 block.Child = stack;
             }
             else
             {
-                block.Child = new TextBlock
+                var caption = new TextBlock
                 {
                     Text = item.Title + ", " + from,
                     FontSize = 9,
                     Foreground = Brushes.White,
                     TextTrimming = TextTrimming.CharacterEllipsis,
-                    TextWrapping = TextWrapping.NoWrap
+                    TextWrapping = TextWrapping.NoWrap,
+                    TextDecorations = item.IsDone ? TextDecorations.Strikethrough : null
                 };
+
+                if (item.IsTask)
+                {
+                    // The short layout needs the box as much as the tall one does, and
+                    // arguably more: a task Google gives an hour to is exactly the size
+                    // that lands here, so leaving it out hid the tick on the ordinary
+                    // case and showed it only on the long ones.
+                    var row = new Grid();
+                    row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                    row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+                    CheckBox tick = Tick(item, actions);
+                    Grid.SetColumn(tick, 0);
+                    Grid.SetColumn(caption, 1);
+
+                    row.Children.Add(tick);
+                    row.Children.Add(caption);
+
+                    block.Child = row;
+                }
+                else
+                {
+                    block.Child = caption;
+                }
             }
 
-            Wire(block, item, open, edit, delete);
+            Wire(block, item, actions);
             return block;
         }
 
-        private static Border Chip(AgendaEvent item, Action<AgendaEvent>? open,
-                                   Action<AgendaEvent>? edit, Action<AgendaEvent>? delete)
+        /// <summary>
+        /// The box that says a task is done, shrunk to sit inside a block.
+        ///
+        /// The click is swallowed here on purpose. The block underneath opens the entry
+        /// when clicked, and ticking something off should tick it off - not tick it off
+        /// and then open a browser on top of the calendar somebody was reading.
+        /// </summary>
+        private static CheckBox Tick(AgendaEvent item, AgendaActions actions)
+        {
+            var box = new CheckBox
+            {
+                IsChecked = item.IsDone,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(0, 1, 3, 0),
+                LayoutTransform = new ScaleTransform(0.8, 0.8)
+            };
+
+            box.Checked += (s, e) => actions.SetDone?.Invoke(item, true);
+            box.Unchecked += (s, e) => actions.SetDone?.Invoke(item, false);
+            box.MouseLeftButtonUp += (s, e) => e.Handled = true;
+
+            return box;
+        }
+
+        private static Border Chip(AgendaEvent item, AgendaActions actions)
         {
             var chip = new Border
             {
@@ -426,27 +512,43 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Padding = new Thickness(3, 1, 3, 1),
                 Margin = new Thickness(0, 0, 0, 2),
                 Cursor = Cursors.Hand,
-                ToolTip = item.Title + Environment.NewLine + Strings.AgendaAllDay,
-                Child = new TextBlock
-                {
-                    Text = item.Title,
-                    FontSize = 9,
-                    Foreground = Brushes.White,
-                    TextTrimming = TextTrimming.CharacterEllipsis
-                }
+                ToolTip = item.Title + Environment.NewLine + Strings.AgendaAllDay
             };
 
-            Wire(chip, item, open, edit, delete);
+            var caption = new TextBlock
+            {
+                Text = item.Title,
+                FontSize = 9,
+                Foreground = Brushes.White,
+                TextTrimming = TextTrimming.CharacterEllipsis,
+                TextDecorations = item.IsDone ? TextDecorations.Strikethrough : null
+            };
+
+            if (item.IsTask)
+            {
+                // A task keeps its box wherever it is drawn. A tick that exists in the
+                // list but not in the week view teaches that the week view is only for
+                // looking at, which is not true of anything else in it.
+                var row = new StackPanel { Orientation = Orientation.Horizontal };
+                row.Children.Add(Tick(item, actions));
+                row.Children.Add(caption);
+                chip.Child = row;
+            }
+            else
+            {
+                chip.Child = caption;
+            }
+
+            Wire(chip, item, actions);
             return chip;
         }
 
         /// <summary>The same gestures as a card in the list, so one view does not teach habits the other refuses.</summary>
-        private static void Wire(Border target, AgendaEvent item, Action<AgendaEvent>? open,
-                                 Action<AgendaEvent>? edit, Action<AgendaEvent>? delete)
+        private static void Wire(Border target, AgendaEvent item, AgendaActions actions)
         {
             target.MouseLeftButtonUp += (s, e) =>
             {
-                if (e.ClickCount == 2) open?.Invoke(item);
+                if (e.ClickCount == 2) actions.Open?.Invoke(item);
             };
 
             var menu = new ContextMenu();
@@ -454,18 +556,18 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             if (item.CanWrite)
             {
                 var change = new MenuItem { Header = Strings.AgendaEditEvent };
-                change.Click += (s, e) => edit?.Invoke(item);
+                change.Click += (s, e) => actions.Edit?.Invoke(item);
                 menu.Items.Add(change);
 
                 var remove = new MenuItem { Header = Strings.AgendaDeleteEvent };
-                remove.Click += (s, e) => delete?.Invoke(item);
+                remove.Click += (s, e) => actions.Delete?.Invoke(item);
                 menu.Items.Add(remove);
 
                 menu.Items.Add(new Separator());
             }
 
             var openItem = new MenuItem { Header = Strings.AgendaOpenInGoogle };
-            openItem.Click += (s, e) => open?.Invoke(item);
+            openItem.Click += (s, e) => actions.Open?.Invoke(item);
             menu.Items.Add(openItem);
 
             target.ContextMenu = menu;

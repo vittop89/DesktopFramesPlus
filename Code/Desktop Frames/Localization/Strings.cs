@@ -205,6 +205,10 @@ namespace Desktop_Frames.Localization
         // ── Shared buttons ─────────────────────────────────────────────────
         public static string AgendaBadTime => Get("AgendaBadTime");
         public static string AgendaCalendarLabel => Get("AgendaCalendarLabel");
+        public static string AgendaKindEvent => Get("AgendaKindEvent");
+        public static string AgendaKindTask => Get("AgendaKindTask");
+        public static string AgendaListLabel => Get("AgendaListLabel");
+        public static string AgendaTaskNoTime => Get("AgendaTaskNoTime");
         public static string AgendaCalendarsLabel => Get("AgendaCalendarsLabel");
         public static string AgendaConfirmDelete => Get("AgendaConfirmDelete");
         public static string AgendaConflict => Get("AgendaConflict");

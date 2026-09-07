@@ -104,9 +104,51 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 if (!IsChosen(calendar.Id, chosen)) continue;
 
                 await RefreshOneAsync(calendar, from, to, token).ConfigureAwait(false);
+
+                // A second, narrow request. The ordinary listing does not return the
+                // stand-in entries Google creates for scheduled tasks - measured, not
+                // assumed: without this call none of them arrive, and with it they all
+                // do. Only the main calendar is asked, because that is the only place
+                // Google puts them.
+                if (calendar.IsPrimary)
+                    await LoadStandInsAsync(calendar, from, to, token).ConfigureAwait(false);
             }
 
             return Within(from, to, chosen);
+        }
+
+        /// <summary>
+        /// The task link inside an entry that is only standing in for a task, or empty.
+        ///
+        /// Recognised by the event type together with a link to tasks.google.com in the
+        /// notes Google writes there itself.
+        ///
+        /// An earlier version of this also demanded that the entry have no title, on the
+        /// evidence of one stand-in that happened to have none - because the task behind
+        /// it was untitled. A named task produces a named stand-in, so that rule threw
+        /// away every ordinary case and kept only the odd one.
+        ///
+        /// The type is required as well as the link, and deliberately so. Should Google
+        /// ever stop calling these focus time, stand-ins reappear as ordinary events -
+        /// visible, and obviously wrong. Matching on the link alone would fail the other
+        /// way, quietly swallowing a real meeting that linked to a task.
+        /// </summary>
+        private static string TaskStandInLink(Event item)
+        {
+            if (!string.Equals(item.EventType, "focusTime", StringComparison.Ordinal))
+                return string.Empty;
+
+            string notes = item.Description ?? string.Empty;
+
+            const string marker = "https://tasks.google.com/task/";
+
+            int at = notes.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
+            if (at < 0) return string.Empty;
+
+            string rest = notes.Substring(at);
+            int stop = rest.IndexOfAny(new[] { ' ', '\r', '\n', '\t', '"', '<' });
+
+            return stop < 0 ? rest : rest.Substring(0, stop);
         }
 
         // ======================================================================
@@ -226,6 +268,41 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         }
 
         /// <summary>
+        /// The entries Google creates to hold the slot of a task that has been given an
+        /// hour.
+        ///
+        /// Read separately because the ordinary listing leaves them out, and read whole
+        /// each time rather than through a marker: there are a handful of them, and a
+        /// second sync state to keep correct would cost more than the request saves.
+        /// </summary>
+        private async Task LoadStandInsAsync(AgendaCalendar calendar, DateTime from, DateTime to,
+                                             CancellationToken token)
+        {
+            try
+            {
+                EventsResource.ListRequest request = _service.Events.List(calendar.Id);
+
+                request.EventTypes = EventsResource.ListRequest.EventTypesEnum.FocusTime;
+                request.SingleEvents = true;
+                request.TimeMinDateTimeOffset = new DateTimeOffset(from.AddDays(-1));
+                request.TimeMaxDateTimeOffset = new DateTimeOffset(to.AddDays(1));
+                request.MaxResults = 250;
+
+                Events answer = await request.ExecuteAsync(token).ConfigureAwait(false);
+
+                foreach (Event item in answer.Items ?? new List<Event>())
+                    Apply(calendar, item);
+            }
+            catch (Exception ex)
+            {
+                // A calendar without these is not a broken calendar. Losing the hour of
+                // a task is a smaller failure than losing the frame.
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    $"GoogleAgenda: could not read scheduled tasks: {ex.Message}");
+            }
+        }
+
+        /// <summary>
         /// What changed since the marker. The filters of the first request travel with
         /// the marker, and sending them again is refused by the API.
         /// </summary>
@@ -272,6 +349,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         {
             if (string.IsNullOrEmpty(item.Id)) return;
 
+
             string key = KeyOf(calendar.Id, item.Id);
 
             if (string.Equals(item.Status, "cancelled", StringComparison.Ordinal))
@@ -281,6 +359,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             }
 
             AgendaEvent? mapped = Map(calendar, item);
+
 
             // An entry with no usable time cannot be placed on a day, and the frame is
             // a list of days. Better absent than drawn at midnight of an arbitrary one.
@@ -323,7 +402,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 ColourHex = calendar.ColourHex,
                 WebLink = item.HtmlLink ?? string.Empty,
                 ETag = item.ETag ?? string.Empty,
-                CanWrite = calendar.CanWrite
+                CanWrite = calendar.CanWrite,
+                MirrorOfTask = TaskStandInLink(item)
             };
         }
 

@@ -79,10 +79,19 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         }
 
         private UIElement Columns(IReadOnlyList<AgendaEvent> events, DateTime from, int days, bool flashToday) =>
-            AgendaTimeGrid.Build(events, from, days, flashToday,
-                                 e => OpenRequested?.Invoke(e),
-                                 e => EditRequested?.Invoke(e),
-                                 e => DeleteRequested?.Invoke(e));
+            AgendaTimeGrid.Build(events, from, days, flashToday, Actions());
+
+        /// <summary>
+        /// The frame's callbacks in one piece, so every view is handed the same set and
+        /// none of them quietly offers less than the others.
+        /// </summary>
+        private AgendaActions Actions() => new AgendaActions
+        {
+            Open = e => OpenRequested?.Invoke(e),
+            Edit = e => EditRequested?.Invoke(e),
+            Delete = e => DeleteRequested?.Invoke(e),
+            SetDone = (e, done) => DoneChanged?.Invoke(e, done)
+        };
 
         private static DateTime StartOfWeek(DateTime day)
         {

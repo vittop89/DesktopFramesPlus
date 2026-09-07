@@ -1,4 +1,4 @@
-using Desktop_Frames.Localization;
+﻿using Desktop_Frames.Localization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -25,10 +25,17 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// to do with the answer.
         /// </summary>
         public static AgendaEvent? Show(Window? owner, AgendaEvent draft,
-                                        IReadOnlyList<AgendaCalendar> calendars, bool isNew)
+                                        IReadOnlyList<AgendaCalendar> calendars,
+                                        IReadOnlyList<AgendaTaskList> taskLists, bool isNew)
         {
             List<AgendaCalendar> writable = calendars.Where(c => c.CanWrite).ToList();
-            if (writable.Count == 0)
+
+            // An existing entry is what it is: Google has no way to turn an event into a
+            // task, so the choice is offered only while making something new.
+            bool canChooseKind = isNew && taskLists.Count > 0;
+            bool startAsTask = draft.IsTask;
+
+            if (writable.Count == 0 && !startAsTask)
             {
                 MessageBoxesManager.ShowOKOnlyMessageBoxForm(
                     Strings.AgendaNoWritableCalendar, Strings.AgendaSettingsTitle);
@@ -50,6 +57,28 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             var layout = new StackPanel { Margin = new Thickness(20) };
 
+            var asEvent = new RadioButton
+            {
+                Content = Strings.AgendaKindEvent,
+                IsChecked = !startAsTask,
+                Margin = new Thickness(0, 0, 14, 10)
+            };
+
+            var asTask = new RadioButton
+            {
+                Content = Strings.AgendaKindTask,
+                IsChecked = startAsTask,
+                Margin = new Thickness(0, 0, 0, 10)
+            };
+
+            if (canChooseKind)
+            {
+                var kinds = new StackPanel { Orientation = Orientation.Horizontal };
+                kinds.Children.Add(asEvent);
+                kinds.Children.Add(asTask);
+                layout.Children.Add(kinds);
+            }
+
             var title = new TextBox { Text = draft.Title, Height = 26 };
             layout.Children.Add(Labelled(Strings.AgendaTitleLabel, title));
 
@@ -58,7 +87,16 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             calendar.SelectedItem = writable.FirstOrDefault(c => c.Id == draft.CalendarId)
                                  ?? writable.FirstOrDefault(c => c.IsPrimary)
                                  ?? writable[0];
-            layout.Children.Add(Labelled(Strings.AgendaCalendarLabel, calendar));
+            StackPanel calendarBlock = Labelled(Strings.AgendaCalendarLabel, calendar);
+            layout.Children.Add(calendarBlock);
+
+            var list = new ComboBox { Height = 26, DisplayMemberPath = nameof(AgendaTaskList.Title) };
+            foreach (AgendaTaskList option in taskLists) list.Items.Add(option);
+            list.SelectedItem = taskLists.FirstOrDefault(l => l.Id == draft.CalendarId)
+                             ?? taskLists.FirstOrDefault();
+
+            StackPanel listBlock = Labelled(Strings.AgendaListLabel, list);
+            layout.Children.Add(listBlock);
 
             var allDay = new CheckBox
             {
@@ -95,7 +133,37 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             SyncTimes();
 
             var location = new TextBox { Text = draft.Location, Height = 26 };
-            layout.Children.Add(Labelled(Strings.AgendaLocationLabel, location));
+            StackPanel locationBlock = Labelled(Strings.AgendaLocationLabel, location);
+            layout.Children.Add(locationBlock);
+
+            var noTime = new TextBlock
+            {
+                Text = Strings.AgendaTaskNoTime,
+                TextWrapping = TextWrapping.Wrap,
+                Opacity = 0.75,
+                Margin = new Thickness(0, 0, 0, 10)
+            };
+            layout.Children.Add(noTime);
+
+            // A task has a list rather than a calendar, a day rather than an hour, and
+            // nowhere to put a place. Rather than show fields that are read and thrown
+            // away, the form becomes the shape of what is being made.
+            void SyncKind()
+            {
+                bool task = asTask.IsChecked == true;
+
+                calendarBlock.Visibility = task ? Visibility.Collapsed : Visibility.Visible;
+                listBlock.Visibility = task ? Visibility.Visible : Visibility.Collapsed;
+                locationBlock.Visibility = task ? Visibility.Collapsed : Visibility.Visible;
+                noTime.Visibility = task ? Visibility.Visible : Visibility.Collapsed;
+
+                allDay.Visibility = task ? Visibility.Collapsed : Visibility.Visible;
+                times.Visibility = task ? Visibility.Collapsed : Visibility.Visible;
+            }
+
+            asEvent.Checked += (s, e) => SyncKind();
+            asTask.Checked += (s, e) => SyncKind();
+            SyncKind();
 
             var error = new TextBlock
             {
@@ -135,6 +203,36 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             save.Click += (s, e) =>
             {
                 DateTime day = date.SelectedDate ?? draft.Start.Date;
+                bool makingTask = asTask.IsChecked == true;
+
+                if (makingTask)
+                {
+                    if (list.SelectedItem is not AgendaTaskList chosenList)
+                    {
+                        Complain(error, Strings.AgendaNoWritableCalendar);
+                        return;
+                    }
+
+                    result = new AgendaEvent
+                    {
+                        Id = draft.Id,
+                        CalendarId = chosenList.Id,
+                        Title = title.Text.Trim(),
+                        Description = draft.Description,
+                        Start = day.Date,
+                        End = day.Date.AddDays(1),
+                        IsAllDay = true,
+                        IsTask = true,
+                        IsDone = draft.IsDone,
+                        ColourHex = draft.ColourHex,
+                        WebLink = draft.WebLink,
+                        CanWrite = true
+                    };
+
+                    window.Close();
+                    return;
+                }
+
                 bool wholeDay = allDay.IsChecked == true;
 
                 DateTime start, end;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -2049,5 +2049,17 @@ Vuoi riavviare adesso?</value>
   </data>
   <data name="LastRunAt" xml:space="preserve">
     <value>Ultima esecuzione riuscita: {0}</value>
+  </data>
+  <data name="AgendaKindEvent" xml:space="preserve">
+    <value>Evento</value>
+  </data>
+  <data name="AgendaKindTask" xml:space="preserve">
+    <value>Attività</value>
+  </data>
+  <data name="AgendaListLabel" xml:space="preserve">
+    <value>Elenco</value>
+  </data>
+  <data name="AgendaTaskNoTime" xml:space="preserve">
+    <value>Google conserva solo la data di un'attività, mai l'ora.</value>
   </data>
 </root>

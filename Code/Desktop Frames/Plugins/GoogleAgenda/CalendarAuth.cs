@@ -41,6 +41,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             // nothing past it, so the string is spelled out here on purpose.
             "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
 
+
             // Tasks are a separate service with a separate permission. The read and
             // write scope, because ticking one off is the point of showing it.
             Google.Apis.Tasks.v1.TasksService.Scope.Tasks

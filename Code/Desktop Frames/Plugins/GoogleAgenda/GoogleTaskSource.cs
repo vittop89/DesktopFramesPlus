@@ -40,16 +40,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private bool _listsRead;
 
-        /// <summary>
-        /// Whether a task has ever been seen carrying a time of day.
-        ///
-        /// The API documents its due date as a date, with the time discarded - but
-        /// Calendar has been letting people put an hour on a task for a while now, and
-        /// whether that hour reaches the API is the sort of thing worth measuring on a
-        /// real account rather than reading about. The mapping below handles both, and
-        /// this records which one actually arrived, once, in the log.
-        /// </summary>
-        private bool _reportedTimeShape;
+        /// <summary>The shade Google Calendar uses for tasks.</summary>
+        private const string TaskColour = "#5C6BC0";
 
         public GoogleTaskSource(UserCredential credential)
         {
@@ -62,6 +54,14 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         /// <summary>The task lists found, by identifier and title.</summary>
         public IReadOnlyDictionary<string, string> Lists => _lists;
+
+        /// <summary>
+        /// The same lists in the shape a form needs, in the order Google returns them -
+        /// which is the order they appear in Google's own interface, and therefore the
+        /// order somebody expects to find them in.
+        /// </summary>
+        public IReadOnlyList<AgendaTaskList> TaskLists =>
+            _lists.Select(pair => new AgendaTaskList { Id = pair.Key, Title = pair.Value }).ToList();
 
         /// <summary>
         /// The tasks due between <paramref name="from"/> and <paramref name="to"/>.
@@ -169,18 +169,14 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                                          DateTimeStyles.AdjustToUniversal, out DateTimeOffset due))
                 return null;
 
-            // The measurement: written once per session, so the log says what this
-            // account's tasks actually carry rather than what the documentation says
-            // they carry.
-            if (!_reportedTimeShape)
-            {
-                _reportedTimeShape = true;
-                LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
-                    $"GoogleAgenda: first task due value from the API is \"{item.Due}\" " +
-                    $"(time of day {(due.TimeOfDay == TimeSpan.Zero ? "absent" : "present")}).");
-            }
-
             DateTime local = due.LocalDateTime;
+
+            // Measured against a real account rather than assumed: a task given
+            // 18:00-19:00 in the Google Calendar interface comes back from this API as
+            // 00:00:00.000Z. The hour is real on Google's side and simply does not
+            // cross the wire, so in practice this is always false - but it is written
+            // as a question rather than as "false" so that a task that ever does carry
+            // an hour lands at that hour instead of silently becoming an all-day one.
             bool hasTime = due.TimeOfDay != TimeSpan.Zero;
 
             return new AgendaEvent
@@ -198,6 +194,12 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 End = hasTime ? local.AddHours(1) : local.Date.AddDays(1),
                 IsAllDay = !hasTime,
 
+                // Tasks have no colour in the API, and left empty they fall through to
+                // the same blue every untinted entry gets - so a task becomes
+                // indistinguishable from a meeting. This is the colour Google itself
+                // draws tasks in; a joined task overwrites it with its stand-in's.
+                ColourHex = TaskColour,
+
                 IsTask = true,
                 IsDone = string.Equals(item.Status, "completed", StringComparison.Ordinal),
 
@@ -206,6 +208,62 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 CanWrite = true
             };
         }
+
+        /// <summary>
+        /// Makes a task in the chosen list.
+        ///
+        /// Only the date is sent. Google stores no time of day on a task - measured, not
+        /// assumed - so sending one would be writing a field that is silently dropped,
+        /// and the form says as much rather than offering an hour that goes nowhere.
+        /// </summary>
+        public async Task<string> CreateAsync(AgendaEvent item, CancellationToken token)
+        {
+            var made = new GoogleTask
+            {
+                Title = item.Title,
+                Notes = string.IsNullOrWhiteSpace(item.Description) ? null : item.Description,
+                Due = DueOf(item),
+                Status = item.IsDone ? "completed" : "needsAction"
+            };
+
+            GoogleTask saved = await _service.Tasks.Insert(made, item.CalendarId)
+                                             .ExecuteAsync(token).ConfigureAwait(false);
+
+            return saved.Id ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Saves a change to a task that already exists.
+        ///
+        /// Read back first, then changed. A task carries fields this program never shows
+        /// - its position in the list, its parent, its links - and sending a freshly
+        /// built object would quietly erase them.
+        /// </summary>
+        public async Task UpdateAsync(AgendaEvent item, CancellationToken token)
+        {
+            GoogleTask current =
+                await _service.Tasks.Get(item.CalendarId, item.Id).ExecuteAsync(token).ConfigureAwait(false);
+
+            current.Title = item.Title;
+            current.Notes = string.IsNullOrWhiteSpace(item.Description) ? null : item.Description;
+            current.Due = DueOf(item);
+
+            await _service.Tasks.Update(current, item.CalendarId, item.Id)
+                          .ExecuteAsync(token).ConfigureAwait(false);
+        }
+
+        public async Task DeleteAsync(AgendaEvent item, CancellationToken token)
+        {
+            await _service.Tasks.Delete(item.CalendarId, item.Id)
+                          .ExecuteAsync(token).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// The due date in the shape the API wants: midnight, in UTC, with the time of
+        /// day left at zero because that is the only thing it keeps.
+        /// </summary>
+        private static string DueOf(AgendaEvent item) =>
+            item.Start.Date.ToString("yyyy-MM-dd'T'00:00:00.000'Z'", CultureInfo.InvariantCulture);
 
         /// <summary>Ticks a task, or unticks it.</summary>
         public async Task SetDoneAsync(AgendaEvent item, bool done, CancellationToken token)
