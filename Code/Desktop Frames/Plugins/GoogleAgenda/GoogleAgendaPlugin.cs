@@ -592,12 +592,12 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             // view rather than the same one elsewhere.
             if (_settings.CanNavigate)
             {
-                bar.Children.Add(Small("‹", () => Move(-1)));
-                bar.Children.Add(Small("›", () => Move(1)));
-                bar.Children.Add(Small("•", ToToday, Strings.AgendaToday));
+                bar.Children.Add(Small(Glyph.Back, () => Move(-1)));
+                bar.Children.Add(Small(Glyph.Forward, () => Move(1)));
+                bar.Children.Add(Small(Glyph.Today, ToToday, Strings.AgendaToday));
             }
 
-            bar.Children.Add(Small("+", Add, Strings.AgendaNewEvent));
+            bar.Children.Add(Small(Glyph.Add, Add, Strings.AgendaNewEvent));
             return bar;
         }
 
@@ -620,16 +620,42 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             Refresh();
         }
 
+        /// <summary>
+        /// The characters on the small buttons.
+        ///
+        /// Taken from the icon font Windows ships with rather than from punctuation. A
+        /// guillemet is a quotation mark being asked to act as an arrow: it sits on the
+        /// text baseline, it is drawn at text weight, and it is smaller than the button
+        /// around it. These are drawn as icons, on the centre line, at the size the
+        /// button was made for.
+        /// </summary>
+        private static class Glyph
+        {
+            public const string Back = "";      // ChevronLeft
+            public const string Forward = "";   // ChevronRight
+            public const string Today = "";     // GoToToday
+            public const string Add = "";       // Add
+        }
+
         private Button Small(string caption, Action action, string? tooltip = null)
         {
             var button = new Button
             {
                 Content = caption,
-                Width = 24,
-                Height = 22,
-                Margin = new Thickness(0, 0, 4, 0),
+                Width = 28,
+                Height = 24,
+                Margin = new Thickness(0, 0, 5, 0),
                 Padding = new Thickness(0),
-                FontSize = 12,
+
+                // Segoe Fluent Icons on Windows 11, the older Segoe MDL2 Assets behind
+                // it: the glyphs used here carry the same code points in both.
+                FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+                FontSize = 13,
+
+                // An icon font has one weight. Asking for a bolder one makes Windows
+                // thicken it artificially, which on a chevron reads as a smudge.
+                FontWeight = FontWeights.Normal,
+
                 Cursor = System.Windows.Input.Cursors.Hand,
                 ToolTip = tooltip
             };
