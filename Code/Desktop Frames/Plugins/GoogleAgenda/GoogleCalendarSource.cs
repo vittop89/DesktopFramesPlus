@@ -464,7 +464,18 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         {
             return _known.Values
                 .Where(e => IsChosen(e.CalendarId, chosen))
-                .Where(e => e.End >= from && e.Start < to)
+
+                // Strictly after the start of the range, not "at or after".
+                //
+                // The end of an event is exclusive: an entry lasting all of yesterday
+                // ends at midnight today, and a meeting finishing at midnight ends
+                // then too. Accepting an end equal to the start of the range let both
+                // through, so a list of the days ahead opened on yesterday.
+                //
+                // Something still running crosses midnight and has an end past it, so
+                // it stays - which is the case worth keeping.
+                .Where(e => e.End > from && e.Start < to)
+
                 .OrderBy(e => e.IsAllDay ? e.Start.Date : e.Start)
                 .ThenBy(e => e.Title, StringComparer.CurrentCulture)
                 .ToList();

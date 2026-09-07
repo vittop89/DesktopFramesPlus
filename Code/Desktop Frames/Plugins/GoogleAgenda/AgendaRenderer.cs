@@ -253,9 +253,16 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         // PIECES
         // ======================================================================
 
+        /// <summary>
+        /// What falls on one day.
+        ///
+        /// The end is exclusive, for entries lasting all day as much as for timed
+        /// ones: something covering all of yesterday ends at midnight today, and a
+        /// meeting finishing at midnight ends then too. Comparing the end date with
+        /// "on or after" put both of them on today as well.
+        /// </summary>
         private static List<AgendaEvent> OnDay(IReadOnlyList<AgendaEvent> events, DateTime day) =>
-            events.Where(e => e.Start.Date <= day.Date && e.End.Date >= day.Date
-                           && (e.IsAllDay || e.End > day.Date))
+            events.Where(e => e.Start.Date <= day.Date && e.End > day.Date)
                   .OrderBy(e => e.IsAllDay ? 0 : 1)
                   .ThenBy(e => e.Start)
                   .ToList();
