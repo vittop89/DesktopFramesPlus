@@ -1,6 +1,7 @@
 using Desktop_Frames.Localization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -8,27 +9,26 @@ using System.Windows.Media;
 namespace Desktop_Frames.Plugins.GoogleAgenda
 {
     /// <summary>
-    /// The plugin's own settings window.
+    /// The plugin's own settings window: the account, the layout, and which calendars
+    /// this frame shows.
     ///
-    /// Separate from the plugin because the two have nothing to say to each other
-    /// beyond the session and the settings: the plugin draws a frame and refreshes
-    /// it, this draws a form. Keeping them together is how the other plugins grew
-    /// past a thousand lines.
-    ///
-    /// It reads the state from the same <see cref="AgendaSession"/> the frame reads,
-    /// and redraws when it changes, so the window and the frame behind it can never
-    /// disagree about whether somebody is signed in.
+    /// Separate from the plugin because the two change for different reasons, and
+    /// because keeping them together is how the other plugins grew past a thousand
+    /// lines. It reads the state from the same <see cref="AgendaSession"/> the frame
+    /// reads, so the window and the frame behind it cannot disagree about whether
+    /// somebody is signed in.
     /// </summary>
     public static class AgendaSettingsWindow
     {
-        public static void Show(Window? ownerWindow, AgendaSession session,
-                                Dictionary<string, object>? settings)
+        public static void Show(Window? ownerWindow, AgendaSession session, AgendaSettings current,
+                                IReadOnlyList<AgendaCalendar> calendars, Action<AgendaSettings> onSaved)
         {
             var window = new Window
             {
                 Title = Strings.AgendaSettingsTitle,
-                Width = 420,
+                Width = 430,
                 SizeToContent = SizeToContent.Height,
+                MaxHeight = 640,
                 WindowStartupLocation = ownerWindow != null
                     ? WindowStartupLocation.CenterOwner
                     : WindowStartupLocation.CenterScreen,
@@ -39,27 +39,16 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             var layout = new StackPanel { Margin = new Thickness(20) };
 
-            layout.Children.Add(new TextBlock
-            {
-                Text = Strings.AgendaSettingsTitle,
-                FontSize = 16,
-                FontWeight = FontWeights.Bold,
-                Margin = new Thickness(0, 0, 0, 12)
-            });
-
+            // --- account -------------------------------------------------------
             var status = new TextBlock
             {
                 TextWrapping = TextWrapping.Wrap,
                 Foreground = new SolidColorBrush(Color.FromRgb(90, 90, 90)),
-                Margin = new Thickness(0, 0, 0, 16)
+                Margin = new Thickness(0, 0, 0, 10)
             };
             layout.Children.Add(status);
 
-            var account = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                Margin = new Thickness(0, 0, 0, 16)
-            };
+            var buttons = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 16) };
 
             var signIn = new Button { Width = 170, Height = 30, Margin = new Thickness(0, 0, 8, 0) };
             signIn.Click += (s, e) => _ = session.SignInAsync();
@@ -67,32 +56,130 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             var signOut = new Button { Content = Strings.AgendaSignOut, Width = 110, Height = 30 };
             signOut.Click += (s, e) => _ = session.SignOutAsync();
 
-            account.Children.Add(signIn);
-            account.Children.Add(signOut);
-            layout.Children.Add(account);
+            buttons.Children.Add(signIn);
+            buttons.Children.Add(signOut);
+            layout.Children.Add(buttons);
 
-            // One place decides what the window says, called on every change, so the
-            // form cannot drift from the session it is showing.
+            // --- view ----------------------------------------------------------
+            var view = new ComboBox { Height = 26, Margin = new Thickness(0, 0, 0, 12) };
+            foreach ((AgendaView value, string caption) in Views())
+                view.Items.Add(new ComboBoxItem { Content = caption, Tag = value });
+
+            view.SelectedItem = view.Items.OfType<ComboBoxItem>()
+                                    .FirstOrDefault(i => (AgendaView)i.Tag! == current.View)
+                             ?? view.Items[0];
+            layout.Children.Add(Labelled(Strings.AgendaViewLabel, view));
+
+            // --- days ahead ----------------------------------------------------
+            var days = new TextBox
+            {
+                Text = current.DaysAhead.ToString(System.Globalization.CultureInfo.CurrentCulture),
+                Height = 26,
+                Margin = new Thickness(0, 0, 0, 12)
+            };
+            StackPanel daysBlock = Labelled(Strings.AgendaDaysLabel, days);
+            layout.Children.Add(daysBlock);
+
+            // Only the list view has a length somebody chooses; the others are a day, a
+            // week and a month by definition, and a field that changes nothing is worse
+            // than no field.
+            void SyncDays() =>
+                daysBlock.Visibility = ((AgendaView)((ComboBoxItem)view.SelectedItem).Tag! == AgendaView.List)
+                    ? Visibility.Visible : Visibility.Collapsed;
+
+            view.SelectionChanged += (s, e) => SyncDays();
+            SyncDays();
+
+            // --- calendars -----------------------------------------------------
+            var boxes = new List<CheckBox>();
+
+            if (calendars.Count > 0)
+            {
+                var list = new StackPanel();
+
+                foreach (AgendaCalendar calendar in calendars)
+                {
+                    var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 2, 0, 2) };
+
+                    row.Children.Add(new Border
+                    {
+                        Width = 10,
+                        Height = 10,
+                        CornerRadius = new CornerRadius(5),
+                        Margin = new Thickness(0, 0, 6, 0),
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Background = Swatch(calendar.ColourHex)
+                    });
+
+                    var box = new CheckBox
+                    {
+                        Content = calendar.Title,
+                        Tag = calendar.Id,
+
+                        // No choice recorded yet means every calendar, so the boxes have
+                        // to show that rather than an empty list nobody asked for.
+                        IsChecked = current.Calendars.Count == 0 || current.Calendars.Contains(calendar.Id),
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+
+                    boxes.Add(box);
+                    row.Children.Add(box);
+                    list.Children.Add(row);
+                }
+
+                layout.Children.Add(Labelled(Strings.AgendaCalendarsLabel,
+                    new ScrollViewer { Content = list, MaxHeight = 180, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }));
+            }
+
+            // --- footer --------------------------------------------------------
+            var footer = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
+
+            var cancel = new Button
+            {
+                Content = Strings.BtnCancel,
+                Width = 100,
+                Height = 30,
+                Margin = new Thickness(0, 0, 8, 0),
+                IsCancel = true
+            };
+            cancel.Click += (s, e) => window.Close();
+
+            var save = new Button { Content = Strings.BtnSave, Width = 100, Height = 30, IsDefault = true };
+            save.Click += (s, e) =>
+            {
+                var saved = new AgendaSettings
+                {
+                    View = (AgendaView)((ComboBoxItem)view.SelectedItem).Tag!,
+                    DaysAhead = int.TryParse(days.Text, out int parsed) ? parsed : current.DaysAhead
+                };
+
+                // Everything ticked is recorded as no choice at all: a frame that means
+                // "all of them" should keep meaning that when a calendar is added later.
+                if (boxes.Count > 0 && boxes.Any(b => b.IsChecked != true))
+                {
+                    foreach (CheckBox box in boxes.Where(b => b.IsChecked == true))
+                        saved.Calendars.Add((string)box.Tag!);
+                }
+
+                onSaved(saved);
+                window.Close();
+            };
+
+            footer.Children.Add(cancel);
+            footer.Children.Add(save);
+            layout.Children.Add(footer);
+
+            // --- keeping the account section honest ----------------------------
             void Draw()
             {
-                switch (session.State)
+                status.Text = session.State switch
                 {
-                    case AgendaState.NotConfigured:
-                        status.Text = Strings.AgendaNotConfigured;
-                        break;
-                    case AgendaState.SignedOut:
-                        status.Text = Strings.AgendaSignedOut;
-                        break;
-                    case AgendaState.SigningIn:
-                        status.Text = Strings.AgendaSigningIn;
-                        break;
-                    case AgendaState.SignedIn:
-                        status.Text = Strings.AgendaSignedIn;
-                        break;
-                    case AgendaState.Failed:
-                        status.Text = session.LastError ?? Strings.AgendaFailed;
-                        break;
-                }
+                    AgendaState.NotConfigured => Strings.AgendaNotConfigured,
+                    AgendaState.SignedOut => Strings.AgendaSignedOut,
+                    AgendaState.SigningIn => Strings.AgendaSigningIn,
+                    AgendaState.SignedIn => Strings.AgendaSignedIn,
+                    _ => session.LastError ?? Strings.AgendaFailed
+                };
 
                 signIn.Content = session.State == AgendaState.SignedIn
                     ? Strings.AgendaSignInAgain
@@ -105,25 +192,53 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             }
 
             session.Changed += Draw;
-            // Leaving the handler attached would keep this window alive for as long as
-            // the frame, and every reopening would add another one.
+            // Left attached, the handler would hold this window alive as long as the
+            // frame, and every reopening would stack another one on top.
             window.Closed += (s, e) => session.Changed -= Draw;
 
             Draw();
 
-            var close = new Button
-            {
-                Content = Strings.BtnClose,
-                Width = 100,
-                Height = 30,
-                HorizontalAlignment = HorizontalAlignment.Right,
-                IsCancel = true
-            };
-            close.Click += (s, e) => window.Close();
-            layout.Children.Add(close);
-
             window.Content = layout;
             window.ShowDialog();
+        }
+
+        private static IEnumerable<(AgendaView, string)> Views()
+        {
+            yield return (AgendaView.List, Strings.AgendaViewList);
+            yield return (AgendaView.Day, Strings.AgendaViewDay);
+            yield return (AgendaView.Week, Strings.AgendaViewWeek);
+            yield return (AgendaView.Month, Strings.AgendaViewMonth);
+        }
+
+        private static StackPanel Labelled(string caption, FrameworkElement field)
+        {
+            var block = new StackPanel { Margin = new Thickness(0, 0, 0, 4) };
+
+            block.Children.Add(new TextBlock
+            {
+                Text = caption,
+                FontSize = 11,
+                Foreground = Brushes.Gray,
+                Margin = new Thickness(0, 0, 0, 3)
+            });
+
+            block.Children.Add(field);
+            return block;
+        }
+
+        private static Brush Swatch(string hex)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(hex))
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString(hex));
+            }
+            catch (Exception)
+            {
+                // A colour Google invented is not worth a broken window.
+            }
+
+            return new SolidColorBrush(Color.FromRgb(100, 150, 255));
         }
     }
 }

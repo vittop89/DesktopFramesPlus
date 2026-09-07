@@ -1,9 +1,10 @@
-using Google.Apis.Auth.OAuth2;
+﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Calendar.v3;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +27,20 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// settings, not other people's calendars: an application that asks for more
         /// than it uses is one whose consent screen nobody can sensibly agree to.
         /// </summary>
-        private static readonly string[] Scopes = { CalendarService.Scope.CalendarEvents };
+        private static readonly string[] Scopes =
+        {
+            // Reading and writing events...
+            CalendarService.Scope.CalendarEvents,
+
+            // ...and reading which calendars exist. Written out rather than taken from
+            // CalendarService.Scope because the client library predates Google's
+            // granular calendar scopes and still only offers the broad ones. The
+            // alternatives it does offer are worse: CalendarReadonly also hands over
+            // settings and every event, and Calendar allows creating and deleting whole
+            // calendars. A consent screen should ask for what the program does and
+            // nothing past it, so the string is spelled out here on purpose.
+            "https://www.googleapis.com/auth/calendar.calendarlist.readonly"
+        };
 
         /// <summary>
         /// Names the stored token. One account per profile, and profiles are how this
@@ -53,6 +67,25 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 // call that needs one; what matters here is that a refresh token is
                 // present, because without it the session cannot be revived at all.
                 if (string.IsNullOrEmpty(stored.RefreshToken)) return null;
+
+                // A token granted before a permission was added does not carry it, and
+                // the failure would otherwise arrive much later as a refused request
+                // that looks like a network fault. Better to treat it as signed out and
+                // let the person grant the missing permission deliberately.
+                if (!CoversEveryScope(stored.Scope))
+                {
+                    LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
+                        "GoogleAgenda: the stored session predates a permission this version needs; discarding it.");
+
+                    // Discarded, not merely refused. The library keeps its own idea of
+                    // whether a stored token is good enough, and it is more forgiving
+                    // than this one: left on disk, the next sign-in would hand the same
+                    // token straight back without ever opening a consent page, and every
+                    // request would then fail with "insufficient authentication scopes"
+                    // - an error nobody could act on, from a button that appeared to work.
+                    await new ProfileTokenStore().ClearAsync().ConfigureAwait(false);
+                    return null;
+                }
 
                 return new UserCredential(flow, UserKey, stored);
             }
@@ -108,6 +141,21 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             }
 
             await new ProfileTokenStore().ClearAsync().ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Whether a granted session covers everything this version asks for. Google
+        /// returns the granted scopes as one space-separated string.
+        /// </summary>
+        private static bool CoversEveryScope(string? granted)
+        {
+            if (string.IsNullOrWhiteSpace(granted)) return false;
+
+            var have = new HashSet<string>(
+                granted.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries),
+                StringComparer.Ordinal);
+
+            return Scopes.All(have.Contains);
         }
 
         /// <summary>

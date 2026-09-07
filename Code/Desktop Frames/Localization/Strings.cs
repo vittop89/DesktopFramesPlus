@@ -203,6 +203,29 @@ namespace Desktop_Frames.Localization
         }
 
         // ── Shared buttons ─────────────────────────────────────────────────
+        public static string AgendaBadTime => Get("AgendaBadTime");
+        public static string AgendaCalendarLabel => Get("AgendaCalendarLabel");
+        public static string AgendaCalendarsLabel => Get("AgendaCalendarsLabel");
+        public static string AgendaConfirmDelete => Get("AgendaConfirmDelete");
+        public static string AgendaConflict => Get("AgendaConflict");
+        public static string AgendaDateLabel => Get("AgendaDateLabel");
+        public static string AgendaDaysLabel => Get("AgendaDaysLabel");
+        public static string AgendaDeleteEvent => Get("AgendaDeleteEvent");
+        public static string AgendaEditEvent => Get("AgendaEditEvent");
+        public static string AgendaEndLabel => Get("AgendaEndLabel");
+        public static string AgendaLocationLabel => Get("AgendaLocationLabel");
+        public static string AgendaNewEvent => Get("AgendaNewEvent");
+        public static string AgendaNoEventsToday => Get("AgendaNoEventsToday");
+        public static string AgendaNoWritableCalendar => Get("AgendaNoWritableCalendar");
+        public static string AgendaOpenInGoogle => Get("AgendaOpenInGoogle");
+        public static string AgendaSaveFailed => Get("AgendaSaveFailed");
+        public static string AgendaStartLabel => Get("AgendaStartLabel");
+        public static string AgendaTitleLabel => Get("AgendaTitleLabel");
+        public static string AgendaViewDay => Get("AgendaViewDay");
+        public static string AgendaViewLabel => Get("AgendaViewLabel");
+        public static string AgendaViewList => Get("AgendaViewList");
+        public static string AgendaViewMonth => Get("AgendaViewMonth");
+        public static string AgendaViewWeek => Get("AgendaViewWeek");
         public static string BtnApply => Get("BtnApply");
         public static string BtnApplyToAll => Get("BtnApplyToAll");
         public static string BtnBackup => Get("BtnBackup");

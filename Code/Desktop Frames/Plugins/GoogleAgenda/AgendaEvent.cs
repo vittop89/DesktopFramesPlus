@@ -48,6 +48,13 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// <summary>True when the entry has been deleted at the source and should leave the list.</summary>
         public bool IsCancelled { get; set; }
 
+        /// <summary>
+        /// True when the calendar this came from accepts changes. A holiday feed or a
+        /// calendar shared for reading does not, and offering to edit an entry there
+        /// would produce a refusal nobody could have predicted.
+        /// </summary>
+        public bool CanWrite { get; set; }
+
         public TimeSpan Duration => End - Start;
 
         /// <summary>The day it belongs under, which is how the list groups entries.</summary>
