@@ -422,3 +422,23 @@ Una versione iniziale traduceva una tendina la cui selezione veniva usata come
 chiave di un dizionario: sceglierne una voce faceva chiudere l'app. Con questa
 regola la configurazione salvata resta leggibile in qualunque lingua, e cambiare
 lingua non riscrive niente.
+
+## Test
+
+C'è una piccola suite in `Code/Desktop Frames.Tests`, fuori dalla soluzione
+apposta: l'applicazione ha referenze COM e va compilata con MSBuild classico,
+mentre i test girano con `dotnet` normale.
+
+```
+dotnet test "Code/Desktop Frames.Tests"
+```
+
+Copre le due parti che sbagliano in silenzio: la fusione fra un'attività e
+l'evento-ombra che ne porta l'ora (`AgendaMerge`), e quali indirizzi il frame
+web può seguire (`WebPageSite.Allows`) — dove il confronto è ancorato al punto,
+così `evilgoogle.com` non passa per `google.com`.
+
+I file sotto test sono inclusi per collegamento, non tramite referenza al
+progetto. Che quella logica si compili da sola, senza WPF né client Google, è
+una proprietà che vale la pena non perdere; il progetto di test è ciò che se ne
+accorge se smette di essere vera.
