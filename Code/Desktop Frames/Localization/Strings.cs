@@ -659,6 +659,7 @@ namespace Desktop_Frames.Localization
         public static string AgendaLoading => Get("AgendaLoading");
         public static string AgendaNotConfigured => Get("AgendaNotConfigured");
         public static string AgendaNothingScheduled => Get("AgendaNothingScheduled");
+        public static string AgendaOffline => Get("AgendaOffline");
         public static string AgendaSettingsTitle => Get("AgendaSettingsTitle");
         public static string AgendaSignIn => Get("AgendaSignIn");
         public static string AgendaSignInAgain => Get("AgendaSignInAgain");
@@ -668,6 +669,7 @@ namespace Desktop_Frames.Localization
         public static string AgendaSignedOut => Get("AgendaSignedOut");
         public static string AgendaSigningIn => Get("AgendaSigningIn");
         public static string AgendaToday => Get("AgendaToday");
+        public static string AgendaUntitled => Get("AgendaUntitled");
         public static string AgendaTomorrow => Get("AgendaTomorrow");
         public static string CalcBadgeFade => Get("CalcBadgeFade");
         public static string CalcClear => Get("CalcClear");

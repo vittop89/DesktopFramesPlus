@@ -1,6 +1,9 @@
-using Desktop_Frames.Localization;
+﻿using Desktop_Frames.Localization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -31,7 +34,24 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         // --- State -------------------------------------------------------------
         private readonly AgendaSession _session = new AgendaSession();
-        private readonly List<AgendaEvent> _events = new List<AgendaEvent>();
+        private List<AgendaEvent> _events = new List<AgendaEvent>();
+        private GoogleCalendarSource? _source;
+
+        /// <summary>True once an answer has arrived, so an empty list can be told apart from a list nobody has asked for.</summary>
+        private bool _loadedOnce;
+
+        /// <summary>True when the last attempt failed. The events already on screen stay: stale is more use than blank.</summary>
+        private bool _offline;
+
+        /// <summary>Guards against a slow refresh being started again by the timer while it is still running.</summary>
+        private bool _refreshing;
+
+        /// <summary>
+        /// How far ahead the frame looks. Two weeks is what fits the question a
+        /// desktop agenda answers - what is coming - without turning the frame into
+        /// something to scroll.
+        /// </summary>
+        private static readonly TimeSpan Window = TimeSpan.FromDays(14);
 
         // --- Settings and refresh ---------------------------------------------
         private Dictionary<string, object>? _settingsRef;
@@ -68,7 +88,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         {
             _settingsRef = settings;
 
-            _session.Changed += Render;
+            _session.Changed += OnSessionChanged;
             Render();
 
             _refreshTimer = new DispatcherTimer(DispatcherPriority.Background)
@@ -83,11 +103,82 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         }
 
         /// <summary>
-        /// Asks the source for what changed. Empty until the source exists; the timer
-        /// that will drive it is already in place, so the wiring is one method.
+        /// Follows the session: opens a source when somebody signs in, closes it when
+        /// they leave, and redraws either way.
+        ///
+        /// Separate from <see cref="Render"/> on purpose. Drawing must be something
+        /// that can be called at any moment without consequences; opening a connection
+        /// to Google is not, and hiding it inside a redraw is how a window resize ends
+        /// up making network calls.
         /// </summary>
-        private void Refresh()
+        private void OnSessionChanged()
         {
+            if (_session.State == AgendaState.SignedIn && _session.Credential != null)
+            {
+                if (_source == null)
+                {
+                    _source = new GoogleCalendarSource(_session.Credential);
+                    _refreshTimer?.Start();
+                    Refresh();
+                }
+            }
+            else
+            {
+                _refreshTimer?.Stop();
+
+                _source?.Dispose();
+                _source = null;
+
+                _events = new List<AgendaEvent>();
+                _loadedOnce = false;
+                _offline = false;
+            }
+
+            Render();
+        }
+
+        /// <summary>
+        /// Asks the source for what changed and redraws.
+        ///
+        /// A failure keeps whatever is already on screen and says so in one line: an
+        /// agenda that empties itself because the network blinked is worse than one
+        /// showing this morning's answer, and the next attempt is sixty seconds away.
+        /// </summary>
+        private async void Refresh()
+        {
+            GoogleCalendarSource? source = _source;
+            if (source == null || _refreshing) return;
+
+            _refreshing = true;
+
+            try
+            {
+                IReadOnlyList<AgendaEvent> events =
+                    await Task.Run(() => source.RefreshAsync(Window, CancellationToken.None))
+                              .ConfigureAwait(true);
+
+                // The source may have been closed while the answer was in flight - a
+                // sign-out, or the frame going away - and applying it then would put
+                // events under a session that no longer exists.
+                if (_source != source) return;
+
+                _events = events.ToList();
+                _loadedOnce = true;
+                _offline = false;
+            }
+            catch (Exception ex)
+            {
+                _offline = true;
+
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    $"GoogleAgenda: refresh failed: {ex.Message}");
+            }
+            finally
+            {
+                _refreshing = false;
+            }
+
+            Render();
         }
 
         // ==========================================================================
@@ -126,6 +217,9 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                     break;
 
                 case AgendaState.SignedIn:
+                    // Above the list rather than instead of it: the events are still
+                    // worth reading, they are simply not known to be current.
+                    if (_offline) panel.Children.Add(CreateMessageCard(Strings.AgendaOffline));
                     RenderEvents(panel);
                     break;
             }
@@ -133,11 +227,13 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private void RenderEvents(StackPanel panel)
         {
-            // Nothing has been asked for yet: the events arrive with the source, in the
-            // step after this one.
             if (_events.Count == 0)
             {
-                panel.Children.Add(CreateMessageCard(Strings.AgendaLoading));
+                // An empty calendar and a calendar nobody has read yet look the same
+                // from here, and telling somebody there is nothing scheduled before
+                // having asked would be a guess dressed as an answer.
+                panel.Children.Add(CreateMessageCard(
+                    _loadedOnce ? Strings.AgendaNothingScheduled : Strings.AgendaLoading));
                 return;
             }
 
@@ -305,7 +401,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         public void Resume()
         {
-            if (_session.State == AgendaState.SignedIn)
+            if (_session.State == AgendaState.SignedIn && _source != null)
             {
                 _refreshTimer?.Start();
                 Refresh();
@@ -317,8 +413,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             _refreshTimer?.Stop();
             _refreshTimer = null;
 
-            _session.Changed -= Render;
+            _session.Changed -= OnSessionChanged;
             _session.Cancel();
+
+            _source?.Dispose();
+            _source = null;
         }
 
         public void ShowSettingsWindow(Window ownerWindow, dynamic frameData)

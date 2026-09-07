@@ -130,6 +130,9 @@ Hoje é mantido por Nikos Georgousis, que o alargou e o tornou mais estável e a
   <data name="AgendaNothingScheduled" xml:space="preserve">
     <value>Nada agendado.</value>
   </data>
+  <data name="AgendaOffline" xml:space="preserve">
+    <value>Não foi possível contactar o Google. São mostrados os últimos eventos recebidos.</value>
+  </data>
   <data name="AgendaSettingsTitle" xml:space="preserve">
     <value>Definições da agenda</value>
   </data>
@@ -159,6 +162,9 @@ Hoje é mantido por Nikos Georgousis, que o alargou e o tornou mais estável e a
   </data>
   <data name="AgendaTomorrow" xml:space="preserve">
     <value>Amanhã</value>
+  </data>
+  <data name="AgendaUntitled" xml:space="preserve">
+    <value>(sem título)</value>
   </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>CLIQUE NA JANELA DE DESTINO</value>
