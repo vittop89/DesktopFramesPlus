@@ -13,3 +13,6 @@ Code snippet
 *.nuget.targets
 project.lock.json
 project.assets.json
+
+# Working database left by an unrelated tool; not part of the program.
+ruvector.db
