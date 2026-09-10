@@ -1434,6 +1434,11 @@ namespace Desktop_Frames
                 {
                     SettingsManager.PluginAvailabilityLevel = chosenLevel;
                     SettingsManager.SaveSettings();
+
+                    // The "add a plugin" list lives in menus built when each frame was
+                    // made, so a new level changed nothing on screen until a restart and
+                    // the setting looked broken. Rebuilding them now makes it take effect.
+                    Framemanager.UpdateAllHeartContextMenus();
                 }
 
                 SaidItSaved();
@@ -1470,10 +1475,82 @@ namespace Desktop_Frames
 
             sp.Children.Add(_savedNotice);
 
-            Button sv = new Button { Content = Strings.BtnSave, Width = 100, Height = 34, FontWeight = FontWeights.Bold, Background = new SolidColorBrush(_userAccentColor), Foreground = Brushes.White, BorderThickness = new Thickness(0), Cursor = Cursors.Hand };
+            Button sv = new Button { Content = Strings.BtnSave, Width = 100, Height = 34, FontWeight = FontWeights.Bold, Background = new SolidColorBrush(_userAccentColor), Foreground = ReadableOn(_userAccentColor), BorderThickness = new Thickness(0), Cursor = Cursors.Hand, Style = AccentButtonStyle() };
             sv.Click += (s, e) => SaveOptions();
 
             sp.Children.Add(c); sp.Children.Add(sv); f.Child = sp; mainGrid.Children.Add(f);
+        }
+
+        /// <summary>
+        /// A button face that keeps its own colour when pointed at or pressed.
+        ///
+        /// The stock template replaces the background with pale blue on hover and
+        /// leaves the text as it was, so white text on an accent button all but
+        /// disappeared under the pointer. Here the face only fades a little, which
+        /// still says "you are on it" and leaves the text where it can be read.
+        /// </summary>
+        private static Style AccentButtonStyle()
+        {
+            const string markup = @"
+<Style xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
+       xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
+       TargetType='Button'>
+  <Setter Property='Template'>
+    <Setter.Value>
+      <ControlTemplate TargetType='Button'>
+        <Border x:Name='Face' Background='{TemplateBinding Background}' CornerRadius='3'>
+          <ContentPresenter HorizontalAlignment='Center' VerticalAlignment='Center'/>
+        </Border>
+        <ControlTemplate.Triggers>
+          <Trigger Property='IsMouseOver' Value='True'>
+            <Setter TargetName='Face' Property='Opacity' Value='0.85'/>
+          </Trigger>
+          <Trigger Property='IsPressed' Value='True'>
+            <Setter TargetName='Face' Property='Opacity' Value='0.7'/>
+          </Trigger>
+          <Trigger Property='IsEnabled' Value='False'>
+            <Setter TargetName='Face' Property='Opacity' Value='0.4'/>
+          </Trigger>
+        </ControlTemplate.Triggers>
+      </ControlTemplate>
+    </Setter.Value>
+  </Setter>
+</Style>";
+
+            try
+            {
+                return (Style)System.Windows.Markup.XamlReader.Parse(markup);
+            }
+            catch (Exception ex)
+            {
+                // The stock look is worse, not broken.
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.UI,
+                    $"Options: the accent button style would not load: {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// White or black text, whichever reads on the given colour.
+        ///
+        /// Needed since the accent can be any colour at all: fixed white text on a pale
+        /// accent is a button with no visible label. Relative luminance, the same
+        /// measure the accessibility guidelines use, with the switch at the point where
+        /// black starts to contrast better than white.
+        /// </summary>
+        private static Brush ReadableOn(Color background)
+        {
+            static double Channel(byte value)
+            {
+                double c = value / 255.0;
+                return c <= 0.03928 ? c / 12.92 : Math.Pow((c + 0.055) / 1.055, 2.4);
+            }
+
+            double luminance = 0.2126 * Channel(background.R)
+                             + 0.7152 * Channel(background.G)
+                             + 0.0722 * Channel(background.B);
+
+            return luminance > 0.179 ? Brushes.Black : Brushes.White;
         }
 
         /// <summary>Shown for a moment after saving, then faded out.</summary>
