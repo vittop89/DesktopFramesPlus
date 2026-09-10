@@ -428,6 +428,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             {
                 case AgendaState.NotConfigured:
                     panel.Children.Add(AgendaRenderer.Message(Strings.AgendaNeedsClient));
+                    panel.Children.Add(SetupRow());
                     return;
 
                 case AgendaState.SigningIn:
@@ -447,7 +448,14 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             // Above the list rather than instead of it: the events are still worth
             // reading, they are simply not known to be current.
-            if (_data.Offline) panel.Children.Add(AgendaRenderer.Message(Strings.AgendaOffline));
+            if (_data.Offline)
+            {
+                panel.Children.Add(AgendaRenderer.Message(ProblemText()));
+
+                // A switched-off API is fixed in a web console, and the guide opens
+                // the page where the switch is.
+                if (_data.Problem == AgendaProblem.ApiDisabled) panel.Children.Add(GuideRow());
+            }
 
             if (!_data.LoadedOnce)
             {
@@ -573,5 +581,59 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             button.Click += (s, e) => _ = _session.SignInAsync();
             return button;
         }
+
+        /// <summary>What went wrong, said in terms of what to do about it.</summary>
+        private string ProblemText() => _data.Problem switch
+        {
+            AgendaProblem.ApiDisabled => Strings.Get("AgendaApiDisabled",
+                _data.ProblemApi.Length > 0 ? _data.ProblemApi : "Google API"),
+            AgendaProblem.Refused => Strings.AgendaRefused,
+            _ => Strings.AgendaOffline
+        };
+
+        /// <summary>
+        /// The way in, on the frame itself. The message used to send people to "the
+        /// settings", which live behind a right-click on the frame that nobody new
+        /// knows about - so the two things they need are right here instead.
+        /// </summary>
+        private UIElement SetupRow()
+        {
+            var row = new WrapPanel { Margin = new Thickness(0, 8, 0, 0) };
+
+            Button choose = FrameButton(Strings.AgendaChooseClient);
+            choose.Click += (s, e) =>
+            {
+                ClientFileVerdict verdict = AgendaGuideWindow.ChooseClient(Window.GetWindow(_rootVisual), _session);
+
+                if (verdict != ClientFileVerdict.Usable && verdict != ClientFileVerdict.Cancelled)
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm(Strings.AgendaClientInvalid, Strings.AgendaSettingsTitle);
+            };
+
+            row.Children.Add(choose);
+            row.Children.Add(GuideButton());
+            return row;
+        }
+
+        private UIElement GuideRow()
+        {
+            var row = new WrapPanel { Margin = new Thickness(0, 2, 0, 8) };
+            row.Children.Add(GuideButton());
+            return row;
+        }
+
+        private Button GuideButton()
+        {
+            Button guide = FrameButton(Strings.GuideButton);
+            guide.Click += (s, e) => AgendaGuideWindow.Show(Window.GetWindow(_rootVisual), _session);
+            return guide;
+        }
+
+        private static Button FrameButton(string caption) => new Button
+        {
+            Content = caption,
+            Margin = new Thickness(0, 0, 8, 6),
+            Padding = new Thickness(10, 5, 10, 5),
+            Cursor = System.Windows.Input.Cursors.Hand
+        };
     }
 }

@@ -1,12 +1,32 @@
-using Google.Apis.Auth.OAuth2;
+﻿using Google.Apis.Auth.OAuth2;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Desktop_Frames.Plugins.GoogleAgenda
 {
+    /// <summary>Why the last refresh did not arrive, in the terms a person can act on.</summary>
+    public enum AgendaProblem
+    {
+        None,
+
+        /// <summary>No answer at all: the network, or Google, did not respond.</summary>
+        Offline,
+
+        /// <summary>
+        /// Google answered, and the answer was that an API is switched off in the
+        /// project behind the client. Reported as "unreachable" before, which sent
+        /// people checking their internet connection for a setting in a web console.
+        /// </summary>
+        ApiDisabled,
+
+        /// <summary>Google answered and refused, for a reason other than a disabled API.</summary>
+        Refused
+    }
+
     /// <summary>
     /// Everything the frame knows, and nothing about how it looks.
     ///
@@ -51,6 +71,12 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// <summary>True when the last attempt failed. What was read before is kept.</summary>
         public bool Offline { get; private set; }
 
+        /// <summary>What the failure was, when <see cref="Offline"/> is set.</summary>
+        public AgendaProblem Problem { get; private set; }
+
+        /// <summary>For <see cref="AgendaProblem.ApiDisabled"/>: which API, as Google names it.</summary>
+        public string ProblemApi { get; private set; } = string.Empty;
+
         /// <summary>Whether there is a signed-in session to ask.</summary>
         public bool IsOpen => _source != null;
 
@@ -84,6 +110,8 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             Events = new List<AgendaEvent>();
             LoadedOnce = false;
             Offline = false;
+            Problem = AgendaProblem.None;
+            ProblemApi = string.Empty;
         }
 
         /// <summary>
@@ -139,10 +167,36 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
                 LoadedOnce = true;
                 Offline = false;
+                Problem = AgendaProblem.None;
+                ProblemApi = string.Empty;
+            }
+            catch (Google.GoogleApiException ex)
+                when (ex.HttpStatusCode == HttpStatusCode.Forbidden || ex.HttpStatusCode == HttpStatusCode.Unauthorized)
+            {
+                // Google answered, so the network is fine and saying otherwise sends
+                // people to the wrong place. Its message names the API it will not
+                // serve, which is exactly what the person needs to switch on.
+                string text = ex.Message ?? string.Empty;
+
+                bool disabled = text.Contains("has not been used", StringComparison.OrdinalIgnoreCase)
+                             || text.Contains("is disabled", StringComparison.OrdinalIgnoreCase)
+                             || text.Contains("SERVICE_DISABLED", StringComparison.Ordinal)
+                             || text.Contains("accessNotConfigured", StringComparison.Ordinal);
+
+                Offline = true;
+                Problem = disabled ? AgendaProblem.ApiDisabled : AgendaProblem.Refused;
+                ProblemApi = text.Contains("Tasks API", StringComparison.OrdinalIgnoreCase) ? "Tasks API"
+                           : text.Contains("Calendar API", StringComparison.OrdinalIgnoreCase) ? "Calendar API"
+                           : string.Empty;
+
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    $"GoogleAgenda: Google refused the refresh: {text}");
             }
             catch (Exception ex)
             {
                 Offline = true;
+                Problem = AgendaProblem.Offline;
+                ProblemApi = string.Empty;
 
                 LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
                     $"GoogleAgenda: refresh failed: {ex.Message}");

@@ -1992,12 +1992,69 @@ Restart now?</value>
     <value>Google keeps only the date of a task, never a time of day.</value>
   </data>
   <data name="AgendaNeedsClient" xml:space="preserve">
-    <value>This agenda needs a Google client file: a JSON from Google Cloud Console, of type “Desktop app”. Choose it in the agenda settings.</value>
+    <value>This agenda needs a Google client file: a JSON of type “Desktop app” from Google Cloud Console.</value>
   </data>
   <data name="AgendaChooseClient" xml:space="preserve">
     <value>Choose Google client file…</value>
   </data>
   <data name="AgendaClientInvalid" xml:space="preserve">
     <value>That file is not a Google desktop client. In Google Cloud Console, create an OAuth client of type “Desktop app” and download its JSON.</value>
+  </data>
+  <data name="GuideTitle" xml:space="preserve">
+    <value>Google setup for the agenda</value>
+  </data>
+  <data name="GuideIntro" xml:space="preserve">
+    <value>The agenda connects to Google through a client you create yourself. It's free, takes about ten minutes, and you only do it once.</value>
+  </data>
+  <data name="GuideStep1" xml:space="preserve">
+    <value>Create a project in Google Cloud Console.</value>
+  </data>
+  <data name="GuideStep2" xml:space="preserve">
+    <value>Enable the Calendar API and the Tasks API.</value>
+  </data>
+  <data name="GuideStep3" xml:space="preserve">
+    <value>On the consent screen choose External, and add your Google account under Test users.</value>
+  </data>
+  <data name="GuideStep4" xml:space="preserve">
+    <value>Create an OAuth client of type “Desktop app” and download its JSON.</value>
+  </data>
+  <data name="GuideStep5" xml:space="preserve">
+    <value>Choose that file here, then sign in.</value>
+  </data>
+  <data name="GuideOpen" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="GuideCalendarApi" xml:space="preserve">
+    <value>Calendar API</value>
+  </data>
+  <data name="GuideTasksApi" xml:space="preserve">
+    <value>Tasks API</value>
+  </data>
+  <data name="GuideNotes" xml:space="preserve">
+    <value>Good to know</value>
+  </data>
+  <data name="GuideNoteUnverified" xml:space="preserve">
+    <value>At sign-in Google says it “hasn't verified this app”. That's normal for your own client: choose Continue.</value>
+  </data>
+  <data name="GuideNoteWeekly" xml:space="preserve">
+    <value>In testing mode Google signs you out after seven days; the agenda will just ask again.</value>
+  </data>
+  <data name="GuideNoteOthers" xml:space="preserve">
+    <value>Only accounts listed as test users can sign in with your client.</value>
+  </data>
+  <data name="GuideClientAdded" xml:space="preserve">
+    <value>Client added. You can sign in now.</value>
+  </data>
+  <data name="GuideButton" xml:space="preserve">
+    <value>Setup guide</value>
+  </data>
+  <data name="AgendaApiDisabled" xml:space="preserve">
+    <value>Google refused: the {0} is not enabled in your Google Cloud project. Enable it and wait a minute.</value>
+  </data>
+  <data name="AgendaRefused" xml:space="preserve">
+    <value>Google refused the request. Try signing in again.</value>
+  </data>
+  <data name="AgendaAccessDenied" xml:space="preserve">
+    <value>Google didn't grant access. If it said “Access blocked”, your account must be a test user of this client.</value>
   </data>
 </root>

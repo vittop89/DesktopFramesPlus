@@ -63,36 +63,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             chooseClient.Click += (s, e) =>
             {
-                var dialog = new Microsoft.Win32.OpenFileDialog
-                {
-                    Title = Strings.AgendaChooseClient,
-                    Filter = "Google client (*.json)|*.json"
-                };
+                ClientFileVerdict verdict = AgendaGuideWindow.ChooseClient(Window.GetWindow(chooseClient), session);
 
-                if (dialog.ShowDialog(Window.GetWindow(chooseClient)) != true) return;
-
-                ClientFileVerdict verdict;
-
-                try
-                {
-                    verdict = AgendaCredentials.Import(dialog.FileName);
-                }
-                catch (Exception ex)
-                {
-                    LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
-                        $"GoogleAgenda: could not import the client file: {ex.Message}");
-                    verdict = ClientFileVerdict.NotJson;
-                }
-
-                if (verdict != ClientFileVerdict.Usable)
-                {
+                if (verdict != ClientFileVerdict.Usable && verdict != ClientFileVerdict.Cancelled)
                     MessageBoxesManager.ShowOKOnlyMessageBoxForm(Strings.AgendaClientInvalid,
                                                                  Strings.AgendaSettingsTitle);
-                    return;
-                }
-
-                // The answer was "not set up" and is no longer true; ask again.
-                _ = session.RecheckAsync();
             };
 
             var signIn = new Button { Width = 170, Height = 30, Margin = new Thickness(0, 0, 8, 0) };
@@ -101,9 +76,24 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             var signOut = new Button { Content = Strings.AgendaSignOut, Width = 110, Height = 30 };
             signOut.Click += (s, e) => _ = session.SignOutAsync();
 
-            buttons.Children.Add(chooseClient);
+            var guide = new Button
+            {
+                Content = Strings.GuideButton,
+                Height = 30,
+                Padding = new Thickness(12, 0, 12, 0),
+                Margin = new Thickness(0, 0, 8, 0)
+            };
+            guide.Click += (s, e) => AgendaGuideWindow.Show(Window.GetWindow(guide), session);
+
+            // A row of its own. Sharing one with sign-in and sign-out made four buttons
+            // in a window 430 pixels wide, and the last of them fell off the edge.
+            var setup = new WrapPanel { Margin = new Thickness(0, 0, 0, 10) };
+            setup.Children.Add(chooseClient);
+            setup.Children.Add(guide);
+
             buttons.Children.Add(signIn);
             buttons.Children.Add(signOut);
+            layout.Children.Add(setup);
             layout.Children.Add(buttons);
 
             // --- view ----------------------------------------------------------
@@ -239,10 +229,16 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 // Offered while there is no client, and after a failure - a client from
                 // a project without the calendar enabled fails at sign-in, and the way
                 // out of that is choosing a different file.
-                chooseClient.Visibility = session.State == AgendaState.NotConfigured
-                                       || session.State == AgendaState.Failed
+                setup.Visibility = session.State == AgendaState.NotConfigured
+                                || session.State == AgendaState.Failed
                     ? Visibility.Visible
                     : Visibility.Collapsed;
+
+                // With no client there is nothing to sign in with, and two greyed-out
+                // buttons only ask a question the row above already answers.
+                buttons.Visibility = session.State == AgendaState.NotConfigured
+                    ? Visibility.Collapsed
+                    : Visibility.Visible;
             }
 
             session.Changed += Draw;

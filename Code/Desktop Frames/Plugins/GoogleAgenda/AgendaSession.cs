@@ -171,6 +171,17 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 // where we were, without an error nobody needs to dismiss.
                 Move(AgendaState.SignedOut);
             }
+            catch (Google.Apis.Auth.OAuth2.Responses.TokenResponseException ex)
+                when (string.Equals(ex.Error?.Error, "access_denied", StringComparison.Ordinal))
+            {
+                // Google said no. The commonest reason by far is an account that is not
+                // on the client's list of test users, and Google says so only in the
+                // browser tab, which is gone by the time anyone looks back here.
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    "GoogleAgenda: Google did not grant access (access_denied).");
+
+                Fail(Localization.Strings.AgendaAccessDenied);
+            }
             catch (Exception ex)
             {
                 LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,

@@ -1993,12 +1993,69 @@ Cada ventana lee sus textos mientras se construye, así que el cambio se ve al r
     <value>Google solo guarda la fecha de una tarea, nunca la hora.</value>
   </data>
   <data name="AgendaNeedsClient" xml:space="preserve">
-    <value>Esta agenda necesita un archivo de cliente de Google: un JSON de Google Cloud Console, de tipo «App de escritorio». Elígelo en los ajustes de la agenda.</value>
+    <value>Esta agenda necesita un archivo de cliente de Google: un JSON de tipo «App de escritorio» de Google Cloud Console.</value>
   </data>
   <data name="AgendaChooseClient" xml:space="preserve">
     <value>Elegir archivo de cliente de Google…</value>
   </data>
   <data name="AgendaClientInvalid" xml:space="preserve">
     <value>Ese archivo no es un cliente de escritorio de Google. En Google Cloud Console, crea un cliente OAuth de tipo «App de escritorio» y descarga su JSON.</value>
+  </data>
+  <data name="GuideTitle" xml:space="preserve">
+    <value>Configurar Google para la agenda</value>
+  </data>
+  <data name="GuideIntro" xml:space="preserve">
+    <value>La agenda se conecta a Google mediante un cliente que creas tú. Es gratis, lleva unos diez minutos y solo se hace una vez.</value>
+  </data>
+  <data name="GuideStep1" xml:space="preserve">
+    <value>Crea un proyecto en Google Cloud Console.</value>
+  </data>
+  <data name="GuideStep2" xml:space="preserve">
+    <value>Habilita la Calendar API y la Tasks API.</value>
+  </data>
+  <data name="GuideStep3" xml:space="preserve">
+    <value>En la pantalla de consentimiento elige Externo y añade tu cuenta de Google en Usuarios de prueba.</value>
+  </data>
+  <data name="GuideStep4" xml:space="preserve">
+    <value>Crea un cliente OAuth de tipo «App de escritorio» y descarga su JSON.</value>
+  </data>
+  <data name="GuideStep5" xml:space="preserve">
+    <value>Elige ese archivo aquí y luego inicia sesión.</value>
+  </data>
+  <data name="GuideOpen" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="GuideCalendarApi" xml:space="preserve">
+    <value>Calendar API</value>
+  </data>
+  <data name="GuideTasksApi" xml:space="preserve">
+    <value>Tasks API</value>
+  </data>
+  <data name="GuideNotes" xml:space="preserve">
+    <value>Conviene saber</value>
+  </data>
+  <data name="GuideNoteUnverified" xml:space="preserve">
+    <value>Al iniciar sesión Google avisa de que «no ha verificado esta aplicación». Es normal con tu propio cliente: elige Continuar.</value>
+  </data>
+  <data name="GuideNoteWeekly" xml:space="preserve">
+    <value>En modo de prueba Google cierra la sesión a los siete días; la agenda te lo volverá a pedir.</value>
+  </data>
+  <data name="GuideNoteOthers" xml:space="preserve">
+    <value>Solo las cuentas añadidas como usuarios de prueba pueden iniciar sesión con tu cliente.</value>
+  </data>
+  <data name="GuideClientAdded" xml:space="preserve">
+    <value>Cliente añadido. Ya puedes iniciar sesión.</value>
+  </data>
+  <data name="GuideButton" xml:space="preserve">
+    <value>Guía de configuración</value>
+  </data>
+  <data name="AgendaApiDisabled" xml:space="preserve">
+    <value>Google lo ha rechazado: la {0} no está habilitada en tu proyecto de Google Cloud. Habilítala y espera un minuto.</value>
+  </data>
+  <data name="AgendaRefused" xml:space="preserve">
+    <value>Google ha rechazado la solicitud. Prueba a iniciar sesión de nuevo.</value>
+  </data>
+  <data name="AgendaAccessDenied" xml:space="preserve">
+    <value>Google no ha concedido el acceso. Si decía «Acceso bloqueado», tu cuenta debe ser usuario de prueba de este cliente.</value>
   </data>
 </root>
