@@ -1895,4 +1895,7 @@ Vuoi riavviare adesso?</value>
   <data name="WebPageShowNamed" xml:space="preserve">
     <value>Mostra {0}</value>
   </data>
+  <data name="WebPageGetRuntime" xml:space="preserve">
+    <value>Scarica WebView2</value>
+  </data>
 </root>

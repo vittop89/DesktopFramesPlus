@@ -1896,4 +1896,7 @@ Cada ventana lee sus textos mientras se construye, así que el cambio se ve al r
   <data name="WebPageShowNamed" xml:space="preserve">
     <value>Mostrar {0}</value>
   </data>
+  <data name="WebPageGetRuntime" xml:space="preserve">
+    <value>Descargar WebView2</value>
+  </data>
 </root>

@@ -1896,4 +1896,7 @@
   <data name="WebPageShowNamed" xml:space="preserve">
     <value>Показать {0}</value>
   </data>
+  <data name="WebPageGetRuntime" xml:space="preserve">
+    <value>Скачать WebView2</value>
+  </data>
 </root>

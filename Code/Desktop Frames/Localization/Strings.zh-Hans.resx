@@ -1969,4 +1969,7 @@
   <data name="WebPageShowNamed" xml:space="preserve">
     <value>显示 {0}</value>
   </data>
+  <data name="WebPageGetRuntime" xml:space="preserve">
+    <value>获取 WebView2</value>
+  </data>
 </root>

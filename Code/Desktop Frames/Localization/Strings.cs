@@ -204,6 +204,7 @@ namespace Desktop_Frames.Localization
 
         // ── Shared buttons ─────────────────────────────────────────────────
         public static string BtnApply => Get("BtnApply");
+        public static string WebPageGetRuntime => Get("WebPageGetRuntime");
         public static string PluginWebPage => Get("PluginWebPage");
         public static string WebPageOpenNamed => Get("WebPageOpenNamed");
         public static string WebPageShowNamed => Get("WebPageShowNamed");

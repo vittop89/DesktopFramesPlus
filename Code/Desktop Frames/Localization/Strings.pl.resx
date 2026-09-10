@@ -1896,4 +1896,7 @@ Uruchomić ponownie teraz?</value>
   <data name="WebPageShowNamed" xml:space="preserve">
     <value>Pokaż {0}</value>
   </data>
+  <data name="WebPageGetRuntime" xml:space="preserve">
+    <value>Pobierz WebView2</value>
+  </data>
 </root>
