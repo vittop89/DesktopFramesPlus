@@ -29,6 +29,8 @@
              Link="Linked\AgendaMerge.cs" />
     <Compile Include="..\Desktop Frames\Plugins\GoogleAgenda\AgendaLayout.cs"
              Link="Linked\AgendaLayout.cs" />
+    <Compile Include="..\Desktop Frames\Plugins\GoogleAgenda\AgendaClientFile.cs"
+             Link="Linked\AgendaClientFile.cs" />
   </ItemGroup>
 
   <ItemGroup>

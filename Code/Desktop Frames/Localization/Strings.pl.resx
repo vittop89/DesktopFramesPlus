@@ -1992,4 +1992,13 @@ Uruchomić ponownie teraz?</value>
   <data name="AgendaTaskNoTime" xml:space="preserve">
     <value>Google zapisuje tylko datę zadania, nigdy godziny.</value>
   </data>
+  <data name="AgendaNeedsClient" xml:space="preserve">
+    <value>Ta agenda potrzebuje pliku klienta Google: JSON z Google Cloud Console, typu „Aplikacja komputerowa”. Wybierz go w ustawieniach agendy.</value>
+  </data>
+  <data name="AgendaChooseClient" xml:space="preserve">
+    <value>Wybierz plik klienta Google…</value>
+  </data>
+  <data name="AgendaClientInvalid" xml:space="preserve">
+    <value>Ten plik nie jest klientem Google dla komputera. W Google Cloud Console utwórz klienta OAuth typu „Aplikacja komputerowa” i pobierz jego JSON.</value>
+  </data>
 </root>

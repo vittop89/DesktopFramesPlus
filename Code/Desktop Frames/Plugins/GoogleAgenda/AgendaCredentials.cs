@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 
 namespace Desktop_Frames.Plugins.GoogleAgenda
@@ -51,6 +51,31 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 // down with it; the frame will say it is not set up.
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Takes the client file somebody picked, checks it is the right kind, and puts
+        /// it where the plugin looks.
+        ///
+        /// Nothing is copied unless the file passes: a wrong file sitting in the profile
+        /// would look installed, and the mistake would surface much later, at sign-in,
+        /// as an error from Google that says nothing about which file was chosen.
+        /// </summary>
+        public static ClientFileVerdict Import(string sourcePath)
+        {
+            // A client file is a kilobyte or two. Anything far bigger is the wrong file,
+            // and reading all of it to find that out would be pointless.
+            if (new FileInfo(sourcePath).Length > 64 * 1024) return ClientFileVerdict.NotJson;
+
+            string json = File.ReadAllText(sourcePath);
+
+            ClientFileVerdict verdict = AgendaClientFile.Check(json);
+            if (verdict != ClientFileVerdict.Usable) return verdict;
+
+            EnsureStorageFolder();
+            File.WriteAllText(ClientSecretPath, json);
+
+            return verdict;
         }
 
         /// <summary>Creates the storage folder if it is not there yet.</summary>

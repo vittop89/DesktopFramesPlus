@@ -50,12 +50,58 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             var buttons = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 16) };
 
+            // The way in for somebody who has never had a client in this profile. Without
+            // it the message below asked them to add one and every button was greyed
+            // out, which is a door with no handle.
+            var chooseClient = new Button
+            {
+                Content = Strings.AgendaChooseClient,
+                Height = 30,
+                Padding = new Thickness(12, 0, 12, 0),
+                Margin = new Thickness(0, 0, 8, 0)
+            };
+
+            chooseClient.Click += (s, e) =>
+            {
+                var dialog = new Microsoft.Win32.OpenFileDialog
+                {
+                    Title = Strings.AgendaChooseClient,
+                    Filter = "Google client (*.json)|*.json"
+                };
+
+                if (dialog.ShowDialog(Window.GetWindow(chooseClient)) != true) return;
+
+                ClientFileVerdict verdict;
+
+                try
+                {
+                    verdict = AgendaCredentials.Import(dialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                        $"GoogleAgenda: could not import the client file: {ex.Message}");
+                    verdict = ClientFileVerdict.NotJson;
+                }
+
+                if (verdict != ClientFileVerdict.Usable)
+                {
+                    MessageBoxesManager.ShowOKOnlyMessageBoxForm(Strings.AgendaClientInvalid,
+                                                                 Strings.AgendaSettingsTitle);
+                    return;
+                }
+
+                // The answer was "not set up" and is no longer true; ask again.
+                _ = session.RecheckAsync();
+            };
+
             var signIn = new Button { Width = 170, Height = 30, Margin = new Thickness(0, 0, 8, 0) };
             signIn.Click += (s, e) => _ = session.SignInAsync();
 
             var signOut = new Button { Content = Strings.AgendaSignOut, Width = 110, Height = 30 };
             signOut.Click += (s, e) => _ = session.SignOutAsync();
 
+            buttons.Children.Add(chooseClient);
             buttons.Children.Add(signIn);
             buttons.Children.Add(signOut);
             layout.Children.Add(buttons);
@@ -174,7 +220,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             {
                 status.Text = session.State switch
                 {
-                    AgendaState.NotConfigured => Strings.AgendaNotConfigured,
+                    AgendaState.NotConfigured => Strings.AgendaNeedsClient,
                     AgendaState.SignedOut => Strings.AgendaSignedOut,
                     AgendaState.SigningIn => Strings.AgendaSigningIn,
                     AgendaState.SignedIn => Strings.AgendaSignedIn,
@@ -189,6 +235,14 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                                 && session.State != AgendaState.NotConfigured;
 
                 signOut.IsEnabled = session.State == AgendaState.SignedIn;
+
+                // Offered while there is no client, and after a failure - a client from
+                // a project without the calendar enabled fails at sign-in, and the way
+                // out of that is choosing a different file.
+                chooseClient.Visibility = session.State == AgendaState.NotConfigured
+                                       || session.State == AgendaState.Failed
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
             }
 
             session.Changed += Draw;

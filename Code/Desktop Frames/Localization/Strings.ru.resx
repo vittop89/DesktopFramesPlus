@@ -1992,4 +1992,13 @@
   <data name="AgendaTaskNoTime" xml:space="preserve">
     <value>Google сохраняет только дату задачи, но не время.</value>
   </data>
+  <data name="AgendaNeedsClient" xml:space="preserve">
+    <value>Этой агенде нужен файл клиента Google: JSON из Google Cloud Console типа «Приложение для ПК». Выберите его в настройках агенды.</value>
+  </data>
+  <data name="AgendaChooseClient" xml:space="preserve">
+    <value>Выбрать файл клиента Google…</value>
+  </data>
+  <data name="AgendaClientInvalid" xml:space="preserve">
+    <value>Этот файл не является клиентом Google для ПК. В Google Cloud Console создайте клиент OAuth типа «Приложение для ПК» и скачайте его JSON.</value>
+  </data>
 </root>
