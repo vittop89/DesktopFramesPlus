@@ -571,7 +571,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         {
             var button = new Button
             {
-                Content = Strings.AgendaSignIn,
+                Content = Wrapping(Strings.AgendaSignIn),
                 Margin = new Thickness(0, 8, 0, 0),
                 Padding = new Thickness(10, 5, 10, 5),
                 HorizontalAlignment = HorizontalAlignment.Left,
@@ -628,12 +628,24 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             return guide;
         }
 
+        /// <summary>
+        /// A button whose caption wraps. A frame can be dragged narrow, and a caption
+        /// that cannot wrap is cut off mid-word - "Guida alla config..." tells nobody
+        /// what the button does. Found by looking at a narrow frame, not by any test.
+        /// </summary>
         private static Button FrameButton(string caption) => new Button
         {
-            Content = caption,
+            Content = Wrapping(caption),
             Margin = new Thickness(0, 0, 8, 6),
             Padding = new Thickness(10, 5, 10, 5),
             Cursor = System.Windows.Input.Cursors.Hand
+        };
+
+        private static TextBlock Wrapping(string caption) => new TextBlock
+        {
+            Text = caption,
+            TextWrapping = TextWrapping.Wrap,
+            TextAlignment = TextAlignment.Center
         };
     }
 }
