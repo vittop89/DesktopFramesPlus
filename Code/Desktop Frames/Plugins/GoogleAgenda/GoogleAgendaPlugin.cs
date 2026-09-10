@@ -427,7 +427,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             switch (_session.State)
             {
                 case AgendaState.NotConfigured:
-                    panel.Children.Add(AgendaRenderer.Message(Strings.AgendaNotConfigured));
+                    panel.Children.Add(AgendaRenderer.Message(Strings.AgendaNeedsClient));
                     return;
 
                 case AgendaState.SigningIn:

@@ -2119,4 +2119,13 @@ Vuoi riavviare adesso?</value>
   <data name="MsgOptionsSaved" xml:space="preserve">
     <value>Salvato</value>
   </data>
+  <data name="AgendaNeedsClient" xml:space="preserve">
+    <value>Questa agenda ha bisogno di un file client Google: un JSON da Google Cloud Console, di tipo «App desktop». Sceglilo nelle impostazioni dell'agenda.</value>
+  </data>
+  <data name="AgendaChooseClient" xml:space="preserve">
+    <value>Scegli il file client Google…</value>
+  </data>
+  <data name="AgendaClientInvalid" xml:space="preserve">
+    <value>Questo file non è un client Google per desktop. In Google Cloud Console crea un client OAuth di tipo «App desktop» e scaricane il JSON.</value>
+  </data>
 </root>

@@ -2120,4 +2120,13 @@ Jetzt neu starten?</value>
   <data name="MsgOptionsSaved" xml:space="preserve">
     <value>Gespeichert</value>
   </data>
+  <data name="AgendaNeedsClient" xml:space="preserve">
+    <value>Diese Agenda braucht eine Google-Client-Datei: ein JSON aus der Google Cloud Console vom Typ „Desktop-App“. Wählen Sie sie in den Agenda-Einstellungen.</value>
+  </data>
+  <data name="AgendaChooseClient" xml:space="preserve">
+    <value>Google-Client-Datei wählen…</value>
+  </data>
+  <data name="AgendaClientInvalid" xml:space="preserve">
+    <value>Diese Datei ist kein Google-Desktop-Client. Erstellen Sie in der Google Cloud Console einen OAuth-Client vom Typ „Desktop-App“ und laden Sie dessen JSON herunter.</value>
+  </data>
 </root>

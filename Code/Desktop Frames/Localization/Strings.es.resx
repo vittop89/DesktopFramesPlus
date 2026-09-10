@@ -2120,4 +2120,13 @@ Cada ventana lee sus textos mientras se construye, así que el cambio se ve al r
   <data name="MsgOptionsSaved" xml:space="preserve">
     <value>Guardado</value>
   </data>
+  <data name="AgendaNeedsClient" xml:space="preserve">
+    <value>Esta agenda necesita un archivo de cliente de Google: un JSON de Google Cloud Console, de tipo «App de escritorio». Elígelo en los ajustes de la agenda.</value>
+  </data>
+  <data name="AgendaChooseClient" xml:space="preserve">
+    <value>Elegir archivo de cliente de Google…</value>
+  </data>
+  <data name="AgendaClientInvalid" xml:space="preserve">
+    <value>Ese archivo no es un cliente de escritorio de Google. En Google Cloud Console, crea un cliente OAuth de tipo «App de escritorio» y descarga su JSON.</value>
+  </data>
 </root>

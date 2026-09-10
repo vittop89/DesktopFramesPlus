@@ -2119,4 +2119,13 @@ Restart now?</value>
   <data name="MsgOptionsSaved" xml:space="preserve">
     <value>Saved</value>
   </data>
+  <data name="AgendaNeedsClient" xml:space="preserve">
+    <value>This agenda needs a Google client file: a JSON from Google Cloud Console, of type “Desktop app”. Choose it in the agenda settings.</value>
+  </data>
+  <data name="AgendaChooseClient" xml:space="preserve">
+    <value>Choose Google client file…</value>
+  </data>
+  <data name="AgendaClientInvalid" xml:space="preserve">
+    <value>That file is not a Google desktop client. In Google Cloud Console, create an OAuth client of type “Desktop app” and download its JSON.</value>
+  </data>
 </root>

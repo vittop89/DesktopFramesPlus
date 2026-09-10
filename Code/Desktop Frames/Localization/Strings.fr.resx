@@ -2120,4 +2120,13 @@ Redémarrer maintenant ?</value>
   <data name="MsgOptionsSaved" xml:space="preserve">
     <value>Enregistré</value>
   </data>
+  <data name="AgendaNeedsClient" xml:space="preserve">
+    <value>Cet agenda a besoin d'un fichier client Google : un JSON de Google Cloud Console, de type « Application de bureau ». Choisissez-le dans les réglages de l'agenda.</value>
+  </data>
+  <data name="AgendaChooseClient" xml:space="preserve">
+    <value>Choisir le fichier client Google…</value>
+  </data>
+  <data name="AgendaClientInvalid" xml:space="preserve">
+    <value>Ce fichier n'est pas un client Google de bureau. Dans Google Cloud Console, créez un client OAuth de type « Application de bureau » et téléchargez son JSON.</value>
+  </data>
 </root>

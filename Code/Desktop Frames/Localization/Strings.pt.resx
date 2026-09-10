@@ -2120,4 +2120,13 @@ Reiniciar agora?</value>
   <data name="MsgOptionsSaved" xml:space="preserve">
     <value>Guardado</value>
   </data>
+  <data name="AgendaNeedsClient" xml:space="preserve">
+    <value>Esta agenda precisa de um ficheiro de cliente Google: um JSON da Google Cloud Console, do tipo «App para computador». Escolha-o nas definições da agenda.</value>
+  </data>
+  <data name="AgendaChooseClient" xml:space="preserve">
+    <value>Escolher ficheiro de cliente Google…</value>
+  </data>
+  <data name="AgendaClientInvalid" xml:space="preserve">
+    <value>Esse ficheiro não é um cliente Google para computador. Na Google Cloud Console, crie um cliente OAuth do tipo «App para computador» e transfira o seu JSON.</value>
+  </data>
 </root>

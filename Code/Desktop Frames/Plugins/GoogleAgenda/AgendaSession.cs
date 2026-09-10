@@ -100,6 +100,22 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             }
         }
 
+        /// <summary>
+        /// Looks again, after the client has been added or replaced.
+        ///
+        /// <see cref="ResumeAsync"/> answers once and keeps that answer, which is right
+        /// for frames asking at start-up and wrong here: its answer was "not set up",
+        /// and that has just stopped being true.
+        /// </summary>
+        public Task RecheckAsync()
+        {
+            lock (_gate)
+            {
+                _resume = ResumeOnceAsync();
+                return _resume;
+            }
+        }
+
         private async Task ResumeOnceAsync()
         {
             if (!AgendaCredentials.AreAvailable())
