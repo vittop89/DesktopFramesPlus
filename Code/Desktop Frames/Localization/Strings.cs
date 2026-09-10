@@ -204,6 +204,31 @@ namespace Desktop_Frames.Localization
 
         // ── Shared buttons ─────────────────────────────────────────────────
         public static string AgendaBadTime => Get("AgendaBadTime");
+        public static string GuideTitle => Get("GuideTitle");
+        public static string GuideIntro => Get("GuideIntro");
+        public static string GuideStep1 => Get("GuideStep1");
+        public static string GuideStep2 => Get("GuideStep2");
+        public static string GuideStep3 => Get("GuideStep3");
+        public static string GuideStep4 => Get("GuideStep4");
+        public static string GuideStep5 => Get("GuideStep5");
+        public static string GuideOpen => Get("GuideOpen");
+        public static string GuideCalendarApi => Get("GuideCalendarApi");
+        public static string GuideTasksApi => Get("GuideTasksApi");
+        public static string GuideNotes => Get("GuideNotes");
+        public static string GuideNoteUnverified => Get("GuideNoteUnverified");
+        public static string GuideNoteWeekly => Get("GuideNoteWeekly");
+        public static string GuideNoteOthers => Get("GuideNoteOthers");
+        public static string GuideClientAdded => Get("GuideClientAdded");
+        public static string GuideButton => Get("GuideButton");
+        public static string AgendaRefused => Get("AgendaRefused");
+        public static string AgendaAccessDenied => Get("AgendaAccessDenied");
+        public static string WebPageGetRuntime => Get("WebPageGetRuntime");
+        public static string SecPlugins => Get("SecPlugins");
+        public static string OptPluginsShown => Get("OptPluginsShown");
+        public static string OptPluginsFinished => Get("OptPluginsFinished");
+        public static string OptPluginsExperimental => Get("OptPluginsExperimental");
+        public static string OptPluginsAll => Get("OptPluginsAll");
+        public static string OptAgendaGuide => Get("OptAgendaGuide");
         public static string AgendaCalendarLabel => Get("AgendaCalendarLabel");
         public static string AgendaNeedsClient => Get("AgendaNeedsClient");
         public static string AgendaChooseClient => Get("AgendaChooseClient");

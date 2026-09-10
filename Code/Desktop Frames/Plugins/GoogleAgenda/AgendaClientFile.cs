@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace Desktop_Frames.Plugins.GoogleAgenda
 {
@@ -19,7 +19,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         WebClient,
 
         /// <summary>JSON, but not a Google client: no client identifier where one belongs.</summary>
-        NoClientId
+        NoClientId,
+
+        /// <summary>Nothing was chosen. Not a bad file - no file, and nothing to complain about.</summary>
+        Cancelled
     }
 
     /// <summary>

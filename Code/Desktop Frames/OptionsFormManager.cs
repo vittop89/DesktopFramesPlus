@@ -409,6 +409,12 @@ namespace Desktop_Frames
                 Margin = new Thickness(15, 0, 15, 10)
             });
 
+            // Without this, a new user never saw a plugin marked experimental or in
+            // development: the level lived only in the settings file, at 1, with no way
+            // to change it short of editing JSON by hand.
+            CreateSectionHeader(c, Strings.SecPlugins, _userAccentColor);
+            CreatePluginLevelRow(c);
+
             CreateSectionHeader(c, Strings.SecStartup, _userAccentColor);
             CreateCheckBox(c, Strings.OptStartWithWindows, "StartWithWindows", TrayManager.IsStartWithWindows);
             CreateSectionHeader(c, Strings.SecSelections, _userAccentColor);
@@ -508,6 +514,57 @@ namespace Desktop_Frames
             //     CreateCheckBox(c, Strings.LblEnableProfileAutomation, "EnableProfileAutomation", SettingsManager.EnableProfileAutomation);
             t.Content = new ScrollViewer { Content = c, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
             _tabControl.Items.Add(t);
+        }
+
+        /// <summary>Which plugins the "add a frame" menu offers, as a choice rather than a file edit.</summary>
+        private static ComboBox _pluginLevelCombo;
+
+        private static void CreatePluginLevelRow(StackPanel c)
+        {
+            var row = new Grid { Margin = new Thickness(15, 5, 15, 5) };
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+            var label = new TextBlock
+            {
+                Text = Strings.OptPluginsShown,
+                FontFamily = new FontFamily("Segoe UI"),
+                FontSize = 13,
+                TextWrapping = TextWrapping.Wrap,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 0, 10, 0)
+            };
+
+            _pluginLevelCombo = new ComboBox { Width = 230, Height = 25, FontFamily = new FontFamily("Segoe UI"), FontSize = 13 };
+            _pluginLevelCombo.Items.Add(new ComboBoxItem { Content = Strings.OptPluginsFinished, Tag = 1 });
+            _pluginLevelCombo.Items.Add(new ComboBoxItem { Content = Strings.OptPluginsExperimental, Tag = 2 });
+            _pluginLevelCombo.Items.Add(new ComboBoxItem { Content = Strings.OptPluginsAll, Tag = 3 });
+
+            // A level of 0 - the menu switched off entirely - can only come from editing
+            // the file by hand, and whoever did that meant it. Nothing is selected, and
+            // saving leaves it alone.
+            int level = SettingsManager.PluginAvailabilityLevel;
+            _pluginLevelCombo.SelectedIndex = level >= 1 && level <= 3 ? level - 1 : -1;
+
+            Grid.SetColumn(label, 0);
+            Grid.SetColumn(_pluginLevelCombo, 1);
+            row.Children.Add(label);
+            row.Children.Add(_pluginLevelCombo);
+            c.Children.Add(row);
+
+            var guide = new Button
+            {
+                Content = Strings.OptAgendaGuide,
+                Margin = new Thickness(15, 4, 15, 10),
+                Padding = new Thickness(10, 4, 10, 4),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Cursor = Cursors.Hand
+            };
+
+            guide.Click += (s, e) => Desktop_Frames.Plugins.GoogleAgenda.AgendaGuideWindow.Show(
+                _optionsWindow, Desktop_Frames.Plugins.GoogleAgenda.AgendaSession.ForCurrentProfile());
+
+            c.Children.Add(guide);
         }
 
         private static void CreateStyleTab()
@@ -1372,6 +1429,13 @@ namespace Desktop_Frames
                 // left no way to change two things in one visit and made Save
                 // indistinguishable from Cancel to anyone who had changed nothing. The
                 // button beside it closes.
+                if (_pluginLevelCombo?.SelectedItem is ComboBoxItem levelItem && levelItem.Tag is int chosenLevel
+                    && chosenLevel != SettingsManager.PluginAvailabilityLevel)
+                {
+                    SettingsManager.PluginAvailabilityLevel = chosenLevel;
+                    SettingsManager.SaveSettings();
+                }
+
                 SaidItSaved();
 
                 // Everything is on disk by now, so a restart cannot lose what was just

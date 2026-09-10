@@ -2121,12 +2121,90 @@
     <value>Сохранено</value>
   </data>
   <data name="AgendaNeedsClient" xml:space="preserve">
-    <value>Этой агенде нужен файл клиента Google: JSON из Google Cloud Console типа «Приложение для ПК». Выберите его в настройках агенды.</value>
+    <value>Этой агенде нужен файл клиента Google: JSON типа «Приложение для ПК» из Google Cloud Console.</value>
   </data>
   <data name="AgendaChooseClient" xml:space="preserve">
     <value>Выбрать файл клиента Google…</value>
   </data>
   <data name="AgendaClientInvalid" xml:space="preserve">
     <value>Этот файл не является клиентом Google для ПК. В Google Cloud Console создайте клиент OAuth типа «Приложение для ПК» и скачайте его JSON.</value>
+  </data>
+  <data name="GuideTitle" xml:space="preserve">
+    <value>Настройка Google для агенды</value>
+  </data>
+  <data name="GuideIntro" xml:space="preserve">
+    <value>Агенда подключается к Google через клиент, который вы создаёте сами. Это бесплатно, занимает около десяти минут и делается один раз.</value>
+  </data>
+  <data name="GuideStep1" xml:space="preserve">
+    <value>Создайте проект в Google Cloud Console.</value>
+  </data>
+  <data name="GuideStep2" xml:space="preserve">
+    <value>Включите Calendar API и Tasks API.</value>
+  </data>
+  <data name="GuideStep3" xml:space="preserve">
+    <value>На экране согласия выберите «Внешний» и добавьте свой аккаунт Google в тестовые пользователи.</value>
+  </data>
+  <data name="GuideStep4" xml:space="preserve">
+    <value>Создайте клиент OAuth типа «Приложение для ПК» и скачайте его JSON.</value>
+  </data>
+  <data name="GuideStep5" xml:space="preserve">
+    <value>Выберите этот файл здесь и войдите.</value>
+  </data>
+  <data name="GuideOpen" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="GuideCalendarApi" xml:space="preserve">
+    <value>Calendar API</value>
+  </data>
+  <data name="GuideTasksApi" xml:space="preserve">
+    <value>Tasks API</value>
+  </data>
+  <data name="GuideNotes" xml:space="preserve">
+    <value>Полезно знать</value>
+  </data>
+  <data name="GuideNoteUnverified" xml:space="preserve">
+    <value>При входе Google сообщает, что «не проверил это приложение». Для собственного клиента это нормально: нажмите «Продолжить».</value>
+  </data>
+  <data name="GuideNoteWeekly" xml:space="preserve">
+    <value>В тестовом режиме Google завершает вход через семь дней; агенда просто попросит войти снова.</value>
+  </data>
+  <data name="GuideNoteOthers" xml:space="preserve">
+    <value>Войти через ваш клиент могут только аккаунты из списка тестовых пользователей.</value>
+  </data>
+  <data name="GuideClientAdded" xml:space="preserve">
+    <value>Клиент добавлен. Теперь можно войти.</value>
+  </data>
+  <data name="GuideButton" xml:space="preserve">
+    <value>Инструкция по настройке</value>
+  </data>
+  <data name="AgendaApiDisabled" xml:space="preserve">
+    <value>Google отказал: {0} не включён в вашем проекте Google Cloud. Включите его и подождите минуту.</value>
+  </data>
+  <data name="AgendaRefused" xml:space="preserve">
+    <value>Google отклонил запрос. Попробуйте войти снова.</value>
+  </data>
+  <data name="AgendaAccessDenied" xml:space="preserve">
+    <value>Google не предоставил доступ. Если было «Доступ заблокирован», ваш аккаунт должен быть тестовым пользователем этого клиента.</value>
+  </data>
+  <data name="WebPageGetRuntime" xml:space="preserve">
+    <value>Скачать WebView2</value>
+  </data>
+  <data name="SecPlugins" xml:space="preserve">
+    <value>Плагины</value>
+  </data>
+  <data name="OptPluginsShown" xml:space="preserve">
+    <value>Плагины при добавлении рамки</value>
+  </data>
+  <data name="OptPluginsFinished" xml:space="preserve">
+    <value>Только готовые</value>
+  </data>
+  <data name="OptPluginsExperimental" xml:space="preserve">
+    <value>Также экспериментальные</value>
+  </data>
+  <data name="OptPluginsAll" xml:space="preserve">
+    <value>Все, включая в разработке</value>
+  </data>
+  <data name="OptAgendaGuide" xml:space="preserve">
+    <value>Агенда Google: инструкция по настройке</value>
   </data>
 </root>

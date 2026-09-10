@@ -30,13 +30,40 @@ namespace Desktop_Frames.Plugins.WebPage
             TextAlignment = TextAlignment.Center
         };
 
+        private readonly StackPanel _notice = new StackPanel
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        private readonly Button _getRuntime = new Button
+        {
+            Content = Strings.WebPageGetRuntime,
+            Padding = new Thickness(14, 4, 14, 4),
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Visibility = Visibility.Collapsed
+        };
+
+        /// <summary>
+        /// Microsoft's page for the runtime rather than the installer itself: somebody
+        /// clicking a button in a desktop frame should see where a download comes from
+        /// before it starts.
+        /// </summary>
+        private const string RuntimePage = "https://developer.microsoft.com/microsoft-edge/webview2/";
+
         public WebPageBrowser(WebPageSite site)
         {
             _site = site;
 
             _message.Visibility = Visibility.Collapsed;
 
-            Children.Add(_message);
+            // Offered only when the runtime is missing: a sentence saying something is
+            // not installed, with nowhere to go, leaves the reader to go and search.
+            _getRuntime.Click += (s, e) => OpenOutside(RuntimePage);
+            _notice.Children.Add(_message);
+            _notice.Children.Add(_getRuntime);
+
+            Children.Add(_notice);
             Children.Add(_view);
 
             Loaded += async (s, e) => await StartAsync();
@@ -62,6 +89,14 @@ namespace Desktop_Frames.Plugins.WebPage
                     await CoreWebView2Environment.CreateAsync(null, ProfileFolder);
 
                 await _view.EnsureCoreWebView2Async(environment);
+            }
+            catch (WebView2RuntimeNotFoundException)
+            {
+                LogManager.Log(LogManager.LogLevel.Warn, LogManager.LogCategory.General,
+                    "WebPage: the WebView2 runtime is not installed.");
+
+                Say(Strings.WebPageNoRuntime, offerRuntime: true);
+                return;
             }
             catch (Exception ex)
             {
@@ -215,11 +250,12 @@ namespace Desktop_Frames.Plugins.WebPage
         private string ProfileFolder =>
             Path.Combine(ProfileManager.CurrentProfileDir, "WebPage", _site.Slug);
 
-        private void Say(string text)
+        private void Say(string text, bool offerRuntime = false)
         {
             _view.Visibility = Visibility.Collapsed;
             _message.Text = text;
             _message.Visibility = Visibility.Visible;
+            _getRuntime.Visibility = offerRuntime ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>Lets go of the browser process. A frame that closed should not keep one.</summary>

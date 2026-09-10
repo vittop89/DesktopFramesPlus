@@ -2121,12 +2121,90 @@ Reiniciar agora?</value>
     <value>Guardado</value>
   </data>
   <data name="AgendaNeedsClient" xml:space="preserve">
-    <value>Esta agenda precisa de um ficheiro de cliente Google: um JSON da Google Cloud Console, do tipo «App para computador». Escolha-o nas definições da agenda.</value>
+    <value>Esta agenda precisa de um ficheiro de cliente Google: um JSON do tipo «App para computador» da Google Cloud Console.</value>
   </data>
   <data name="AgendaChooseClient" xml:space="preserve">
     <value>Escolher ficheiro de cliente Google…</value>
   </data>
   <data name="AgendaClientInvalid" xml:space="preserve">
     <value>Esse ficheiro não é um cliente Google para computador. Na Google Cloud Console, crie um cliente OAuth do tipo «App para computador» e transfira o seu JSON.</value>
+  </data>
+  <data name="GuideTitle" xml:space="preserve">
+    <value>Configurar o Google para a agenda</value>
+  </data>
+  <data name="GuideIntro" xml:space="preserve">
+    <value>A agenda liga-se ao Google através de um cliente criado por si. É gratuito, demora cerca de dez minutos e faz-se uma só vez.</value>
+  </data>
+  <data name="GuideStep1" xml:space="preserve">
+    <value>Crie um projeto na Google Cloud Console.</value>
+  </data>
+  <data name="GuideStep2" xml:space="preserve">
+    <value>Ative a Calendar API e a Tasks API.</value>
+  </data>
+  <data name="GuideStep3" xml:space="preserve">
+    <value>No ecrã de consentimento escolha Externo e adicione a sua conta Google em Utilizadores de teste.</value>
+  </data>
+  <data name="GuideStep4" xml:space="preserve">
+    <value>Crie um cliente OAuth do tipo «App para computador» e transfira o JSON.</value>
+  </data>
+  <data name="GuideStep5" xml:space="preserve">
+    <value>Escolha esse ficheiro aqui e depois inicie sessão.</value>
+  </data>
+  <data name="GuideOpen" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="GuideCalendarApi" xml:space="preserve">
+    <value>Calendar API</value>
+  </data>
+  <data name="GuideTasksApi" xml:space="preserve">
+    <value>Tasks API</value>
+  </data>
+  <data name="GuideNotes" xml:space="preserve">
+    <value>Bom saber</value>
+  </data>
+  <data name="GuideNoteUnverified" xml:space="preserve">
+    <value>Ao iniciar sessão, o Google avisa que «não validou esta app». É normal com o seu próprio cliente: escolha Continuar.</value>
+  </data>
+  <data name="GuideNoteWeekly" xml:space="preserve">
+    <value>Em modo de teste, o Google termina a sessão ao fim de sete dias; a agenda volta a pedir.</value>
+  </data>
+  <data name="GuideNoteOthers" xml:space="preserve">
+    <value>Só as contas indicadas como utilizadores de teste podem iniciar sessão com o seu cliente.</value>
+  </data>
+  <data name="GuideClientAdded" xml:space="preserve">
+    <value>Cliente adicionado. Já pode iniciar sessão.</value>
+  </data>
+  <data name="GuideButton" xml:space="preserve">
+    <value>Guia de configuração</value>
+  </data>
+  <data name="AgendaApiDisabled" xml:space="preserve">
+    <value>O Google recusou: a {0} não está ativada no seu projeto Google Cloud. Ative-a e aguarde um minuto.</value>
+  </data>
+  <data name="AgendaRefused" xml:space="preserve">
+    <value>O Google recusou o pedido. Tente iniciar sessão novamente.</value>
+  </data>
+  <data name="AgendaAccessDenied" xml:space="preserve">
+    <value>O Google não concedeu acesso. Se dizia «Acesso bloqueado», a sua conta tem de ser utilizador de teste deste cliente.</value>
+  </data>
+  <data name="WebPageGetRuntime" xml:space="preserve">
+    <value>Transferir WebView2</value>
+  </data>
+  <data name="SecPlugins" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="OptPluginsShown" xml:space="preserve">
+    <value>Plugins sugeridos ao adicionar uma moldura</value>
+  </data>
+  <data name="OptPluginsFinished" xml:space="preserve">
+    <value>Só os concluídos</value>
+  </data>
+  <data name="OptPluginsExperimental" xml:space="preserve">
+    <value>Também experimentais</value>
+  </data>
+  <data name="OptPluginsAll" xml:space="preserve">
+    <value>Todos, incluindo em desenvolvimento</value>
+  </data>
+  <data name="OptAgendaGuide" xml:space="preserve">
+    <value>Agenda Google: guia de configuração</value>
   </data>
 </root>
