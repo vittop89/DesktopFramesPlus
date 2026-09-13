@@ -4539,7 +4539,10 @@ namespace Desktop_Frames
                     string fId = frame.Id?.ToString();
                     if (!string.IsNullOrEmpty(fId) && _activePlugins.TryGetValue(fId, out var plugin))
                     {
-                        plugin.ShowSettingsWindow(win, frame);
+                        // The entry the list holds now: snapping, tabs and property changes replace
+                        // it with a copy, and settings written into the one captured here were lost.
+                        dynamic current = FrameDataManager.FrameData.FirstOrDefault(f => f?.Id?.ToString() == fId) ?? frame;
+                        plugin.ShowSettingsWindow(win, current);
                     }
                 };
                 CnMnFramemanager.Items.Add(miPluginSettings);
