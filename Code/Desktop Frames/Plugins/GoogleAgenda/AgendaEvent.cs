@@ -73,6 +73,18 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// </summary>
         public string MirrorOfTask { get; set; } = string.Empty;
 
+        /// <summary>
+        /// For a task: the hour it is drawn at was chosen in this program, not given by
+        /// Google.
+        ///
+        /// Google hands out a task's date and keeps its hour to itself, except through
+        /// the stand-in entries described above - and those are not made for a task
+        /// that repeats. For such a task the only hour there can be is one kept here,
+        /// and the form has to know which kind it is showing: Google's hour cannot be
+        /// changed from here, and this one can.
+        /// </summary>
+        public bool HourIsLocal { get; set; }
+
         /// <summary>Ticked. Meaningless unless <see cref="IsTask"/>.</summary>
         public bool IsDone { get; set; }
 

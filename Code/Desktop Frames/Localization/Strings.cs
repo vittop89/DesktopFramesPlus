@@ -253,7 +253,10 @@ namespace Desktop_Frames.Localization
         public static string AgendaKindEvent => Get("AgendaKindEvent");
         public static string AgendaKindTask => Get("AgendaKindTask");
         public static string AgendaListLabel => Get("AgendaListLabel");
-        public static string AgendaTaskNoTime => Get("AgendaTaskNoTime");
+        public static string AgendaTaskHourLocal => Get("AgendaTaskHourLocal");
+        public static string AgendaTaskHourGoogle => Get("AgendaTaskHourGoogle");
+        public static string AgendaListColoursLabel => Get("AgendaListColoursLabel");
+        public static string AgendaListColourDefault => Get("AgendaListColourDefault");
         public static string AgendaCalendarsLabel => Get("AgendaCalendarsLabel");
         public static string AgendaConfirmDelete => Get("AgendaConfirmDelete");
         public static string AgendaConflict => Get("AgendaConflict");

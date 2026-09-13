@@ -2060,9 +2060,6 @@ Cada ventana lee sus textos mientras se construye, así que el cambio se ve al r
   <data name="AgendaListLabel" xml:space="preserve">
     <value>Lista</value>
   </data>
-  <data name="AgendaTaskNoTime" xml:space="preserve">
-    <value>Google solo guarda la fecha de una tarea, nunca la hora.</value>
-  </data>
   <data name="PluginWebPage" xml:space="preserve">
     <value>Página web</value>
   </data>
@@ -2206,5 +2203,17 @@ Cada ventana lee sus textos mientras se construye, así que el cambio se ve al r
   </data>
   <data name="OptAgendaGuide" xml:space="preserve">
     <value>Agenda de Google: guía de configuración</value>
+  </data>
+  <data name="AgendaListColoursLabel" xml:space="preserve">
+    <value>Colores de las listas de tareas</value>
+  </data>
+  <data name="AgendaListColourDefault" xml:space="preserve">
+    <value>Volver al color predeterminado</value>
+  </data>
+  <data name="AgendaTaskHourLocal" xml:space="preserve">
+    <value>La hora se queda solo en esta app: de otras apps, Google solo acepta la fecha.</value>
+  </data>
+  <data name="AgendaTaskHourGoogle" xml:space="preserve">
+    <value>Esta hora viene de Google: cámbiala allí.</value>
   </data>
 </root>

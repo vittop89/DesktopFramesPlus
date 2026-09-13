@@ -24,9 +24,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// without saving. Nothing is sent anywhere from here: the caller decides what
         /// to do with the answer.
         /// </summary>
+        /// <param name="timeChosen">
+        /// True when the time in the draft was picked by clicking the grid. A task made
+        /// that way keeps it; a task made from the add button starts as a whole-day one,
+        /// because the hour there is only a guess at what an event might want.
+        /// </param>
         public static AgendaEvent? Show(Window? owner, AgendaEvent draft,
                                         IReadOnlyList<AgendaCalendar> calendars,
-                                        IReadOnlyList<AgendaTaskList> taskLists, bool isNew)
+                                        IReadOnlyList<AgendaTaskList> taskLists, bool isNew,
+                                        bool timeChosen = false)
         {
             List<AgendaCalendar> writable = calendars.Where(c => c.CanWrite).ToList();
 
@@ -34,6 +40,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             // task, so the choice is offered only while making something new.
             bool canChooseKind = isNew && taskLists.Count > 0;
             bool startAsTask = draft.IsTask;
+
+            // Google's own hour on a task is shown but cannot be changed from here: the
+            // API takes no hour for a task, so a change would be accepted and then lost
+            // without a word. The hour this program keeps is another matter.
+            bool hourFromGoogle = !isNew && draft.IsTask && !draft.IsAllDay && !draft.HourIsLocal;
 
             if (writable.Count == 0 && !startAsTask)
             {
@@ -86,7 +97,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             foreach (AgendaCalendar option in writable) calendar.Items.Add(option);
             calendar.SelectedItem = writable.FirstOrDefault(c => c.Id == draft.CalendarId)
                                  ?? writable.FirstOrDefault(c => c.IsPrimary)
-                                 ?? writable[0];
+                                 ?? writable.FirstOrDefault();
             StackPanel calendarBlock = Labelled(Strings.AgendaCalendarLabel, calendar);
             layout.Children.Add(calendarBlock);
 
@@ -101,7 +112,6 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             var allDay = new CheckBox
             {
                 Content = Strings.AgendaAllDay,
-                IsChecked = draft.IsAllDay,
                 Margin = new Thickness(0, 6, 0, 10)
             };
             layout.Children.Add(allDay);
@@ -114,8 +124,14 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             times.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(10) });
             times.ColumnDefinitions.Add(new ColumnDefinition());
 
-            var from = new TextBox { Text = draft.Start.ToString("HH:mm"), Height = 26 };
-            var to = new TextBox { Text = draft.End.ToString("HH:mm"), Height = 26 };
+            // A whole-day entry has no hours to show, so the fields offer an ordinary
+            // one instead of midnight to midnight - which, unticked, would read as an
+            // entry twenty-four hours long.
+            DateTime shownFrom = draft.IsAllDay ? draft.Start.Date.AddHours(9) : draft.Start;
+            DateTime shownTo = draft.IsAllDay ? shownFrom.AddHours(1) : draft.End;
+
+            var from = new TextBox { Text = shownFrom.ToString("HH:mm"), Height = 26 };
+            var to = new TextBox { Text = shownTo.ToString("HH:mm"), Height = 26 };
 
             StackPanel fromBlock = Labelled(Strings.AgendaStartLabel, from);
             StackPanel toBlock = Labelled(Strings.AgendaEndLabel, to);
@@ -125,40 +141,66 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             times.Children.Add(toBlock);
             layout.Children.Add(times);
 
-            // The times mean nothing for an entry that lasts all day, and a field that
-            // is read but ignored is a field that lies.
-            void SyncTimes() => times.IsEnabled = allDay.IsChecked != true;
-            allDay.Checked += (s, e) => SyncTimes();
-            allDay.Unchecked += (s, e) => SyncTimes();
-            SyncTimes();
+            var hourNote = new TextBlock
+            {
+                TextWrapping = TextWrapping.Wrap,
+                Opacity = 0.75,
+                Margin = new Thickness(0, 0, 0, 10)
+            };
+            layout.Children.Add(hourNote);
 
             var location = new TextBox { Text = draft.Location, Height = 26 };
             StackPanel locationBlock = Labelled(Strings.AgendaLocationLabel, location);
             layout.Children.Add(locationBlock);
 
-            var noTime = new TextBlock
-            {
-                Text = Strings.AgendaTaskNoTime,
-                TextWrapping = TextWrapping.Wrap,
-                Opacity = 0.75,
-                Margin = new Thickness(0, 0, 0, 10)
-            };
-            layout.Children.Add(noTime);
+            // Whole-day is remembered for each kind separately, so trying the other kind
+            // and coming back finds the form the way it was left.
+            bool eventWholeDay = !draft.IsTask && draft.IsAllDay;
+            bool taskWholeDay = draft.IsTask ? draft.IsAllDay : !timeChosen;
+            bool showingTask = startAsTask;
 
-            // A task has a list rather than a calendar, a day rather than an hour, and
-            // nowhere to put a place. Rather than show fields that are read and thrown
-            // away, the form becomes the shape of what is being made.
+            allDay.IsChecked = showingTask ? taskWholeDay : eventWholeDay;
+
+            // The times mean nothing for an entry that lasts all day, and a field that
+            // is read but ignored is a field that lies. Google's hour on a task is not
+            // this form's to change, so it is shown and left alone.
+            void SyncTimes()
+            {
+                bool locked = showingTask && hourFromGoogle;
+
+                allDay.IsEnabled = !locked;
+                times.IsEnabled = !locked && allDay.IsChecked != true;
+            }
+
+            allDay.Checked += (s, e) => SyncTimes();
+            allDay.Unchecked += (s, e) => SyncTimes();
+
+            // A task has a list rather than a calendar and nowhere to put a place. Rather
+            // than show fields that are read and thrown away, the form becomes the shape
+            // of what is being made.
             void SyncKind()
             {
                 bool task = asTask.IsChecked == true;
 
+                if (task != showingTask)
+                {
+                    if (showingTask) taskWholeDay = allDay.IsChecked == true;
+                    else eventWholeDay = allDay.IsChecked == true;
+
+                    showingTask = task;
+                    allDay.IsChecked = task ? taskWholeDay : eventWholeDay;
+                }
+
                 calendarBlock.Visibility = task ? Visibility.Collapsed : Visibility.Visible;
                 listBlock.Visibility = task ? Visibility.Visible : Visibility.Collapsed;
                 locationBlock.Visibility = task ? Visibility.Collapsed : Visibility.Visible;
-                noTime.Visibility = task ? Visibility.Visible : Visibility.Collapsed;
 
-                allDay.Visibility = task ? Visibility.Collapsed : Visibility.Visible;
-                times.Visibility = task ? Visibility.Collapsed : Visibility.Visible;
+                // Which kind of hour a task has decides what can be done with it, and a
+                // person cannot tell the two apart by looking - so the form says.
+                hourNote.Text = hourFromGoogle ? Strings.AgendaTaskHourGoogle : Strings.AgendaTaskHourLocal;
+                hourNote.Visibility = task ? Visibility.Visible : Visibility.Collapsed;
+
+                SyncTimes();
             }
 
             asEvent.Checked += (s, e) => SyncKind();
@@ -204,40 +246,18 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             {
                 DateTime day = date.SelectedDate ?? draft.Start.Date;
                 bool makingTask = asTask.IsChecked == true;
-
-                if (makingTask)
-                {
-                    if (list.SelectedItem is not AgendaTaskList chosenList)
-                    {
-                        Complain(error, Strings.AgendaNoWritableCalendar);
-                        return;
-                    }
-
-                    result = new AgendaEvent
-                    {
-                        Id = draft.Id,
-                        CalendarId = chosenList.Id,
-                        Title = title.Text.Trim(),
-                        Description = draft.Description,
-                        Start = day.Date,
-                        End = day.Date.AddDays(1),
-                        IsAllDay = true,
-                        IsTask = true,
-                        IsDone = draft.IsDone,
-                        ColourHex = draft.ColourHex,
-                        WebLink = draft.WebLink,
-                        CanWrite = true
-                    };
-
-                    window.Close();
-                    return;
-                }
-
                 bool wholeDay = allDay.IsChecked == true;
 
                 DateTime start, end;
 
-                if (wholeDay)
+                if (makingTask && hourFromGoogle)
+                {
+                    // Carried over as it was, onto whichever day was chosen.
+                    start = day.Date + draft.Start.TimeOfDay;
+                    end = start + draft.Duration;
+                    wholeDay = false;
+                }
+                else if (wholeDay)
                 {
                     start = day.Date;
                     end = day.Date.AddDays(1);
@@ -260,7 +280,43 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                     if (end <= start) end = end.AddDays(1);
                 }
 
-                var chosen = (AgendaCalendar)calendar.SelectedItem;
+                if (makingTask)
+                {
+                    if (list.SelectedItem is not AgendaTaskList chosenList)
+                    {
+                        Complain(error, Strings.AgendaNoWritableCalendar);
+                        return;
+                    }
+
+                    result = new AgendaEvent
+                    {
+                        Id = draft.Id,
+                        CalendarId = chosenList.Id,
+                        Title = title.Text.Trim(),
+                        Description = draft.Description,
+                        Start = start,
+                        End = end,
+                        IsAllDay = wholeDay,
+                        IsTask = true,
+                        IsDone = draft.IsDone,
+
+                        // Google is sent the date alone; an hour stays with this program.
+                        HourIsLocal = !wholeDay && !hourFromGoogle,
+
+                        ColourHex = draft.ColourHex,
+                        WebLink = draft.WebLink,
+                        CanWrite = true
+                    };
+
+                    window.Close();
+                    return;
+                }
+
+                if (calendar.SelectedItem is not AgendaCalendar chosen)
+                {
+                    Complain(error, Strings.AgendaNoWritableCalendar);
+                    return;
+                }
 
                 result = new AgendaEvent
                 {

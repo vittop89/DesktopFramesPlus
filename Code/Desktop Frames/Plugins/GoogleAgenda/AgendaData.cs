@@ -120,7 +120,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// Does not throw. A failure leaves <see cref="Events"/> as it was and sets
         /// <see cref="Offline"/>; the next attempt is a minute away.
         /// </summary>
-        public async Task RefreshAsync(DateTime from, DateTime to, ISet<string> calendars)
+        /// <param name="withOverdueTasks">Also the tasks still open from before the range: for the list, which starts today.</param>
+        /// <param name="preferences">The list colours and kept hours this program adds to Google's tasks.</param>
+        public async Task RefreshAsync(DateTime from, DateTime to, ISet<string> calendars,
+                                       bool withOverdueTasks, AgendaPreferences preferences)
         {
             GoogleCalendarSource? source = _source;
             if (source == null || _refreshing) return;
@@ -137,7 +140,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
                 IReadOnlyList<AgendaEvent> due = tasks == null
                     ? new List<AgendaEvent>()
-                    : await Task.Run(() => tasks.LoadAsync(from, to, EveryList, CancellationToken.None))
+                    : await Task.Run(() => tasks.LoadAsync(from, to, EveryList, withOverdueTasks, CancellationToken.None))
                                 .ConfigureAwait(true);
 
                 // The source may have been replaced while the answer was in flight - a
@@ -148,6 +151,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 // Joined, not concatenated: a task with an hour arrives from both
                 // services, and showing both halves is showing one thing twice.
                 List<AgendaEvent> together = AgendaMerge.Join(events, due, out int unjoined);
+
+                // Then what this program adds: the colour of each list, and the hour of a
+                // task Google left to the whole day. After the join, because Google's
+                // hour - which only the join brings in - is the one that wins.
+                AgendaOverrides.Apply(together, preferences.ListColours, preferences.Hours);
 
                 if (unjoined > 0 && !_warnedAboutStandIns)
                 {

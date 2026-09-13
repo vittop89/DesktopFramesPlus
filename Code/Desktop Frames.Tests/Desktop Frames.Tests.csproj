@@ -31,8 +31,14 @@
              Link="Linked\AgendaLayout.cs" />
     <Compile Include="..\Desktop Frames\Plugins\GoogleAgenda\AgendaClientFile.cs"
              Link="Linked\AgendaClientFile.cs" />
+    <Compile Include="..\Desktop Frames\Plugins\GoogleAgenda\AgendaOverrides.cs"
+             Link="Linked\AgendaOverrides.cs" />
+    <Compile Include="..\Desktop Frames\Plugins\GoogleAgenda\AgendaDue.cs"
+             Link="Linked\AgendaDue.cs" />
     <Compile Include="..\Desktop Frames\Plugins\WebPage\WebPageSite.cs"
              Link="Linked\WebPageSite.cs" />
+    <Compile Include="..\Desktop Frames\Plugins\WebPage\WebPageSettings.cs"
+             Link="Linked\WebPageSettings.cs" />
   </ItemGroup>
 
   <ItemGroup>

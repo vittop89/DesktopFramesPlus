@@ -2060,9 +2060,6 @@ Reiniciar agora?</value>
   <data name="AgendaListLabel" xml:space="preserve">
     <value>Lista</value>
   </data>
-  <data name="AgendaTaskNoTime" xml:space="preserve">
-    <value>O Google guarda apenas a data de uma tarefa, nunca a hora.</value>
-  </data>
   <data name="PluginWebPage" xml:space="preserve">
     <value>Página web</value>
   </data>
@@ -2206,5 +2203,17 @@ Reiniciar agora?</value>
   </data>
   <data name="OptAgendaGuide" xml:space="preserve">
     <value>Agenda Google: guia de configuração</value>
+  </data>
+  <data name="AgendaListColoursLabel" xml:space="preserve">
+    <value>Cores das listas de tarefas</value>
+  </data>
+  <data name="AgendaListColourDefault" xml:space="preserve">
+    <value>Voltar à cor predefinida</value>
+  </data>
+  <data name="AgendaTaskHourLocal" xml:space="preserve">
+    <value>A hora fica só nesta app: de outras apps, o Google só aceita a data.</value>
+  </data>
+  <data name="AgendaTaskHourGoogle" xml:space="preserve">
+    <value>Esta hora vem do Google: altere-a lá.</value>
   </data>
 </root>

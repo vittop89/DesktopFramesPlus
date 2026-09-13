@@ -5,10 +5,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
     /// somebody made in Google Tasks.
     ///
     /// Kept apart from <see cref="AgendaCalendar"/> although the two look alike, because
-    /// they are not interchangeable: a task list has no colour, no sharing, no notion of
-    /// being writable by somebody else, and putting a list where a calendar is expected
-    /// would compile and then fail at the API. The one screen that offers both simply
-    /// asks for both.
+    /// they are not interchangeable: a task list has no colour in Google - the one it is
+    /// drawn in is chosen in this program and kept by AgendaPreferences - no sharing, no
+    /// notion of being writable by somebody else, and putting a list where a calendar is
+    /// expected would compile and then fail at the API. The one screen that offers both
+    /// simply asks for both.
     /// </summary>
     public class AgendaTaskList
     {

@@ -2060,9 +2060,6 @@
   <data name="AgendaListLabel" xml:space="preserve">
     <value>Список</value>
   </data>
-  <data name="AgendaTaskNoTime" xml:space="preserve">
-    <value>Google сохраняет только дату задачи, но не время.</value>
-  </data>
   <data name="PluginWebPage" xml:space="preserve">
     <value>Веб-страница</value>
   </data>
@@ -2206,5 +2203,17 @@
   </data>
   <data name="OptAgendaGuide" xml:space="preserve">
     <value>Агенда Google: инструкция по настройке</value>
+  </data>
+  <data name="AgendaListColoursLabel" xml:space="preserve">
+    <value>Цвета списков задач</value>
+  </data>
+  <data name="AgendaListColourDefault" xml:space="preserve">
+    <value>Вернуть цвет по умолчанию</value>
+  </data>
+  <data name="AgendaTaskHourLocal" xml:space="preserve">
+    <value>Время остаётся только в этом приложении: от других приложений Google принимает лишь дату.</value>
+  </data>
+  <data name="AgendaTaskHourGoogle" xml:space="preserve">
+    <value>Это время задано в Google: меняйте его там.</value>
   </data>
 </root>

@@ -2060,9 +2060,6 @@ Uruchomić ponownie teraz?</value>
   <data name="AgendaListLabel" xml:space="preserve">
     <value>Lista</value>
   </data>
-  <data name="AgendaTaskNoTime" xml:space="preserve">
-    <value>Google zapisuje tylko datę zadania, nigdy godziny.</value>
-  </data>
   <data name="PluginWebPage" xml:space="preserve">
     <value>Strona internetowa</value>
   </data>
@@ -2206,5 +2203,17 @@ Uruchomić ponownie teraz?</value>
   </data>
   <data name="OptAgendaGuide" xml:space="preserve">
     <value>Agenda Google: przewodnik konfiguracji</value>
+  </data>
+  <data name="AgendaListColoursLabel" xml:space="preserve">
+    <value>Kolory list zadań</value>
+  </data>
+  <data name="AgendaListColourDefault" xml:space="preserve">
+    <value>Przywróć kolor domyślny</value>
+  </data>
+  <data name="AgendaTaskHourLocal" xml:space="preserve">
+    <value>Godzina zostaje tylko w tej aplikacji: od innych aplikacji Google przyjmuje tylko datę.</value>
+  </data>
+  <data name="AgendaTaskHourGoogle" xml:space="preserve">
+    <value>Ta godzina pochodzi z Google: zmień ją tam.</value>
   </data>
 </root>

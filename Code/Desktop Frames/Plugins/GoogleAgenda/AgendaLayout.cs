@@ -112,5 +112,38 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             return placed;
         }
+
+        /// <summary>
+        /// The hour a column of hours opens at, before anybody has scrolled it.
+        ///
+        /// The grid holds the whole day and a frame shows part of it, so the part shown
+        /// first has to be the useful one. With today on screen that is now - an hour
+        /// back, so what has just happened is still in sight above what comes next.
+        /// Otherwise it is the ordinary start of a day, moved earlier for anything that
+        /// begins before it, so an early train is not scrolled out of sight.
+        /// </summary>
+        public static double DefaultTopHour(IEnumerable<AgendaEvent> events, IReadOnlyList<DateTime> days,
+                                            DateTime now)
+        {
+            const double DayStarts = 7;
+
+            if (days.Any(d => d.Date == now.Date))
+                return Math.Max(0, now.Hour - 1);
+
+            List<AgendaEvent> all = events.ToList();
+            double first = DayStarts;
+
+            foreach (DateTime day in days)
+            {
+                foreach (AgendaEvent item in OfDay(all, day))
+                {
+                    // Something still running from the day before starts at the top.
+                    double starts = item.Start <= day.Date ? 0 : (item.Start - day.Date).TotalHours;
+                    first = Math.Min(first, Math.Floor(starts) - 1);
+                }
+            }
+
+            return Math.Max(0, first);
+        }
     }
 }

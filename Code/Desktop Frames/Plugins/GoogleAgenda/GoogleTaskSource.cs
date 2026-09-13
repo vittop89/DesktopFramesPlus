@@ -1,4 +1,4 @@
-﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Tasks.v1;
 
@@ -40,8 +40,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private bool _listsRead;
 
-        /// <summary>The shade Google Calendar uses for tasks.</summary>
-        private const string TaskColour = "#5C6BC0";
+        /// <summary>
+        /// The shade Google Calendar uses for tasks, and the one a list is drawn in
+        /// until somebody gives it a colour of its own.
+        /// </summary>
+        public const string TaskColour = "#5C6BC0";
 
         public GoogleTaskSource(UserCredential credential)
         {
@@ -71,8 +74,13 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// dozens - the whole answer costs less than the machinery to avoid asking for
         /// it would.
         /// </summary>
+        /// <param name="withOverdue">
+        /// Also the tasks still open from before <paramref name="from"/>, however old.
+        /// For the list, whose range starts today: without them, a task that slipped
+        /// past its day vanished from the one view meant to say what is left to do.
+        /// </param>
         public async Task<IReadOnlyList<AgendaEvent>> LoadAsync(
-            DateTime from, DateTime to, ISet<string> chosen, CancellationToken token)
+            DateTime from, DateTime to, ISet<string> chosen, bool withOverdue, CancellationToken token)
         {
             await EnsureListsAsync(token).ConfigureAwait(false);
 
@@ -86,6 +94,9 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 try
                 {
                     await LoadListAsync(list.Key, from, to, found, token).ConfigureAwait(false);
+
+                    if (withOverdue)
+                        await LoadOverdueAsync(list.Key, from, found, token).ConfigureAwait(false);
                 }
                 catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
                 {
@@ -122,25 +133,56 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             _listsRead = true;
         }
 
-        private async Task LoadListAsync(string listId, DateTime from, DateTime to,
-                                         List<AgendaEvent> into, CancellationToken token)
+        private Task LoadListAsync(string listId, DateTime from, DateTime to,
+                                   List<AgendaEvent> into, CancellationToken token)
         {
+            TasksResource.ListRequest request = _service.Tasks.List(listId);
+
+            // Completed ones are asked for on purpose: a tick has to be visible in
+            // the grids, and a task that vanished the moment it was done would look
+            // like it had been deleted.
+            request.ShowCompleted = true;
+            request.ShowHidden = true;
+
+            request.DueMin = Midnight(from);
+            request.DueMax = Midnight(to);
+
+            return ReadPagesAsync(request, listId, into, token);
+        }
+
+        /// <summary>
+        /// The open tasks due before <paramref name="before"/>, however long ago.
+        ///
+        /// Open ones only. The done ones from before the range are finished business,
+        /// and a list of every task ever ticked off would bury the few that are not.
+        /// </summary>
+        private async Task LoadOverdueAsync(string listId, DateTime before,
+                                            List<AgendaEvent> into, CancellationToken token)
+        {
+            TasksResource.ListRequest request = _service.Tasks.List(listId);
+            request.ShowCompleted = false;
+            request.DueMax = Midnight(before);
+
+            var late = new List<AgendaEvent>();
+            await ReadPagesAsync(request, listId, late, token).ConfigureAwait(false);
+
+            // Google does not say whether the bound itself is included, and a task due
+            // on it is already in the range read above - so it is kept out here rather
+            // than shown twice.
+            var have = new HashSet<string>(into.Select(t => t.Id), StringComparer.Ordinal);
+            into.AddRange(late.Where(t => t.Start < before && have.Add(t.Id)));
+        }
+
+        /// <summary>Walks the pages of an answer, turning each task into an entry on the way.</summary>
+        private async Task ReadPagesAsync(TasksResource.ListRequest request, string listId,
+                                          List<AgendaEvent> into, CancellationToken token)
+        {
+            request.MaxResults = 100;
             string? page = null;
 
             do
             {
-                TasksResource.ListRequest request = _service.Tasks.List(listId);
-                request.MaxResults = 100;
                 request.PageToken = page;
-
-                // Completed ones are asked for on purpose: a tick has to be visible in
-                // the grids, and a task that vanished the moment it was done would look
-                // like it had been deleted.
-                request.ShowCompleted = true;
-                request.ShowHidden = true;
-
-                request.DueMin = from.ToString("yyyy-MM-dd'T'00:00:00'Z'", CultureInfo.InvariantCulture);
-                request.DueMax = to.ToString("yyyy-MM-dd'T'00:00:00'Z'", CultureInfo.InvariantCulture);
 
                 GoogleTaskPage answer = await request.ExecuteAsync(token).ConfigureAwait(false);
 
@@ -155,6 +197,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             while (!string.IsNullOrEmpty(page) && !token.IsCancellationRequested);
         }
 
+        /// <summary>A day as the filters want it: its midnight, written in UTC, the way Google writes due dates.</summary>
+        private static string Midnight(DateTime day) =>
+            day.ToString("yyyy-MM-dd'T'00:00:00'Z'", CultureInfo.InvariantCulture);
+
         /// <summary>
         /// Turns a task into something the frame can draw.
         ///
@@ -163,21 +209,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// </summary>
         private AgendaEvent? Map(string listId, GoogleTask item)
         {
-            if (string.IsNullOrEmpty(item.Id) || string.IsNullOrWhiteSpace(item.Due)) return null;
+            if (string.IsNullOrEmpty(item.Id)) return null;
 
-            if (!DateTimeOffset.TryParse(item.Due, CultureInfo.InvariantCulture,
-                                         DateTimeStyles.AdjustToUniversal, out DateTimeOffset due))
-                return null;
-
-            DateTime local = due.LocalDateTime;
-
-            // Measured against a real account rather than assumed: a task given
-            // 18:00-19:00 in the Google Calendar interface comes back from this API as
-            // 00:00:00.000Z. The hour is real on Google's side and simply does not
-            // cross the wire, so in practice this is always false - but it is written
-            // as a question rather than as "false" so that a task that ever does carry
-            // an hour lands at that hour instead of silently becoming an all-day one.
-            bool hasTime = due.TimeOfDay != TimeSpan.Zero;
+            // The date as Google wrote it, not a moment to convert - see AgendaDue for
+            // the day this used to lose west of Greenwich.
+            if (!AgendaDue.TryRead(item.Due, out DateTime start, out bool hasTime)) return null;
 
             return new AgendaEvent
             {
@@ -190,14 +226,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
                 // Given an hour, it sits at that hour for an hour; given only a date, it
                 // belongs to the whole day, alongside a birthday rather than a meeting.
-                Start = hasTime ? local : local.Date,
-                End = hasTime ? local.AddHours(1) : local.Date.AddDays(1),
+                Start = start,
+                End = hasTime ? start.AddHours(1) : start.AddDays(1),
                 IsAllDay = !hasTime,
 
                 // Tasks have no colour in the API, and left empty they fall through to
                 // the same blue every untinted entry gets - so a task becomes
                 // indistinguishable from a meeting. This is the colour Google itself
-                // draws tasks in; a joined task overwrites it with its stand-in's.
+                // draws tasks in; a joined task overwrites it with its stand-in's, and a
+                // list given a colour of its own in the settings overwrites both.
                 ColourHex = TaskColour,
 
                 IsTask = true,
@@ -212,9 +249,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// <summary>
         /// Makes a task in the chosen list.
         ///
-        /// Only the date is sent. Google stores no time of day on a task - measured, not
-        /// assumed - so sending one would be writing a field that is silently dropped,
-        /// and the form says as much rather than offering an hour that goes nowhere.
+        /// Only the date is sent. The API takes no time of day for a task - measured,
+        /// not assumed - so sending one would be writing a field that is silently
+        /// dropped. An hour chosen in the form stays in this program instead, see
+        /// <see cref="AgendaPreferences"/>.
         /// </summary>
         public async Task<string> CreateAsync(AgendaEvent item, CancellationToken token)
         {
