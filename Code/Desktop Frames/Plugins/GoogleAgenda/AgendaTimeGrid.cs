@@ -1032,13 +1032,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             // A double click opens the form here when the entry can be changed - what a
             // double click means in every calendar - and Google's own page when it
             // cannot, the only place a read-only entry can be looked at in full.
-            target.MouseLeftButtonUp += (s, e) =>
+            OnDoubleClick(target, () =>
             {
-                if (e.ClickCount != 2) return;
-
                 if (item.CanWrite) actions.Edit?.Invoke(item);
                 else actions.Open?.Invoke(item);
-            };
+            });
 
             var menu = new ContextMenu();
 
@@ -1060,6 +1058,27 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             menu.Items.Add(openItem);
 
             target.ContextMenu = menu;
+        }
+
+        /// <summary>
+        /// Runs <paramref name="action"/> on a double click on <paramref name="target"/>.
+        ///
+        /// Read on the press, not the release: ClickCount counts presses, and on a
+        /// release it is always one - which is why the double click never fired while it
+        /// was checked there. The press is claimed, so the drag that also starts on a
+        /// press does not begin on the second click; and the action runs after the
+        /// handler has returned, so the release that follows is delivered normally
+        /// rather than into a dialog that opened in the middle of a click.
+        /// </summary>
+        internal static void OnDoubleClick(UIElement target, Action action)
+        {
+            target.MouseLeftButtonDown += (s, e) =>
+            {
+                if (e.ClickCount != 2) return;
+
+                e.Handled = true;
+                target.Dispatcher.BeginInvoke(action, DispatcherPriority.Input);
+            };
         }
 
         /// <summary>

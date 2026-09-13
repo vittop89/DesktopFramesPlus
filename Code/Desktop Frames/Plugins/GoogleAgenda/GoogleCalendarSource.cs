@@ -184,7 +184,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                     {
                         Id = entry.Id,
                         Title = entry.Summary ?? entry.Id,
-                        ColourHex = entry.BackgroundColor ?? string.Empty,
+                        // As Google draws it, when the API's value is one of its palette;
+                        // as reported, when somebody set the colour by hand.
+                        ColourHex = AgendaEventColours.CalendarHex(entry.BackgroundColor)
+                                    ?? entry.BackgroundColor ?? string.Empty,
                         IsPrimary = entry.Primary ?? false,
 
                         // "owner" and "writer" may add events; "reader" and

@@ -28,6 +28,24 @@ namespace Desktop_Frames.Tests
             Assert.Null(AgendaEventColours.Hex(id));
         }
 
+        [Theory]
+        [InlineData("#9a9cff", "#7986CB")]   // Lavender, as calendarList reports it
+        [InlineData("#9A9CFF", "#7986CB")]   // whichever case the API uses
+        [InlineData("#16a765", "#0B8043")]   // Basil
+        public void A_calendar_colour_from_the_API_becomes_the_shade_Google_draws(string api, string hex)
+        {
+            Assert.Equal(hex, AgendaEventColours.CalendarHex(api));
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("#123456")]   // set by hand, not in the palette
+        public void A_calendar_colour_outside_the_palette_is_left_alone(string? api)
+        {
+            Assert.Null(AgendaEventColours.CalendarHex(api));
+        }
+
         [Fact]
         public void All_eleven_are_there_and_are_colours()
         {
