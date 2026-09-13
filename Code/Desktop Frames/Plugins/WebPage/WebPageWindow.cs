@@ -16,7 +16,7 @@ namespace Desktop_Frames.Plugins.WebPage
         /// <summary>Where the window was when it closed, for the frame to remember.</summary>
         public WebPageSettings.Rect? Placement { get; private set; }
 
-        public WebPageWindow(WebPageSite site, WebPageSettings.Rect? bounds, bool onTop)
+        public WebPageWindow(WebPageSite site, string profile, WebPageSettings.Rect? bounds, bool onTop)
         {
             Title = site.Name;
             Width = bounds?.Width ?? 980;
@@ -26,7 +26,7 @@ namespace Desktop_Frames.Plugins.WebPage
             Topmost = onTop;
             ShowInTaskbar = true;
             Background = Brushes.White;
-            Content = new WebPageBrowser(site);
+            Content = new WebPageBrowser(site, profile);
 
             if (bounds is WebPageSettings.Rect where && OnAScreen(where))
             {

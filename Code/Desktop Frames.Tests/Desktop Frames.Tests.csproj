@@ -23,6 +23,8 @@
     -->
     <Compile Include="..\Desktop Frames\Plugins\WebPage\WebPageSite.cs"
              Link="Linked\WebPageSite.cs" />
+    <Compile Include="..\Desktop Frames\Plugins\WebPage\WebPageSettings.cs"
+             Link="Linked\WebPageSettings.cs" />
   </ItemGroup>
 
   <ItemGroup>
