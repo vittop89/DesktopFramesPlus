@@ -290,9 +290,9 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         }
 
         /// <summary>
-        /// One task list and its colour. The swatch opens the same picker the frames
-        /// use, so a list can be given any colour a frame can; the arrow beside it goes
-        /// back to the default, and is there only while there is something to undo.
+        /// One task list and its colour. The swatch opens the colour dialog; the arrow
+        /// beside it goes back to the default, and is there only while there is
+        /// something to undo.
         /// </summary>
         private static UIElement ColourRow(AgendaTaskList taskList, Dictionary<string, string> colours)
         {
@@ -314,7 +314,6 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Height = 24,
                 Padding = new Thickness(0),
                 Margin = new Thickness(0, 0, 8, 0),
-                ToolTip = Strings.LblCustomColorPick,
                 Cursor = System.Windows.Input.Cursors.Hand
             };
 
@@ -342,7 +341,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             pick.Click += (s, e) =>
             {
                 string current = colours.TryGetValue(taskList.Id, out string? hex) ? hex : GoogleTaskSource.TaskColour;
-                string? picked = CustomColorPicker.Show(Window.GetWindow(pick), current);
+                string? picked = AskForColour(current);
 
                 if (string.IsNullOrEmpty(picked)) return;
 
@@ -387,6 +386,37 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             block.Children.Add(field);
             return block;
+        }
+
+        /// <summary>
+        /// The system's own colour dialog, with the wheel, the eyedropper and the custom
+        /// colours somebody already keeps. Nothing of this program's own is used here on
+        /// purpose: the agenda has to build on a plain copy of the program, not only on
+        /// one that carries a colour picker of its own.
+        /// </summary>
+        private static string? AskForColour(string currentHex)
+        {
+            Color start = Color.FromRgb(100, 150, 255);
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(currentHex))
+                    start = (Color)ColorConverter.ConvertFromString(currentHex);
+            }
+            catch (Exception)
+            {
+                // A colour that will not parse only means the dialog opens on the default.
+            }
+
+            using var dialog = new System.Windows.Forms.ColorDialog
+            {
+                FullOpen = true,
+                Color = System.Drawing.Color.FromArgb(start.R, start.G, start.B)
+            };
+
+            if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return null;
+
+            return $"#{dialog.Color.R:X2}{dialog.Color.G:X2}{dialog.Color.B:X2}";
         }
 
         private static Brush Swatch(string hex)
