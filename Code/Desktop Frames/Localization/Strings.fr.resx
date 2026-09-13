@@ -1989,9 +1989,6 @@ Redémarrer maintenant ?</value>
   <data name="AgendaListLabel" xml:space="preserve">
     <value>Liste</value>
   </data>
-  <data name="AgendaTaskNoTime" xml:space="preserve">
-    <value>Google ne conserve que la date d'une tâche, jamais l'heure.</value>
-  </data>
   <data name="AgendaNeedsClient" xml:space="preserve">
     <value>Cet agenda a besoin d'un fichier client Google : un JSON de type « Application de bureau » de Google Cloud Console.</value>
   </data>
@@ -2057,5 +2054,17 @@ Redémarrer maintenant ?</value>
   </data>
   <data name="AgendaAccessDenied" xml:space="preserve">
     <value>Google n'a pas accordé l'accès. S'il indiquait « Accès bloqué », votre compte doit être utilisateur test de ce client.</value>
+  </data>
+  <data name="AgendaListColoursLabel" xml:space="preserve">
+    <value>Couleurs des listes de tâches</value>
+  </data>
+  <data name="AgendaListColourDefault" xml:space="preserve">
+    <value>Revenir à la couleur par défaut</value>
+  </data>
+  <data name="AgendaTaskHourLocal" xml:space="preserve">
+    <value>L'heure reste dans cette appli : d'une autre appli, Google n'accepte que la date.</value>
+  </data>
+  <data name="AgendaTaskHourGoogle" xml:space="preserve">
+    <value>Cette heure vient de Google : modifiez-la là-bas.</value>
   </data>
 </root>

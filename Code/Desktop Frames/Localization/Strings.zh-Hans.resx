@@ -2062,9 +2062,6 @@
   <data name="AgendaListLabel" xml:space="preserve">
     <value>列表</value>
   </data>
-  <data name="AgendaTaskNoTime" xml:space="preserve">
-    <value>Google 只保存任务的日期，不保存具体时间。</value>
-  </data>
   <data name="AgendaNeedsClient" xml:space="preserve">
     <value>此日程需要一个 Google 客户端文件：来自 Google Cloud Console、类型为“桌面应用”的 JSON。</value>
   </data>
@@ -2130,5 +2127,17 @@
   </data>
   <data name="AgendaAccessDenied" xml:space="preserve">
     <value>Google 未授予访问权限。如果提示“访问被阻止”，你的账号必须是此客户端的测试用户。</value>
+  </data>
+  <data name="AgendaListColoursLabel" xml:space="preserve">
+    <value>任务列表颜色</value>
+  </data>
+  <data name="AgendaListColourDefault" xml:space="preserve">
+    <value>恢复默认颜色</value>
+  </data>
+  <data name="AgendaTaskHourLocal" xml:space="preserve">
+    <value>时间只保存在本应用中：对于其他应用，Google 只接受日期。</value>
+  </data>
+  <data name="AgendaTaskHourGoogle" xml:space="preserve">
+    <value>此时间来自 Google：请在那里修改。</value>
   </data>
 </root>

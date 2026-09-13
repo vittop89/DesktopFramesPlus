@@ -1,4 +1,4 @@
-﻿using Desktop_Frames.Localization;
+using Desktop_Frames.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,8 @@ using System.Windows.Media;
 namespace Desktop_Frames.Plugins.GoogleAgenda
 {
     /// <summary>
-    /// The plugin's own settings window: the account, the layout, and which calendars
-    /// this frame shows.
+    /// The plugin's own settings window: the account, the layout, which calendars this
+    /// frame shows, and the colour of each task list.
     ///
     /// Separate from the plugin because the two change for different reasons, and
     /// because keeping them together is how the other plugins grew past a thousand
@@ -21,7 +21,9 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
     public static class AgendaSettingsWindow
     {
         public static void Show(Window? ownerWindow, AgendaSession session, AgendaSettings current,
-                                IReadOnlyList<AgendaCalendar> calendars, Action<AgendaSettings> onSaved)
+                                IReadOnlyList<AgendaCalendar> calendars,
+                                IReadOnlyList<AgendaTaskList> taskLists, AgendaPreferences preferences,
+                                Action<AgendaSettings> onSaved)
         {
             var window = new Window
             {
@@ -167,8 +169,32 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                     new ScrollViewer { Content = list, MaxHeight = 180, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }));
             }
 
+            // --- task list colours ---------------------------------------------
+            // Google gives a list no colour at all, so without this every task is the
+            // same indigo and "which list is this?" can only be answered by reading.
+            // Changed here and kept only if the window is saved, like everything else.
+            var colours = new Dictionary<string, string>(preferences.ListColours, StringComparer.Ordinal);
+
+            if (taskLists.Count > 0)
+            {
+                var rows = new StackPanel();
+
+                foreach (AgendaTaskList taskList in taskLists)
+                    rows.Children.Add(ColourRow(taskList, colours));
+
+                StackPanel coloursBlock = Labelled(Strings.AgendaListColoursLabel,
+                    new ScrollViewer { Content = rows, MaxHeight = 160, VerticalScrollBarVisibility = ScrollBarVisibility.Auto });
+                coloursBlock.Margin = new Thickness(0, 10, 0, 4);
+                layout.Children.Add(coloursBlock);
+            }
+
             // --- footer --------------------------------------------------------
-            var footer = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
+            var footer = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Margin = new Thickness(0, 12, 0, 0)
+            };
 
             var cancel = new Button
             {
@@ -196,6 +222,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                     foreach (CheckBox box in boxes.Where(b => b.IsChecked == true))
                         saved.Calendars.Add((string)box.Tag!);
                 }
+
+                // Before the frame hears about it, so the refresh that follows already
+                // draws the lists in their new colours.
+                preferences.SetListColours(colours);
 
                 onSaved(saved);
                 window.Close();
@@ -248,8 +278,89 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             Draw();
 
-            window.Content = layout;
+            // Scrolls as a whole once the colours make it taller than the window may be,
+            // rather than letting the buttons at the bottom fall off the screen.
+            window.Content = new ScrollViewer
+            {
+                Content = layout,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto
+            };
+
             window.ShowDialog();
+        }
+
+        /// <summary>
+        /// One task list and its colour. The swatch opens the colour dialog; the arrow
+        /// beside it goes back to the default, and is there only while there is
+        /// something to undo.
+        /// </summary>
+        private static UIElement ColourRow(AgendaTaskList taskList, Dictionary<string, string> colours)
+        {
+            var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 2, 0, 2) };
+
+            var swatch = new Border
+            {
+                Width = 16,
+                Height = 16,
+                CornerRadius = new CornerRadius(3),
+                BorderThickness = new Thickness(1),
+                BorderBrush = Brushes.Gray
+            };
+
+            var pick = new Button
+            {
+                Content = swatch,
+                Width = 30,
+                Height = 24,
+                Padding = new Thickness(0),
+                Margin = new Thickness(0, 0, 8, 0),
+                Cursor = System.Windows.Input.Cursors.Hand
+            };
+
+            var reset = new Button
+            {
+                // Undo, from the icon font the frame buttons use.
+                Content = "",
+                FontFamily = new FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+                Width = 26,
+                Height = 24,
+                Padding = new Thickness(0),
+                Margin = new Thickness(8, 0, 0, 0),
+                ToolTip = Strings.AgendaListColourDefault,
+                Cursor = System.Windows.Input.Cursors.Hand
+            };
+
+            void Draw()
+            {
+                bool own = colours.TryGetValue(taskList.Id, out string? hex);
+
+                swatch.Background = Swatch(own ? hex! : GoogleTaskSource.TaskColour);
+                reset.Visibility = own ? Visibility.Visible : Visibility.Hidden;
+            }
+
+            pick.Click += (s, e) =>
+            {
+                string current = colours.TryGetValue(taskList.Id, out string? hex) ? hex : GoogleTaskSource.TaskColour;
+                string? picked = AskForColour(current);
+
+                if (string.IsNullOrEmpty(picked)) return;
+
+                colours[taskList.Id] = picked;
+                Draw();
+            };
+
+            reset.Click += (s, e) =>
+            {
+                colours.Remove(taskList.Id);
+                Draw();
+            };
+
+            row.Children.Add(pick);
+            row.Children.Add(new TextBlock { Text = taskList.Title, VerticalAlignment = VerticalAlignment.Center });
+            row.Children.Add(reset);
+
+            Draw();
+            return row;
         }
 
         private static IEnumerable<(AgendaView, string)> Views()
@@ -275,6 +386,37 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             block.Children.Add(field);
             return block;
+        }
+
+        /// <summary>
+        /// The system's own colour dialog, with the wheel, the eyedropper and the custom
+        /// colours somebody already keeps. Nothing of this program's own is used here on
+        /// purpose: the agenda has to build on a plain copy of the program, not only on
+        /// one that carries a colour picker of its own.
+        /// </summary>
+        private static string? AskForColour(string currentHex)
+        {
+            Color start = Color.FromRgb(100, 150, 255);
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(currentHex))
+                    start = (Color)ColorConverter.ConvertFromString(currentHex);
+            }
+            catch (Exception)
+            {
+                // A colour that will not parse only means the dialog opens on the default.
+            }
+
+            using var dialog = new System.Windows.Forms.ColorDialog
+            {
+                FullOpen = true,
+                Color = System.Drawing.Color.FromArgb(start.R, start.G, start.B)
+            };
+
+            if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return null;
+
+            return $"#{dialog.Color.R:X2}{dialog.Color.G:X2}{dialog.Color.B:X2}";
         }
 
         private static Brush Swatch(string hex)

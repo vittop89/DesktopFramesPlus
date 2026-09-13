@@ -1988,9 +1988,6 @@ Vuoi riavviare adesso?</value>
   <data name="AgendaListLabel" xml:space="preserve">
     <value>Elenco</value>
   </data>
-  <data name="AgendaTaskNoTime" xml:space="preserve">
-    <value>Google conserva solo la data di un'attività, mai l'ora.</value>
-  </data>
   <data name="AgendaNeedsClient" xml:space="preserve">
     <value>Questa agenda ha bisogno di un file client Google: un JSON di tipo «App desktop» da Google Cloud Console.</value>
   </data>
@@ -2056,5 +2053,17 @@ Vuoi riavviare adesso?</value>
   </data>
   <data name="AgendaAccessDenied" xml:space="preserve">
     <value>Google non ha concesso l'accesso. Se diceva «Accesso bloccato», il tuo account dev'essere un utente di test di questo client.</value>
+  </data>
+  <data name="AgendaListColoursLabel" xml:space="preserve">
+    <value>Colori delle liste di attività</value>
+  </data>
+  <data name="AgendaListColourDefault" xml:space="preserve">
+    <value>Torna al colore predefinito</value>
+  </data>
+  <data name="AgendaTaskHourLocal" xml:space="preserve">
+    <value>L'ora resta solo in questa app: dalle altre app Google accetta solo la data.</value>
+  </data>
+  <data name="AgendaTaskHourGoogle" xml:space="preserve">
+    <value>Quest'ora viene da Google: si cambia lì.</value>
   </data>
 </root>

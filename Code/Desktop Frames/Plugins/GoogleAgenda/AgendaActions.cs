@@ -22,5 +22,19 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         /// <summary>Tick a task off, or put it back. Never set for a plain event.</summary>
         public Action<AgendaEvent, bool>? SetDone { get; set; }
+
+        /// <summary>
+        /// Start something new at this moment - the half hour somebody clicked in an
+        /// empty part of a day. Not about an entry, unlike the rest, but it travels the
+        /// same way down to the one place that knows where the click landed.
+        /// </summary>
+        public Action<DateTime>? CreateAt { get; set; }
+
+        /// <summary>
+        /// Put an entry at another time, or give it another end - or, when the last
+        /// argument is true, put a copy of it there and leave it where it is. What a
+        /// drag in the grid asks for once the button is let go.
+        /// </summary>
+        public Action<AgendaEvent, DateTime, DateTime, bool>? Reschedule { get; set; }
     }
 }

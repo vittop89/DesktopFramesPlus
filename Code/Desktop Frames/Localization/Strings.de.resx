@@ -1989,9 +1989,6 @@ Jetzt neu starten?</value>
   <data name="AgendaListLabel" xml:space="preserve">
     <value>Liste</value>
   </data>
-  <data name="AgendaTaskNoTime" xml:space="preserve">
-    <value>Google speichert bei einer Aufgabe nur das Datum, nie eine Uhrzeit.</value>
-  </data>
   <data name="AgendaNeedsClient" xml:space="preserve">
     <value>Diese Agenda braucht eine Google-Client-Datei: ein JSON vom Typ „Desktop-App“ aus der Google Cloud Console.</value>
   </data>
@@ -2057,5 +2054,17 @@ Jetzt neu starten?</value>
   </data>
   <data name="AgendaAccessDenied" xml:space="preserve">
     <value>Google hat den Zugriff nicht gewährt. Bei „Zugriff blockiert“ muss Ihr Konto Testnutzer dieses Clients sein.</value>
+  </data>
+  <data name="AgendaListColoursLabel" xml:space="preserve">
+    <value>Farben der Aufgabenlisten</value>
+  </data>
+  <data name="AgendaListColourDefault" xml:space="preserve">
+    <value>Zurück zur Standardfarbe</value>
+  </data>
+  <data name="AgendaTaskHourLocal" xml:space="preserve">
+    <value>Die Uhrzeit bleibt nur in dieser App: Von anderen Apps übernimmt Google nur das Datum.</value>
+  </data>
+  <data name="AgendaTaskHourGoogle" xml:space="preserve">
+    <value>Diese Uhrzeit kommt von Google und wird dort geändert.</value>
   </data>
 </root>

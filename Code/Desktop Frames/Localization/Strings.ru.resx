@@ -1989,9 +1989,6 @@
   <data name="AgendaListLabel" xml:space="preserve">
     <value>Список</value>
   </data>
-  <data name="AgendaTaskNoTime" xml:space="preserve">
-    <value>Google сохраняет только дату задачи, но не время.</value>
-  </data>
   <data name="AgendaNeedsClient" xml:space="preserve">
     <value>Этой агенде нужен файл клиента Google: JSON типа «Приложение для ПК» из Google Cloud Console.</value>
   </data>
@@ -2057,5 +2054,17 @@
   </data>
   <data name="AgendaAccessDenied" xml:space="preserve">
     <value>Google не предоставил доступ. Если было «Доступ заблокирован», ваш аккаунт должен быть тестовым пользователем этого клиента.</value>
+  </data>
+  <data name="AgendaListColoursLabel" xml:space="preserve">
+    <value>Цвета списков задач</value>
+  </data>
+  <data name="AgendaListColourDefault" xml:space="preserve">
+    <value>Вернуть цвет по умолчанию</value>
+  </data>
+  <data name="AgendaTaskHourLocal" xml:space="preserve">
+    <value>Время остаётся только в этом приложении: от других приложений Google принимает лишь дату.</value>
+  </data>
+  <data name="AgendaTaskHourGoogle" xml:space="preserve">
+    <value>Это время задано в Google: меняйте его там.</value>
   </data>
 </root>

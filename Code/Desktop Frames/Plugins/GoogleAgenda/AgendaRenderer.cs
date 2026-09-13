@@ -43,43 +43,53 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         public Action<DateTime>? DayChosen;
         public Action<AgendaEvent, bool>? DoneChanged;
 
+        /// <summary>Something new, at the half hour somebody clicked in a grid.</summary>
+        public Action<DateTime>? CreateRequested;
+
+        /// <summary>An entry dragged to another time or end in a grid; true to copy it there instead.</summary>
+        public Action<AgendaEvent, DateTime, DateTime, bool>? RescheduleRequested;
+
         private static readonly Brush Faint = new SolidColorBrush(Color.FromArgb(160, 255, 255, 255));
         private static readonly Brush Strong = new SolidColorBrush(Color.FromArgb(220, 255, 255, 255));
 
+        /// <summary>
+        /// Draws the list or the month into <paramref name="panel"/>. The views made of
+        /// hours come from <see cref="Columns"/> instead: they fill the frame and scroll
+        /// their own hours, which a place in a stack cannot give them.
+        /// </summary>
         public void Draw(Panel panel, IReadOnlyList<AgendaEvent> events, AgendaView view,
                          DateTime anchor, bool flashToday = false)
         {
+            if (view == AgendaView.Month) DrawMonth(panel, events, anchor, flashToday);
+            else DrawList(panel, events);
+        }
+
+        /// <summary>True for the views drawn as columns of hours.</summary>
+        public static bool IsColumns(AgendaView view) =>
+            view == AgendaView.Day || view == AgendaView.ThreeDays || view == AgendaView.Week;
+
+        /// <summary>
+        /// A view made of columns of hours, the only shape that answers how full a day
+        /// is without anything having to be read.
+        /// </summary>
+        public UIElement Columns(IReadOnlyList<AgendaEvent> events, AgendaView view, DateTime anchor,
+                                 bool flashToday, AgendaGridState state)
+        {
             switch (view)
             {
-                // Columns of hours, the only shape that answers how full a day is
-                // without anything having to be read.
                 case AgendaView.Day:
-                    panel.Children.Add(Columns(events, anchor.Date, 1, flashToday));
-                    break;
+                    return AgendaTimeGrid.Build(events, anchor.Date, 1, flashToday, Actions(), state);
 
                 case AgendaView.ThreeDays:
-                    panel.Children.Add(Columns(events, anchor.Date, 3, flashToday));
-                    break;
+                    return AgendaTimeGrid.Build(events, anchor.Date, 3, flashToday, Actions(), state);
 
-                case AgendaView.Week:
+                default:
                     // From the first day of the week as this language counts it, rather
                     // than from the day being looked at: a week beginning on a Wednesday
                     // is not a week.
-                    panel.Children.Add(Columns(events, StartOfWeek(anchor), 7, flashToday));
-                    break;
-
-                case AgendaView.Month:
-                    DrawMonth(panel, events, anchor, flashToday);
-                    break;
-
-                default:
-                    DrawList(panel, events);
-                    break;
+                    return AgendaTimeGrid.Build(events, StartOfWeek(anchor), 7, flashToday, Actions(), state);
             }
         }
-
-        private UIElement Columns(IReadOnlyList<AgendaEvent> events, DateTime from, int days, bool flashToday) =>
-            AgendaTimeGrid.Build(events, from, days, flashToday, Actions());
 
         /// <summary>
         /// The frame's callbacks in one piece, so every view is handed the same set and
@@ -90,7 +100,9 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             Open = e => OpenRequested?.Invoke(e),
             Edit = e => EditRequested?.Invoke(e),
             Delete = e => DeleteRequested?.Invoke(e),
-            SetDone = (e, done) => DoneChanged?.Invoke(e, done)
+            SetDone = (e, done) => DoneChanged?.Invoke(e, done),
+            CreateAt = at => CreateRequested?.Invoke(at),
+            Reschedule = (e, start, end, copy) => RescheduleRequested?.Invoke(e, start, end, copy)
         };
 
         private static DateTime StartOfWeek(DateTime day)

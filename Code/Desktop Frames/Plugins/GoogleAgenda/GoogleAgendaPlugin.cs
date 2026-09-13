@@ -35,9 +35,18 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         private ScrollViewer? _rootVisual;
         private StackPanel? _contentPanel;
 
+        /// <summary>
+        /// Below the toolbar, for a grid of hours: filled only by the views that are
+        /// one, and given whatever height the frame has left.
+        /// </summary>
+        private Border? _gridHost;
+
         // --- State -------------------------------------------------------------
         private readonly AgendaSession _session = AgendaSession.ForCurrentProfile();
         private readonly AgendaRenderer _renderer = new AgendaRenderer();
+
+        /// <summary>The list colours and kept hours, shared by every agenda frame of the profile.</summary>
+        private readonly AgendaPreferences _preferences = AgendaPreferences.ForCurrentProfile();
 
         /// <summary>
         /// The services, the entries and the writing. Everything this frame knows and
@@ -58,6 +67,22 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         /// <summary>Set for one redraw when somebody asks to be taken back to today.</summary>
         private bool _flashToday;
+
+        /// <summary>
+        /// What a grid of hours keeps across being rebuilt: where it was scrolled to,
+        /// so a refresh does not throw somebody back to the morning, and whether an
+        /// entry is being dragged. The scroll place is kept across the arrows, as a
+        /// paper diary stays open at the same hour when the page is turned, and
+        /// forgotten when the view changes or somebody asks for today - both of which
+        /// mean starting from now.
+        /// </summary>
+        private readonly AgendaGridState _gridState = new AgendaGridState();
+
+        /// <summary>
+        /// True when a redraw was asked for while an entry was being dragged, and is
+        /// owed once the drag ends.
+        /// </summary>
+        private bool _renderHeld;
 
         private DispatcherTimer? _refreshTimer;
 
@@ -91,7 +116,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             _rootVisual.Resources.MergedDictionaries.Add(AgendaStyles.Resources);
 
             _contentPanel = new StackPanel();
-            _rootVisual.Content = _contentPanel;
+            DockPanel.SetDock(_contentPanel, Dock.Top);
+
+            _gridHost = new Border();
+
+            var layout = new DockPanel { LastChildFill = true };
+            layout.Children.Add(_contentPanel);
+            layout.Children.Add(_gridHost);
+
+            _rootVisual.Content = layout;
 
             return _rootVisual;
         }
@@ -106,6 +139,16 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             _renderer.DeleteRequested += Delete;
             _renderer.DayChosen += day => { _anchor = day; Render(); };
             _renderer.DoneChanged += SetDone;
+            _renderer.CreateRequested += AddAt;
+            _renderer.RescheduleRequested += Reschedule;
+
+            _gridState.DragEnded += () =>
+            {
+                if (!_renderHeld) return;
+
+                _renderHeld = false;
+                Render();
+            };
 
             _session.Changed += OnSessionChanged;
             Render();
@@ -152,7 +195,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             // frameData carried into the callback because that, not the dictionary
             // handed to Initialize, is what the host writes to disk - see Persist.
             AgendaSettingsWindow.Show(ownerWindow, _session, _settings,
-                                      _data.Calendars,
+                                      _data.Calendars, _data.TaskLists, _preferences,
                                       saved => OnSettingsSaved(saved, frameData));
         }
 
@@ -190,6 +233,9 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             bool windowGrew = nowFrom < wasFrom || nowTo > wasTo;
             bool calendarsChanged = !saved.SameCalendarsAs(_settings);
+
+            // A different view is a different grid, and it opens on now.
+            if (saved.View != _settings.View) _gridState.Offset = null;
 
             _settings = saved;
 
@@ -272,21 +318,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         {
             (DateTime from, DateTime to) = _settings.Range(_anchor);
 
-            await _data.RefreshAsync(from, to, _settings.Calendars).ConfigureAwait(true);
+            // The list answers "what is left to do", so it is the one view that also
+            // needs the tasks that slipped past their day - its range starts today.
+            await _data.RefreshAsync(from, to, _settings.Calendars,
+                                     withOverdueTasks: _settings.View == AgendaView.List,
+                                     _preferences).ConfigureAwait(true);
 
             Render();
         }
 
-        /// <summary>
-        /// Hands the event to the browser.
-        ///
-        /// The address is checked before it is used. It arrives in a network answer,
-        /// and UseShellExecute hands whatever it is given to Windows, which will
-        /// happily open a file, a settings page or anything else with a registered
-        /// protocol. Google has no reason to send such a thing, and that is exactly
-        /// why the check costs nothing: it is here for the day something upstream is
-        /// not what it is expected to be.
-        /// </summary>
         /// <summary>
         /// Ticks a task, or unticks it.
         ///
@@ -311,6 +351,16 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             Refresh();
         }
 
+        /// <summary>
+        /// Hands the event to the browser.
+        ///
+        /// The address is checked before it is used. It arrives in a network answer,
+        /// and UseShellExecute hands whatever it is given to Windows, which will
+        /// happily open a file, a settings page or anything else with a registered
+        /// protocol. Google has no reason to send such a thing, and that is exactly
+        /// why the check costs nothing: it is here for the day something upstream is
+        /// not what it is expected to be.
+        /// </summary>
         private void OpenInGoogle(AgendaEvent item)
         {
             if (string.IsNullOrWhiteSpace(item.WebLink)) return;
@@ -336,8 +386,6 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private void Add()
         {
-            if (!_data.IsOpen) return;
-
             DateTime start = _anchor.Date;
 
             // The next whole hour today, or mid-morning on another day: what somebody
@@ -346,10 +394,61 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 ? DateTime.Now.Date.AddHours(DateTime.Now.Hour + 1)
                 : start.AddHours(9);
 
+            Create(start, timeChosen: false);
+        }
+
+        /// <summary>Something new at the half hour somebody clicked in a grid.</summary>
+        private void AddAt(DateTime start) => Create(start, timeChosen: true);
+
+        /// <summary>
+        /// An entry dragged to another time, stretched to another end, or - with Ctrl
+        /// held - copied there. The grid decided where; what Google is told is decided
+        /// here.
+        /// </summary>
+        private void Reschedule(AgendaEvent item, DateTime start, DateTime end, bool copy)
+        {
+            if (!_data.IsOpen) return;
+
+            if (item.IsTask)
+            {
+                // Only a task whose hour this program keeps can be dragged, and the hour
+                // is all a drag changes on it - the day stays, see the grid. Kept rather
+                // than written: Google has no field for it.
+                _preferences.RememberHour(item.CalendarId, TitleOf(item), start.TimeOfDay, end - start);
+                Refresh();
+                return;
+            }
+
+            // A copy carries what the entry says and not what identifies it; a move
+            // carries both, so that Google refuses it if the entry changed elsewhere
+            // in the meantime.
+            var moved = new AgendaEvent
+            {
+                Id = copy ? string.Empty : item.Id,
+                CalendarId = item.CalendarId,
+                Title = item.Title,
+                Location = item.Location,
+                Description = item.Description,
+                Start = start,
+                End = end,
+                ColourHex = item.ColourHex,
+                WebLink = copy ? string.Empty : item.WebLink,
+                ETag = copy ? string.Empty : item.ETag,
+                CanWrite = true
+            };
+
+            Save(moved, isNew: copy);
+        }
+
+        private void Create(DateTime start, bool timeChosen)
+        {
+            if (!_data.IsOpen) return;
+
             var draft = new AgendaEvent { Start = start, End = start.AddHours(1), CanWrite = true };
 
             AgendaEvent? filled = AgendaEventWindow.Show(Window.GetWindow(_rootVisual), draft,
-                                                        _data.Calendars, _data.TaskLists, isNew: true);
+                                                        _data.Calendars, _data.TaskLists, isNew: true,
+                                                        timeChosen: timeChosen);
             if (filled != null) Save(filled, isNew: true);
         }
 
@@ -359,14 +458,36 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             AgendaEvent? changed = AgendaEventWindow.Show(Window.GetWindow(_rootVisual), item,
                                                          _data.Calendars, _data.TaskLists, isNew: false);
-            if (changed != null) Save(changed, isNew: false);
+            if (changed == null) return;
+
+            // Nothing Google keeps has changed - only the hour this program keeps - so
+            // Google is not written to at all. The API does not show a task's
+            // repetition, and nothing promises that writing a repeating task back
+            // leaves its repetition alone; the repeating tasks are exactly the ones a
+            // kept hour is for.
+            if (item.IsTask && changed.IsTask && SameForGoogle(item, changed))
+            {
+                RememberHour(item, changed);
+                Refresh();
+                return;
+            }
+
+            Save(changed, isNew: false, before: item);
         }
 
-        private async void Save(AgendaEvent item, bool isNew)
+        /// <summary>True when an edited task differs from what Google holds in nothing Google keeps.</summary>
+        private static bool SameForGoogle(AgendaEvent before, AgendaEvent after) =>
+            string.Equals(before.Title, after.Title, StringComparison.Ordinal)
+            && string.Equals(before.Description, after.Description, StringComparison.Ordinal)
+            && before.Start.Date == after.Start.Date
+            && string.Equals(before.CalendarId, after.CalendarId, StringComparison.Ordinal);
+
+        private async void Save(AgendaEvent item, bool isNew, AgendaEvent? before = null)
         {
             try
             {
                 await _data.SaveAsync(item, isNew).ConfigureAwait(true);
+                RememberHour(before, item);
             }
             catch (Google.GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.PreconditionFailed
                                                     || ex.HttpStatusCode == HttpStatusCode.Conflict)
@@ -387,6 +508,32 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             Refresh();
         }
+
+        /// <summary>
+        /// Keeps, moves or drops the hour of a task that only this program knows.
+        ///
+        /// After the save, not before it: Google has the date by then, and an hour kept
+        /// for a task Google refused would be an hour for nothing.
+        /// </summary>
+        private void RememberHour(AgendaEvent? before, AgendaEvent after)
+        {
+            if (!after.IsTask) return;
+
+            if (before != null && before.IsTask && before.HourIsLocal)
+                _preferences.ForgetHour(before.CalendarId, TitleOf(before));
+
+            if (after.HourIsLocal)
+                _preferences.RememberHour(after.CalendarId, TitleOf(after),
+                                          after.Start.TimeOfDay, after.End - after.Start);
+        }
+
+        /// <summary>
+        /// The title a task comes back from Google with, which is what a kept hour is
+        /// found by. A task saved with no title returns as "untitled", so its hour has to
+        /// be filed under that same word to be found again.
+        /// </summary>
+        private static string TitleOf(AgendaEvent task) =>
+            string.IsNullOrWhiteSpace(task.Title) ? Strings.AgendaUntitled : task.Title;
 
         private async void Delete(AgendaEvent item)
         {
@@ -422,7 +569,16 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             StackPanel? panel = _contentPanel;
             if (panel == null) return;
 
+            // Not while an entry is held under the pointer: the grid this would throw
+            // away is the one holding the drag. Drawn once the drag ends instead.
+            if (_gridState.Dragging)
+            {
+                _renderHeld = true;
+                return;
+            }
+
             panel.Children.Clear();
+            ShowColumns(null);
 
             switch (_session.State)
             {
@@ -467,12 +623,34 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             }
 
             panel.Children.Add(Toolbar());
-            _renderer.Draw(panel, _data.Events, _settings.View, _anchor, _flashToday);
+
+            if (AgendaRenderer.IsColumns(_settings.View))
+                ShowColumns(_renderer.Columns(_data.Events, _settings.View, _anchor, _flashToday, _gridState));
+            else
+                _renderer.Draw(panel, _data.Events, _settings.View, _anchor, _flashToday);
 
             // One redraw only: leaving it set would blink again every time the timer
             // brings new events in, which is a light going off in the corner of the eye
             // once a minute for no reason.
             _flashToday = false;
+        }
+
+        /// <summary>
+        /// Puts a grid of hours below the toolbar, or takes it away.
+        ///
+        /// A grid holds the whole day and scrolls its own hours, which needs a height to
+        /// scroll within - so while one is shown the frame stops scrolling as a page and
+        /// hands the grid the height it has. Everything else scrolls as a page, as it
+        /// always did.
+        /// </summary>
+        private void ShowColumns(UIElement? grid)
+        {
+            if (_gridHost == null || _rootVisual == null) return;
+
+            _gridHost.Child = grid;
+            _rootVisual.VerticalScrollBarVisibility = grid == null
+                ? ScrollBarVisibility.Auto
+                : ScrollBarVisibility.Disabled;
         }
 
         /// <summary>The one row of controls: move through time, and add an event.</summary>
@@ -513,6 +691,9 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         {
             _anchor = DateTime.Today;
             _flashToday = true;
+
+            // Today means now, so the hours open on it again.
+            _gridState.Offset = null;
 
             Render();
             Refresh();
