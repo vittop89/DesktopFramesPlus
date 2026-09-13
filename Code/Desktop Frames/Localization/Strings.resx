@@ -2066,4 +2066,7 @@ Restart now?</value>
   <data name="AgendaTaskHourGoogle" xml:space="preserve">
     <value>This time comes from Google: change it there.</value>
   </data>
+  <data name="AgendaConfirmDeleteTask" xml:space="preserve">
+    <value>Delete "{0}"? This app cannot tell whether a task repeats: only this occurrence is deleted, from Google as well. If it repeats, Google will create the next one.</value>
+  </data>
 </root>

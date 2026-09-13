@@ -2067,4 +2067,7 @@ Reiniciar agora?</value>
   <data name="AgendaTaskHourGoogle" xml:space="preserve">
     <value>Esta hora vem do Google: altere-a lá.</value>
   </data>
+  <data name="AgendaConfirmDeleteTask" xml:space="preserve">
+    <value>Eliminar "{0}"? A aplicação não consegue saber se uma tarefa se repete: só esta ocorrência será eliminada, também no Google. Se se repetir, o Google criará a seguinte.</value>
+  </data>
 </root>

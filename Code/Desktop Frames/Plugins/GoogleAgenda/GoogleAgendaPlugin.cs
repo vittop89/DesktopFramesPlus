@@ -538,8 +538,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
         private async void Delete(AgendaEvent item)
         {
-            if (!MessageBoxesManager.ShowCustomYesNoMessageBox(
-                    Strings.Get("AgendaConfirmDelete", item.Title), Strings.AgendaDeleteEvent))
+            // A task gets a longer question. The API does not say whether a task
+            // repeats, so neither can this program; what it can say is that only this
+            // occurrence goes, and that Google makes the next one if there is a series
+            // - which is what surprised the first person to delete one from here.
+            string question = item.IsTask
+                ? Strings.Get("AgendaConfirmDeleteTask", item.Title)
+                : Strings.Get("AgendaConfirmDelete", item.Title);
+
+            if (!MessageBoxesManager.ShowCustomYesNoMessageBox(question, Strings.AgendaDeleteEvent))
                 return;
 
             try

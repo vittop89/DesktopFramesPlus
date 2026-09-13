@@ -2067,4 +2067,7 @@ Uruchomić ponownie teraz?</value>
   <data name="AgendaTaskHourGoogle" xml:space="preserve">
     <value>Ta godzina pochodzi z Google: zmień ją tam.</value>
   </data>
+  <data name="AgendaConfirmDeleteTask" xml:space="preserve">
+    <value>Usunąć „{0}”? Aplikacja nie wie, czy zadanie się powtarza: usunięte zostanie tylko to wystąpienie, także w Google. Jeśli się powtarza, Google utworzy następne.</value>
+  </data>
 </root>

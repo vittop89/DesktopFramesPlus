@@ -2067,4 +2067,7 @@ Jetzt neu starten?</value>
   <data name="AgendaTaskHourGoogle" xml:space="preserve">
     <value>Diese Uhrzeit kommt von Google und wird dort geändert.</value>
   </data>
+  <data name="AgendaConfirmDeleteTask" xml:space="preserve">
+    <value>„{0}“ löschen? Die App kann nicht erkennen, ob sich eine Aufgabe wiederholt: Nur dieses Vorkommen wird gelöscht, auch bei Google. Wiederholt sie sich, legt Google das nächste an.</value>
+  </data>
 </root>

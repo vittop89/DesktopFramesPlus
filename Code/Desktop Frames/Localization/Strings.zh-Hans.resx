@@ -2140,4 +2140,7 @@
   <data name="AgendaTaskHourGoogle" xml:space="preserve">
     <value>此时间来自 Google：请在那里修改。</value>
   </data>
+  <data name="AgendaConfirmDeleteTask" xml:space="preserve">
+    <value>要删除“{0}”吗？本应用无法判断任务是否重复：只会删除这一次，Google 中也会同步删除。如果任务重复，Google 会创建下一次。</value>
+  </data>
 </root>

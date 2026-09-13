@@ -235,6 +235,7 @@ namespace Desktop_Frames.Localization
         public static string AgendaClientInvalid => Get("AgendaClientInvalid");
         public static string AgendaCalendarsLabel => Get("AgendaCalendarsLabel");
         public static string AgendaConfirmDelete => Get("AgendaConfirmDelete");
+        public static string AgendaConfirmDeleteTask => Get("AgendaConfirmDeleteTask");
         public static string AgendaConflict => Get("AgendaConflict");
         public static string AgendaDateLabel => Get("AgendaDateLabel");
         public static string AgendaDaysLabel => Get("AgendaDaysLabel");

@@ -2067,4 +2067,7 @@ Redémarrer maintenant ?</value>
   <data name="AgendaTaskHourGoogle" xml:space="preserve">
     <value>Cette heure vient de Google : modifiez-la là-bas.</value>
   </data>
+  <data name="AgendaConfirmDeleteTask" xml:space="preserve">
+    <value>Supprimer « {0} » ? L'application ne peut pas savoir si une tâche se répète : seule cette occurrence sera supprimée, y compris sur Google. Si elle se répète, Google créera la suivante.</value>
+  </data>
 </root>

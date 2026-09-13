@@ -2067,4 +2067,7 @@
   <data name="AgendaTaskHourGoogle" xml:space="preserve">
     <value>Это время задано в Google: меняйте его там.</value>
   </data>
+  <data name="AgendaConfirmDeleteTask" xml:space="preserve">
+    <value>Удалить «{0}»? Приложение не может определить, повторяется ли задача: удалится только это вхождение, в том числе в Google. Если она повторяется, Google создаст следующее.</value>
+  </data>
 </root>
