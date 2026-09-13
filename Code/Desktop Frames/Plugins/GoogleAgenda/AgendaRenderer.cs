@@ -397,13 +397,11 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             // A double click opens the form here when the entry can be changed - what a
             // double click means in every calendar - and Google's own page when it
             // cannot, the only place a read-only entry can be looked at in full.
-            card.MouseLeftButtonUp += (s, e) =>
+            AgendaTimeGrid.OnDoubleClick(card, () =>
             {
-                if (e.ClickCount != 2) return;
-
                 if (item.CanWrite) EditRequested?.Invoke(item);
                 else OpenRequested?.Invoke(item);
-            };
+            });
 
             card.ContextMenu = Menu(item);
             return card;
