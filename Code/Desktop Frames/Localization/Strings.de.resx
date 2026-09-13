@@ -2204,9 +2204,6 @@ Jetzt neu starten?</value>
   <data name="OptAgendaGuide" xml:space="preserve">
     <value>Google-Agenda: Einrichtungsanleitung</value>
   </data>
-  <data name="AgendaListColoursLabel" xml:space="preserve">
-    <value>Farben der Aufgabenlisten</value>
-  </data>
   <data name="AgendaListColourDefault" xml:space="preserve">
     <value>Zurück zur Standardfarbe</value>
   </data>
@@ -2218,5 +2215,8 @@ Jetzt neu starten?</value>
   </data>
   <data name="AgendaConfirmDeleteTask" xml:space="preserve">
     <value>„{0}“ löschen? Die App kann nicht erkennen, ob sich eine Aufgabe wiederholt: Nur dieses Vorkommen wird gelöscht, auch bei Google. Wiederholt sie sich, legt Google das nächste an.</value>
+  </data>
+  <data name="AgendaTaskListsLabel" xml:space="preserve">
+    <value>Aufgabenlisten: welche anzeigen, und ihre Farbe</value>
   </data>
 </root>

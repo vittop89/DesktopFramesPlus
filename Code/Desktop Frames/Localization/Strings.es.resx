@@ -2204,9 +2204,6 @@ Cada ventana lee sus textos mientras se construye, así que el cambio se ve al r
   <data name="OptAgendaGuide" xml:space="preserve">
     <value>Agenda de Google: guía de configuración</value>
   </data>
-  <data name="AgendaListColoursLabel" xml:space="preserve">
-    <value>Colores de las listas de tareas</value>
-  </data>
   <data name="AgendaListColourDefault" xml:space="preserve">
     <value>Volver al color predeterminado</value>
   </data>
@@ -2218,5 +2215,8 @@ Cada ventana lee sus textos mientras se construye, así que el cambio se ve al r
   </data>
   <data name="AgendaConfirmDeleteTask" xml:space="preserve">
     <value>¿Eliminar "{0}"? La aplicación no puede saber si una tarea se repite: solo se eliminará esta ocurrencia, también en Google. Si se repite, Google creará la siguiente.</value>
+  </data>
+  <data name="AgendaTaskListsLabel" xml:space="preserve">
+    <value>Listas de tareas: cuáles mostrar, y su color</value>
   </data>
 </root>

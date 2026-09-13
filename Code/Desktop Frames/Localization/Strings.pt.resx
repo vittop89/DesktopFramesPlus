@@ -2204,9 +2204,6 @@ Reiniciar agora?</value>
   <data name="OptAgendaGuide" xml:space="preserve">
     <value>Agenda Google: guia de configuração</value>
   </data>
-  <data name="AgendaListColoursLabel" xml:space="preserve">
-    <value>Cores das listas de tarefas</value>
-  </data>
   <data name="AgendaListColourDefault" xml:space="preserve">
     <value>Voltar à cor predefinida</value>
   </data>
@@ -2218,5 +2215,8 @@ Reiniciar agora?</value>
   </data>
   <data name="AgendaConfirmDeleteTask" xml:space="preserve">
     <value>Eliminar "{0}"? A aplicação não consegue saber se uma tarefa se repete: só esta ocorrência será eliminada, também no Google. Se se repetir, o Google criará a seguinte.</value>
+  </data>
+  <data name="AgendaTaskListsLabel" xml:space="preserve">
+    <value>Listas de tarefas: quais mostrar, e a sua cor</value>
   </data>
 </root>

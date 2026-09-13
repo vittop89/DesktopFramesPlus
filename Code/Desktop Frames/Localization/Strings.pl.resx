@@ -2204,9 +2204,6 @@ Uruchomić ponownie teraz?</value>
   <data name="OptAgendaGuide" xml:space="preserve">
     <value>Agenda Google: przewodnik konfiguracji</value>
   </data>
-  <data name="AgendaListColoursLabel" xml:space="preserve">
-    <value>Kolory list zadań</value>
-  </data>
   <data name="AgendaListColourDefault" xml:space="preserve">
     <value>Przywróć kolor domyślny</value>
   </data>
@@ -2218,5 +2215,8 @@ Uruchomić ponownie teraz?</value>
   </data>
   <data name="AgendaConfirmDeleteTask" xml:space="preserve">
     <value>Usunąć „{0}”? Aplikacja nie wie, czy zadanie się powtarza: usunięte zostanie tylko to wystąpienie, także w Google. Jeśli się powtarza, Google utworzy następne.</value>
+  </data>
+  <data name="AgendaTaskListsLabel" xml:space="preserve">
+    <value>Listy zadań: które pokazywać, i ich kolor</value>
   </data>
 </root>

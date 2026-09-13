@@ -2203,9 +2203,6 @@ Vuoi riavviare adesso?</value>
   <data name="OptAgendaGuide" xml:space="preserve">
     <value>Agenda Google: guida alla configurazione</value>
   </data>
-  <data name="AgendaListColoursLabel" xml:space="preserve">
-    <value>Colori delle liste di attività</value>
-  </data>
   <data name="AgendaListColourDefault" xml:space="preserve">
     <value>Torna al colore predefinito</value>
   </data>
@@ -2217,5 +2214,8 @@ Vuoi riavviare adesso?</value>
   </data>
   <data name="AgendaConfirmDeleteTask" xml:space="preserve">
     <value>Eliminare "{0}"? L'app non può sapere se un'attività si ripete: verrà eliminata solo questa occorrenza, anche da Google. Se si ripete, Google creerà la successiva.</value>
+  </data>
+  <data name="AgendaTaskListsLabel" xml:space="preserve">
+    <value>Liste di attività: quali mostrare, e il colore</value>
   </data>
 </root>

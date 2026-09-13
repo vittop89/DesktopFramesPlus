@@ -22,11 +22,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         private const string ViewKey = "AgendaView";
         private const string CalendarsKey = "AgendaCalendars";
         private const string DaysKey = "AgendaDays";
+        private const string TaskListsKey = "AgendaTaskLists";
 
         public AgendaView View { get; set; } = AgendaView.List;
 
         /// <summary>Empty means every calendar, which is what an unconfigured frame should show.</summary>
         public HashSet<string> Calendars { get; } = new HashSet<string>(StringComparer.Ordinal);
+
+        /// <summary>The task lists shown. Empty means every list, for the same reason.</summary>
+        public HashSet<string> TaskLists { get; } = new HashSet<string>(StringComparer.Ordinal);
 
         /// <summary>Days ahead the list view covers. Only the list view uses it; the others have a length of their own.</summary>
         public int DaysAhead { get; set; } = 14;
@@ -53,6 +57,13 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                     settings.Calendars.Add(id.Trim());
             }
 
+            if (from.TryGetValue(TaskListsKey, out object? taskLists))
+            {
+                foreach (string id in (taskLists?.ToString() ?? string.Empty)
+                         .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries))
+                    settings.TaskLists.Add(id.Trim());
+            }
+
             return settings;
         }
 
@@ -63,6 +74,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             into[ViewKey] = View.ToString();
             into[DaysKey] = DaysAhead;
             into[CalendarsKey] = string.Join("\n", Calendars);
+            into[TaskListsKey] = string.Join("\n", TaskLists);
         }
 
         /// <summary>
