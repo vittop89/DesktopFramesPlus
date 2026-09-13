@@ -399,7 +399,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Start = start,
                 End = end,
                 IsAllDay = allDay,
-                ColourHex = calendar.ColourHex,
+                // The event's own colour when it was given one in Google Calendar, its
+                // calendar's otherwise.
+                ColourHex = AgendaEventColours.Hex(item.ColorId) ?? calendar.ColourHex,
+                ColourId = item.ColorId ?? string.Empty,
                 WebLink = item.HtmlLink ?? string.Empty,
                 ETag = item.ETag ?? string.Empty,
                 CanWrite = calendar.CanWrite,
@@ -482,6 +485,12 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             target.Summary = source.Title;
             target.Location = string.IsNullOrWhiteSpace(source.Location) ? null : source.Location;
             target.Description = string.IsNullOrWhiteSpace(source.Description) ? null : source.Description;
+
+            // A copy keeps the colour of its original. An entry that already exists keeps
+            // whatever Google holds: the colour is not edited here, and writing back the
+            // one read earlier would undo a change made in Google's own app meanwhile.
+            if (string.IsNullOrEmpty(target.Id) && !string.IsNullOrEmpty(source.ColourId))
+                target.ColorId = source.ColourId;
 
             if (source.IsAllDay)
             {

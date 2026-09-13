@@ -35,6 +35,8 @@
              Link="Linked\AgendaOverrides.cs" />
     <Compile Include="..\Desktop Frames\Plugins\GoogleAgenda\AgendaDue.cs"
              Link="Linked\AgendaDue.cs" />
+    <Compile Include="..\Desktop Frames\Plugins\GoogleAgenda\AgendaEventColours.cs"
+             Link="Linked\AgendaEventColours.cs" />
   </ItemGroup>
 
   <ItemGroup>
