@@ -184,7 +184,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 foreach (AgendaTaskList taskList in taskLists)
                 {
                     // No choice recorded means every list, as with the calendars.
-                    bool shown = current.TaskLists.Count == 0 || current.TaskLists.Contains(taskList.Id);
+                    bool shown = current.ShowsTaskList(taskList.Id);
                     rows.Children.Add(ListRow(taskList, shown, colours, listBoxes));
                 }
 
@@ -233,6 +233,10 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 {
                     foreach (CheckBox box in listBoxes.Where(b => b.IsChecked == true))
                         saved.TaskLists.Add((string)box.Tag!);
+
+                    // Nothing ticked is a choice too, and an empty set would read as
+                    // "every list" - the one thing it must not mean here.
+                    if (saved.TaskLists.Count == 0) saved.TaskLists.Add(AgendaSettings.NoTaskList);
                 }
 
                 // Before the frame hears about it, so the refresh that follows already
