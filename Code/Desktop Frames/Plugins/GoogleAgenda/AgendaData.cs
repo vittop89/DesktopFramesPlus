@@ -56,7 +56,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         private static readonly IReadOnlyList<AgendaCalendar> NoCalendars = new List<AgendaCalendar>();
         private static readonly IReadOnlyList<AgendaTaskList> NoLists = new List<AgendaTaskList>();
 
-        /// <summary>Every task list, until there is a reason to choose between them.</summary>
+        /// <summary>Every task list: what is read, whatever the frame then shows.</summary>
         private static readonly HashSet<string> EveryList = new HashSet<string>(StringComparer.Ordinal);
 
         /// <summary>What was last read, in the order it should be drawn.</summary>
@@ -120,9 +120,13 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// Does not throw. A failure leaves <see cref="Events"/> as it was and sets
         /// <see cref="Offline"/>; the next attempt is a minute away.
         /// </summary>
+        /// <param name="taskLists">
+        /// Task lists to show; empty means all of them, as with the calendars. Every
+        /// list is read regardless, and the others are left out at the end - see below.
+        /// </param>
         /// <param name="withOverdueTasks">Also the tasks still open from before the range: for the list, which starts today.</param>
         /// <param name="preferences">The list colours and kept hours this program adds to Google's tasks.</param>
-        public async Task RefreshAsync(DateTime from, DateTime to, ISet<string> calendars,
+        public async Task RefreshAsync(DateTime from, DateTime to, ISet<string> calendars, ISet<string> taskLists,
                                        bool withOverdueTasks, AgendaPreferences preferences)
         {
             GoogleCalendarSource? source = _source;
@@ -156,6 +160,14 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 // task Google left to the whole day. After the join, because Google's
                 // hour - which only the join brings in - is the one that wins.
                 AgendaOverrides.Apply(together, preferences.ListColours, preferences.Hours);
+
+                // Only now are the lists this frame does not show left out, tasks and
+                // stand-ins alike. Every list was read so that the join above could find
+                // the task behind each stand-in; read only the chosen lists, a stand-in
+                // whose task sat in a hidden one would have stayed on screen as a block
+                // carrying that task's title.
+                if (taskLists.Count > 0)
+                    together.RemoveAll(e => e.IsTask && !taskLists.Contains(e.CalendarId));
 
                 if (unjoined > 0 && !_warnedAboutStandIns)
                 {

@@ -2055,9 +2055,6 @@ Redémarrer maintenant ?</value>
   <data name="AgendaAccessDenied" xml:space="preserve">
     <value>Google n'a pas accordé l'accès. S'il indiquait « Accès bloqué », votre compte doit être utilisateur test de ce client.</value>
   </data>
-  <data name="AgendaListColoursLabel" xml:space="preserve">
-    <value>Couleurs des listes de tâches</value>
-  </data>
   <data name="AgendaListColourDefault" xml:space="preserve">
     <value>Revenir à la couleur par défaut</value>
   </data>
@@ -2069,5 +2066,8 @@ Redémarrer maintenant ?</value>
   </data>
   <data name="AgendaConfirmDeleteTask" xml:space="preserve">
     <value>Supprimer « {0} » ? L'application ne peut pas savoir si une tâche se répète : seule cette occurrence sera supprimée, y compris sur Google. Si elle se répète, Google créera la suivante.</value>
+  </data>
+  <data name="AgendaTaskListsLabel" xml:space="preserve">
+    <value>Listes de tâches : lesquelles afficher, et leur couleur</value>
   </data>
 </root>

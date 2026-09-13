@@ -2128,9 +2128,6 @@
   <data name="AgendaAccessDenied" xml:space="preserve">
     <value>Google 未授予访问权限。如果提示“访问被阻止”，你的账号必须是此客户端的测试用户。</value>
   </data>
-  <data name="AgendaListColoursLabel" xml:space="preserve">
-    <value>任务列表颜色</value>
-  </data>
   <data name="AgendaListColourDefault" xml:space="preserve">
     <value>恢复默认颜色</value>
   </data>
@@ -2142,5 +2139,8 @@
   </data>
   <data name="AgendaConfirmDeleteTask" xml:space="preserve">
     <value>要删除“{0}”吗？本应用无法判断任务是否重复：只会删除这一次，Google 中也会同步删除。如果任务重复，Google 会创建下一次。</value>
+  </data>
+  <data name="AgendaTaskListsLabel" xml:space="preserve">
+    <value>任务列表：显示哪些，以及颜色</value>
   </data>
 </root>

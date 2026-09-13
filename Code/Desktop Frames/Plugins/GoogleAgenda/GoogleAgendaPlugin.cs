@@ -320,7 +320,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
 
             // The list answers "what is left to do", so it is the one view that also
             // needs the tasks that slipped past their day - its range starts today.
-            await _data.RefreshAsync(from, to, _settings.Calendars,
+            await _data.RefreshAsync(from, to, _settings.Calendars, _settings.TaskLists,
                                      withOverdueTasks: _settings.View == AgendaView.List,
                                      _preferences).ConfigureAwait(true);
 

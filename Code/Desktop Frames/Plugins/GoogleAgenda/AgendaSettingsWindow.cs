@@ -9,8 +9,8 @@ using System.Windows.Media;
 namespace Desktop_Frames.Plugins.GoogleAgenda
 {
     /// <summary>
-    /// The plugin's own settings window: the account, the layout, which calendars this
-    /// frame shows, and the colour of each task list.
+    /// The plugin's own settings window: the account, the layout, which calendars and
+    /// task lists this frame shows, and the colour of each list.
     ///
     /// Separate from the plugin because the two change for different reasons, and
     /// because keeping them together is how the other plugins grew past a thousand
@@ -169,20 +169,26 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                     new ScrollViewer { Content = list, MaxHeight = 180, VerticalScrollBarVisibility = ScrollBarVisibility.Auto }));
             }
 
-            // --- task list colours ---------------------------------------------
-            // Google gives a list no colour at all, so without this every task is the
-            // same indigo and "which list is this?" can only be answered by reading.
-            // Changed here and kept only if the window is saved, like everything else.
+            // --- task lists: shown, and their colour ---------------------------
+            // Which lists this frame shows, chosen the way the calendars are; and a
+            // colour for each, since Google gives a list none and without one every task
+            // is the same indigo. Both are changed here and kept only if the window is
+            // saved, like everything else.
             var colours = new Dictionary<string, string>(preferences.ListColours, StringComparer.Ordinal);
+            var listBoxes = new List<CheckBox>();
 
             if (taskLists.Count > 0)
             {
                 var rows = new StackPanel();
 
                 foreach (AgendaTaskList taskList in taskLists)
-                    rows.Children.Add(ColourRow(taskList, colours));
+                {
+                    // No choice recorded means every list, as with the calendars.
+                    bool shown = current.TaskLists.Count == 0 || current.TaskLists.Contains(taskList.Id);
+                    rows.Children.Add(ListRow(taskList, shown, colours, listBoxes));
+                }
 
-                StackPanel coloursBlock = Labelled(Strings.AgendaListColoursLabel,
+                StackPanel coloursBlock = Labelled(Strings.AgendaTaskListsLabel,
                     new ScrollViewer { Content = rows, MaxHeight = 160, VerticalScrollBarVisibility = ScrollBarVisibility.Auto });
                 coloursBlock.Margin = new Thickness(0, 10, 0, 4);
                 layout.Children.Add(coloursBlock);
@@ -221,6 +227,12 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 {
                     foreach (CheckBox box in boxes.Where(b => b.IsChecked == true))
                         saved.Calendars.Add((string)box.Tag!);
+                }
+
+                if (listBoxes.Count > 0 && listBoxes.Any(b => b.IsChecked != true))
+                {
+                    foreach (CheckBox box in listBoxes.Where(b => b.IsChecked == true))
+                        saved.TaskLists.Add((string)box.Tag!);
                 }
 
                 // Before the frame hears about it, so the refresh that follows already
@@ -290,13 +302,24 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         }
 
         /// <summary>
-        /// One task list and its colour. The swatch opens the colour dialog; the arrow
-        /// beside it goes back to the default, and is there only while there is
-        /// something to undo.
+        /// One task list: whether this frame shows it, and its colour. The box is
+        /// collected in <paramref name="boxes"/> for the save; the swatch opens the
+        /// colour dialog; the arrow beside it goes back to the default, and is there
+        /// only while there is something to undo.
         /// </summary>
-        private static UIElement ColourRow(AgendaTaskList taskList, Dictionary<string, string> colours)
+        private static UIElement ListRow(AgendaTaskList taskList, bool shown, Dictionary<string, string> colours,
+                                         List<CheckBox> boxes)
         {
             var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 2, 0, 2) };
+
+            var show = new CheckBox
+            {
+                IsChecked = shown,
+                Tag = taskList.Id,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 0, 8, 0)
+            };
+            boxes.Add(show);
 
             var swatch = new Border
             {
@@ -355,6 +378,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Draw();
             };
 
+            row.Children.Add(show);
             row.Children.Add(pick);
             row.Children.Add(new TextBlock { Text = taskList.Title, VerticalAlignment = VerticalAlignment.Center });
             row.Children.Add(reset);

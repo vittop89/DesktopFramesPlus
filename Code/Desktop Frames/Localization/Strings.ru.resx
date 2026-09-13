@@ -2055,9 +2055,6 @@
   <data name="AgendaAccessDenied" xml:space="preserve">
     <value>Google не предоставил доступ. Если было «Доступ заблокирован», ваш аккаунт должен быть тестовым пользователем этого клиента.</value>
   </data>
-  <data name="AgendaListColoursLabel" xml:space="preserve">
-    <value>Цвета списков задач</value>
-  </data>
   <data name="AgendaListColourDefault" xml:space="preserve">
     <value>Вернуть цвет по умолчанию</value>
   </data>
@@ -2069,5 +2066,8 @@
   </data>
   <data name="AgendaConfirmDeleteTask" xml:space="preserve">
     <value>Удалить «{0}»? Приложение не может определить, повторяется ли задача: удалится только это вхождение, в том числе в Google. Если она повторяется, Google создаст следующее.</value>
+  </data>
+  <data name="AgendaTaskListsLabel" xml:space="preserve">
+    <value>Списки задач: какие показывать, и их цвет</value>
   </data>
 </root>

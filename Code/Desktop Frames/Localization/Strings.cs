@@ -119,7 +119,6 @@ namespace Desktop_Frames.Localization
             }
         }
 
-
         /// <summary>
         /// Label for a value that is stored in the configuration ("Medium",
         /// "Details", "Gray"…). Only the label is translated: the value itself
@@ -127,7 +126,6 @@ namespace Desktop_Frames.Localization
         /// </summary>
         public static string Item(string storedValue) =>
             string.IsNullOrEmpty(storedValue) ? storedValue : Get("Item" + storedValue.Replace(" ", ""));
-
 
         /// <summary>
         /// Label for a hotkey. Letters, digits and function keys read the same
@@ -227,7 +225,7 @@ namespace Desktop_Frames.Localization
         public static string AgendaListLabel => Get("AgendaListLabel");
         public static string AgendaTaskHourLocal => Get("AgendaTaskHourLocal");
         public static string AgendaTaskHourGoogle => Get("AgendaTaskHourGoogle");
-        public static string AgendaListColoursLabel => Get("AgendaListColoursLabel");
+        public static string AgendaTaskListsLabel => Get("AgendaTaskListsLabel");
         public static string AgendaListColourDefault => Get("AgendaListColourDefault");
         public static string AgendaCalendarLabel => Get("AgendaCalendarLabel");
         public static string AgendaNeedsClient => Get("AgendaNeedsClient");
