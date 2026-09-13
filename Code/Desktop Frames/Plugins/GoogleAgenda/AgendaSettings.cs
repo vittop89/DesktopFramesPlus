@@ -29,8 +29,19 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// <summary>Empty means every calendar, which is what an unconfigured frame should show.</summary>
         public HashSet<string> Calendars { get; } = new HashSet<string>(StringComparer.Ordinal);
 
-        /// <summary>The task lists shown. Empty means every list, for the same reason.</summary>
+        /// <summary>
+        /// The task lists shown. Empty means every list, for the same reason; the single
+        /// entry <see cref="NoTaskList"/> means none of them - a frame of events only -
+        /// which "empty means every list" could not say: unticking every box came back
+        /// as every box ticked.
+        /// </summary>
         public HashSet<string> TaskLists { get; } = new HashSet<string>(StringComparer.Ordinal);
+
+        /// <summary>Stands for "no list at all". Not a Google identifier, so it matches no list.</summary>
+        public const string NoTaskList = "(none)";
+
+        /// <summary>Whether this frame shows the tasks of the given list.</summary>
+        public bool ShowsTaskList(string listId) => TaskLists.Count == 0 || TaskLists.Contains(listId);
 
         /// <summary>Days ahead the list view covers. Only the list view uses it; the others have a length of their own.</summary>
         public int DaysAhead { get; set; } = 14;
