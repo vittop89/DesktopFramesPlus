@@ -51,6 +51,30 @@ namespace Desktop_Frames.Tests
             Assert.False(Keep.Allows(new Uri(address)));
         }
 
+        [Theory]
+        [InlineData("https://accounts.google.it/accounts/SetSID")]
+        [InlineData("https://accounts.google.co.uk/accounts/SetSID")]
+        [InlineData("https://accounts.google.gr/accounts/SetSID")]
+        public void A_Google_preset_lets_a_sign_in_finish_on_a_country_domain(string address)
+        {
+            WebPageSite keep = WebPageSite.Presets.First(p => p.Slug == "keep");
+
+            // Handed to the real browser, this last step of a sign-in took the session
+            // token out of the frame and left the frame signed out.
+            Assert.True(keep.Allows(new Uri(address)));
+        }
+
+        [Theory]
+        [InlineData("https://accounts.google.it.attacker.net/")]
+        [InlineData("https://accounts.google.notacountry/")]
+        [InlineData("https://www.google.it/")]
+        public void Only_the_sign_in_page_of_a_listed_country_domain(string address)
+        {
+            WebPageSite keep = WebPageSite.Presets.First(p => p.Slug == "keep");
+
+            Assert.False(keep.Allows(new Uri(address)));
+        }
+
         [Fact]
         public void A_typed_address_trusts_only_its_own_host()
         {

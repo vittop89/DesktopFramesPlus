@@ -20,6 +20,10 @@ namespace Desktop_Frames.Plugins.WebPage
     public class WebPageBrowser : Grid
     {
         private readonly WebPageSite _site;
+
+        /// <summary>The folder of the frame's browser profile, see <see cref="WebPageSettings.Profile"/>.</summary>
+        private readonly string _profile;
+
         private readonly WebView2 _view = new WebView2();
         private readonly TextBlock _message = new TextBlock
         {
@@ -51,9 +55,10 @@ namespace Desktop_Frames.Plugins.WebPage
         /// </summary>
         private const string RuntimePage = "https://developer.microsoft.com/microsoft-edge/webview2/";
 
-        public WebPageBrowser(WebPageSite site)
+        public WebPageBrowser(WebPageSite site, string profile)
         {
             _site = site;
+            _profile = profile;
 
             _message.Visibility = Visibility.Collapsed;
 
@@ -107,7 +112,13 @@ namespace Desktop_Frames.Plugins.WebPage
                 return;
             }
 
-            CoreWebView2 core = _view.CoreWebView2;
+            // Never null after a start that did not throw; said for the compiler's sake.
+            CoreWebView2? core = _view.CoreWebView2;
+            if (core == null)
+            {
+                Say(Strings.WebPageNoRuntime);
+                return;
+            }
 
             // Nothing of this program is exposed to the page. It is somebody else's site:
             // it gets a browser, not a way into the application.
@@ -156,12 +167,12 @@ namespace Desktop_Frames.Plugins.WebPage
         /// settings can only be written when the settings window closes. A number that
         /// can only be saved by opening a dialog is a number that never gets saved.
         ///
-        /// It belongs to the site, so two frames on the same site agree about it.
+        /// It belongs to the profile, like the session, so each frame keeps its own.
         /// WebView2 does not persist zoom itself - Chromium's own per-origin memory is
         /// not wired up here - so this is the whole of it.
         /// </summary>
         private string ZoomFile =>
-            Path.Combine(ProfileManager.CurrentProfileDir, "WebPage", _site.Slug + ".zoom");
+            Path.Combine(ProfileManager.CurrentProfileDir, "WebPage", _profile + ".zoom");
 
         private void RestoreZoom()
         {
@@ -246,9 +257,9 @@ namespace Desktop_Frames.Plugins.WebPage
             }
         }
 
-        /// <summary>The browser profile for this site: its cookies, its storage, its session.</summary>
+        /// <summary>The browser profile for this frame: its cookies, its storage, its session.</summary>
         private string ProfileFolder =>
-            Path.Combine(ProfileManager.CurrentProfileDir, "WebPage", _site.Slug);
+            Path.Combine(ProfileManager.CurrentProfileDir, "WebPage", _profile);
 
         private void Say(string text, bool offerRuntime = false)
         {

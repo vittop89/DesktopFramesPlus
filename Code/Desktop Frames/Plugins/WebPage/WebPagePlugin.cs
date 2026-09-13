@@ -134,7 +134,7 @@ namespace Desktop_Frames.Plugins.WebPage
             if (!_canHostInside || !_settings.IsConfigured || _root == null) return;
             if (_inside != null) return;
 
-            _inside = new WebPageBrowser(_settings.Site);
+            _inside = new WebPageBrowser(_settings.Site, _settings.ProfileFolder);
             _root.Children.Insert(0, _inside);
         }
 
@@ -196,7 +196,7 @@ namespace Desktop_Frames.Plugins.WebPage
                 return;
             }
 
-            var window = new WebPageWindow(_settings.Site, _settings.Bounds, _settings.AlwaysOnTop);
+            var window = new WebPageWindow(_settings.Site, _settings.ProfileFolder, _settings.Bounds, _settings.AlwaysOnTop);
             _window = window;
 
             window.Closed += (s, e) =>
@@ -215,6 +215,7 @@ namespace Desktop_Frames.Plugins.WebPage
         {
             if (!WebPageSettingsWindow.Show(ownerWindow, _settings)) return;
 
+            _settings.EnsureProfile();
             Persist(frameData);
 
             // The site changed, so whatever is on screen is the previous one.
