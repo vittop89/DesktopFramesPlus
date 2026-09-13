@@ -2215,4 +2215,7 @@ Vuoi riavviare adesso?</value>
   <data name="AgendaTaskHourGoogle" xml:space="preserve">
     <value>Quest'ora viene da Google: si cambia lì.</value>
   </data>
+  <data name="AgendaConfirmDeleteTask" xml:space="preserve">
+    <value>Eliminare "{0}"? L'app non può sapere se un'attività si ripete: verrà eliminata solo questa occorrenza, anche da Google. Se si ripete, Google creerà la successiva.</value>
+  </data>
 </root>

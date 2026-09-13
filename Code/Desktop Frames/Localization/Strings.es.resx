@@ -2216,4 +2216,7 @@ Cada ventana lee sus textos mientras se construye, así que el cambio se ve al r
   <data name="AgendaTaskHourGoogle" xml:space="preserve">
     <value>Esta hora viene de Google: cámbiala allí.</value>
   </data>
+  <data name="AgendaConfirmDeleteTask" xml:space="preserve">
+    <value>¿Eliminar "{0}"? La aplicación no puede saber si una tarea se repite: solo se eliminará esta ocurrencia, también en Google. Si se repite, Google creará la siguiente.</value>
+  </data>
 </root>
