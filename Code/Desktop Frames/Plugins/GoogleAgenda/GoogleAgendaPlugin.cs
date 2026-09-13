@@ -432,6 +432,7 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
                 Start = start,
                 End = end,
                 ColourHex = item.ColourHex,
+                ColourId = item.ColourId,
                 WebLink = copy ? string.Empty : item.WebLink,
                 ETag = copy ? string.Empty : item.ETag,
                 CanWrite = true

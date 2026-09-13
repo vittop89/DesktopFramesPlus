@@ -30,12 +30,22 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// <summary>An all-day entry has no meaningful time, only a date.</summary>
         public bool IsAllDay { get; set; }
 
-        /// <summary>Colour of the calendar it came from, drawn as a dot beside the title.</summary>
+        /// <summary>
+        /// Colour of the calendar it came from, or the event's own when it was given one,
+        /// drawn as a dot beside the title.
+        /// </summary>
         public string ColourHex { get; set; } = string.Empty;
 
         /// <summary>
-        /// Where to open it for real. The frame shows a summary; a double click
-        /// belongs in the calendar itself, which can do everything this cannot.
+        /// Google's own colour number on an event, 1 to 11, when somebody gave it one in
+        /// Google Calendar; empty when it takes its calendar's colour. Carried so that a
+        /// copy made by dragging keeps the colour of the original.
+        /// </summary>
+        public string ColourId { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Where to open it for real: Google's own page, offered in the menu, which can
+        /// do everything the small form here cannot.
         /// </summary>
         public string WebLink { get; set; } = string.Empty;
 

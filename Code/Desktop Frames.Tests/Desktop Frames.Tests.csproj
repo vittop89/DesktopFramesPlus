@@ -39,6 +39,8 @@
              Link="Linked\WebPageSite.cs" />
     <Compile Include="..\Desktop Frames\Plugins\WebPage\WebPageSettings.cs"
              Link="Linked\WebPageSettings.cs" />
+    <Compile Include="..\Desktop Frames\Plugins\GoogleAgenda\AgendaEventColours.cs"
+             Link="Linked\AgendaEventColours.cs" />
   </ItemGroup>
 
   <ItemGroup>

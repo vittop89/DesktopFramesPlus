@@ -394,11 +394,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
             layout.Children.Add(texts);
             card.Child = layout;
 
-            // A double click hands the event to Google's own editor, which can do
-            // everything a frame should not try to.
+            // A double click opens the form here when the entry can be changed - what a
+            // double click means in every calendar - and Google's own page when it
+            // cannot, the only place a read-only entry can be looked at in full.
             card.MouseLeftButtonUp += (s, e) =>
             {
-                if (e.ClickCount == 2) OpenRequested?.Invoke(item);
+                if (e.ClickCount != 2) return;
+
+                if (item.CanWrite) EditRequested?.Invoke(item);
+                else OpenRequested?.Invoke(item);
             };
 
             card.ContextMenu = Menu(item);

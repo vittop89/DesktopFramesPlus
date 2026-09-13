@@ -1029,9 +1029,15 @@ namespace Desktop_Frames.Plugins.GoogleAgenda
         /// <summary>The same gestures as a card in the list, so one view does not teach habits the other refuses.</summary>
         private static void Wire(Border target, AgendaEvent item, AgendaActions actions)
         {
+            // A double click opens the form here when the entry can be changed - what a
+            // double click means in every calendar - and Google's own page when it
+            // cannot, the only place a read-only entry can be looked at in full.
             target.MouseLeftButtonUp += (s, e) =>
             {
-                if (e.ClickCount == 2) actions.Open?.Invoke(item);
+                if (e.ClickCount != 2) return;
+
+                if (item.CanWrite) actions.Edit?.Invoke(item);
+                else actions.Open?.Invoke(item);
             };
 
             var menu = new ContextMenu();
