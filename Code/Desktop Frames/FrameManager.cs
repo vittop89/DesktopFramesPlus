@@ -112,8 +112,11 @@ namespace Desktop_Frames
         private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
         // --- Windows Snap arrangement ---
-        private const int WM_WINDOWPOSCHANGED = 0x0047;
+        private const int WM_EXITSIZEMOVE = 0x0232;
         private const int SW_SHOWNOACTIVATE = 4;
+        private const int GWL_EXSTYLE = -20;
+        private const int WS_EX_TOOLWINDOW = 0x00000080;
+        private const int MONITOR_DEFAULTTONEAREST = 2;
 
         [StructLayout(LayoutKind.Sequential)]
         private struct NATIVERECT
@@ -143,6 +146,27 @@ namespace Desktop_Frames
 
         [DllImport("user32.dll")]
         private static extern bool IsWindowArranged(IntPtr hWnd);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct MONITORINFO
+        {
+            public int cbSize;
+            public NATIVERECT rcMonitor;
+            public NATIVERECT rcWork;
+            public int dwFlags;
+        }
+
+        [DllImport("user32.dll")]
+        private static extern bool GetWindowRect(IntPtr hWnd, out NATIVERECT rect);
+
+        [DllImport("user32.dll")]
+        private static extern int GetWindowLong(IntPtr hWnd, int index);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr MonitorFromWindow(IntPtr hWnd, int flags);
+
+        [DllImport("user32.dll")]
+        private static extern bool GetMonitorInfo(IntPtr monitor, ref MONITORINFO info);
 
         /// <summary>Set once IsWindowArranged turns out not to exist on this version of Windows.</summary>
         private static bool _arrangementUnknown;
@@ -9803,17 +9827,16 @@ namespace Desktop_Frames
         {
             const int WM_GETMINMAXINFO = 0x0024;
 
-            // A frame Windows Snap has arranged - stretched to the height of the screen when
-            // its top edge touched the top, or to half of it after a drag to one side - is put
-            // back as it was. Left arranged it did not stay put: Windows lays arranged windows
-            // out again whenever the monitor comes back from standby, so the frame grew back
-            // on its own, saved that size as if somebody had chosen it, and pushed the frames
-            // docked under it off the screen. Undone after the move rather than inside it, and
-            // the same idea as the snap to maximised the frames already undo.
-            if (msg == WM_WINDOWPOSCHANGED && IsArranged(hwnd))
+            // When a move or resize ends, a frame Windows Snap has arranged leaves the
+            // arrangement and keeps the size and place it has. Snap is a good way to place a
+            // frame, and it stays one: drag a frame to an edge and it lands there. What did
+            // harm was a frame left arranged, because Windows lays arranged windows out again
+            // whenever the monitor comes back from standby - a snapped frame resized by hand
+            // afterwards got the snap size back on its own, saved it as if somebody had chosen
+            // it, and pushed the frames docked under it off the screen.
+            if (msg == WM_EXITSIZEMOVE)
             {
-                System.Windows.Application.Current?.Dispatcher.BeginInvoke(
-                    new Action(() => LeaveArrangement(hwnd)), DispatcherPriority.Input);
+                ScheduleLeaveArrangement(hwnd);
             }
 
             if (msg == WM_GETMINMAXINFO)
@@ -9863,16 +9886,52 @@ namespace Desktop_Frames
         }
 
         /// <summary>
-        /// Takes a frame out of Windows Snap's arrangement, back to the size and place it had
-        /// before, and records the place. The size is saved by the frame's own size handler;
-        /// a position is only saved by a drag, and Snap moves a frame as well as resizing it.
+        /// Looks a moment after a move or resize has ended. The snap that a drag to an edge
+        /// asks for lands as the gesture ends, and checking at that same instant can miss it.
+        /// </summary>
+        private static void ScheduleLeaveArrangement(IntPtr hwnd)
+        {
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
+            timer.Tick += (s, e) =>
+            {
+                timer.Stop();
+                LeaveArrangement(hwnd);
+            };
+            timer.Start();
+        }
+
+        /// <summary>
+        /// Takes a frame out of Windows Snap's arrangement where it stands: its normal
+        /// placement becomes the rectangle it has now, so leaving the arrangement moves
+        /// nothing, and the place is recorded. The size is saved by the frame's own size
+        /// handler; a position is only saved by a drag, and a snap lands after the drag.
         /// </summary>
         private static void LeaveArrangement(IntPtr hwnd)
         {
             if (!IsArranged(hwnd)) return;
+            if (!GetWindowRect(hwnd, out NATIVERECT now)) return;
 
             var placement = new WINDOWPLACEMENT { length = Marshal.SizeOf<WINDOWPLACEMENT>() };
             if (!GetWindowPlacement(hwnd, ref placement)) return;
+
+            // The normal placement is kept in workspace coordinates - from the corner of the
+            // monitor's work area, not of the screen - unless the window is a tool window.
+            int dx = 0, dy = 0;
+            if ((GetWindowLong(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) == 0)
+            {
+                var monitor = new MONITORINFO { cbSize = Marshal.SizeOf<MONITORINFO>() };
+                if (!GetMonitorInfo(MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST), ref monitor)) return;
+                dx = monitor.rcWork.left;
+                dy = monitor.rcWork.top;
+            }
+
+            placement.rcNormalPosition = new NATIVERECT
+            {
+                left = now.left - dx,
+                top = now.top - dy,
+                right = now.right - dx,
+                bottom = now.bottom - dy
+            };
 
             // Shown again without the focus, which a frame never takes.
             placement.showCmd = SW_SHOWNOACTIVATE;
@@ -9890,7 +9949,7 @@ namespace Desktop_Frames
             }
 
             LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
-                $"Windows Snap had arranged frame '{win.Title}'; put it back at {win.Width:0}x{win.Height:0}.");
+                $"Windows Snap had arranged frame '{win.Title}'; kept it at {win.Width:0}x{win.Height:0}, out of the arrangement.");
         }
 
         private static string GetSafeProperty(dynamic obj, string propName)
