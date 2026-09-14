@@ -9890,7 +9890,7 @@ namespace Desktop_Frames
             }
 
             LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
-                $"Windows Snap had arranged frame '{win.Title}'; put it back at {win.Width}x{win.Height}.");
+                $"Windows Snap had arranged frame '{win.Title}'; put it back at {win.Width:0}x{win.Height:0}.");
         }
 
         private static string GetSafeProperty(dynamic obj, string propName)
