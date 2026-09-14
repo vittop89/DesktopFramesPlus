@@ -75,6 +75,42 @@ namespace Desktop_Frames
         [DllImport("user32.dll")]
         private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
+        // --- Windows Snap arrangement ---
+        private const int WM_WINDOWPOSCHANGED = 0x0047;
+        private const int SW_SHOWNOACTIVATE = 4;
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct NATIVERECT
+        {
+            public int left;
+            public int top;
+            public int right;
+            public int bottom;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct WINDOWPLACEMENT
+        {
+            public int length;
+            public int flags;
+            public int showCmd;
+            public POINT ptMinPosition;
+            public POINT ptMaxPosition;
+            public NATIVERECT rcNormalPosition;
+        }
+
+        [DllImport("user32.dll")]
+        private static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT placement);
+
+        [DllImport("user32.dll")]
+        private static extern bool SetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT placement);
+
+        [DllImport("user32.dll")]
+        private static extern bool IsWindowArranged(IntPtr hWnd);
+
+        /// <summary>Set once IsWindowArranged turns out not to exist on this version of Windows.</summary>
+        private static bool _arrangementUnknown;
+
 
         // Tracks temporary navigation paths for Portal frames. Key: frameId, Value: CurrentPath
         private static Dictionary<string, string> _portalNavigationStates = new Dictionary<string, string>();
@@ -9409,6 +9445,19 @@ namespace Desktop_Frames
         {
             const int WM_GETMINMAXINFO = 0x0024;
 
+            // A frame Windows Snap has arranged - stretched to the height of the screen when
+            // its top edge touched the top, or to half of it after a drag to one side - is put
+            // back as it was. Left arranged it did not stay put: Windows lays arranged windows
+            // out again whenever the monitor comes back from standby, so the frame grew back
+            // on its own, saved that size as if somebody had chosen it, and pushed the frames
+            // docked under it off the screen. Undone after the move rather than inside it, and
+            // the same idea as the snap to maximised the frames already undo.
+            if (msg == WM_WINDOWPOSCHANGED && IsArranged(hwnd))
+            {
+                System.Windows.Application.Current?.Dispatcher.BeginInvoke(
+                    new Action(() => LeaveArrangement(hwnd)), DispatcherPriority.Input);
+            }
+
             if (msg == WM_GETMINMAXINFO)
             {
                 // Get the screen information for the current monitor
@@ -9438,6 +9487,53 @@ namespace Desktop_Frames
         }
 
 
+
+        private static bool IsArranged(IntPtr hwnd)
+        {
+            if (_arrangementUnknown) return false;
+
+            try
+            {
+                return IsWindowArranged(hwnd);
+            }
+            catch (EntryPointNotFoundException)
+            {
+                // An older Windows without the call. Frames behave there as they always did.
+                _arrangementUnknown = true;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Takes a frame out of Windows Snap's arrangement, back to the size and place it had
+        /// before, and records the place. The size is saved by the frame's own size handler;
+        /// a position is only saved by a drag, and Snap moves a frame as well as resizing it.
+        /// </summary>
+        private static void LeaveArrangement(IntPtr hwnd)
+        {
+            if (!IsArranged(hwnd)) return;
+
+            var placement = new WINDOWPLACEMENT { length = Marshal.SizeOf<WINDOWPLACEMENT>() };
+            if (!GetWindowPlacement(hwnd, ref placement)) return;
+
+            // Shown again without the focus, which a frame never takes.
+            placement.showCmd = SW_SHOWNOACTIVATE;
+            if (!SetWindowPlacement(hwnd, ref placement)) return;
+
+            if (HwndSource.FromHwnd(hwnd)?.RootVisual is not NonActivatingWindow win) return;
+
+            string frameId = win.Tag?.ToString();
+            var currentFrame = FrameDataManager.FrameData.FirstOrDefault(f => f.Id?.ToString() == frameId);
+            if (currentFrame != null)
+            {
+                currentFrame.X = win.Left;
+                currentFrame.Y = win.Top;
+                FrameDataManager.SaveFrameData();
+            }
+
+            LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
+                $"Windows Snap had arranged frame '{win.Title}'; put it back at {win.Width:0}x{win.Height:0}.");
+        }
 
         private static string GetSafeProperty(dynamic obj, string propName)
         {
