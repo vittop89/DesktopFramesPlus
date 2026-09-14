@@ -268,6 +268,18 @@ namespace Desktop_Frames
 
                 Button doneButton = null;
 
+                // A click on the note brings the keyboard with it. The frame refuses to be
+                // activated, so the click put the caret in and showed the note as being
+                // edited while the keys went on to whichever window had them before - and
+                // the refusal was only lifted once the text box had the focus, which is why
+                // the second click worked and the first did not. Taken on the press, before
+                // the text box handles it, so the first click is the one that counts.
+                noteTextBox.PreviewMouseLeftButtonDown += (s, e) =>
+                {
+                    if (FindParentWindow(noteTextBox) is NonActivatingWindow naw && !naw.IsActive)
+                        naw.TakeKeyboard();
+                };
+
                 // Handle focus - show editing state and optional Done button
                 noteTextBox.GotFocus += (s, e) =>
                 {
