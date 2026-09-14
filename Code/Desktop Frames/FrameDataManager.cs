@@ -564,6 +564,9 @@ namespace Desktop_Frames
 
                 // 2. SELF-HEALING STARTUP ALIGNMENT FOR MULTI-PARENTS
                 bool layoutHealed = false;
+
+                // Docks whose parents are no longer all above the child, with the parents that are.
+                var loosened = new Dictionary<string, List<string>>();
                 foreach (var kvp in DockingMap)
                 {
                     string childId = kvp.Key;
@@ -575,6 +578,11 @@ namespace Desktop_Frames
                         dynamic childFrame = _frameData[childIdx];
                         double maxExpectedMinY = 0;
 
+                        double childLeft = Convert.ToDouble(childFrame.X?.ToString() ?? "0");
+                        double childTop = Convert.ToDouble(childFrame.Y?.ToString() ?? "0");
+                        double childWidth = Convert.ToDouble(childFrame.Width?.ToString() ?? "0");
+                        var stillAbove = new List<string>();
+
                         foreach (string pId in parentIds)
                         {
                             int parentIdx = _frameData.FindIndex(f => f.Id?.ToString() == pId);
@@ -582,6 +590,13 @@ namespace Desktop_Frames
                             {
                                 dynamic parentFrame = _frameData[parentIdx];
                                 double parentY = Convert.ToDouble(parentFrame.Y?.ToString() ?? "0");
+
+                                // A parent moved away since the dock was made no longer holds this
+                                // child; aligning the child under it would send it wherever it went.
+                                double parentX = Convert.ToDouble(parentFrame.X?.ToString() ?? "0");
+                                double parentWidth = Convert.ToDouble(parentFrame.Width?.ToString() ?? "0");
+                                if (!DockRule.StillHolds(parentX, parentY, parentWidth, childLeft, childTop, childWidth)) continue;
+                                stillAbove.Add(pId);
 
                                 // --- FIX: State-Aware Height Calculation ---
                                 bool isParentRolled = false;
@@ -596,6 +611,8 @@ namespace Desktop_Frames
                             }
                         }
 
+                        if (stillAbove.Count != parentIds.Count) loosened[childId] = stillAbove;
+
                         double childY = Convert.ToDouble(childFrame.Y?.ToString() ?? "0");
 
                         // --- FIX: Strict Exact Alignment ---
@@ -608,6 +625,15 @@ namespace Desktop_Frames
                             LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General, $"Self-Healed coordinate for multi-docked child '{childFrame.Title}' from Y={childY:F1} to Y={maxExpectedMinY:F1}");
                         }
                     }
+                }
+
+                foreach (var loose in loosened)
+                {
+                    UpdateDockedRelationships(loose.Key, loose.Value.Count > 0 ? loose.Value : null);
+
+                    if (loose.Value.Count == 0)
+                        LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
+                            $"Undocked frame {loose.Key}: the frame it was docked under is no longer above it.");
                 }
 
                 if (layoutHealed)

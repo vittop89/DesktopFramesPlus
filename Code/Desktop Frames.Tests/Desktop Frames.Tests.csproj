@@ -41,6 +41,8 @@
              Link="Linked\WebPageSettings.cs" />
     <Compile Include="..\Desktop Frames\Plugins\GoogleAgenda\AgendaEventColours.cs"
              Link="Linked\AgendaEventColours.cs" />
+    <Compile Include="..\Desktop Frames\DockRule.cs"
+             Link="Linked\DockRule.cs" />
   </ItemGroup>
 
   <ItemGroup>

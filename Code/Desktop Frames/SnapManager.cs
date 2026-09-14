@@ -238,9 +238,22 @@ namespace Desktop_Frames
                 if (win != null && FrameDataManager.DockingMap.TryGetValue(childId, out List<string> parentIds))
                 {
                     // Find all currently active window instances for all co-parents of this child
+                    // that are still above it. A co-parent dragged away kept its place in the map,
+                    // and the child was anchored under wherever that frame's bottom edge had gone.
                     var activeParents = System.Windows.Application.Current.Windows.OfType<NonActivatingWindow>()
-                        .Where(w => parentIds.Contains(GetFrameIdFromWindow(w)))
+                        .Where(w => parentIds.Contains(GetFrameIdFromWindow(w))
+                                 && DockRule.StillHolds(w.Left, w.Top, w.Width, win.Left, win.Top, win.Width))
                         .ToList();
+
+                    if (activeParents.Count != parentIds.Count)
+                    {
+                        var stillAbove = activeParents.Select(GetFrameIdFromWindow).ToList();
+                        FrameDataManager.UpdateDockedRelationships(childId, stillAbove.Count > 0 ? stillAbove : null);
+
+                        if (stillAbove.Count == 0)
+                            LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
+                                $"Undocked '{win.Title}': the frame it was docked under is no longer above it.");
+                    }
 
                     if (activeParents.Count > 0)
                     {
