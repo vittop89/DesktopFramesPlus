@@ -9889,7 +9889,7 @@ namespace Desktop_Frames
                 FrameDataManager.SaveFrameData();
             }
 
-            LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.UI,
+            LogManager.Log(LogManager.LogLevel.Info, LogManager.LogCategory.General,
                 $"Windows Snap had arranged frame '{win.Title}'; put it back at {win.Width}x{win.Height}.");
         }
 
