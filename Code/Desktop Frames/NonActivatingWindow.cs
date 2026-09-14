@@ -115,7 +115,35 @@ public class NonActivatingWindow : Window
     public void BeginKeyboardInteractiveEdit(UIElement targetElement)
     {
         EnableFocusPrevention(false);
+        BringToForeground();
 
+        // Deferred focus to ensure the OS has actually switched foreground windows
+        this.Dispatcher.BeginInvoke(new Action(() =>
+        {
+            targetElement.Focus();
+            if (targetElement is System.Windows.Controls.TextBox tb) tb.SelectAll();
+            else if (targetElement is System.Windows.Controls.ComboBox cb)
+            {
+                var innerTextBox = (System.Windows.Controls.TextBox)cb.Template.FindName("PART_EditableTextBox", cb);
+                innerTextBox?.Focus();
+                innerTextBox?.SelectAll();
+            }
+        }), System.Windows.Threading.DispatcherPriority.Input);
+    }
+
+    /// <summary>
+    /// Makes this window the one the keyboard types into, and leaves the focus inside it
+    /// alone. For a click on text: the click has already put the caret where it belongs,
+    /// and the focusing and selecting that BeginKeyboardInteractiveEdit does would undo it.
+    /// </summary>
+    public void TakeKeyboard()
+    {
+        EnableFocusPrevention(false);
+        BringToForeground();
+    }
+
+    private void BringToForeground()
+    {
         IntPtr hwnd = new WindowInteropHelper(this).Handle;
         IntPtr foregroundHwnd = GetForegroundWindow();
 
@@ -139,19 +167,6 @@ public class NonActivatingWindow : Window
         {
             SetForegroundWindow(hwnd);
         }
-
-        // Deferred focus to ensure the OS has actually switched foreground windows
-        this.Dispatcher.BeginInvoke(new Action(() =>
-        {
-            targetElement.Focus();
-            if (targetElement is System.Windows.Controls.TextBox tb) tb.SelectAll();
-            else if (targetElement is System.Windows.Controls.ComboBox cb)
-            {
-                var innerTextBox = (System.Windows.Controls.TextBox)cb.Template.FindName("PART_EditableTextBox", cb);
-                innerTextBox?.Focus();
-                innerTextBox?.SelectAll();
-            }
-        }), System.Windows.Threading.DispatcherPriority.Input);
     }
 
     public void EndKeyboardInteractiveEdit()
