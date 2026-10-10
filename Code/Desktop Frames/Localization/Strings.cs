@@ -235,6 +235,7 @@ namespace Desktop_Frames.Localization
         public static string BtnOpenBackupsFolder => Get("BtnOpenBackupsFolder");
         public static string BtnOpenLog => Get("BtnOpenLog");
         public static string BtnOrganizeNow => Get("BtnOrganizeNow");
+        public static string BtnReadMore => Get("BtnReadMore");
         public static string BtnReset => Get("BtnReset");
         public static string BtnResetStyles => Get("BtnResetStyles");
         public static string BtnRestore => Get("BtnRestore");
@@ -242,6 +243,7 @@ namespace Desktop_Frames.Localization
         public static string BtnSaveToAll => Get("BtnSaveToAll");
         public static string BtnScreenBoundFrames => Get("BtnScreenBoundFrames");
         public static string BtnSmartDesktopRules => Get("BtnSmartDesktopRules");
+        public static string BtnUpdateNow => Get("BtnUpdateNow");
         public static string ButtonNo => Get("ButtonNo");
         public static string ButtonOk => Get("ButtonOk");
         public static string ButtonYes => Get("ButtonYes");
@@ -365,6 +367,7 @@ namespace Desktop_Frames.Localization
         public static string DlgApplyError => Get("DlgApplyError");
         public static string DlgBackup => Get("DlgBackup");
         public static string DlgBrowseError => Get("DlgBrowseError");
+        public static string DlgClearNote => Get("DlgClearNote");
         public static string DlgConfirmImport => Get("DlgConfirmImport");
         public static string DlgCopyError => Get("DlgCopyError");
         public static string DlgCopyItem => Get("DlgCopyItem");
@@ -405,6 +408,7 @@ namespace Desktop_Frames.Localization
         public static string MsgBackupDone => Get("MsgBackupDone");
         public static string MsgBackupFailed => Get("MsgBackupFailed");
         public static string MsgCannotDeleteLastTab => Get("MsgCannotDeleteLastTab");
+        public static string MsgClearNoteConfirm => Get("MsgClearNoteConfirm");
         public static string MsgConfirmDeleteProfile => Get("MsgConfirmDeleteProfile");
         public static string MsgConfirmDisableCtrlAltHotkeys => Get("MsgConfirmDisableCtrlAltHotkeys");
         public static string MsgConfirmFactoryReset => Get("MsgConfirmFactoryReset");
@@ -767,8 +771,105 @@ namespace Desktop_Frames.Localization
         public static string VuSettings => Get("VuSettings");
         public static string VuSignalGain => Get("VuSignalGain");
 
+        // Layout protection and snapshots
+        public static string LayoutSnapshots => Get("LayoutSnapshots");
+        public static string LayoutWindowTitle => Get("LayoutWindowTitle");
+        public static string LayoutSnapshotsButton => Get("LayoutSnapshotsButton");
+        public static string LayoutOptionsDescription => Get("LayoutOptionsDescription");
+        public static string LayoutMyLayout => Get("LayoutMyLayout");
+        public static string LayoutSaveSnapshot => Get("LayoutSaveSnapshot");
+        public static string LayoutUseCurrent => Get("LayoutUseCurrent");
+        public static string LayoutConfirmCurrent => Get("LayoutConfirmCurrent");
+        public static string LayoutAutomaticHelp => Get("LayoutAutomaticHelp");
+        public static string LayoutRetentionDays => Get("LayoutRetentionDays");
+        public static string LayoutRetentionCount => Get("LayoutRetentionCount");
+        public static string LayoutNoLimit => Get("LayoutNoLimit");
+        public static string LayoutApplyRetention => Get("LayoutApplyRetention");
+        public static string LayoutDeleteOlder => Get("LayoutDeleteOlder");
+        public static string LayoutRetentionHelp => Get("LayoutRetentionHelp");
+        public static string LayoutPrevious => Get("LayoutPrevious");
+        public static string LayoutNext => Get("LayoutNext");
+        public static string LayoutPage => Get("LayoutPage");
+        public static string LayoutRestore => Get("LayoutRestore");
+        public static string LayoutPinToggle => Get("LayoutPinToggle");
+        public static string LayoutDelete => Get("LayoutDelete");
+        public static string LayoutConfirmDelete => Get("LayoutConfirmDelete");
+        public static string LayoutRestoreHelp => Get("LayoutRestoreHelp");
+        public static string LayoutProfileChanged => Get("LayoutProfileChanged");
+        public static string LayoutAutomaticToday => Get("LayoutAutomaticToday");
+        public static string LayoutAutomatic => Get("LayoutAutomatic");
+        public static string LayoutUnreadable => Get("LayoutUnreadable");
+        public static string LayoutListItem => Get("LayoutListItem");
+        public static string LayoutPinnedTitle => Get("LayoutPinnedTitle");
+        public static string LayoutKindAutomatic => Get("LayoutKindAutomatic");
+        public static string LayoutKindManual => Get("LayoutKindManual");
+        public static string LayoutKindSafety => Get("LayoutKindSafety");
+        public static string LayoutNoSnapshots => Get("LayoutNoSnapshots");
+        public static string LayoutSelectSnapshot => Get("LayoutSelectSnapshot");
+        public static string LayoutDetails => Get("LayoutDetails");
+        public static string LayoutMissingMonitors => Get("LayoutMissingMonitors");
+        public static string LayoutMonitorsAvailable => Get("LayoutMonitorsAvailable");
+        public static string LayoutMonitorMismatch => Get("LayoutMonitorMismatch");
+        public static string LayoutPreviewUnavailable => Get("LayoutPreviewUnavailable");
+        public static string LayoutConfirmRestore => Get("LayoutConfirmRestore");
+        public static string LayoutInvalidRetention => Get("LayoutInvalidRetention");
+        public static string LayoutConfirmRetention => Get("LayoutConfirmRetention");
+        public static string LayoutEnterAge => Get("LayoutEnterAge");
+        public static string LayoutNoOldSnapshots => Get("LayoutNoOldSnapshots");
+        public static string LayoutConfirmDeleteOlder => Get("LayoutConfirmDeleteOlder");
+        public static string LayoutNotLoaded => Get("LayoutNotLoaded");
+        public static string LayoutInitial => Get("LayoutInitial");
+        public static string LayoutWaiting => Get("LayoutWaiting");
+        public static string LayoutProtected => Get("LayoutProtected");
+        public static string LayoutReadPositionFailed => Get("LayoutReadPositionFailed");
+        public static string LayoutRestorePositionFailed => Get("LayoutRestorePositionFailed");
+        public static string LayoutDisplayChanged => Get("LayoutDisplayChanged");
+        public static string LayoutRecovered => Get("LayoutRecovered");
+        public static string LayoutSnapshotUpdated => Get("LayoutSnapshotUpdated");
+        public static string LayoutSavedName => Get("LayoutSavedName");
+        public static string LayoutBeforeAdopting => Get("LayoutBeforeAdopting");
+        public static string LayoutAdopted => Get("LayoutAdopted");
+        public static string LayoutRestoreMonitorRequired => Get("LayoutRestoreMonitorRequired");
+        public static string LayoutRestoreMissingMonitor => Get("LayoutRestoreMissingMonitor");
+        public static string LayoutBeforeRestore => Get("LayoutBeforeRestore");
+        public static string LayoutRestored => Get("LayoutRestored");
+        public static string LayoutProtectionError => Get("LayoutProtectionError");
+        public static string LayoutInvalidName => Get("LayoutInvalidName");
+        public static string LayoutIntendedReadFailed => Get("LayoutIntendedReadFailed");
+        public static string LayoutFileTooLarge => Get("LayoutFileTooLarge");
+        public static string LayoutFileEmpty => Get("LayoutFileEmpty");
+        public static string LayoutInvalidKind => Get("LayoutInvalidKind");
+        public static string LayoutSnapshotNotFound => Get("LayoutSnapshotNotFound");
+        public static string LayoutInvalidSnapshot => Get("LayoutInvalidSnapshot");
+        public static string LayoutUnpinBeforeDelete => Get("LayoutUnpinBeforeDelete");
+        public static string LayoutNegativeRetention => Get("LayoutNegativeRetention");
+        public static string LayoutInvalidFile => Get("LayoutInvalidFile");
+        public static string LayoutInvalidGeometry => Get("LayoutInvalidGeometry");
+        public static string LayoutMonitorIdentityPending => Get("LayoutMonitorIdentityPending");
+        public static string LayoutMonitorsNotReady => Get("LayoutMonitorsNotReady");
+        public static string LayoutMonitor => Get("LayoutMonitor");
+        public static string LayoutFrame => Get("LayoutFrame");
+        public static string TabInterface => Get("TabInterface");
+
+        public static string TabAppearance => Get("TabAppearance");
+        public static string TabIdleBehaviors => Get("TabIdleBehaviors");
+
+        public static string BtnExportTemplate => Get("BtnExportTemplate");
+        public static string MsgTemplateExported => Get("MsgTemplateExported");
+
+
         // ── Generated frame names ──────────────────────────────────────────
+        public static string NewFrameDefaultTitle => Get("NewFrameDefaultTitle");
         public static string RandomNameAdjectives => Get("RandomNameAdjectives");
         public static string RandomNamePlaces => Get("RandomNamePlaces");
+
+        public static string DlgClose => Get("DlgClose");
+
+        public static string LayoutPreviewTitle => Get("LayoutPreviewTitle");
+        public static string LayoutDetailsTitle => Get("LayoutDetailsTitle");
+        public static string LayoutCleanupSettings => Get("LayoutCleanupSettings");
+        public static string LayoutBtnSave => Get("LayoutBtnSave");
+
+
     }
 }

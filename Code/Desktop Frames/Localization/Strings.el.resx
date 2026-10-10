@@ -1,0 +1,2187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AboutAnd" xml:space="preserve">
+    <value> και </value>
+  </data>
+  <data name="AboutBody" xml:space="preserve">
+    <value>Το Desktop Frames + δημιουργεί εικονικά frames στην επιφάνεια εργασίας, επιτρέποντας την οργάνωση των εικονιδίων με καθαρό και πρακτικό τρόπο.</value>
+  </data>
+  <data name="AboutCreditsBody" xml:space="preserve">
+    <value>Το Desktop Frames + είναι λογισμικό ανοιχτού κώδικα για Windows, που αρχικά δημιουργήθηκε από τον HakanKokcu με το όνομα BirdyFences.
+
+Συντηρείται από τον Νίκο Γεωργούση, έχει βελτιωθεί και βελτιστοποιηθεί για σταθερότητα και καλύτερη εμπειρία χρήστη.</value>
+  </data>
+  <data name="AboutDonateBig" xml:space="preserve">
+    <value>Δωρεά 999,00 €</value>
+  </data>
+  <data name="AboutDontFeedDragons" xml:space="preserve">
+    <value>Μην ταΐζετε τους δράκους</value>
+  </data>
+  <data name="AboutGreatToHaveYou" xml:space="preserve">
+    <value>Χαιρόμαστε που είστε εδώ</value>
+  </data>
+  <data name="AboutLicense" xml:space="preserve">
+    <value>⚖ Άδεια MIT</value>
+  </data>
+  <data name="AboutPleaseDonate" xml:space="preserve">
+    <value>Κάντε μια δωρεά</value>
+  </data>
+  <data name="AboutSectionAbout" xml:space="preserve">
+    <value>Σχετικά</value>
+  </data>
+  <data name="AboutSectionCredits" xml:space="preserve">
+    <value>Συντελεστές</value>
+  </data>
+  <data name="AboutSoundCredits" xml:space="preserve">
+    <value>Χρήση δωρεάν ήχων από </value>
+  </data>
+  <data name="AboutSupportDevelopment" xml:space="preserve">
+    <value>Στηρίξτε την Ανάπτυξη</value>
+  </data>
+  <data name="AboutTagline" xml:space="preserve">
+    <value>Οργανώστε την επιφάνεια εργασίας σας μαγικά!</value>
+  </data>
+  <data name="AboutThinkAgain" xml:space="preserve">
+    <value>Σίγουρα; Ξανασκεφτείτε το!</value>
+  </data>
+  <data name="AboutTitle" xml:space="preserve">
+    <value>Σχετικά με το Desktop Frames +</value>
+  </data>
+  <data name="AboutVersion" xml:space="preserve">
+    <value>Έκδοση {0}</value>
+  </data>
+  <data name="AboutVisitGitHub" xml:space="preserve">
+    <value>⚡ Επίσκεψη στο GitHub</value>
+  </data>
+  <data name="AboutWhat" xml:space="preserve">
+    <value>Τι;</value>
+  </data>
+  <data name="AutomationClickTarget" xml:space="preserve">
+    <value>ΚΑΝΤΕ ΚΛΙΚ ΣΤΟ ΠΑΡΑΘΥΡΟ ΣΤΟΧΟ</value>
+  </data>
+  <data name="AutomationDeleteSelected" xml:space="preserve">
+    <value>Διαγραφή Επιλεγμένων</value>
+  </data>
+  <data name="AutomationDoubleClickEdit" xml:space="preserve">
+    <value>Διπλό κλικ για επεξεργασία κανόνα</value>
+  </data>
+  <data name="AutomationExisting" xml:space="preserve">
+    <value>Υπάρχοντες Κανόνες</value>
+  </data>
+  <data name="AutomationManage" xml:space="preserve">
+    <value>Διαχείριση Κανόνων Automation</value>
+  </data>
+  <data name="AutomationPersistedMode" xml:space="preserve">
+    <value>Μόνιμη Λειτουργία (Παραμονή στο Profile)</value>
+  </data>
+  <data name="AutomationPickWindow" xml:space="preserve">
+    <value>🎯 Επιλογή Παραθύρου</value>
+  </data>
+  <data name="AutomationRuleDefinition" xml:space="preserve">
+    <value>Ορισμός Κανόνα</value>
+  </data>
+  <data name="AutomationTitle" xml:space="preserve">
+    <value>Κανόνες Automation</value>
+  </data>
+  <data name="AutoOrgAddRule" xml:space="preserve">
+    <value>+ Προσθήκη Κανόνα</value>
+  </data>
+  <data name="AutoOrgBrowseFolder" xml:space="preserve">
+    <value>Αναζήτηση Φακέλου...</value>
+  </data>
+  <data name="AutoOrgCustomExtensions" xml:space="preserve">
+    <value>Επιλεγμένες Επεκτάσεις (π.χ. *.zip; *.rar):</value>
+  </data>
+  <data name="AutoOrgEnableRule" xml:space="preserve">
+    <value>Ενεργοποίηση κανόνα</value>
+  </data>
+  <data name="AutoOrgFilenameContains" xml:space="preserve">
+    <value>Και το όνομα περιέχει (Προαιρετικό):</value>
+  </data>
+  <data name="AutoOrgGeneratePortal" xml:space="preserve">
+    <value>Δημιουργία νέου Portal Frame για τον φάκελο</value>
+  </data>
+  <data name="AutoOrgIfExists" xml:space="preserve">
+    <value>Αν το αρχείο υπάρχει ήδη:</value>
+  </data>
+  <data name="AutoOrgIfExtension" xml:space="preserve">
+    <value>Αν η επέκταση είναι:</value>
+  </data>
+  <data name="AutoOrgMoveTo" xml:space="preserve">
+    <value>Μετακίνηση σε:</value>
+  </data>
+  <data name="AutoOrgRemove" xml:space="preserve">
+    <value>− Αφαίρεση</value>
+  </data>
+  <data name="AutoOrgRuleName" xml:space="preserve">
+    <value>Όνομα Κανόνα:</value>
+  </data>
+  <data name="AutoOrgSaveRules" xml:space="preserve">
+    <value>Αποθήκευση Κανόνων</value>
+  </data>
+  <data name="AutoOrgTitle" xml:space="preserve">
+    <value>Κανόνες Smart Desktop</value>
+  </data>
+  <data name="BackupSelectExportFile" xml:space="preserve">
+    <value>Επιλογή αρχείου εξαγωγής Frame</value>
+  </data>
+  <data name="BtnApply" xml:space="preserve">
+    <value>Εφαρμογή</value>
+  </data>
+  <data name="BtnApplyToAll" xml:space="preserve">
+    <value>Εφαρμογή σε όλα</value>
+  </data>
+  <data name="BtnBackup" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="BtnBrowse" xml:space="preserve">
+    <value>Αναζήτηση...</value>
+  </data>
+  <data name="BtnCancel" xml:space="preserve">
+    <value>Ακύρωση</value>
+  </data>
+  <data name="BtnClearAllData" xml:space="preserve">
+    <value>Εκκαθάριση όλων των δεδομένων</value>
+  </data>
+  <data name="BtnClose" xml:space="preserve">
+    <value>Κλείσιμο</value>
+  </data>
+  <data name="BtnCreate" xml:space="preserve">
+    <value>Δημιουργία</value>
+  </data>
+  <data name="BtnDefault" xml:space="preserve">
+    <value>Προεπιλογή</value>
+  </data>
+  <data name="BtnDonate" xml:space="preserve">
+    <value>♥ Δωρεά μέσω PayPal</value>
+  </data>
+  <data name="BtnManageAutomation" xml:space="preserve">
+    <value>Διαχείριση Automation</value>
+  </data>
+  <data name="BtnManageProfiles" xml:space="preserve">
+    <value>Διαχείριση Profiles</value>
+  </data>
+  <data name="BtnMoveDown" xml:space="preserve">
+    <value>▼ Κάτω</value>
+  </data>
+  <data name="BtnMoveUp" xml:space="preserve">
+    <value>▲ Πάνω</value>
+  </data>
+  <data name="BtnOpenBackupsFolder" xml:space="preserve">
+    <value>Άνοιγμα φακέλου Backup</value>
+  </data>
+  <data name="BtnOpenLog" xml:space="preserve">
+    <value>Άνοιγμα Log</value>
+  </data>
+  <data name="BtnOrganizeNow" xml:space="preserve">
+    <value>Οργάνωση Τώρα</value>
+  </data>
+  <data name="BtnReadMore" xml:space="preserve">
+    <value>Διαβάστε περισσότερα...</value>
+  </data>
+  <data name="BtnReset" xml:space="preserve">
+    <value>Επαναφορά</value>
+  </data>
+  <data name="BtnResetStyles" xml:space="preserve">
+    <value>Επαναφορά Styles</value>
+  </data>
+  <data name="BtnRestore" xml:space="preserve">
+    <value>Restore...</value>
+  </data>
+  <data name="BtnSave" xml:space="preserve">
+    <value>Αποθήκευση</value>
+  </data>
+  <data name="BtnSaveToAll" xml:space="preserve">
+    <value>Αποθήκευση σε όλα</value>
+  </data>
+  <data name="BtnScreenBoundFrames" xml:space="preserve">
+    <value>Όρια οθόνης Frames</value>
+  </data>
+  <data name="BtnSmartDesktopRules" xml:space="preserve">
+    <value>Κανόνες Smart Desktop...</value>
+  </data>
+  <data name="BtnUpdateNow" xml:space="preserve">
+    <value>Ενημέρωση τώρα</value>
+  </data>
+  <data name="ButtonNo" xml:space="preserve">
+    <value>Όχι</value>
+  </data>
+  <data name="ButtonOk" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ButtonYes" xml:space="preserve">
+    <value>Ναι</value>
+  </data>
+  <data name="CalcBadgeFade" xml:space="preserve">
+    <value>Χρόνος απόκρυψης Badge (ms):</value>
+  </data>
+  <data name="CalcClear" xml:space="preserve">
+    <value>Εκκαθάριση</value>
+  </data>
+  <data name="CalcCleared" xml:space="preserve">
+    <value>Καθαρίστηκε</value>
+  </data>
+  <data name="CalcClearedAll" xml:space="preserve">
+    <value>Πλήρης Εκκαθάριση</value>
+  </data>
+  <data name="CalcClearHistory" xml:space="preserve">
+    <value>Εκκαθάριση Ιστορικού</value>
+  </data>
+  <data name="CalcClearMemory" xml:space="preserve">
+    <value>Εκκαθάριση Μνήμης &amp; Ιστορικού</value>
+  </data>
+  <data name="CalcClearOnNewInput" xml:space="preserve">
+    <value>Εκκαθάριση οθόνης σε νέα εισαγωγή (Μετά το '=')</value>
+  </data>
+  <data name="CalcCopy" xml:space="preserve">
+    <value>Αντιγραφή</value>
+  </data>
+  <data name="CalcDisplayColor" xml:space="preserve">
+    <value>Χρώμα Οθόνης:</value>
+  </data>
+  <data name="CalcEntryCleared" xml:space="preserve">
+    <value>Η καταχώρηση διαγράφηκε</value>
+  </data>
+  <data name="CalcErrorDisplay" xml:space="preserve">
+    <value>Σφάλμα</value>
+  </data>
+  <data name="CalcHistoryColor" xml:space="preserve">
+    <value>Χρώμα Ιστορικού:</value>
+  </data>
+  <data name="CalcPaste" xml:space="preserve">
+    <value>Επικόλληση</value>
+  </data>
+  <data name="CalcPercentage" xml:space="preserve">
+    <value>Ποσοστό</value>
+  </data>
+  <data name="CalcSettings" xml:space="preserve">
+    <value>Ρυθμίσεις Calculator</value>
+  </data>
+  <data name="CalcShowKeypad" xml:space="preserve">
+    <value>Εμφάνιση Virtual Keypad</value>
+  </data>
+  <data name="CalcShowOperationNames" xml:space="preserve">
+    <value>Εμφάνιση ονομάτων πράξεων (π.χ. Πρόσθεση)</value>
+  </data>
+  <data name="CalcShowTape" xml:space="preserve">
+    <value>Εμφάνιση Ταινίας Ιστορικού</value>
+  </data>
+  <data name="ColDateModified" xml:space="preserve">
+    <value>Ημερομηνία τροποποίησης</value>
+  </data>
+  <data name="ColName" xml:space="preserve">
+    <value>Όνομα</value>
+  </data>
+  <data name="ColorBeige" xml:space="preserve">
+    <value>Μπεζ</value>
+  </data>
+  <data name="ColorBismark" xml:space="preserve">
+    <value>Μπίσμαρκ</value>
+  </data>
+  <data name="ColorBlack" xml:space="preserve">
+    <value>Μαύρο</value>
+  </data>
+  <data name="ColorBlue" xml:space="preserve">
+    <value>Μπλε</value>
+  </data>
+  <data name="ColorFuchsia" xml:space="preserve">
+    <value>Φούξια</value>
+  </data>
+  <data name="ColorGray" xml:space="preserve">
+    <value>Γκρι</value>
+  </data>
+  <data name="ColorGreen" xml:space="preserve">
+    <value>Πράσινο</value>
+  </data>
+  <data name="ColorOrange" xml:space="preserve">
+    <value>Πορτοκαλί</value>
+  </data>
+  <data name="ColorPurple" xml:space="preserve">
+    <value>Μωβ</value>
+  </data>
+  <data name="ColorRed" xml:space="preserve">
+    <value>Κόκκινο</value>
+  </data>
+  <data name="ColorWhite" xml:space="preserve">
+    <value>Λευκό</value>
+  </data>
+  <data name="ColorYellow" xml:space="preserve">
+    <value>Κίτρινο</value>
+  </data>
+  <data name="ColSize" xml:space="preserve">
+    <value>Μέγεθος</value>
+  </data>
+  <data name="ColType" xml:space="preserve">
+    <value>Τύπος</value>
+  </data>
+  <data name="ConfirmDeleteTitle" xml:space="preserve">
+    <value>Επιβεβαίωση διαγραφής</value>
+  </data>
+  <data name="CustomizeTitle" xml:space="preserve">
+    <value>Προσαρμογή Frame</value>
+  </data>
+  <data name="DeleteFrameHeading" xml:space="preserve">
+    <value>Διαγραφή Frame</value>
+  </data>
+  <data name="DeleteFrameQuestion" xml:space="preserve">
+    <value>Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το Frame;</value>
+  </data>
+  <data name="DeleteTabTitle" xml:space="preserve">
+    <value>Διαγραφή Tab</value>
+  </data>
+  <data name="DiagCpuQueue" xml:space="preserve">
+    <value>CPU QUEUE</value>
+  </data>
+  <data name="DiagCpuUtilization" xml:space="preserve">
+    <value>CPU UTILIZATION</value>
+  </data>
+  <data name="DiagDiskIo" xml:space="preserve">
+    <value>DISK I/O</value>
+  </data>
+  <data name="DiagRamUtilization" xml:space="preserve">
+    <value>RAM UTILIZATION</value>
+  </data>
+  <data name="DlgApplyError" xml:space="preserve">
+    <value>Σφάλμα Εφαρμογής</value>
+  </data>
+  <data name="DlgBackup" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="DlgBrowseError" xml:space="preserve">
+    <value>Σφάλμα Αναζήτησης</value>
+  </data>
+  <data name="DlgClearNote" xml:space="preserve">
+    <value>Εκκαθάριση σημείωσης</value>
+  </data>
+  <data name="DlgConfirmImport" xml:space="preserve">
+    <value>Επιβεβαίωση Εισαγωγής</value>
+  </data>
+  <data name="DlgCopyError" xml:space="preserve">
+    <value>Σφάλμα Αντιγραφής</value>
+  </data>
+  <data name="DlgCopyItem" xml:space="preserve">
+    <value>Αντιγραφή Στοιχείου</value>
+  </data>
+  <data name="DlgCriticalError" xml:space="preserve">
+    <value>Κρίσιμο Σφάλμα</value>
+  </data>
+  <data name="DlgDefaultError" xml:space="preserve">
+    <value>Σφάλμα Προεπιλογής</value>
+  </data>
+  <data name="DlgDeleteProfile" xml:space="preserve">
+    <value>Διαγραφή Profile</value>
+  </data>
+  <data name="DlgDeleteTab" xml:space="preserve">
+    <value>Διαγραφή Tab</value>
+  </data>
+  <data name="DlgError" xml:space="preserve">
+    <value>Σφάλμα</value>
+  </data>
+  <data name="DlgExportError" xml:space="preserve">
+    <value>Σφάλμα Εξαγωγής</value>
+  </data>
+  <data name="DlgExportSuccessful" xml:space="preserve">
+    <value>Επιτυχής Εξαγωγή</value>
+  </data>
+  <data name="DlgFactoryReset" xml:space="preserve">
+    <value>Επαναφορά Εργοστασιακών (Factory Reset)</value>
+  </data>
+  <data name="DlgFormError" xml:space="preserve">
+    <value>Σφάλμα Φόρμας</value>
+  </data>
+  <data name="DlgImportComplete" xml:space="preserve">
+    <value>Η εισαγωγή ολοκληρώθηκε</value>
+  </data>
+  <data name="DlgImportError" xml:space="preserve">
+    <value>Σφάλμα Εισαγωγής</value>
+  </data>
+  <data name="DlgInfo" xml:space="preserve">
+    <value>Πληροφορίες</value>
+  </data>
+  <data name="DlgInformation" xml:space="preserve">
+    <value>Πληροφορίες</value>
+  </data>
+  <data name="DlgKeyboardCheck" xml:space="preserve">
+    <value>Προαιρετικό: Έλεγχος συμβατότητας πληκτρολογίου</value>
+  </data>
+  <data name="DlgLaunchError" xml:space="preserve">
+    <value>Σφάλμα Εκκίνησης</value>
+  </data>
+  <data name="DlgLoadError" xml:space="preserve">
+    <value>Σφάλμα Φόρτωσης</value>
+  </data>
+  <data name="DlgPasteError" xml:space="preserve">
+    <value>Σφάλμα Επικόλλησης</value>
+  </data>
+  <data name="DlgPasteItem" xml:space="preserve">
+    <value>Επικόλληση Στοιχείου</value>
+  </data>
+  <data name="DlgRenameError" xml:space="preserve">
+    <value>Σφάλμα Μετονομασίας</value>
+  </data>
+  <data name="DlgResetComplete" xml:space="preserve">
+    <value>Η επαναφορά ολοκληρώθηκε</value>
+  </data>
+  <data name="DlgResetSuccessful" xml:space="preserve">
+    <value>Επιτυχής Επαναφορά</value>
+  </data>
+  <data name="DlgRestartRequired" xml:space="preserve">
+    <value>Απαιτείται Επανεκκίνηση</value>
+  </data>
+  <data name="DlgRestore" xml:space="preserve">
+    <value>Επαναφορά</value>
+  </data>
+  <data name="DlgRestoreError" xml:space="preserve">
+    <value>Σφάλμα Επαναφοράς</value>
+  </data>
+  <data name="DlgRestoreSettings" xml:space="preserve">
+    <value>Επαναφορά Ρυθμίσεων</value>
+  </data>
+  <data name="DlgSaveError" xml:space="preserve">
+    <value>Σφάλμα Αποθήκευσης</value>
+  </data>
+  <data name="DlgSaved" xml:space="preserve">
+    <value>Αποθηκεύτηκε</value>
+  </data>
+  <data name="DlgSuccess" xml:space="preserve">
+    <value>Επιτυχία</value>
+  </data>
+  <data name="DlgSweepDesktop" xml:space="preserve">
+    <value>Σάρωση Επιφάνειας Εργασίας (Sweep)</value>
+  </data>
+  <data name="DlgUpdatePortalFrame" xml:space="preserve">
+    <value>Ενημέρωση Portal Frame</value>
+  </data>
+  <data name="DlgValidationError" xml:space="preserve">
+    <value>Σφάλμα Επικύρωσης</value>
+  </data>
+  <data name="EditSelectIcon" xml:space="preserve">
+    <value>Επιλογή Εικονιδίου</value>
+  </data>
+  <data name="EditSelectTarget" xml:space="preserve">
+    <value>Επιλογή Αρχείου Προορισμού</value>
+  </data>
+  <data name="EditShortcutTitle" xml:space="preserve">
+    <value>Επεξεργασία Συντόμευσης</value>
+  </data>
+  <data name="FocusFrameTitle" xml:space="preserve">
+    <value>Εστίαση Frame</value>
+  </data>
+  <data name="FocusSearchActive" xml:space="preserve">
+    <value>Αναζήτηση σε ενεργά frames:</value>
+  </data>
+  <data name="FxAgitate" xml:space="preserve">
+    <value>Ανατάραξη (Agitate)</value>
+  </data>
+  <data name="FxBounce" xml:space="preserve">
+    <value>Αναπήδηση (Bounce)</value>
+  </data>
+  <data name="FxElastic" xml:space="preserve">
+    <value>Ελαστικό</value>
+  </data>
+  <data name="FxFadeOut" xml:space="preserve">
+    <value>Ξεθώριασμα (FadeOut)</value>
+  </data>
+  <data name="FxFlip3D" xml:space="preserve">
+    <value>Περιστροφή 3D</value>
+  </data>
+  <data name="FxGrowAndFly" xml:space="preserve">
+    <value>Μεγέθυνση &amp; Πτήση</value>
+  </data>
+  <data name="FxMatrix" xml:space="preserve">
+    <value>Matrix</value>
+  </data>
+  <data name="FxPulse" xml:space="preserve">
+    <value>Παλμός (Pulse)</value>
+  </data>
+  <data name="FxRotate" xml:space="preserve">
+    <value>Περιστροφή</value>
+  </data>
+  <data name="FxShockwave" xml:space="preserve">
+    <value>Κρουστικό Κύμα (Shockwave)</value>
+  </data>
+  <data name="FxSlideUp" xml:space="preserve">
+    <value>Ολίσθηση Πάνω (SlideUp)</value>
+  </data>
+  <data name="FxSpiral" xml:space="preserve">
+    <value>Σπιράλ (Spiral)</value>
+  </data>
+  <data name="FxSupernova" xml:space="preserve">
+    <value>Supernova</value>
+  </data>
+  <data name="FxTeleport" xml:space="preserve">
+    <value>Τηλεμεταφορά</value>
+  </data>
+  <data name="FxZoom" xml:space="preserve">
+    <value>Ζουμ</value>
+  </data>
+  <data name="GaugeCpu" xml:space="preserve">
+    <value>CPU %</value>
+  </data>
+  <data name="GaugeLeftL" xml:space="preserve">
+    <value>ΑΡΙΣΤΕΡΑ (L)</value>
+  </data>
+  <data name="GaugeLeftVu" xml:space="preserve">
+    <value>LEFT VU</value>
+  </data>
+  <data name="GaugeMasterVu" xml:space="preserve">
+    <value>MASTER VU</value>
+  </data>
+  <data name="GaugeRam" xml:space="preserve">
+    <value>RAM %</value>
+  </data>
+  <data name="GaugeRightR" xml:space="preserve">
+    <value>ΔΕΞΙΑ (R)</value>
+  </data>
+  <data name="GaugeRightVu" xml:space="preserve">
+    <value>RIGHT VU</value>
+  </data>
+  <data name="HkDirectProfile" xml:space="preserve">
+    <value>Απευθείας Προφίλ [0-9]</value>
+  </data>
+  <data name="HkFocusFrame" xml:space="preserve">
+    <value>Εστίαση Frame</value>
+  </data>
+  <data name="HkNextProfile" xml:space="preserve">
+    <value>Επόμενο Προφίλ</value>
+  </data>
+  <data name="HkPreviousProfile" xml:space="preserve">
+    <value>Προηγούμενο Προφίλ</value>
+  </data>
+  <data name="HkSpotSearch" xml:space="preserve">
+    <value>Γρήγορη Αναζήτηση</value>
+  </data>
+  <data name="IconPickerHint" xml:space="preserve">
+    <value>Επιλέξτε ένα εικονίδιο από τα διαθέσιμα και πατήστε ΟΚ</value>
+  </data>
+  <data name="IconPickerTitle" xml:space="preserve">
+    <value>Επιλογή Εικονιδίου</value>
+  </data>
+  <data name="ImportTabNoFrames" xml:space="preserve">
+    <value>Δεν βρέθηκαν άλλα data frames για εισαγωγή.</value>
+  </data>
+  <data name="ImportTabPrompt" xml:space="preserve">
+    <value>Επιλέξτε frame ή καρτέλα προέλευσης για εισαγωγή:</value>
+  </data>
+  <data name="ImportTabTitle" xml:space="preserve">
+    <value>Εισαγωγή Καρτέλας</value>
+  </data>
+  <data name="ItemAgitate" xml:space="preserve">
+    <value>Ανατάραξη</value>
+  </data>
+  <data name="ItemBeige" xml:space="preserve">
+    <value>Μπεζ</value>
+  </data>
+  <data name="ItemBismark" xml:space="preserve">
+    <value>Μπίσμαρκ</value>
+  </data>
+  <data name="ItemBlack" xml:space="preserve">
+    <value>Μαύρο</value>
+  </data>
+  <data name="ItemBlue" xml:space="preserve">
+    <value>Μπλε</value>
+  </data>
+  <data name="ItemBounce" xml:space="preserve">
+    <value>Αναπήδηση</value>
+  </data>
+  <data name="ItemDefault" xml:space="preserve">
+    <value>Προεπιλογή</value>
+  </data>
+  <data name="ItemDetails" xml:space="preserve">
+    <value>Λεπτομέρειες</value>
+  </data>
+  <data name="ItemElastic" xml:space="preserve">
+    <value>Ελαστικό</value>
+  </data>
+  <data name="ItemFadeOut" xml:space="preserve">
+    <value>Ξεθώριασμα</value>
+  </data>
+  <data name="ItemFlip3D" xml:space="preserve">
+    <value>Περιστροφή 3D</value>
+  </data>
+  <data name="ItemFuchsia" xml:space="preserve">
+    <value>Φούξια</value>
+  </data>
+  <data name="ItemGray" xml:space="preserve">
+    <value>Γκρι</value>
+  </data>
+  <data name="ItemGreen" xml:space="preserve">
+    <value>Πράσινο</value>
+  </data>
+  <data name="ItemGrowAndFly" xml:space="preserve">
+    <value>Μεγέθυνση &amp; Πτήση</value>
+  </data>
+  <data name="ItemHuge" xml:space="preserve">
+    <value>Τεράστιο</value>
+  </data>
+  <data name="ItemIcons" xml:space="preserve">
+    <value>Εικονίδια</value>
+  </data>
+  <data name="ItemLarge" xml:space="preserve">
+    <value>Μεγάλο</value>
+  </data>
+  <data name="ItemMatrix" xml:space="preserve">
+    <value>Matrix</value>
+  </data>
+  <data name="ItemMedium" xml:space="preserve">
+    <value>Μεσαίο</value>
+  </data>
+  <data name="ItemOrange" xml:space="preserve">
+    <value>Πορτοκαλί</value>
+  </data>
+  <data name="ItemPulse" xml:space="preserve">
+    <value>Παλμός</value>
+  </data>
+  <data name="ItemPurple" xml:space="preserve">
+    <value>Μωβ</value>
+  </data>
+  <data name="ItemRed" xml:space="preserve">
+    <value>Κόκκινο</value>
+  </data>
+  <data name="ItemRotate" xml:space="preserve">
+    <value>Περιστροφή</value>
+  </data>
+  <data name="ItemShockwave" xml:space="preserve">
+    <value>Κρουστικό Κύμα</value>
+  </data>
+  <data name="ItemSlideUp" xml:space="preserve">
+    <value>Ολίσθηση Πάνω</value>
+  </data>
+  <data name="ItemSmall" xml:space="preserve">
+    <value>Μικρό</value>
+  </data>
+  <data name="ItemSpiral" xml:space="preserve">
+    <value>Σπιράλ</value>
+  </data>
+  <data name="ItemSupernova" xml:space="preserve">
+    <value>Supernova</value>
+  </data>
+  <data name="ItemTeal" xml:space="preserve">
+    <value>Πετρόλ (Teal)</value>
+  </data>
+  <data name="ItemTeleport" xml:space="preserve">
+    <value>Τηλεμεταφορά</value>
+  </data>
+  <data name="ItemTiny" xml:space="preserve">
+    <value>Μικροσκοπικό</value>
+  </data>
+  <data name="ItemWhite" xml:space="preserve">
+    <value>Λευκό</value>
+  </data>
+  <data name="ItemYellow" xml:space="preserve">
+    <value>Κίτρινο</value>
+  </data>
+  <data name="ItemZoom" xml:space="preserve">
+    <value>Ζουμ</value>
+  </data>
+  <data name="KeyComma" xml:space="preserve">
+    <value>Κόμμα (,)</value>
+  </data>
+  <data name="KeyEnter" xml:space="preserve">
+    <value>Enter</value>
+  </data>
+  <data name="KeyEscape" xml:space="preserve">
+    <value>Escape</value>
+  </data>
+  <data name="KeyPeriod" xml:space="preserve">
+    <value>Τελεία (.)</value>
+  </data>
+  <data name="KeySpace" xml:space="preserve">
+    <value>Space (Διάστημα)</value>
+  </data>
+  <data name="KeyTab" xml:space="preserve">
+    <value>Tab</value>
+  </data>
+  <data name="KeyTilde" xml:space="preserve">
+    <value>Tilde (~)</value>
+  </data>
+  <data name="LblActivationDelay" xml:space="preserve">
+    <value>Καθυστέρηση Ενεργοποίησης:</value>
+  </data>
+  <data name="LblArguments" xml:space="preserve">
+    <value>Παράμετροι (Arguments):</value>
+  </data>
+  <data name="LblBoldTitleText" xml:space="preserve">
+    <value>Έντονο κείμενο τίτλου</value>
+  </data>
+  <data name="LblColor" xml:space="preserve">
+    <value>Χρώμα</value>
+  </data>
+  <data name="LblCustomColor" xml:space="preserve">
+    <value>Προσαρμοσμένο Χρώμα:</value>
+  </data>
+  <data name="LblCustomLaunchEffect" xml:space="preserve">
+    <value>Προσαρμ. Εφέ Εκτέλεσης:</value>
+  </data>
+  <data name="LblDefaultPortalView" xml:space="preserve">
+    <value>Προεπιλεγμένη Προβολή Portal:</value>
+  </data>
+  <data name="LblDisableTextShadow" xml:space="preserve">
+    <value>Απενεργοποίηση Σκιάς Κειμένου</value>
+  </data>
+  <data name="LblDisplayName" xml:space="preserve">
+    <value>Εμφανιζόμενο Όνομα:</value>
+  </data>
+  <data name="LblDonate" xml:space="preserve">
+    <value>Στηρίξτε τη συντήρηση και βελτίωση αυτού του project με μια δωρεά</value>
+  </data>
+  <data name="LblEffect" xml:space="preserve">
+    <value>Εφέ</value>
+  </data>
+  <data name="LblEnabledRules" xml:space="preserve">
+    <value>Ενεργοί: {0}</value>
+  </data>
+  <data name="LblEnableProfileAutomation" xml:space="preserve">
+    <value>Ενεργοποίηση Profile Automation</value>
+  </data>
+  <data name="LblFontFamily" xml:space="preserve">
+    <value>Γραμματοσειρά:</value>
+  </data>
+  <data name="LblFontSize" xml:space="preserve">
+    <value>Μέγεθος Γραμματοσειράς:</value>
+  </data>
+  <data name="LblFrameBorderColor" xml:space="preserve">
+    <value>Χρώμα Περιγράμματος:</value>
+  </data>
+  <data name="LblFrameBorderThickness" xml:space="preserve">
+    <value>Πάχος Περιγράμματος:</value>
+  </data>
+  <data name="LblGrayscaleIcons" xml:space="preserve">
+    <value>Ασπρόμαυρα Εικονίδια</value>
+  </data>
+  <data name="LblIcon" xml:space="preserve">
+    <value>Εικονίδιο:</value>
+  </data>
+  <data name="LblIconSize" xml:space="preserve">
+    <value>Μέγεθος Εικονιδίου:</value>
+  </data>
+  <data name="LblIconSpacing" xml:space="preserve">
+    <value>Απόσταση Εικονιδίων:</value>
+  </data>
+  <data name="LblLockIcon" xml:space="preserve">
+    <value>Εικονίδιο Κλειδώματος</value>
+  </data>
+  <data name="LblMenuIcon" xml:space="preserve">
+    <value>Εικονίδιο Μενού</value>
+  </data>
+  <data name="LblMinimumLogLevel" xml:space="preserve">
+    <value>Ελάχιστο Επίπεδο Log</value>
+  </data>
+  <data name="LblNotificationSound" xml:space="preserve">
+    <value>Ήχος Ειδοποίησης:</value>
+  </data>
+  <data name="LblPortalView" xml:space="preserve">
+    <value>Προβολή Portal:</value>
+  </data>
+  <data name="LblProcessName" xml:space="preserve">
+    <value>Όνομα Διεργασίας (Επιλέξτε ή πληκτρολογήστε):</value>
+  </data>
+  <data name="LblSpellCheck" xml:space="preserve">
+    <value>Ορθογραφικός Έλεγχος</value>
+  </data>
+  <data name="LblTargetPath" xml:space="preserve">
+    <value>Διαδρομή Στόχου:</value>
+  </data>
+  <data name="LblTargetProfile" xml:space="preserve">
+    <value>Προφίλ Στόχου:</value>
+  </data>
+  <data name="LblTextColor" xml:space="preserve">
+    <value>Χρώμα Κειμένου:</value>
+  </data>
+  <data name="LblTitleTextColor" xml:space="preserve">
+    <value>Χρώμα Κειμένου Τίτλου:</value>
+  </data>
+  <data name="LblTitleTextSize" xml:space="preserve">
+    <value>Μέγεθος Κειμένου Τίτλου:</value>
+  </data>
+  <data name="LblTotalRules" xml:space="preserve">
+    <value>Συνολικός αριθμός κανόνων: {0}</value>
+  </data>
+  <data name="LblWordWrap" xml:space="preserve">
+    <value>Αναδίπλωση Κειμένου</value>
+  </data>
+  <data name="MenuAbout" xml:space="preserve">
+    <value>Σχετικά...</value>
+  </data>
+  <data name="MenuAddPlugin" xml:space="preserve">
+    <value>Προσθήκη Widget | Plugin</value>
+  </data>
+  <data name="MenuAddSpacer" xml:space="preserve">
+    <value>Προσθήκη κενού χώρου (Spacer)</value>
+  </data>
+  <data name="MenuAlwaysOnTop" xml:space="preserve">
+    <value>Πάντα στην κορυφή</value>
+  </data>
+  <data name="MenuAlwaysRunAsAdmin" xml:space="preserve">
+    <value>Πάντα εκτέλεση ως διαχειριστής</value>
+  </data>
+  <data name="MenuAlwaysRunAsDifferentUser" xml:space="preserve">
+    <value>Πάντα εκτέλεση ως διαφορετικός χρήστης</value>
+  </data>
+  <data name="MenuAutoRoll" xml:space="preserve">
+    <value>Αυτόματο μάζεμα (Auto roll)</value>
+  </data>
+  <data name="MenuClearDeadShortcuts" xml:space="preserve">
+    <value>Εκκαθάριση νεκρών συντομεύσεων</value>
+  </data>
+  <data name="MenuCopyFolderPath" xml:space="preserve">
+    <value>Αντιγραφή διαδρομής φακέλου</value>
+  </data>
+  <data name="MenuCopyItem" xml:space="preserve">
+    <value>Αντιγραφή στοιχείου</value>
+  </data>
+  <data name="MenuCopyItemPath" xml:space="preserve">
+    <value>Αντιγραφή διαδρομής στοιχείου</value>
+  </data>
+  <data name="MenuCopyPath" xml:space="preserve">
+    <value>Αντιγραφή διαδρομής</value>
+  </data>
+  <data name="MenuCustomize" xml:space="preserve">
+    <value>Προσαρμογή...</value>
+  </data>
+  <data name="MenuCutItem" xml:space="preserve">
+    <value>Αποκοπή στοιχείου</value>
+  </data>
+  <data name="MenuDeleteItem" xml:space="preserve">
+    <value>Διαγραφή στοιχείου</value>
+  </data>
+  <data name="MenuDeleteThisFrame" xml:space="preserve">
+    <value>Διαγραφή αυτού του Frame</value>
+  </data>
+  <data name="MenuEdit" xml:space="preserve">
+    <value>Επεξεργασία...</value>
+  </data>
+  <data name="MenuEnableTabs" xml:space="preserve">
+    <value>Ενεργοποίηση Καρτελών (Tabs)</value>
+  </data>
+  <data name="MenuExit" xml:space="preserve">
+    <value>Έξοδος</value>
+  </data>
+  <data name="MenuExportAllIcons" xml:space="preserve">
+    <value>Εξαγωγή όλων των εικονιδίων στην επιφάνεια εργασίας</value>
+  </data>
+  <data name="MenuExportThisFrame" xml:space="preserve">
+    <value>Εξαγωγή αυτού του Frame</value>
+  </data>
+  <data name="MenuFolderPath" xml:space="preserve">
+    <value>Διαδρομή φακέλου</value>
+  </data>
+  <data name="MenuFullPath" xml:space="preserve">
+    <value>Πλήρης διαδρομή</value>
+  </data>
+  <data name="MenuHideFrame" xml:space="preserve">
+    <value>Απόκρυψη Frame</value>
+  </data>
+  <data name="MenuImportFrame" xml:space="preserve">
+    <value>Εισαγωγή Frame...</value>
+  </data>
+  <data name="MenuMove" xml:space="preserve">
+    <value>Μετακίνηση...</value>
+  </data>
+  <data name="MenuNameAfterPath" xml:space="preserve">
+    <value>Μετονομασία Frame βάσει διαδρομής</value>
+  </data>
+  <data name="MenuNewFrame" xml:space="preserve">
+    <value>Νέο Frame</value>
+  </data>
+  <data name="MenuNewNoteFrame" xml:space="preserve">
+    <value>Νέο Note Frame</value>
+  </data>
+  <data name="MenuNewPortalFrame" xml:space="preserve">
+    <value>Νέο Portal Frame</value>
+  </data>
+  <data name="MenuNoPluginsAvailable" xml:space="preserve">
+    <value>(Δεν υπάρχουν διαθέσιμα plugins)</value>
+  </data>
+  <data name="MenuOpenFrameFolder" xml:space="preserve">
+    <value>Άνοιγμα φακέλου Frame</value>
+  </data>
+  <data name="MenuOpenTargetFolder" xml:space="preserve">
+    <value>Άνοιγμα φακέλου προορισμού...</value>
+  </data>
+  <data name="MenuOpenWith" xml:space="preserve">
+    <value>Άνοιγμα με...</value>
+  </data>
+  <data name="MenuOptions" xml:space="preserve">
+    <value>Επιλογές...</value>
+  </data>
+  <data name="MenuPasteItem" xml:space="preserve">
+    <value>Επικόλληση στοιχείου</value>
+  </data>
+  <data name="MenuPeekBehind" xml:space="preserve">
+    <value>Δες Πίσω Μου</value>
+  </data>
+  <data name="MenuPluginSettings" xml:space="preserve">
+    <value>Ρυθμίσεις Plugin...</value>
+  </data>
+  <data name="MenuRemove" xml:space="preserve">
+    <value>Αφαίρεση</value>
+  </data>
+  <data name="MenuRenameItem" xml:space="preserve">
+    <value>Μετονομασία στοιχείου</value>
+  </data>
+  <data name="MenuResetColumns" xml:space="preserve">
+    <value>Επαναφορά διάταξης στηλών</value>
+  </data>
+  <data name="MenuResetSorting" xml:space="preserve">
+    <value>Επαναφορά ταξινόμησης</value>
+  </data>
+  <data name="MenuRestoreLastDeleted" xml:space="preserve">
+    <value>Επαναφορά Τελευταίου Διαγραμμένου Frame</value>
+  </data>
+  <data name="MenuRunAsAdmin" xml:space="preserve">
+    <value>Εκτέλεση ως διαχειριστής</value>
+  </data>
+  <data name="MenuRunAsDifferentUser" xml:space="preserve">
+    <value>Εκτέλεση ως διαφορετικός χρήστης...</value>
+  </data>
+  <data name="MenuSendToDesktop" xml:space="preserve">
+    <value>Αποστολή στην Επιφάνεια Εργασίας</value>
+  </data>
+  <data name="MenuSpacerBlank" xml:space="preserve">
+    <value>Κενό (Blank)</value>
+  </data>
+  <data name="MenuSpacerDot" xml:space="preserve">
+    <value>Τελεία (Dot)</value>
+  </data>
+  <data name="MenuViewAsDetails" xml:space="preserve">
+    <value>Προβολή ως Λεπτομέρειες</value>
+  </data>
+  <data name="MoveItemPrompt" xml:space="preserve">
+    <value>Επιλέξτε frame ή καρτέλα προορισμού:</value>
+  </data>
+  <data name="MoveItemTitle" xml:space="preserve">
+    <value>Μετακίνηση Στοιχείου Σε...</value>
+  </data>
+  <data name="MoveMainItems" xml:space="preserve">
+    <value>📋 Κύρια Στοιχεία</value>
+  </data>
+  <data name="MsgAddItemFailed" xml:space="preserve">
+    <value>Αποτυχία προσθήκης {0}: {1}</value>
+  </data>
+  <data name="MsgApplyChangesFailed" xml:space="preserve">
+    <value>Σφάλμα εφαρμογής αλλαγών: {0}</value>
+  </data>
+  <data name="MsgApplySettingsFailed" xml:space="preserve">
+    <value>Σφάλμα εφαρμογής ρυθμίσεων: {0}</value>
+  </data>
+  <data name="MsgBackupDone" xml:space="preserve">
+    <value>Το Backup ολοκληρώθηκε με επιτυχία.</value>
+  </data>
+  <data name="MsgBackupFailed" xml:space="preserve">
+    <value>Προέκυψε σφάλμα κατά το backup: {0}</value>
+  </data>
+  <data name="MsgCannotDeleteLastTab" xml:space="preserve">
+    <value>Αδυναμία διαγραφής της τελευταίας καρτέλας.</value>
+  </data>
+  <data name="MsgClearNoteConfirm" xml:space="preserve">
+    <value>Θέλετε σίγουρα να διαγράψετε όλο το κείμενο από αυτή τη σημείωση;</value>
+  </data>
+  <data name="MsgConfirmDeleteProfile" xml:space="preserve">
+    <value>Είστε σίγουροι ότι θέλετε να διαγράψετε το προφίλ '{0}'; Δεν μπορεί να αναιρεθεί.</value>
+  </data>
+  <data name="MsgConfirmDisableCtrlAltHotkeys" xml:space="preserve">
+    <value>Τα hotkeys του προφίλ είναι ρυθμισμένα σε Ctrl+Alt.
+
+Τα Windows μοιράζονται αυτή τη συντόμευση με το πλήκτρο 'AltGr' σε πολλά πληκτρολόγια. Αυτό μπορεί να εμποδίσει την πληκτρολόγηση ειδικών χαρακτήρων όπως @, €, [, ή {.
+
+• Κλικ στο 'Ναι' για απενεργοποίηση (διορθώνει προβλήματα πληκτρολόγησης)
+• Κλικ στο 'Όχι' για διατήρηση (αν όλα λειτουργούν σωστά)</value>
+  </data>
+  <data name="MsgConfirmFactoryReset" xml:space="preserve">
+    <value>ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Αυτό θα διαγράψει ΟΛΑ τα frames, συντομεύσεις και ρυθμίσεις του ΤΡΕΧΟΝΤΟΣ ΠΡΟΦΙΛ! Είστε σίγουροι;</value>
+  </data>
+  <data name="MsgConfirmImportIntoTab" xml:space="preserve">
+    <value>Εισαγωγή περιεχομένων του '{0}' σε νέα καρτέλα;</value>
+  </data>
+  <data name="MsgConfirmResetCustomizations" xml:space="preserve">
+    <value>Επαναφορά όλων των οπτικών προσαρμογών;</value>
+  </data>
+  <data name="MsgConfirmRestoreSettings" xml:space="preserve">
+    <value>Αυτό το backup περιέχει ρυθμίσεις. Θέλετε να επαναφέρετε και τις καθολικές ρυθμίσεις σας;</value>
+  </data>
+  <data name="MsgConfirmSetPortalHome" xml:space="preserve">
+    <value>Ορισμός αυτού του φακέλου ως νέας αρχικής; {0}</value>
+  </data>
+  <data name="MsgConfirmSweepDesktop" xml:space="preserve">
+    <value>Αυτό θα μετακινήσει τα υπάρχοντα αρχεία από την επιφάνεια εργασίας στους φακέλους προορισμού βάσει των κανόνων σας. Συνέχεια;</value>
+  </data>
+  <data name="MsgCopyItemFailed" xml:space="preserve">
+    <value>Σφάλμα αντιγραφής στοιχείου: {0}</value>
+  </data>
+  <data name="MsgCopyPathFailed" xml:space="preserve">
+    <value>Αδυναμία αντιγραφής διαδρομής.</value>
+  </data>
+  <data name="MsgCreateProfileFailed" xml:space="preserve">
+    <value>Αποτυχία δημιουργίας προφίλ. Μη έγκυρο όνομα ή υπάρχει ήδη.</value>
+  </data>
+  <data name="MsgCustomizationsReset" xml:space="preserve">
+    <value>Όλες οι οπτικές προσαρμογές έχουν επαναφερθεί. Τα εικονίδια και οι θέσεις των frames διατηρήθηκαν.</value>
+  </data>
+  <data name="MsgDeleteItemFailed" xml:space="preserve">
+    <value>Αδυναμία διαγραφής στοιχείου.</value>
+  </data>
+  <data name="MsgDesktopOrganized" xml:space="preserve">
+    <value>Η οργάνωση της επιφάνειας εργασίας ολοκληρώθηκε!</value>
+  </data>
+  <data name="MsgDestinationFolderGone" xml:space="preserve">
+    <value>Ο φάκελος προορισμού '{0}' δεν υπάρχει πλέον.</value>
+  </data>
+  <data name="MsgEditNotAvailable" xml:space="preserve">
+    <value>Η επεξεργασία δεν είναι διαθέσιμη για αυτόν τον τύπο στοιχείου.</value>
+  </data>
+  <data name="MsgExportFailed" xml:space="preserve">
+    <value>Σφάλμα εξαγωγής: {0}</value>
+  </data>
+  <data name="MsgExportIconsFailed" xml:space="preserve">
+    <value>Σφάλμα εξαγωγής εικονιδίων: {0}</value>
+  </data>
+  <data name="MsgFactoryResetDone" xml:space="preserve">
+    <value>Η Επαναφορά ολοκληρώθηκε. Η εφαρμογή θα επανεκκινήσει.</value>
+  </data>
+  <data name="MsgFileNotFoundInProfile" xml:space="preserve">
+    <value>Το αρχείο δεν βρέθηκε στο ενεργό προφίλ: {0}</value>
+  </data>
+  <data name="MsgFormInitFailed" xml:space="preserve">
+    <value>Σφάλμα προετοιμασίας φόρμας: {0}</value>
+  </data>
+  <data name="MsgFrameExportedTo" xml:space="preserve">
+    <value>Το Frame εξήχθη στο: {0}</value>
+  </data>
+  <data name="MsgFrameImported" xml:space="preserve">
+    <value>Το Frame εισήχθη με επιτυχία!</value>
+  </data>
+  <data name="MsgFramesMovedIntoBounds" xml:space="preserve">
+    <value>Όλα τα frames ελέγχθηκαν και μετακινήθηκαν εντός των ορίων της οθόνης.</value>
+  </data>
+  <data name="MsgGenericError" xml:space="preserve">
+    <value>Σφάλμα: {0}</value>
+  </data>
+  <data name="MsgGlobalSettingsRestored" xml:space="preserve">
+    <value>Οι καθολικές ρυθμίσεις επαναφέρθηκαν. Η εφαρμογή θα επανεκκινήσει για να εφαρμόσει τις αλλαγές.</value>
+  </data>
+  <data name="MsgHotkeysSavedRestartNeeded" xml:space="preserve">
+    <value>Οι αλλαγές στα Global Hotkeys αποθηκεύτηκαν. Παρακαλώ επανεκκινήστε το Desktop Frames.</value>
+  </data>
+  <data name="MsgImportFailed" xml:space="preserve">
+    <value>Αποτυχία εισαγωγής: {0}</value>
+  </data>
+  <data name="MsgImportFrameFailed" xml:space="preserve">
+    <value>Αποτυχία εισαγωγής frame: {0}</value>
+  </data>
+  <data name="MsgInitFailed" xml:space="preserve">
+    <value>Σφάλμα προετοιμασίας: {0}</value>
+  </data>
+  <data name="MsgInvalidFileOrFolder" xml:space="preserve">
+    <value>Μη έγκυρο αρχείο ή φάκελος: {0}</value>
+  </data>
+  <data name="MsgInvalidUrlFile" xml:space="preserve">
+    <value>Μη έγκυρο αρχείο .url: {0}</value>
+  </data>
+  <data name="MsgItemCopiedReady" xml:space="preserve">
+    <value>Το στοιχείο '{0}' αντιγράφηκε και είναι έτοιμο για επικόλληση.</value>
+  </data>
+  <data name="MsgLaunchFailed" xml:space="preserve">
+    <value>Σφάλμα εκκίνησης: {0}</value>
+  </data>
+  <data name="MsgLoadFramePropertiesFailed" xml:space="preserve">
+    <value>Σφάλμα φόρτωσης ιδιοτήτων frame: {0}</value>
+  </data>
+  <data name="MsgLogFileNotFound" xml:space="preserve">
+    <value>Το αρχείο log δεν βρέθηκε.</value>
+  </data>
+  <data name="MsgMoveFailed" xml:space="preserve">
+    <value>Σφάλμα μετακίνησης: {0}</value>
+  </data>
+  <data name="MsgNameAlreadyExists" xml:space="preserve">
+    <value>Ένα αρχείο ή φάκελος με αυτό το όνομα υπάρχει ήδη.</value>
+  </data>
+  <data name="MsgNameAndTargetRequired" xml:space="preserve">
+    <value>Το όνομα εμφάνισης και η διαδρομή στόχου δεν μπορούν να είναι κενά.</value>
+  </data>
+  <data name="MsgNoFrameToRestore" xml:space="preserve">
+    <value>Κανένα frame για επαναφορά</value>
+  </data>
+  <data name="MsgNoItemToPaste" xml:space="preserve">
+    <value>Κανένα στοιχείο για επικόλληση</value>
+  </data>
+  <data name="MsgNoPortalDestination" xml:space="preserve">
+    <value>Δεν έχει οριστεί φάκελος προορισμού για αυτό το Portal Frame.</value>
+  </data>
+  <data name="MsgOpenCustomizeFailed" xml:space="preserve">
+    <value>Σφάλμα ανοίγματος φόρμας προσαρμογής: {0}</value>
+  </data>
+  <data name="MsgOpenFileBrowserFailed" xml:space="preserve">
+    <value>Σφάλμα ανοίγματος περιηγητή αρχείων: {0}</value>
+  </data>
+  <data name="MsgOpenTextFormatFailed" xml:space="preserve">
+    <value>Σφάλμα ανοίγματος φόρμας μορφοποίησης κειμένου: {0}</value>
+  </data>
+  <data name="MsgPasteItemFailed" xml:space="preserve">
+    <value>Σφάλμα επικόλλησης στοιχείου: {0}</value>
+  </data>
+  <data name="MsgPortalInitFailed" xml:space="preserve">
+    <value>Αποτυχία προετοιμασίας Portal Frame: {0}</value>
+  </data>
+  <data name="MsgProfileCreated" xml:space="preserve">
+    <value>Το προφίλ '{0}' δημιουργήθηκε με επιτυχία.</value>
+  </data>
+  <data name="MsgProfileNameInvalid" xml:space="preserve">
+    <value>Μη έγκυρο όνομα ή το προφίλ υπάρχει ήδη.</value>
+  </data>
+  <data name="MsgProfileSystemError" xml:space="preserve">
+    <value>Σφάλμα Συστήματος Προφίλ: {0}</value>
+  </data>
+  <data name="MsgRecycleBinFailed" xml:space="preserve">
+    <value>Αδυναμία μετακίνησης στοιχείου στον κάδο ανακύκλωσης.</value>
+  </data>
+  <data name="MsgReloadFramesFailed" xml:space="preserve">
+    <value>Προέκυψε σφάλμα κατά την επαναφόρτωση των frames: {0}</value>
+  </data>
+  <data name="MsgReloadingFramesFailed" xml:space="preserve">
+    <value>Σφάλμα επαναφόρτωσης frames: {0}</value>
+  </data>
+  <data name="MsgRenameItemFailed" xml:space="preserve">
+    <value>Αποτυχία μετονομασίας στοιχείου: {0}</value>
+  </data>
+  <data name="MsgRenameProfileFailed" xml:space="preserve">
+    <value>Η μετονομασία απέτυχε. Το όνομα μπορεί να χρησιμοποιείται ή να μην είναι έγκυρο.</value>
+  </data>
+  <data name="MsgResetCustomizationsFailed" xml:space="preserve">
+    <value>Σφάλμα επαναφοράς προσαρμογών: {0}</value>
+  </data>
+  <data name="MsgResetDefaultsFailed" xml:space="preserve">
+    <value>Σφάλμα επαναφοράς στις προεπιλογές: {0}</value>
+  </data>
+  <data name="MsgResetFailed" xml:space="preserve">
+    <value>Η επαναφορά απέτυχε: {0}</value>
+  </data>
+  <data name="MsgRestartForLanguage" xml:space="preserve">
+    <value>Η γλώσσα αποθηκεύτηκε.
+
+Τα παράθυρα φορτώνουν το κείμενο κατά τη δημιουργία τους, οπότε η αλλαγή θα εφαρμοστεί μετά την επανεκκίνηση του προγράμματος.
+
+Επανεκκίνηση τώρα;</value>
+  </data>
+  <data name="MsgRestoreDefaultsFailed" xml:space="preserve">
+    <value>Σφάλμα επαναφοράς προεπιλεγμένων τιμών: {0}</value>
+  </data>
+  <data name="MsgRestoreDone" xml:space="preserve">
+    <value>Η επαναφορά ολοκληρώθηκε με επιτυχία.</value>
+  </data>
+  <data name="MsgRestoreFailed" xml:space="preserve">
+    <value>Αποτυχία επαναφοράς: {0}</value>
+  </data>
+  <data name="MsgRestoreFrameFailed" xml:space="preserve">
+    <value>Σφάλμα επαναφοράς frame: {0}</value>
+  </data>
+  <data name="MsgRulesSaved" xml:space="preserve">
+    <value>Οι κανόνες σας αποθηκεύτηκαν και εφαρμόστηκαν με επιτυχία.</value>
+  </data>
+  <data name="MsgRunAsAdminFailed" xml:space="preserve">
+    <value>Σφάλμα εκτέλεσης ως διαχειριστής: {0}</value>
+  </data>
+  <data name="MsgSaveChangesFailed" xml:space="preserve">
+    <value>Σφάλμα αποθήκευσης αλλαγών: {0}</value>
+  </data>
+  <data name="MsgSaveSettingsFailed" xml:space="preserve">
+    <value>Σφάλμα αποθήκευσης ρυθμίσεων: {0}</value>
+  </data>
+  <data name="MsgSaveShortcutFailed" xml:space="preserve">
+    <value>Αποτυχία αποθήκευσης συντόμευσης: {0}</value>
+  </data>
+  <data name="MsgTargetNotFound" xml:space="preserve">
+    <value>Ο στόχος δεν βρέθηκε: {0}</value>
+  </data>
+  <data name="NetChecking" xml:space="preserve">
+    <value>Έλεγχος...</value>
+  </data>
+  <data name="NetExternal" xml:space="preserve">
+    <value>Εξωτερικό Δίκτυο</value>
+  </data>
+  <data name="NetIpLabel" xml:space="preserve">
+    <value>IP:</value>
+  </data>
+  <data name="NetLocalAdapters" xml:space="preserve">
+    <value>Τοπικοί Προσαρμογείς</value>
+  </data>
+  <data name="NetNoInterfaces" xml:space="preserve">
+    <value>Δεν βρέθηκαν ενεργά interfaces</value>
+  </data>
+  <data name="NetOffline" xml:space="preserve">
+    <value>Εκτός σύνδεσης (Offline)</value>
+  </data>
+  <data name="NetPublicWan" xml:space="preserve">
+    <value>Δημόσια Διεύθυνση WAN</value>
+  </data>
+  <data name="NetSelectInterfaces" xml:space="preserve">
+    <value>Επιλέξτε Interfaces για Προβολή:</value>
+  </data>
+  <data name="NetSettings" xml:space="preserve">
+    <value>Ρυθμίσεις Παρακολούθησης IP</value>
+  </data>
+  <data name="NetShowDisconnected" xml:space="preserve">
+    <value>Εμφάνιση Αποσυνδεδεμένων Interfaces</value>
+  </data>
+  <data name="NetShowPublicWan" xml:space="preserve">
+    <value>Εμφάνιση Δημόσιας IP WAN</value>
+  </data>
+  <data name="NetStatusDown" xml:space="preserve">
+    <value>Ανενεργό</value>
+  </data>
+  <data name="NetStatusUp" xml:space="preserve">
+    <value>Ενεργό</value>
+  </data>
+  <data name="NetUnreachable" xml:space="preserve">
+    <value>Μη προσβάσιμο</value>
+  </data>
+  <data name="NewFrameDefaultTitle" xml:space="preserve">
+    <value>Νέο frame - Σύρετε τις συντομεύσεις σας εδώ</value>
+  </data>
+  <data name="NoteAutoOrganize" xml:space="preserve">
+    <value>Σημείωση: Το Auto-Organize παρακολουθεί συνεχώς την Επιφάνεια Εργασίας. Όταν ένα αρχείο ταιριάζει με τους κανόνες, μετακινείται αυτόματα στο Portal Frame ή στον Φάκελο που ορίσατε.</value>
+  </data>
+  <data name="NoteAutoRoll" xml:space="preserve">
+    <value>Σημείωση: Ενεργοποιήστε το αυτόματο μάζεμα (auto-roll) ξεχωριστά ανά frame μέσω του μενού με δεξί κλικ.</value>
+  </data>
+  <data name="NoteClearAll" xml:space="preserve">
+    <value>Εκκαθάριση Κειμένου</value>
+  </data>
+  <data name="NoteClickEdit" xml:space="preserve">
+    <value>Κάντε κλικ για επεξεργασία της σημείωσης</value>
+  </data>
+  <data name="NoteClickFinish" xml:space="preserve">
+    <value>Κάντε κλικ για ολοκλήρωση επεξεργασίας</value>
+  </data>
+  <data name="NoteCopyAll" xml:space="preserve">
+    <value>Αντιγραφή Όλου του Κειμένου</value>
+  </data>
+  <data name="NoteHotkeysRestart" xml:space="preserve">
+    <value>Σημείωση: Οι αλλαγές στα Global Hotkeys απαιτούν επανεκκίνηση της εφαρμογής.</value>
+  </data>
+  <data name="NoteTextFormat" xml:space="preserve">
+    <value>Μορφοποίηση Κειμένου...</value>
+  </data>
+  <data name="NotificationDontShowAgain" xml:space="preserve">
+    <value>Να μην εμφανιστεί ξανά</value>
+  </data>
+  <data name="NotificationTitle" xml:space="preserve">
+    <value>Ειδοποίηση Desktop Frames +</value>
+  </data>
+  <data name="OptAutoHideFrames" xml:space="preserve">
+    <value>Αυτόματη απόκρυψη frames</value>
+  </data>
+  <data name="OptAutomaticBackup" xml:space="preserve">
+    <value>Αυτόματο Backup (Ημερήσιο)</value>
+  </data>
+  <data name="OptAutoOrganize" xml:space="preserve">
+    <value>Ενεργοποίηση Auto-Organize</value>
+  </data>
+  <data name="OptChameleon" xml:space="preserve">
+    <value>Ενεργοποίηση Chameleon Mode (Αυτόματο χρώμα βάσει Wallpaper)</value>
+  </data>
+  <data name="OptDimensionSnap" xml:space="preserve">
+    <value>Ενεργοποίηση Dimension Snap</value>
+  </data>
+  <data name="OptDisableScrollbars" xml:space="preserve">
+    <value>Απενεργοποίηση μπαρών κύλισης Frame</value>
+  </data>
+  <data name="OptEnableLogging" xml:space="preserve">
+    <value>Ενεργοποίηση καταγραφής (Logging)</value>
+  </data>
+  <data name="OptEnableSounds" xml:space="preserve">
+    <value>Ενεργοποίηση Ήχων</value>
+  </data>
+  <data name="OptExecutionToasts" xml:space="preserve">
+    <value>Εμφάνιση ειδοποιήσεων (toast) κατά την εκτέλεση</value>
+  </data>
+  <data name="OptFocusFrameHotkey" xml:space="preserve">
+    <value>Ενεργοποίηση Hotkey εστίασης Frame</value>
+  </data>
+  <data name="OptFrameTint" xml:space="preserve">
+    <value>Εφαρμογή Tint (Διαφάνειας) Frame στα εικονίδια και κείμενο</value>
+  </data>
+  <data name="OptHideIconsRunning" xml:space="preserve">
+    <value>Απόκρυψη εικονιδίων των Windows κατά την εκτέλεση</value>
+  </data>
+  <data name="OptHideIconsWhenHidden" xml:space="preserve">
+    <value>Απόκρυψη εικονιδίων των Windows όταν τα Frames είναι κρυμμένα</value>
+  </data>
+  <data name="OptIdleFadeOut" xml:space="preserve">
+    <value>Ενεργοποίηση Fade-Out σε αδράνεια</value>
+  </data>
+  <data name="OptionsHeading" xml:space="preserve">
+    <value>Επιλογές</value>
+  </data>
+  <data name="OptionsTitle" xml:space="preserve">
+    <value>Επιλογές Desktop Frames +</value>
+  </data>
+  <data name="OptNewFrameContextMenu" xml:space="preserve">
+    <value>Εμφάνιση 'Νέο Frame' στο μενού της Επιφάνειας Εργασίας</value>
+  </data>
+  <data name="OptNoteWatermark" xml:space="preserve">
+    <value>Ενεργοποίηση Note Frames Watermark (Σύντομα κοντά σας)</value>
+  </data>
+  <data name="OptPortalWatermark" xml:space="preserve">
+    <value>Ενεργοποίηση Portal Frames Watermark</value>
+  </data>
+  <data name="OptProfileHotkeys" xml:space="preserve">
+    <value>Ενεργοποίηση Hotkeys αλλαγής Προφίλ</value>
+  </data>
+  <data name="OptRecycleBin" xml:space="preserve">
+    <value>Χρήση Κάδου Ανακύκλωσης κατά τη διαγραφή στοιχείων Portal</value>
+  </data>
+  <data name="OptSingleClick" xml:space="preserve">
+    <value>Μονό κλικ για Εκτέλεση</value>
+  </data>
+  <data name="OptSnapNearFrames" xml:space="preserve">
+    <value>Ενεργοποίηση Snap κοντινών Frames</value>
+  </data>
+  <data name="OptSpotSearchHotkey" xml:space="preserve">
+    <value>Ενεργοποίηση Hotkey για Spot Search</value>
+  </data>
+  <data name="OptStartWithWindows" xml:space="preserve">
+    <value>Εκκίνηση με τα Windows</value>
+  </data>
+  <data name="OptTrayIcon" xml:space="preserve">
+    <value>Ενεργοποίηση εικονιδίου στην Περιοχή Ειδοποιήσεων (Tray)</value>
+  </data>
+  <data name="PerfDynamicColors" xml:space="preserve">
+    <value>Χρήση δυναμικών χρωμάτων για τις μπάρες</value>
+  </data>
+  <data name="PerfRefreshRate" xml:space="preserve">
+    <value>Ρυθμός Ανανέωσης Αισθητήρα (ms):</value>
+  </data>
+  <data name="PerfSensors" xml:space="preserve">
+    <value>Αισθητήρες προς Προβολή:</value>
+  </data>
+  <data name="PerfSettings" xml:space="preserve">
+    <value>Ρυθμίσεις Απόδοσης Συστήματος</value>
+  </data>
+  <data name="PerfStaticBarColor" xml:space="preserve">
+    <value>Στατικό Χρώμα Μπάρας:</value>
+  </data>
+  <data name="PerfThemeLayout" xml:space="preserve">
+    <value>Οπτικό Θέμα &amp; Διάταξη</value>
+  </data>
+  <data name="PerfVisualStyle" xml:space="preserve">
+    <value>Οπτικό Στυλ:</value>
+  </data>
+  <data name="PhotoBlurCrossfade" xml:space="preserve">
+    <value>Θολό Crossfade</value>
+  </data>
+  <data name="PhotoCropToFill" xml:space="preserve">
+    <value>Περικοπή για γέμισμα Frame</value>
+  </data>
+  <data name="PhotoCrossfade" xml:space="preserve">
+    <value>Κλασικό Crossfade</value>
+  </data>
+  <data name="PhotoFitInside" xml:space="preserve">
+    <value>Προσαρμογή (Όλη η εικόνα)</value>
+  </data>
+  <data name="PhotoFitMode" xml:space="preserve">
+    <value>Λειτουργία Προσαρμογής:</value>
+  </data>
+  <data name="PhotoLiveRescan" xml:space="preserve">
+    <value>Ζωντανή σάρωση φακέλου (Ανίχνευση νέων/διεγραμμένων εικόνων)</value>
+  </data>
+  <data name="PhotoNoTransition" xml:space="preserve">
+    <value>Καμία (Άμεση αλλαγή)</value>
+  </data>
+  <data name="PhotoOriginalSize" xml:space="preserve">
+    <value>Αρχικό Μέγεθος (Χωρίς κλιμάκωση)</value>
+  </data>
+  <data name="PhotoSettings" xml:space="preserve">
+    <value>Ρυθμίσεις Photo Frame</value>
+  </data>
+  <data name="PhotoStretch" xml:space="preserve">
+    <value>Παραμόρφωση για γέμισμα (Stretch)</value>
+  </data>
+  <data name="PhotoSubtleTwist" xml:space="preserve">
+    <value>Ήπια Περιστροφή (Subtle Twist)</value>
+  </data>
+  <data name="PhotoTransition" xml:space="preserve">
+    <value>Εφέ Μετάβασης:</value>
+  </data>
+  <data name="PhotoVerticalWipe" xml:space="preserve">
+    <value>Απαλό κατακόρυφο Wipe</value>
+  </data>
+  <data name="PluginCalculator" xml:space="preserve">
+    <value>Αριθμομηχανή</value>
+  </data>
+  <data name="PluginIpInfo" xml:space="preserve">
+    <value>Πληροφορίες IP</value>
+  </data>
+  <data name="PluginPerformance" xml:space="preserve">
+    <value>Δείκτες Απόδοσης Συστήματος</value>
+  </data>
+  <data name="PluginPhotoFrame" xml:space="preserve">
+    <value>Κορνίζα Φωτογραφίας</value>
+  </data>
+  <data name="PluginQueueSaturation" xml:space="preserve">
+    <value>Κορεσμός Ουράς Συστήματος</value>
+  </data>
+  <data name="PluginTerminal" xml:space="preserve">
+    <value>Terminal</value>
+  </data>
+  <data name="PluginVuMeter" xml:space="preserve">
+    <value>VU Meter</value>
+  </data>
+  <data name="ProfileActive" xml:space="preserve">
+    <value>Ενεργό</value>
+  </data>
+  <data name="ProfileManagerTitle" xml:space="preserve">
+    <value>Διαχείριση Προφίλ</value>
+  </data>
+  <data name="QueueConfig" xml:space="preserve">
+    <value>Ρυθμίσεις Ουράς Συστήματος</value>
+  </data>
+  <data name="QueueDiagnosticSettings" xml:space="preserve">
+    <value>Ρυθμίσεις Διαγνωστικού Πάνελ</value>
+  </data>
+  <data name="QueueDynamicColors" xml:space="preserve">
+    <value>Χρήση Δυναμικών Χρωμάτων (Πράσινο/Κίτρινο/Κόκκινο)</value>
+  </data>
+  <data name="QueueInitializing" xml:space="preserve">
+    <value>[Αρχικοποίηση...]</value>
+  </data>
+  <data name="QueueRefreshRate" xml:space="preserve">
+    <value>Ρυθμός Ανανέωσης Αισθητήρα:</value>
+  </data>
+  <data name="QueueShowCores" xml:space="preserve">
+    <value>Εμφάνιση κειμένου ανίχνευσης λογικών πυρήνων</value>
+  </data>
+  <data name="QueueShowTitle" xml:space="preserve">
+    <value>Εμφάνιση ετικέτας τίτλου (SYSTEM QUEUE SATURATION)</value>
+  </data>
+  <data name="QueueShowValues" xml:space="preserve">
+    <value>Εμφάνιση αριθμητικών τιμών </value>
+  </data>
+  <data name="QueueTitle" xml:space="preserve">
+    <value>ΚΟΡΕΣΜΟΣ ΟΥΡΑΣ ΣΥΣΤΗΜΑΤΟΣ</value>
+  </data>
+  <data name="QueueWmiError" xml:space="preserve">
+    <value>[Σφάλμα WMI]</value>
+  </data>
+  <data name="RandomNameAdjectives" xml:space="preserve">
+    <value>Υψηλό,Χαμηλό,Μικρό,Μεγάλο,Ευρύ,Στενό,Επίπεδο,Έντονο,Κρύο,Ζεστό,Απαλό,Σκληρό,Σκοτεινό,Χλωμό,Γρήγορο,Αργό,Βαθύ,Ψηλό,Κοντό,Λυγισμένο,Λεπτό,Φωτεινό,Ελαφρύ,Κοφτερό,Θαμπό,Δυνατό,Βουβό,Βαρύ,Ευγενικό,Καθαρό,Άγριο,Λείο,Γενναίο,Σκληρό,Απλό,Φθαρμένο,Ξηρό,Υγρό,Ισχυρό,Ασθενές</value>
+  </data>
+  <data name="RandomNameFormat" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
+  <data name="RandomNamePlaces" xml:space="preserve">
+    <value>Κόλπος,Λόφος,Λίμνη,Όρμος,Κορυφή,Ύφαλος,Αμμόλοφος,Κοιλάδα,Βάλτος,Λαγκάδι,Βράχος,Ακτή,Όχθη,Πέρασμα,Ακρωτήρι,Γκρεμός,Έλος,Στέρνα,Βράχια,Δάσος,Ρεματιά,Μονοπάτι,Σπηλιά,Ράχη,Καταρράκτης,Άλσος,Ρυάκι,Ύψωμα,Trail,Σημείο</value>
+  </data>
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>Πληκτρολογήστε για αναζήτηση...</value>
+  </data>
+  <data name="SearchTitle" xml:space="preserve">
+    <value>Αναζήτηση Desktop Frames</value>
+  </data>
+  <data name="SecAppearance" xml:space="preserve">
+    <value>Εμφάνιση</value>
+  </data>
+  <data name="SecAutoHideFrames" xml:space="preserve">
+    <value>Αυτόματη Απόκρυψη Frames</value>
+  </data>
+  <data name="SecDesktopIconVisibility" xml:space="preserve">
+    <value>Προβολή Εικονιδίων Επιφάνειας Εργασίας</value>
+  </data>
+  <data name="SecIcons" xml:space="preserve">
+    <value>Εικονίδια</value>
+  </data>
+  <data name="SecIdleAutoRoll" xml:space="preserve">
+    <value>Auto-Roll σε Αδράνεια</value>
+  </data>
+  <data name="SecIdleFadeOut" xml:space="preserve">
+    <value>Fade-Out σε Αδράνεια</value>
+  </data>
+  <data name="SecLog" xml:space="preserve">
+    <value>Log</value>
+  </data>
+  <data name="SecLogCategories" xml:space="preserve">
+    <value>Κατηγορίες Log</value>
+  </data>
+  <data name="SecLogConfiguration" xml:space="preserve">
+    <value>Διαμόρφωση Log</value>
+  </data>
+  <data name="SecMaintenance" xml:space="preserve">
+    <value>Συντήρηση</value>
+  </data>
+  <data name="SecProfileManagement" xml:space="preserve">
+    <value>Διαχείριση Προφίλ</value>
+  </data>
+  <data name="SecProfileSwitching" xml:space="preserve">
+    <value>Αλλαγή Προφίλ</value>
+  </data>
+  <data name="SecSelections" xml:space="preserve">
+    <value>Επιλογές</value>
+  </data>
+  <data name="SecSmartDesktopAuto" xml:space="preserve">
+    <value>Smart Desktop (Auto-Organize)</value>
+  </data>
+  <data name="SecStartup" xml:space="preserve">
+    <value>Εκκίνηση</value>
+  </data>
+  <data name="SecUtilities" xml:space="preserve">
+    <value>Βοηθήματα</value>
+  </data>
+  <data name="SldAutoHideTime" xml:space="preserve">
+    <value>Χρόνος αυτόματης απόκρυψης</value>
+  </data>
+  <data name="SldFadeTargetOpacity" xml:space="preserve">
+    <value>Διαφάνεια Στόχου Fade (%)</value>
+  </data>
+  <data name="SldFrameTint" xml:space="preserve">
+    <value>Tint (Απόχρωση) Frame</value>
+  </data>
+  <data name="SldIdleTime" xml:space="preserve">
+    <value>Χρόνος Αδράνειας (δευτ.)</value>
+  </data>
+  <data name="SldMenuTint" xml:space="preserve">
+    <value>Tint Μενού</value>
+  </data>
+  <data name="SndDefault" xml:space="preserve">
+    <value>Προεπιλεγμένος Ήχος</value>
+  </data>
+  <data name="SndDoubleDing" xml:space="preserve">
+    <value>Διπλό Ding</value>
+  </data>
+  <data name="SndGentleDing" xml:space="preserve">
+    <value>Ήπιο Ding</value>
+  </data>
+  <data name="SndMessageDing" xml:space="preserve">
+    <value>Ήχος Μηνύματος</value>
+  </data>
+  <data name="SndSmoothTickle" xml:space="preserve">
+    <value>Απαλό Tickle</value>
+  </data>
+  <data name="SndSoftDing" xml:space="preserve">
+    <value>Χαμηλό Ding</value>
+  </data>
+  <data name="TabAddNew" xml:space="preserve">
+    <value>Προσθήκη Νέας Καρτέλας</value>
+  </data>
+  <data name="TabAddNewHint" xml:space="preserve">
+    <value>Προσθήκη νέας καρτέλας (Ctrl+Κλικ για Εισαγωγή)</value>
+  </data>
+  <data name="TabFrame" xml:space="preserve">
+    <value>Frame</value>
+  </data>
+  <data name="TabGeneral" xml:space="preserve">
+    <value>Γενικά</value>
+  </data>
+  <data name="TabHotkeys" xml:space="preserve">
+    <value>Hotkeys</value>
+  </data>
+  <data name="TabIcons" xml:space="preserve">
+    <value>Εικονίδια</value>
+  </data>
+  <data name="TabLookDeeper" xml:space="preserve">
+    <value>Look Deeper</value>
+  </data>
+  <data name="TabMoveLeft" xml:space="preserve">
+    <value>Μετακίνηση Αριστερά</value>
+  </data>
+  <data name="TabMoveRight" xml:space="preserve">
+    <value>Μετακίνηση Δεξιά</value>
+  </data>
+  <data name="TabProfiles" xml:space="preserve">
+    <value>Προφίλ</value>
+  </data>
+  <data name="TabRename" xml:space="preserve">
+    <value>Μετονομασία Καρτέλας</value>
+  </data>
+  <data name="TabSmartDesktop" xml:space="preserve">
+    <value>Smart Desktop</value>
+  </data>
+  <data name="TabStyleFx" xml:space="preserve">
+    <value>Στυλ &amp; FX</value>
+  </data>
+  <data name="TabTitle" xml:space="preserve">
+    <value>Τίτλος</value>
+  </data>
+  <data name="TabTools" xml:space="preserve">
+    <value>Εργαλεία</value>
+  </data>
+  <data name="TermClearHistory" xml:space="preserve">
+    <value>Εκκαθάριση Ιστορικού Εντολών</value>
+  </data>
+  <data name="TermConsoleOptions" xml:space="preserve">
+    <value>Επιλογές Κονσόλας</value>
+  </data>
+  <data name="TermHistoryCleared" xml:space="preserve">
+    <value>Το ιστορικό καθαρίστηκε!</value>
+  </data>
+  <data name="TermProcessExited" xml:space="preserve">
+    <value>[Η διεργασία τερματίστηκε. Προσπάθεια επανεκκίνησης...]</value>
+  </data>
+  <data name="TermRestarting" xml:space="preserve">
+    <value>[Επανεκκίνηση Shell Session...]</value>
+  </data>
+  <data name="TermSelectStartupDir" xml:space="preserve">
+    <value>Επιλογή Φακέλου Εκκίνησης Terminal</value>
+  </data>
+  <data name="TermSettings" xml:space="preserve">
+    <value>Ρυθμίσεις Terminal</value>
+  </data>
+  <data name="TermStartupDirectory" xml:space="preserve">
+    <value>Φάκελος Εκκίνησης:</value>
+  </data>
+  <data name="TermTargetShell" xml:space="preserve">
+    <value>Shell Στόχος:</value>
+  </data>
+  <data name="TextAppearance" xml:space="preserve">
+    <value>Εμφάνιση Κειμένου</value>
+  </data>
+  <data name="TextBehavior" xml:space="preserve">
+    <value>Συμπεριφορά Κειμένου</value>
+  </data>
+  <data name="TextFormatTitle" xml:space="preserve">
+    <value>Μορφοποίηση Κειμένου</value>
+  </data>
+  <data name="TooltipAutoReposition" xml:space="preserve">
+    <value>Η αυτόματη επανατοποθέτηση είναι ενεργή (Κρυφή Ρύθμιση).</value>
+  </data>
+  <data name="TooltipBlankSpacer" xml:space="preserve">
+    <value>Κενό Spacer (Κρατήστε πατημένο το CTRL για μετακίνηση)</value>
+  </data>
+  <data name="TooltipChameleon" xml:space="preserve">
+    <value>Τα Frames θα αλλάζουν αυτόματα χρώμα για να ταιριάζουν απόλυτα με το φόντο της επιφάνειας εργασίας.</value>
+  </data>
+  <data name="TooltipClearFilter" xml:space="preserve">
+    <value>Καθαρισμός φίλτρου και κλείσιμο</value>
+  </data>
+  <data name="TooltipFilterFiles" xml:space="preserve">
+    <value>Φίλτρο αρχείων (π.χ. '*.jpg' ή '&gt;*.tmp' για εξαίρεση)</value>
+  </data>
+  <data name="TooltipGoUp" xml:space="preserve">
+    <value>Μετάβαση Πάνω</value>
+  </data>
+  <data name="TooltipSetHome" xml:space="preserve">
+    <value>Ορισμός της τρέχουσας προβολής ως Αρχικής (Home) για αυτό το frame</value>
+  </data>
+  <data name="TrayCreateNewProfile" xml:space="preserve">
+    <value>Δημιουργία Νέου Προφίλ...</value>
+  </data>
+  <data name="TrayExportDoneText" xml:space="preserve">
+    <value>Οι τιμές μητρώου (registry) εξήχθησαν με επιτυχία στον φάκελο του προγράμματος.</value>
+  </data>
+  <data name="TrayExportDoneTitle" xml:space="preserve">
+    <value>Desktop Frames Plus</value>
+  </data>
+  <data name="TrayExportFailedText" xml:space="preserve">
+    <value>Αποτυχία εξαγωγής τιμών μητρώου. Ελέγξτε το log για λεπτομέρειες.</value>
+  </data>
+  <data name="TrayExportFailedTitle" xml:space="preserve">
+    <value>Desktop Frames Plus - Σφάλμα</value>
+  </data>
+  <data name="TrayFocusFrame" xml:space="preserve">
+    <value>Εστίαση Frame... ({0})</value>
+  </data>
+  <data name="TrayManageProfiles" xml:space="preserve">
+    <value>Διαχείριση Προφίλ...</value>
+  </data>
+  <data name="TrayProfiles" xml:space="preserve">
+    <value>Προφίλ</value>
+  </data>
+  <data name="TrayReloadAllFrames" xml:space="preserve">
+    <value>Επαναφόρτωση Όλων των Frames</value>
+  </data>
+  <data name="TrayReloadingFrames" xml:space="preserve">
+    <value>Επαναφόρτωση όλων των frames, παρακαλώ περιμένετε...</value>
+  </data>
+  <data name="TrayShowHiddenFrames" xml:space="preserve">
+    <value>Εμφάνιση Κρυμμένων Frames</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Διαθέσιμη Ενημέρωση</value>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>Λεπτομέρειες</value>
+  </data>
+  <data name="ViewIcons" xml:space="preserve">
+    <value>Εικονίδια</value>
+  </data>
+  <data name="VuAttack" xml:space="preserve">
+    <value>Απόκριση (Attack ms):</value>
+  </data>
+  <data name="VuAttackHint" xml:space="preserve">
+    <value>Προεπιλογή: 25 | Μικρότερο = Ταχύτερο ανέβασμα | Όριο: 1 - 1000</value>
+  </data>
+  <data name="VuBallistics" xml:space="preserve">
+    <value>Meter Ballistics &amp; Tuning</value>
+  </data>
+  <data name="VuDecay" xml:space="preserve">
+    <value>Ομαλότητα (Decay ms):</value>
+  </data>
+  <data name="VuDecayHint" xml:space="preserve">
+    <value>Προεπιλογή: 200 | Μεγαλύτερο = Ομαλότερο κατέβασμα | Όριο: 10 - 3000</value>
+  </data>
+  <data name="VuDisplayOptions" xml:space="preserve">
+    <value>Επιλογές Προβολής</value>
+  </data>
+  <data name="VuGainHint" xml:space="preserve">
+    <value>Προεπιλογή: 1.2 | Μεγαλύτερο = Πιο ευαίσθητο | Όριο: 0.1 - 10.0</value>
+  </data>
+  <data name="VuLayoutMode" xml:space="preserve">
+    <value>Λειτουργία Διάταξης:</value>
+  </data>
+  <data name="VuSettings" xml:space="preserve">
+    <value>Ρυθμίσεις VU Meter</value>
+  </data>
+  <data name="VuSignalGain" xml:space="preserve">
+    <value>Κέρδος Σήματος (Πολλαπλασιαστής):</value>
+  </data>
+  <data name="SecLanguage" xml:space="preserve">
+    <value>Γλώσσα</value>
+  </data>
+  <data name="LblLanguage" xml:space="preserve">
+    <value>Γλώσσα intreface:</value>
+  </data>
+  <data name="LangAutomatic" xml:space="preserve">
+    <value>Αυτόματα (follow Windows)</value>
+  </data>
+  <data name="BtnImportLanguagePack" xml:space="preserve">
+    <value>Εισαγωγή πακέτου γλώσσας…</value>
+  </data>
+  <data name="BtnOpenLanguagesFolder" xml:space="preserve">
+    <value>Άνοιγμα φακέλου γλωσσών</value>
+  </data>
+  <data name="LanguagePackFilter" xml:space="preserve">
+    <value>Πακέτα γλωσσών (*.resx)|*.resx</value>
+  </data>
+  <data name="LanguagePackImported" xml:space="preserve">
+    <value>Το πακέτο γλώσσας εγκαταστάθηκε: {0}. Επανεκκινήστε για να εμφανιστεί στη λίστα.</value>
+  </data>
+  <data name="LanguagePackBadName" xml:space="preserve">
+    <value>Το όνομα του αρχείου πρέπει να είναι κωδικός κουλτούρας, όπως el.resx ή el-GR.resx.</value>
+  </data>
+  <data name="NoteLanguageRestart" xml:space="preserve">
+    <value>Σημείωση: η γλώσσα αλλάζει μετά την επανεκκίνηση του προγράμματος.</value>
+  </data>
+  <data name="CatImages" xml:space="preserve">
+    <value>Εικόνες</value>
+  </data>
+  <data name="CatDocuments" xml:space="preserve">
+    <value>Έγγραφα</value>
+  </data>
+  <data name="CatExecutables" xml:space="preserve">
+    <value>Εκτελέσιμα</value>
+  </data>
+  <data name="CatArchives" xml:space="preserve">
+    <value>Συμπιεσμένα Αρχεία</value>
+  </data>
+  <data name="CatCustomExtensions" xml:space="preserve">
+    <value>Επιλεγμένες Επεκτάσεις...</value>
+  </data>
+  <data name="ConflictAutoRename" xml:space="preserve">
+    <value>Αυτόματη Μετονομασία (π.χ. Αρχείο (1).jpg)</value>
+  </data>
+  <data name="ConflictOverwrite" xml:space="preserve">
+    <value>Αντικατάσταση (Μετακίνηση παλιού αρχείου στον Κάδο Ανακύκλωσης)</value>
+  </data>
+  <data name="ConflictSkip" xml:space="preserve">
+    <value>Παράκαμψη (Παραμονή στην Επιφάνεια Εργασίας)</value>
+  </data>
+  <data name="TargetPortalFrame" xml:space="preserve">
+    <value>Portal frame: {0}</value>
+  </data>
+  <data name="LastRunNever" xml:space="preserve">
+    <value>Τελευταία επιτυχής εκτέλεση: ποτέ</value>
+  </data>
+  <data name="LastRunAt" xml:space="preserve">
+    <value>Τελευταία επιτυχής εκτέλεση: {0}</value>
+  </data>
+  <data name="LayoutSnapshots" xml:space="preserve">
+    <value>Στιγμιότυπα</value>
+  </data>
+  <data name="LayoutWindowTitle" xml:space="preserve">
+    <value>Στιγμιότυπα — {0}</value>
+  </data>
+  <data name="LayoutSnapshotsButton" xml:space="preserve">
+    <value>Στιγμιότυπα…</value>
+  </data>
+  <data name="LayoutOptionsDescription" xml:space="preserve">
+    <value>Προεπισκόπηση και επαναφορά διατάξεων πλαισίων και διαχείριση αποθηκευμένων στιγμιότυπων.</value>
+  </data>
+  <data name="LayoutMyLayout" xml:space="preserve">
+    <value>Η διάταξή μου</value>
+  </data>
+  <data name="LayoutSaveSnapshot" xml:space="preserve">
+    <value>Αποθήκευση στιγμιότυπου</value>
+  </data>
+  <data name="LayoutUseCurrent" xml:space="preserve">
+    <value>Χρήση τρέχουσας διάταξης…</value>
+  </data>
+  <data name="LayoutConfirmCurrent" xml:space="preserve">
+    <value>Να αποδεχτείτε τα πλαίσια όπως εμφανίζονται τώρα ως την επιθυμητή σας διάταξη;
+
+Χρησιμοποιήστε το αφού τακτοποιήσετε τα πλαίσια σας ή αλλάξετε σκόπιμα τη διάταξη των οθονών σας. Θα διατηρηθεί ένα εφεδρικό στιγμιότυπο της προηγούμενης επιθυμητής διάταξης.</value>
+  </data>
+  <data name="LayoutAutomaticHelp" xml:space="preserve">
+    <value>Το σημερινό αυτόματο στιγμιότυπο ενημερώνεται μετά από 5 δευτερόλεπτα χωρίς σκόπιμες αλλαγές. Τα στιγμιότυπα προηγούμενων ημερών και τα καρφιτσωμένα στιγμιότυπα παραμένουν αμετάβλητα. Η μετακίνηση παραθύρων μέσα στα πλαίσια δεν αλλάζει την αποθηκευμένη διάταξη.</value>
+  </data>
+  <data name="LayoutRetentionDays" xml:space="preserve">
+    <value>Μέγιστη παλαιότητα (ημέρες)</value>
+  </data>
+  <data name="LayoutRetentionCount" xml:space="preserve">
+    <value>Μέγιστος αριθμός στιγμιότυπων</value>
+  </data>
+  <data name="LayoutNoLimit" xml:space="preserve">
+    <value>0 = χωρίς όριο</value>
+  </data>
+  <data name="LayoutApplyRetention" xml:space="preserve">
+    <value>Εφαρμογή επιλογων...</value>
+  </data>
+  <data name="LayoutDeleteOlder" xml:space="preserve">
+    <value>Διαγραφή παλαιότερων…</value>
+  </data>
+  <data name="LayoutRetentionHelp" xml:space="preserve">
+    <value>Τα χειροκίνητα και τα καρφιτσωμένα στιγμιότυπα διατηρούνται. Η εκκαθάριση διατηρεί πάντα το νεότερο μη καρφιτσωμένο αυτόματο/εφεδρικό στιγμιότυπο.</value>
+  </data>
+  <data name="LayoutPrevious" xml:space="preserve">
+    <value>Προηγούμενο</value>
+  </data>
+  <data name="LayoutNext" xml:space="preserve">
+    <value>Επόμενο</value>
+  </data>
+  <data name="LayoutPage" xml:space="preserve">
+    <value>{0} / {1}</value>
+  </data>
+  <data name="LayoutRestore" xml:space="preserve">
+    <value>Επαναφορά στιγμιότυπου…</value>
+  </data>
+  <data name="LayoutPinToggle" xml:space="preserve">
+    <value>Καρφίτσωμα / Ξεκαρφίτσωμα</value>
+  </data>
+  <data name="LayoutDelete" xml:space="preserve">
+    <value>Διαγραφή…</value>
+  </data>
+  <data name="LayoutConfirmDelete" xml:space="preserve">
+    <value>Διαγραφή του επιλεγμένου στιγμιότυπου; Η τρέχουσα διάταξή σας θα παραμείνει όπως είναι.</value>
+  </data>
+  <data name="LayoutRestoreHelp" xml:space="preserve">
+    <value>Η επαναφορά αλλάζει μόνο θέσεις και μεγέθη. Οι τρέχουσες συντομεύσεις, σημειώσεις και τα πλαίσια διατηρούνται. Τα διαγραμμένα πλαίσια δεν δημιουργούνται ξανά.</value>
+  </data>
+  <data name="LayoutProfileChanged" xml:space="preserve">
+    <value>Το ενεργό προφίλ άλλαξε. Κλείστε αυτό το παράθυρο και ανοίξτε ξανά τα «Στιγμιότυπα».</value>
+  </data>
+  <data name="LayoutAutomaticToday" xml:space="preserve">
+    <value>Αυτόματη διάταξη - Σήμερα</value>
+  </data>
+  <data name="LayoutAutomatic" xml:space="preserve">
+    <value>Αυτόματη διάταξη</value>
+  </data>
+  <data name="LayoutUnreadable" xml:space="preserve">
+    <value>Μη αναγνώσιμο στιγμιότυπο</value>
+  </data>
+  <data name="LayoutListItem" xml:space="preserve">
+    <value>{0}
+Αποθηκεύτηκε {1:G} · {2}</value>
+  </data>
+  <data name="LayoutPinnedTitle" xml:space="preserve">
+    <value>★ {0}</value>
+  </data>
+  <data name="LayoutKindAutomatic" xml:space="preserve">
+    <value>Αυτόματο</value>
+  </data>
+  <data name="LayoutKindManual" xml:space="preserve">
+    <value>Χειροκίνητο</value>
+  </data>
+  <data name="LayoutKindSafety" xml:space="preserve">
+    <value>Εφεδρικό</value>
+  </data>
+  <data name="LayoutNoSnapshots" xml:space="preserve">
+    <value>Δεν υπάρχουν ακόμη στιγμιότυπα. Αποθηκεύστε την επιθυμητή διάταξή σας για να δημιουργήσετε ένα.</value>
+  </data>
+  <data name="LayoutSelectSnapshot" xml:space="preserve">
+    <value>Επιλέξτε ένα στιγμιότυπο για προεπισκόπηση.</value>
+  </data>
+  <data name="LayoutDetails" xml:space="preserve">
+    <value>{0}
+Αποθηκεύτηκε {1:G} · Πλαίσια: {2} · Οθόνες: {3}
+{4}</value>
+  </data>
+  <data name="LayoutMissingMonitors" xml:space="preserve">
+    <value>Λείπουν οθόνες: {0}</value>
+  </data>
+  <data name="LayoutMonitorsAvailable" xml:space="preserve">
+    <value>Οι αποθηκευμένες οθόνες είναι διαθέσιμες.</value>
+  </data>
+  <data name="LayoutMonitorMismatch" xml:space="preserve">
+    <value>Η ανάλυση ή η κλιμάκωση της οθόνης διαφέρει από αυτό το στιγμιότυπο.</value>
+  </data>
+  <data name="LayoutPreviewUnavailable" xml:space="preserve">
+    <value>Η προεπισκόπηση δεν είναι διαθέσιμη: {0}</value>
+  </data>
+  <data name="LayoutConfirmRestore" xml:space="preserve">
+    <value>Επαναφορά θέσεων και μεγεθών από το «{0}»;
+
+Η τρέχουσα επιθυμητή διάταξή σας θα αποθηκευτεί πρώτα, ώστε να μπορείτε να αναιρέσετε αυτήν την επαναφορά.</value>
+  </data>
+  <data name="LayoutInvalidRetention" xml:space="preserve">
+    <value>Εισαγάγετε ακέραιους αριθμούς: 0–36500 ημέρες και 0–100000 στιγμιότυπα. Το μηδέν σημαίνει χωρίς όριο.</value>
+  </data>
+  <data name="LayoutConfirmRetention" xml:space="preserve">
+    <value>Να αποθηκευτούν αυτοί οι κανόνες εκκαθάρισης; Θα διαγραφούν τώρα {0} αυτόματα/εφεδρικά στιγμιότυπα.
+
+Τα χειροκίνητα και τα καρφιτσωμένα στιγμιότυπα προστατεύονται και το νεότερο αυτόματο/εφεδρικό στιγμιότυπο διατηρείται.</value>
+  </data>
+  <data name="LayoutEnterAge" xml:space="preserve">
+    <value>Εισαγάγετε πρώτα ηλικία σε ημέρες.</value>
+  </data>
+  <data name="LayoutNoOldSnapshots" xml:space="preserve">
+    <value>Δεν βρέθηκαν κατάλληλα παλαιότερα στιγμιότυπα.</value>
+  </data>
+  <data name="LayoutConfirmDeleteOlder" xml:space="preserve">
+    <value>Διαγραφή {0} αυτόματων/εφεδρικών στιγμιότυπων παλαιότερων από {1} ημέρες;
+
+Τα χειροκίνητα, τα καρφιτσωμένα και το νεότερο αυτόματο/εφεδρικό στιγμιότυπο θα διατηρηθούν.</value>
+  </data>
+  <data name="LayoutNotLoaded" xml:space="preserve">
+    <value>Δεν έχει φορτωθεί διάταξη.</value>
+  </data>
+  <data name="LayoutInitial" xml:space="preserve">
+    <value>Αρχική διάταξη — έλεγχος αυτής της διάταξης</value>
+  </data>
+  <data name="LayoutWaiting" xml:space="preserve">
+    <value>Αναμονή για την αποθηκευμένη διαμόρφωση οθονών. Η επιθυμητή σας διάταξη προστατεύεται.</value>
+  </data>
+  <data name="LayoutProtected" xml:space="preserve">
+    <value>Η επιθυμητή σας διάταξη προστατεύεται.</value>
+  </data>
+  <data name="LayoutReadPositionFailed" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η ανάγνωση της θέσης του πλαισίου.
+</value>
+  </data>
+  <data name="LayoutRestorePositionFailed" xml:space="preserve">
+    <value>Τα Windows δεν μπόρεσαν να επαναφέρουν τη θέση ενός πλαισίου.</value>
+  </data>
+  <data name="LayoutDisplayChanged" xml:space="preserve">
+    <value>Η διάταξη των οθονών άλλαξε. Η αποθηκευμένη διάταξή σας προστατεύεται· αναμονή για τις οθόνες σας.</value>
+  </data>
+  <data name="LayoutRecovered" xml:space="preserve">
+    <value>Η αποθηκευμένη διάταξη επαναφέρθηκε. Οι σκόπιμες μετακινήσεις και αλλαγές μεγέθους θα αποθηκεύονται.
+</value>
+  </data>
+  <data name="LayoutSnapshotUpdated" xml:space="preserve">
+    <value>Το σημερινό αυτόματο στιγμιότυπο είναι ενημερωμένο. Η επιθυμητή σας διάταξη προστατεύεται.</value>
+  </data>
+  <data name="LayoutSavedName" xml:space="preserve">
+    <value>Αποθηκευμένη διάταξη</value>
+  </data>
+  <data name="LayoutBeforeAdopting" xml:space="preserve">
+    <value>Πριν από την αποδοχή μιας νέας διάταξης</value>
+  </data>
+  <data name="LayoutAdopted" xml:space="preserve">
+    <value>Αυτή η διάταξη είναι πλέον η επιθυμητή σας διάταξη.</value>
+  </data>
+  <data name="LayoutRestoreMonitorRequired" xml:space="preserve">
+    <value>Συνδέστε τις αποθηκευμένες οθόνες με την αποθηκευμένη ανάλυση και κλιμάκωσή τους πριν επαναφέρετε αυτήν τη διάταξη. Η τρέχουσα διάταξή σας δεν άλλαξε.</value>
+  </data>
+  <data name="LayoutRestoreMissingMonitor" xml:space="preserve">
+    <value>Λείπει η οθόνη ενός τρέχοντος πλαισίου. Η επαναφορά ακυρώθηκε.</value>
+  </data>
+  <data name="LayoutBeforeRestore" xml:space="preserve">
+    <value>Πριν από την επαναφορά του {0}</value>
+  </data>
+  <data name="LayoutRestored" xml:space="preserve">
+    <value>Επαναφέρθηκαν πλαίσια που ταιριάζουν: {0}. Οι συντομεύσεις και οι σημειώσεις διατηρήθηκαν.</value>
+  </data>
+  <data name="LayoutProtectionError" xml:space="preserve">
+    <value>Προστασία διάταξης: {0}</value>
+  </data>
+  <data name="LayoutInvalidName" xml:space="preserve">
+    <value>Μη έγκυρος τύπος στιγμιότυπου.</value>
+  </data>
+  <data name="LayoutIntendedReadFailed" xml:space="preserve">
+    <value>Η αποθηκευμένη επιθυμητή διάταξη δεν ήταν δυνατό να διαβαστεί. Διατηρήθηκε· δεν αποθηκεύτηκε νέα βασική διάταξη.</value>
+  </data>
+  <data name="LayoutFileTooLarge" xml:space="preserve">
+    <value>Το αρχείο διάταξης είναι πολύ μεγάλο.</value>
+  </data>
+  <data name="LayoutFileEmpty" xml:space="preserve">
+    <value>Κενό αρχείο διάταξης.</value>
+  </data>
+  <data name="LayoutInvalidKind" xml:space="preserve">
+    <value>Μη έγκυρος τύπος στιγμιότυπου.</value>
+  </data>
+  <data name="LayoutSnapshotNotFound" xml:space="preserve">
+    <value>Το στιγμιότυπο δεν βρέθηκε.</value>
+  </data>
+  <data name="LayoutInvalidSnapshot" xml:space="preserve">
+    <value>Μη έγκυρο στιγμιότυπο.</value>
+  </data>
+  <data name="LayoutUnpinBeforeDelete" xml:space="preserve">
+    <value>Ξεκαρφιτσώστε αυτό το στιγμιότυπο πριν το διαγράψετε.</value>
+  </data>
+  <data name="LayoutNegativeRetention" xml:space="preserve">
+    <value>Οι τιμές διατήρησης δεν μπορούν να είναι αρνητικές.</value>
+  </data>
+  <data name="LayoutInvalidFile" xml:space="preserve">
+    <value>Μη υποστηριζόμενο ή μη έγκυρο αρχείο διάταξης.</value>
+  </data>
+  <data name="LayoutInvalidGeometry" xml:space="preserve">
+    <value>Η διάταξη περιέχει μη έγκυρες θέσεις οθονών ή πλαισίων.</value>
+  </data>
+  <data name="LayoutMonitorIdentityPending" xml:space="preserve">
+    <value>Τα Windows δεν αναφέρουν ακόμη σταθερή ταυτότητα οθόνης.</value>
+  </data>
+  <data name="LayoutMonitorsNotReady" xml:space="preserve">
+    <value>Η διαμόρφωση των οθονών δεν είναι έτοιμη.</value>
+  </data>
+  <data name="LayoutMonitor" xml:space="preserve">
+    <value>Οθόνη</value>
+  </data>
+  <data name="LayoutFrame" xml:space="preserve">
+    <value>Frame</value>
+  </data>
+  <data name="TabInterface" xml:space="preserve">
+    <value>Περιβάλλον</value>
+  </data>
+  <data name="TabAppearance" xml:space="preserve">
+    <value>Εμφάνιση</value>
+  </data>
+  <data name="TabIdleBehaviors" xml:space="preserve">
+    <value>Σε Αδράνεια</value>
+  </data>
+  <data name="BtnExportTemplate" xml:space="preserve">
+    <value>Εξαγωγή Πρότυπου Γλώσσας...</value>
+  </data>
+  <data name="MsgTemplateExported" xml:space="preserve">
+    <value>Το πρότυπο εξήχθη με επιτυχία!</value>
+  </data>
+  <data name="DlgClose" xml:space="preserve">
+    <value>Κλείσιμο</value>
+  </data>
+  <data name="LayoutDetailsTitle" xml:space="preserve">
+    <value>Λεπτομέρειες στιγμιότυπου</value>
+  </data>
+  <data name="LayoutCleanupSettings" xml:space="preserve">
+    <value>Ρυθμίσεις εκκαθάρισης</value>
+  </data>
+  <data name="LayoutBtnSave" xml:space="preserve">
+    <value>Αποθήκευση</value>
+  </data>
+  <data name="LayoutPreviewTitle" xml:space="preserve">
+    <value>Προεπισκόπηση διάταξης οθονών</value>
+  </data>
+</root>
