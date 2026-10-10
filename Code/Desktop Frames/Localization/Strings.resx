@@ -1,5 +1,64 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -113,129 +172,6 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   </data>
   <data name="AboutWhat" xml:space="preserve">
     <value>What!?</value>
-  </data>
-  <data name="AgendaAllDay" xml:space="preserve">
-    <value>All day</value>
-  </data>
-  <data name="AgendaBadTime" xml:space="preserve">
-    <value>Use a time like 9:30.</value>
-  </data>
-  <data name="AgendaCalendarLabel" xml:space="preserve">
-    <value>Calendar</value>
-  </data>
-  <data name="AgendaCalendarsLabel" xml:space="preserve">
-    <value>Calendars shown</value>
-  </data>
-  <data name="AgendaConfirmDelete" xml:space="preserve">
-    <value>Delete "{0}"?</value>
-  </data>
-  <data name="AgendaConflict" xml:space="preserve">
-    <value>This event was changed somewhere else and has not been overwritten. The newer version will appear here shortly.</value>
-  </data>
-  <data name="AgendaDateLabel" xml:space="preserve">
-    <value>Date</value>
-  </data>
-  <data name="AgendaDaysLabel" xml:space="preserve">
-    <value>Days ahead</value>
-  </data>
-  <data name="AgendaDeleteEvent" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="AgendaEditEvent" xml:space="preserve">
-    <value>Edit event</value>
-  </data>
-  <data name="AgendaEndLabel" xml:space="preserve">
-    <value>End</value>
-  </data>
-  <data name="AgendaFailed" xml:space="preserve">
-    <value>Could not reach Google Calendar.</value>
-  </data>
-  <data name="AgendaLoading" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
-  <data name="AgendaLocationLabel" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="AgendaNewEvent" xml:space="preserve">
-    <value>New event</value>
-  </data>
-  <data name="AgendaNoEventsToday" xml:space="preserve">
-    <value>Nothing today.</value>
-  </data>
-  <data name="AgendaNotConfigured" xml:space="preserve">
-    <value>Google account not set up yet. Add your Google client in the settings.</value>
-  </data>
-  <data name="AgendaNothingScheduled" xml:space="preserve">
-    <value>Nothing scheduled.</value>
-  </data>
-  <data name="AgendaNoWritableCalendar" xml:space="preserve">
-    <value>None of the calendars found accepts new events.</value>
-  </data>
-  <data name="AgendaOffline" xml:space="preserve">
-    <value>Google could not be reached. Showing the last events received.</value>
-  </data>
-  <data name="AgendaOpenInGoogle" xml:space="preserve">
-    <value>Open in Google Calendar</value>
-  </data>
-  <data name="AgendaSaveFailed" xml:space="preserve">
-    <value>The change could not be saved.</value>
-  </data>
-  <data name="AgendaSettingsTitle" xml:space="preserve">
-    <value>Agenda settings</value>
-  </data>
-  <data name="AgendaSignedIn" xml:space="preserve">
-    <value>Signed in to Google Calendar.</value>
-  </data>
-  <data name="AgendaSignedOut" xml:space="preserve">
-    <value>Not signed in to Google Calendar.</value>
-  </data>
-  <data name="AgendaSignIn" xml:space="preserve">
-    <value>Sign in with Google</value>
-  </data>
-  <data name="AgendaSignInAgain" xml:space="preserve">
-    <value>Sign in again</value>
-  </data>
-  <data name="AgendaSignInFailed" xml:space="preserve">
-    <value>Sign-in did not complete.</value>
-  </data>
-  <data name="AgendaSigningIn" xml:space="preserve">
-    <value>Waiting for the browser...</value>
-  </data>
-  <data name="AgendaSignOut" xml:space="preserve">
-    <value>Sign out</value>
-  </data>
-  <data name="AgendaStartLabel" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="AgendaTitleLabel" xml:space="preserve">
-    <value>Title</value>
-  </data>
-  <data name="AgendaToday" xml:space="preserve">
-    <value>Today</value>
-  </data>
-  <data name="AgendaTomorrow" xml:space="preserve">
-    <value>Tomorrow</value>
-  </data>
-  <data name="AgendaUntitled" xml:space="preserve">
-    <value>(no title)</value>
-  </data>
-  <data name="AgendaViewDay" xml:space="preserve">
-    <value>Day</value>
-  </data>
-  <data name="AgendaViewLabel" xml:space="preserve">
-    <value>View</value>
-  </data>
-  <data name="AgendaViewList" xml:space="preserve">
-    <value>List</value>
-  </data>
-  <data name="AgendaViewMonth" xml:space="preserve">
-    <value>Month</value>
-  </data>
-  <data name="AgendaViewThreeDays" xml:space="preserve">
-    <value>3 days</value>
-  </data>
-  <data name="AgendaViewWeek" xml:space="preserve">
-    <value>Week</value>
   </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>CLICK ON THE TARGET WINDOW</value>
@@ -357,6 +293,9 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   <data name="BtnOrganizeNow" xml:space="preserve">
     <value>Organize Now (Run)</value>
   </data>
+  <data name="BtnReadMore" xml:space="preserve">
+    <value>Read More...</value>
+  </data>
   <data name="BtnReset" xml:space="preserve">
     <value>Reset</value>
   </data>
@@ -377,6 +316,9 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   </data>
   <data name="BtnSmartDesktopRules" xml:space="preserve">
     <value>Smart Desktop Rules...</value>
+  </data>
+  <data name="BtnUpdateNow" xml:space="preserve">
+    <value>Update Now</value>
   </data>
   <data name="ButtonNo" xml:space="preserve">
     <value>No</value>
@@ -524,6 +466,9 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   </data>
   <data name="DlgBrowseError" xml:space="preserve">
     <value>Browse Error</value>
+  </data>
+  <data name="DlgClearNote" xml:space="preserve">
+    <value>Clear Note</value>
   </data>
   <data name="DlgConfirmImport" xml:space="preserve">
     <value>Confirm Import</value>
@@ -1146,6 +1091,9 @@ Desktop Frames + is maintained by Nikos Georgousis, has been enhanced and optimi
   <data name="MsgCannotDeleteLastTab" xml:space="preserve">
     <value>Cannot delete the last remaining tab.</value>
   </data>
+  <data name="MsgClearNoteConfirm" xml:space="preserve">
+    <value>Are you sure you want to clear all text from this note?</value>
+  </data>
   <data name="MsgConfirmDeleteProfile" xml:space="preserve">
     <value>Are you sure you want to delete profile '{0}'?
 This cannot be undone.</value>
@@ -1421,6 +1369,9 @@ Restart now?</value>
   <data name="NetUnreachable" xml:space="preserve">
     <value>Unreachable</value>
   </data>
+  <data name="NewFrameDefaultTitle" xml:space="preserve">
+    <value>New Frame - Drop your shortcuts here</value>
+  </data>
   <data name="NoteAutoOrganize" xml:space="preserve">
     <value>Note: Auto-Organize continuously monitors your Desktop for new files. When a file matches an enabled rule's conditions, it is automatically and physically moved to your target Portal Frame or Folder. Use this to keep your Desktop permanently clean and automatically route downloads to their proper locations.</value>
   </data>
@@ -1588,9 +1539,6 @@ Restart now?</value>
   </data>
   <data name="PhotoVerticalWipe" xml:space="preserve">
     <value>Soft Vertical Wipe</value>
-  </data>
-  <data name="PluginAgenda" xml:space="preserve">
-    <value>Agenda</value>
   </data>
   <data name="PluginCalculator" xml:space="preserve">
     <value>Calculator</value>
@@ -1978,6 +1926,404 @@ Restart now?</value>
   </data>
   <data name="LastRunAt" xml:space="preserve">
     <value>Last successful run: {0}</value>
+  </data>
+  <data name="LayoutSnapshots" xml:space="preserve">
+    <value>Snapshots</value>
+  </data>
+  <data name="LayoutWindowTitle" xml:space="preserve">
+    <value>Snapshots — {0}</value>
+  </data>
+  <data name="LayoutSnapshotsButton" xml:space="preserve">
+    <value>Snapshots…</value>
+  </data>
+  <data name="LayoutOptionsDescription" xml:space="preserve">
+    <value>Preview and restore frame arrangements, and manage saved snapshots.</value>
+  </data>
+  <data name="LayoutMyLayout" xml:space="preserve">
+    <value>My layout</value>
+  </data>
+  <data name="LayoutSaveSnapshot" xml:space="preserve">
+    <value>Save snapshot</value>
+  </data>
+  <data name="LayoutUseCurrent" xml:space="preserve">
+    <value>Use current arrangement…</value>
+  </data>
+  <data name="LayoutConfirmCurrent" xml:space="preserve">
+    <value>Accept the frames as they appear now as your intended layout?
+
+Use this after arranging your frames or deliberately changing your monitor setup. A safety snapshot of the previous intended layout will be kept.</value>
+  </data>
+  <data name="LayoutAutomaticHelp" xml:space="preserve">
+    <value>Today's automatic snapshot updates after 5 seconds without intentional changes. Earlier days and pinned snapshots stay unchanged. Windows moving frames does not change the saved layout.</value>
+  </data>
+  <data name="LayoutRetentionDays" xml:space="preserve">
+    <value>Maximum age (days)</value>
+  </data>
+  <data name="LayoutRetentionCount" xml:space="preserve">
+    <value>Maximum number of snapshots</value>
+  </data>
+  <data name="LayoutNoLimit" xml:space="preserve">
+    <value>0 = no limit</value>
+  </data>
+  <data name="LayoutApplyRetention" xml:space="preserve">
+    <value>Apply retention…</value>
+  </data>
+  <data name="LayoutDeleteOlder" xml:space="preserve">
+    <value>Delete older…</value>
+  </data>
+  <data name="LayoutRetentionHelp" xml:space="preserve">
+    <value>Manual and pinned snapshots are kept. Cleanup always preserves the newest unpinned automatic/safety snapshot.</value>
+  </data>
+  <data name="LayoutPrevious" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="LayoutNext" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="LayoutPage" xml:space="preserve">
+    <value>{0} / {1}</value>
+  </data>
+  <data name="LayoutRestore" xml:space="preserve">
+    <value>Restore snapshot…</value>
+  </data>
+  <data name="LayoutPinToggle" xml:space="preserve">
+    <value>Pin / unpin</value>
+  </data>
+  <data name="LayoutDelete" xml:space="preserve">
+    <value>Delete…</value>
+  </data>
+  <data name="LayoutConfirmDelete" xml:space="preserve">
+    <value>Delete the selected snapshot? Your current arrangement will stay as it is.</value>
+  </data>
+  <data name="LayoutRestoreHelp" xml:space="preserve">
+    <value>Restoring changes positions and sizes only. Current shortcuts, notes and frames are preserved. Deleted frames are not recreated.</value>
+  </data>
+  <data name="LayoutProfileChanged" xml:space="preserve">
+    <value>The active profile changed. Close this window and open Snapshots again.</value>
+  </data>
+  <data name="LayoutAutomaticToday" xml:space="preserve">
+    <value>Automatic layout — today</value>
+  </data>
+  <data name="LayoutAutomatic" xml:space="preserve">
+    <value>Automatic layout</value>
+  </data>
+  <data name="LayoutUnreadable" xml:space="preserve">
+    <value>Unreadable snapshot</value>
+  </data>
+  <data name="LayoutListItem" xml:space="preserve">
+    <value>{0}
+Saved {1:G} · {2}</value>
+  </data>
+  <data name="LayoutPinnedTitle" xml:space="preserve">
+    <value>★ {0}</value>
+  </data>
+  <data name="LayoutKindAutomatic" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+  <data name="LayoutKindManual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="LayoutKindSafety" xml:space="preserve">
+    <value>Safety</value>
+  </data>
+  <data name="LayoutNoSnapshots" xml:space="preserve">
+    <value>No snapshots yet. Save your intended layout to create one.</value>
+  </data>
+  <data name="LayoutSelectSnapshot" xml:space="preserve">
+    <value>Select a snapshot to preview it.</value>
+  </data>
+  <data name="LayoutDetails" xml:space="preserve">
+    <value>{0}
+Saved {1:G} · Frames: {2} · Monitors: {3}
+{4}</value>
+  </data>
+  <data name="LayoutMissingMonitors" xml:space="preserve">
+    <value>Missing monitors: {0}</value>
+  </data>
+  <data name="LayoutMonitorsAvailable" xml:space="preserve">
+    <value>The saved monitors are available.</value>
+  </data>
+  <data name="LayoutMonitorMismatch" xml:space="preserve">
+    <value>Monitor resolution or scaling differs from this snapshot.</value>
+  </data>
+  <data name="LayoutPreviewUnavailable" xml:space="preserve">
+    <value>Preview unavailable: {0}</value>
+  </data>
+  <data name="LayoutConfirmRestore" xml:space="preserve">
+    <value>Restore positions and sizes from “{0}”?
+
+Your current intended layout will be saved first so you can undo this restore.</value>
+  </data>
+  <data name="LayoutInvalidRetention" xml:space="preserve">
+    <value>Enter whole numbers: 0–36500 days and 0–100000 snapshots. Zero means no limit.</value>
+  </data>
+  <data name="LayoutConfirmRetention" xml:space="preserve">
+    <value>Save these cleanup rules? {0} automatic/safety snapshots will be deleted now.
+
+Manual and pinned snapshots are protected, and the newest automatic/safety snapshot is kept.</value>
+  </data>
+  <data name="LayoutEnterAge" xml:space="preserve">
+    <value>Enter an age in days first.</value>
+  </data>
+  <data name="LayoutNoOldSnapshots" xml:space="preserve">
+    <value>No eligible old snapshots were found.</value>
+  </data>
+  <data name="LayoutConfirmDeleteOlder" xml:space="preserve">
+    <value>Delete {0} automatic/safety snapshots older than {1} days?
+
+Manual, pinned and the newest automatic/safety snapshot will be kept.</value>
+  </data>
+  <data name="LayoutNotLoaded" xml:space="preserve">
+    <value>No layout loaded.</value>
+  </data>
+  <data name="LayoutInitial" xml:space="preserve">
+    <value>Initial layout — check this arrangement</value>
+  </data>
+  <data name="LayoutWaiting" xml:space="preserve">
+    <value>Waiting for the saved monitor setup. Your intended layout is protected.</value>
+  </data>
+  <data name="LayoutProtected" xml:space="preserve">
+    <value>Your intended layout is protected.</value>
+  </data>
+  <data name="LayoutReadPositionFailed" xml:space="preserve">
+    <value>Could not read the frame position.</value>
+  </data>
+  <data name="LayoutRestorePositionFailed" xml:space="preserve">
+    <value>Windows could not restore a frame position.</value>
+  </data>
+  <data name="LayoutDisplayChanged" xml:space="preserve">
+    <value>Display setup changed. Your saved layout is protected; waiting for your monitors.</value>
+  </data>
+  <data name="LayoutRecovered" xml:space="preserve">
+    <value>Saved layout restored. Intentional moves and resizes will be remembered.</value>
+  </data>
+  <data name="LayoutSnapshotUpdated" xml:space="preserve">
+    <value>Today's automatic snapshot is up to date. Your intended layout is protected.</value>
+  </data>
+  <data name="LayoutSavedName" xml:space="preserve">
+    <value>Saved layout</value>
+  </data>
+  <data name="LayoutBeforeAdopting" xml:space="preserve">
+    <value>Before accepting a new arrangement</value>
+  </data>
+  <data name="LayoutAdopted" xml:space="preserve">
+    <value>This arrangement is now your intended layout.</value>
+  </data>
+  <data name="LayoutRestoreMonitorRequired" xml:space="preserve">
+    <value>Connect the saved monitors at their saved resolution and scaling before restoring this layout. Your current layout has not been changed.</value>
+  </data>
+  <data name="LayoutRestoreMissingMonitor" xml:space="preserve">
+    <value>A current frame's monitor is missing. Restore was cancelled.</value>
+  </data>
+  <data name="LayoutBeforeRestore" xml:space="preserve">
+    <value>Before restoring {0}</value>
+  </data>
+  <data name="LayoutRestored" xml:space="preserve">
+    <value>Restored matching frames: {0}. Shortcuts and notes were kept.</value>
+  </data>
+  <data name="LayoutProtectionError" xml:space="preserve">
+    <value>Layout protection: {0}</value>
+  </data>
+  <data name="LayoutInvalidName" xml:space="preserve">
+    <value>Invalid layout name.</value>
+  </data>
+  <data name="LayoutIntendedReadFailed" xml:space="preserve">
+    <value>The saved intended layout could not be read. It has been preserved; no new baseline was written.</value>
+  </data>
+  <data name="LayoutFileTooLarge" xml:space="preserve">
+    <value>Layout file is too large.</value>
+  </data>
+  <data name="LayoutFileEmpty" xml:space="preserve">
+    <value>Empty layout file.</value>
+  </data>
+  <data name="LayoutInvalidKind" xml:space="preserve">
+    <value>Invalid snapshot kind.</value>
+  </data>
+  <data name="LayoutSnapshotNotFound" xml:space="preserve">
+    <value>Snapshot not found.</value>
+  </data>
+  <data name="LayoutInvalidSnapshot" xml:space="preserve">
+    <value>Invalid snapshot.</value>
+  </data>
+  <data name="LayoutUnpinBeforeDelete" xml:space="preserve">
+    <value>Unpin this snapshot before deleting it.</value>
+  </data>
+  <data name="LayoutNegativeRetention" xml:space="preserve">
+    <value>Retention values cannot be negative.</value>
+  </data>
+  <data name="LayoutInvalidFile" xml:space="preserve">
+    <value>Unsupported or invalid layout file.</value>
+  </data>
+  <data name="LayoutInvalidGeometry" xml:space="preserve">
+    <value>The layout contains invalid monitor or frame positions.</value>
+  </data>
+  <data name="LayoutMonitorIdentityPending" xml:space="preserve">
+    <value>Windows is not reporting a stable monitor identity yet.</value>
+  </data>
+  <data name="LayoutMonitorsNotReady" xml:space="preserve">
+    <value>The monitor configuration is not ready.</value>
+  </data>
+  <data name="LayoutMonitor" xml:space="preserve">
+    <value>Monitor</value>
+  </data>
+  <data name="LayoutFrame" xml:space="preserve">
+    <value>Frame</value>
+  </data>
+  <data name="TabInterface" xml:space="preserve">
+    <value>Interface</value>
+  </data>
+  <data name="TabAppearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="TabIdleBehaviors" xml:space="preserve">
+    <value>Idle Behaviors</value>
+  </data>
+  <data name="BtnExportTemplate" xml:space="preserve">
+    <value>Export Language Template...</value>
+  </data>
+  <data name="MsgTemplateExported" xml:space="preserve">
+    <value>Language template exported successfully!</value>
+  </data>
+  <data name="DlgClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="LayoutDetailsTitle" xml:space="preserve">
+    <value>Layout Details</value>
+  </data>
+  <data name="LayoutCleanupSettings" xml:space="preserve">
+    <value>Clean Settiings</value>
+  </data>
+  <data name="LayoutBtnSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="LayoutPreviewTitle" xml:space="preserve">
+    <value>Monitor Layout Preview</value>
+  </data>
+  <data name="AgendaAllDay" xml:space="preserve">
+    <value>All day</value>
+  </data>
+  <data name="AgendaBadTime" xml:space="preserve">
+    <value>Use a time like 9:30.</value>
+  </data>
+  <data name="AgendaCalendarLabel" xml:space="preserve">
+    <value>Calendar</value>
+  </data>
+  <data name="AgendaCalendarsLabel" xml:space="preserve">
+    <value>Calendars shown</value>
+  </data>
+  <data name="AgendaConfirmDelete" xml:space="preserve">
+    <value>Delete "{0}"?</value>
+  </data>
+  <data name="AgendaConflict" xml:space="preserve">
+    <value>This event was changed somewhere else and has not been overwritten. The newer version will appear here shortly.</value>
+  </data>
+  <data name="AgendaDateLabel" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="AgendaDaysLabel" xml:space="preserve">
+    <value>Days ahead</value>
+  </data>
+  <data name="AgendaDeleteEvent" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="AgendaEditEvent" xml:space="preserve">
+    <value>Edit event</value>
+  </data>
+  <data name="AgendaEndLabel" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="AgendaFailed" xml:space="preserve">
+    <value>Could not reach Google Calendar.</value>
+  </data>
+  <data name="AgendaLoading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="AgendaLocationLabel" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="AgendaNewEvent" xml:space="preserve">
+    <value>New event</value>
+  </data>
+  <data name="AgendaNoEventsToday" xml:space="preserve">
+    <value>Nothing today.</value>
+  </data>
+  <data name="AgendaNotConfigured" xml:space="preserve">
+    <value>Google account not set up yet. Add your Google client in the settings.</value>
+  </data>
+  <data name="AgendaNothingScheduled" xml:space="preserve">
+    <value>Nothing scheduled.</value>
+  </data>
+  <data name="AgendaNoWritableCalendar" xml:space="preserve">
+    <value>None of the calendars found accepts new events.</value>
+  </data>
+  <data name="AgendaOffline" xml:space="preserve">
+    <value>Google could not be reached. Showing the last events received.</value>
+  </data>
+  <data name="AgendaOpenInGoogle" xml:space="preserve">
+    <value>Open in Google Calendar</value>
+  </data>
+  <data name="AgendaSaveFailed" xml:space="preserve">
+    <value>The change could not be saved.</value>
+  </data>
+  <data name="AgendaSettingsTitle" xml:space="preserve">
+    <value>Agenda settings</value>
+  </data>
+  <data name="AgendaSignedIn" xml:space="preserve">
+    <value>Signed in to Google Calendar.</value>
+  </data>
+  <data name="AgendaSignedOut" xml:space="preserve">
+    <value>Not signed in to Google Calendar.</value>
+  </data>
+  <data name="AgendaSignIn" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="AgendaSignInAgain" xml:space="preserve">
+    <value>Sign in again</value>
+  </data>
+  <data name="AgendaSignInFailed" xml:space="preserve">
+    <value>Sign-in did not complete.</value>
+  </data>
+  <data name="AgendaSigningIn" xml:space="preserve">
+    <value>Waiting for the browser...</value>
+  </data>
+  <data name="AgendaSignOut" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="AgendaStartLabel" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="AgendaTitleLabel" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="AgendaToday" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="AgendaTomorrow" xml:space="preserve">
+    <value>Tomorrow</value>
+  </data>
+  <data name="AgendaUntitled" xml:space="preserve">
+    <value>(no title)</value>
+  </data>
+  <data name="AgendaViewDay" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="AgendaViewLabel" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="AgendaViewList" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="AgendaViewMonth" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="AgendaViewThreeDays" xml:space="preserve">
+    <value>3 days</value>
+  </data>
+  <data name="AgendaViewWeek" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="PluginAgenda" xml:space="preserve">
+    <value>Agenda</value>
   </data>
   <data name="AgendaKindEvent" xml:space="preserve">
     <value>Event</value>

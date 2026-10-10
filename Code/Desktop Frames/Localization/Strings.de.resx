@@ -1,6 +1,64 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- Seed translation produced with AI assistance and not yet reviewed by a native speaker. Any key that is ever removed falls back to English at runtime. -->
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -115,129 +173,6 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   <data name="AboutWhat" xml:space="preserve">
     <value>Wie bitte!?</value>
   </data>
-  <data name="AgendaAllDay" xml:space="preserve">
-    <value>Ganztägig</value>
-  </data>
-  <data name="AgendaBadTime" xml:space="preserve">
-    <value>Eine Uhrzeit wie 9:30 angeben.</value>
-  </data>
-  <data name="AgendaCalendarLabel" xml:space="preserve">
-    <value>Kalender</value>
-  </data>
-  <data name="AgendaCalendarsLabel" xml:space="preserve">
-    <value>Angezeigte Kalender</value>
-  </data>
-  <data name="AgendaConfirmDelete" xml:space="preserve">
-    <value>"{0}" löschen?</value>
-  </data>
-  <data name="AgendaConflict" xml:space="preserve">
-    <value>Der Termin wurde anderswo geändert und wurde nicht überschrieben. Die neuere Fassung erscheint gleich hier.</value>
-  </data>
-  <data name="AgendaDateLabel" xml:space="preserve">
-    <value>Datum</value>
-  </data>
-  <data name="AgendaDaysLabel" xml:space="preserve">
-    <value>Tage voraus</value>
-  </data>
-  <data name="AgendaDeleteEvent" xml:space="preserve">
-    <value>Löschen</value>
-  </data>
-  <data name="AgendaEditEvent" xml:space="preserve">
-    <value>Termin bearbeiten</value>
-  </data>
-  <data name="AgendaEndLabel" xml:space="preserve">
-    <value>Ende</value>
-  </data>
-  <data name="AgendaFailed" xml:space="preserve">
-    <value>Google Kalender ist nicht erreichbar.</value>
-  </data>
-  <data name="AgendaLoading" xml:space="preserve">
-    <value>Wird geladen...</value>
-  </data>
-  <data name="AgendaLocationLabel" xml:space="preserve">
-    <value>Ort</value>
-  </data>
-  <data name="AgendaNewEvent" xml:space="preserve">
-    <value>Neuer Termin</value>
-  </data>
-  <data name="AgendaNoEventsToday" xml:space="preserve">
-    <value>Heute nichts.</value>
-  </data>
-  <data name="AgendaNotConfigured" xml:space="preserve">
-    <value>Google-Konto ist noch nicht eingerichtet. Den Google-Client in den Einstellungen hinzufügen.</value>
-  </data>
-  <data name="AgendaNothingScheduled" xml:space="preserve">
-    <value>Nichts geplant.</value>
-  </data>
-  <data name="AgendaNoWritableCalendar" xml:space="preserve">
-    <value>Keiner der gefundenen Kalender nimmt neue Termine an.</value>
-  </data>
-  <data name="AgendaOffline" xml:space="preserve">
-    <value>Google ist nicht erreichbar. Es werden die zuletzt empfangenen Termine angezeigt.</value>
-  </data>
-  <data name="AgendaOpenInGoogle" xml:space="preserve">
-    <value>In Google Kalender öffnen</value>
-  </data>
-  <data name="AgendaSaveFailed" xml:space="preserve">
-    <value>Die Änderung konnte nicht gespeichert werden.</value>
-  </data>
-  <data name="AgendaSettingsTitle" xml:space="preserve">
-    <value>Agenda-Einstellungen</value>
-  </data>
-  <data name="AgendaSignedIn" xml:space="preserve">
-    <value>Bei Google Kalender angemeldet.</value>
-  </data>
-  <data name="AgendaSignedOut" xml:space="preserve">
-    <value>Nicht bei Google Kalender angemeldet.</value>
-  </data>
-  <data name="AgendaSignIn" xml:space="preserve">
-    <value>Mit Google anmelden</value>
-  </data>
-  <data name="AgendaSignInAgain" xml:space="preserve">
-    <value>Erneut anmelden</value>
-  </data>
-  <data name="AgendaSignInFailed" xml:space="preserve">
-    <value>Anmeldung nicht abgeschlossen.</value>
-  </data>
-  <data name="AgendaSigningIn" xml:space="preserve">
-    <value>Warten auf den Browser...</value>
-  </data>
-  <data name="AgendaSignOut" xml:space="preserve">
-    <value>Abmelden</value>
-  </data>
-  <data name="AgendaStartLabel" xml:space="preserve">
-    <value>Beginn</value>
-  </data>
-  <data name="AgendaTitleLabel" xml:space="preserve">
-    <value>Titel</value>
-  </data>
-  <data name="AgendaToday" xml:space="preserve">
-    <value>Heute</value>
-  </data>
-  <data name="AgendaTomorrow" xml:space="preserve">
-    <value>Morgen</value>
-  </data>
-  <data name="AgendaUntitled" xml:space="preserve">
-    <value>(ohne Titel)</value>
-  </data>
-  <data name="AgendaViewDay" xml:space="preserve">
-    <value>Tag</value>
-  </data>
-  <data name="AgendaViewLabel" xml:space="preserve">
-    <value>Ansicht</value>
-  </data>
-  <data name="AgendaViewList" xml:space="preserve">
-    <value>Liste</value>
-  </data>
-  <data name="AgendaViewMonth" xml:space="preserve">
-    <value>Monat</value>
-  </data>
-  <data name="AgendaViewThreeDays" xml:space="preserve">
-    <value>3 Tage</value>
-  </data>
-  <data name="AgendaViewWeek" xml:space="preserve">
-    <value>Woche</value>
-  </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>KLICKE AUF DAS ZIELFENSTER</value>
   </data>
@@ -337,9 +272,6 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   <data name="BtnDonate" xml:space="preserve">
     <value>♥ Per PayPal spenden</value>
   </data>
-  <data name="BtnImportLanguagePack" xml:space="preserve">
-    <value>Sprachpaket importieren…</value>
-  </data>
   <data name="BtnManageAutomation" xml:space="preserve">
     <value>Automatisierung verwalten</value>
   </data>
@@ -355,14 +287,14 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   <data name="BtnOpenBackupsFolder" xml:space="preserve">
     <value>Sicherungsordner öffnen</value>
   </data>
-  <data name="BtnOpenLanguagesFolder" xml:space="preserve">
-    <value>Sprachordner öffnen</value>
-  </data>
   <data name="BtnOpenLog" xml:space="preserve">
     <value>Protokoll öffnen</value>
   </data>
   <data name="BtnOrganizeNow" xml:space="preserve">
     <value>Jetzt aufräumen</value>
+  </data>
+  <data name="BtnReadMore" xml:space="preserve">
+    <value>Mehr erfahren...</value>
   </data>
   <data name="BtnReset" xml:space="preserve">
     <value>Zurücksetzen</value>
@@ -384,6 +316,9 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   </data>
   <data name="BtnSmartDesktopRules" xml:space="preserve">
     <value>Regeln für den intelligenten Desktop…</value>
+  </data>
+  <data name="BtnUpdateNow" xml:space="preserve">
+    <value>Jetzt aktualisieren</value>
   </data>
   <data name="ButtonNo" xml:space="preserve">
     <value>Nein</value>
@@ -448,21 +383,6 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   <data name="CalcShowTape" xml:space="preserve">
     <value>Rechenstreifen anzeigen</value>
   </data>
-  <data name="CatArchives" xml:space="preserve">
-    <value>Archive</value>
-  </data>
-  <data name="CatCustomExtensions" xml:space="preserve">
-    <value>Eigene Erweiterungen...</value>
-  </data>
-  <data name="CatDocuments" xml:space="preserve">
-    <value>Dokumente</value>
-  </data>
-  <data name="CatExecutables" xml:space="preserve">
-    <value>Programme</value>
-  </data>
-  <data name="CatImages" xml:space="preserve">
-    <value>Bilder</value>
-  </data>
   <data name="ColDateModified" xml:space="preserve">
     <value>Änderungsdatum</value>
   </data>
@@ -514,15 +434,6 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   <data name="ConfirmDeleteTitle" xml:space="preserve">
     <value>Löschen bestätigen</value>
   </data>
-  <data name="ConflictAutoRename" xml:space="preserve">
-    <value>Automatisch umbenennen (z. B. Datei (1).jpg)</value>
-  </data>
-  <data name="ConflictOverwrite" xml:space="preserve">
-    <value>Überschreiben (alte Datei in den Papierkorb)</value>
-  </data>
-  <data name="ConflictSkip" xml:space="preserve">
-    <value>Überspringen (auf dem Desktop lassen)</value>
-  </data>
   <data name="CustomizeTitle" xml:space="preserve">
     <value>Rahmen anpassen</value>
   </data>
@@ -555,6 +466,9 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   </data>
   <data name="DlgBrowseError" xml:space="preserve">
     <value>Fehler beim Durchsuchen</value>
+  </data>
+  <data name="DlgClearNote" xml:space="preserve">
+    <value>Notiz löschen</value>
   </data>
   <data name="DlgConfirmImport" xml:space="preserve">
     <value>Import bestätigen</value>
@@ -898,24 +812,6 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   <data name="KeyTilde" xml:space="preserve">
     <value>Tilde (~)</value>
   </data>
-  <data name="LangAutomatic" xml:space="preserve">
-    <value>Automatisch (Windows folgen)</value>
-  </data>
-  <data name="LanguagePackBadName" xml:space="preserve">
-    <value>Der Dateiname muss ein Kulturcode sein, etwa de.resx oder pt-BR.resx.</value>
-  </data>
-  <data name="LanguagePackFilter" xml:space="preserve">
-    <value>Sprachpakete (*.resx)|*.resx</value>
-  </data>
-  <data name="LanguagePackImported" xml:space="preserve">
-    <value>Sprachpaket installiert: {0}. Nach einem Neustart erscheint es in der Liste.</value>
-  </data>
-  <data name="LastRunAt" xml:space="preserve">
-    <value>Letzte erfolgreiche Ausführung: {0}</value>
-  </data>
-  <data name="LastRunNever" xml:space="preserve">
-    <value>Letzte erfolgreiche Ausführung: nie</value>
-  </data>
   <data name="LblActivationDelay" xml:space="preserve">
     <value>Verzögerung bis zur Aktivierung:</value>
   </data>
@@ -978,9 +874,6 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   </data>
   <data name="LblIconSpacing" xml:space="preserve">
     <value>Symbolabstand:</value>
-  </data>
-  <data name="LblLanguage" xml:space="preserve">
-    <value>Sprache der Oberfläche:</value>
   </data>
   <data name="LblLockIcon" xml:space="preserve">
     <value>Schlosssymbol</value>
@@ -1197,6 +1090,9 @@ Heute wird es von Nikos Georgousis gepflegt, der es erweitert und stabiler sowie
   </data>
   <data name="MsgCannotDeleteLastTab" xml:space="preserve">
     <value>Die letzte verbleibende Registerkarte kann nicht gelöscht werden.</value>
+  </data>
+  <data name="MsgClearNoteConfirm" xml:space="preserve">
+    <value>Wirklich den gesamten Text dieser Notiz löschen?</value>
   </data>
   <data name="MsgConfirmDeleteProfile" xml:space="preserve">
     <value>Soll das Profil '{0}' wirklich gelöscht werden?
@@ -1473,6 +1369,9 @@ Jetzt neu starten?</value>
   <data name="NetUnreachable" xml:space="preserve">
     <value>Nicht erreichbar</value>
   </data>
+  <data name="NewFrameDefaultTitle" xml:space="preserve">
+    <value>Neuer Rahmen - Verknüpfungen hier ablegen</value>
+  </data>
   <data name="NoteAutoOrganize" xml:space="preserve">
     <value>Hinweis: Das automatische Aufräumen beobachtet den Desktop auf neue Dateien. Erfüllt eine Datei die Bedingungen einer aktiven Regel, wird sie tatsächlich in den angegebenen Portal-Rahmen oder Ordner verschoben. So bleibt der Desktop dauerhaft aufgeräumt und Downloads landen von selbst am richtigen Ort.</value>
   </data>
@@ -1493,9 +1392,6 @@ Jetzt neu starten?</value>
   </data>
   <data name="NoteHotkeysRestart" xml:space="preserve">
     <value>Hinweis: Änderungen an globalen Tastenkürzeln wirken erst nach einem Neustart des Programms.</value>
-  </data>
-  <data name="NoteLanguageRestart" xml:space="preserve">
-    <value>Hinweis: Die Sprache wechselt nach dem Neustart des Programms. Pakete im Ordner Languages werden beim nächsten Start gelesen.</value>
   </data>
   <data name="NoteTextFormat" xml:space="preserve">
     <value>Textformat…</value>
@@ -1644,9 +1540,6 @@ Jetzt neu starten?</value>
   <data name="PhotoVerticalWipe" xml:space="preserve">
     <value>Sanfter vertikaler Wisch</value>
   </data>
-  <data name="PluginAgenda" xml:space="preserve">
-    <value>Agenda</value>
-  </data>
   <data name="PluginCalculator" xml:space="preserve">
     <value>Taschenrechner</value>
   </data>
@@ -1736,9 +1629,6 @@ Jetzt neu starten?</value>
   </data>
   <data name="SecIdleFadeOut" xml:space="preserve">
     <value>Ausblenden bei Untätigkeit</value>
-  </data>
-  <data name="SecLanguage" xml:space="preserve">
-    <value>Sprache</value>
   </data>
   <data name="SecLog" xml:space="preserve">
     <value>Protokoll</value>
@@ -1847,9 +1737,6 @@ Jetzt neu starten?</value>
   </data>
   <data name="TabTools" xml:space="preserve">
     <value>Werkzeuge</value>
-  </data>
-  <data name="TargetPortalFrame" xml:space="preserve">
-    <value>Portal-Rahmen: {0}</value>
   </data>
   <data name="TermClearHistory" xml:space="preserve">
     <value>Befehlsverlauf löschen</value>
@@ -1979,6 +1866,464 @@ Jetzt neu starten?</value>
   </data>
   <data name="VuSignalGain" xml:space="preserve">
     <value>Signalverstärkung (Faktor):</value>
+  </data>
+  <data name="SecLanguage" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="LblLanguage" xml:space="preserve">
+    <value>Sprache der Oberfläche:</value>
+  </data>
+  <data name="LangAutomatic" xml:space="preserve">
+    <value>Automatisch (Windows folgen)</value>
+  </data>
+  <data name="BtnImportLanguagePack" xml:space="preserve">
+    <value>Sprachpaket importieren…</value>
+  </data>
+  <data name="BtnOpenLanguagesFolder" xml:space="preserve">
+    <value>Sprachordner öffnen</value>
+  </data>
+  <data name="LanguagePackFilter" xml:space="preserve">
+    <value>Sprachpakete (*.resx)|*.resx</value>
+  </data>
+  <data name="LanguagePackImported" xml:space="preserve">
+    <value>Sprachpaket installiert: {0}. Nach einem Neustart erscheint es in der Liste.</value>
+  </data>
+  <data name="LanguagePackBadName" xml:space="preserve">
+    <value>Der Dateiname muss ein Kulturcode sein, etwa de.resx oder pt-BR.resx.</value>
+  </data>
+  <data name="NoteLanguageRestart" xml:space="preserve">
+    <value>Hinweis: Die Sprache wechselt nach dem Neustart des Programms. Pakete im Ordner Languages werden beim nächsten Start gelesen.</value>
+  </data>
+  <data name="CatImages" xml:space="preserve">
+    <value>Bilder</value>
+  </data>
+  <data name="CatDocuments" xml:space="preserve">
+    <value>Dokumente</value>
+  </data>
+  <data name="CatExecutables" xml:space="preserve">
+    <value>Programme</value>
+  </data>
+  <data name="CatArchives" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="CatCustomExtensions" xml:space="preserve">
+    <value>Eigene Erweiterungen...</value>
+  </data>
+  <data name="ConflictAutoRename" xml:space="preserve">
+    <value>Automatisch umbenennen (z. B. Datei (1).jpg)</value>
+  </data>
+  <data name="ConflictOverwrite" xml:space="preserve">
+    <value>Überschreiben (alte Datei in den Papierkorb)</value>
+  </data>
+  <data name="ConflictSkip" xml:space="preserve">
+    <value>Überspringen (auf dem Desktop lassen)</value>
+  </data>
+  <data name="TargetPortalFrame" xml:space="preserve">
+    <value>Portal-Rahmen: {0}</value>
+  </data>
+  <data name="LastRunNever" xml:space="preserve">
+    <value>Letzte erfolgreiche Ausführung: nie</value>
+  </data>
+  <data name="LastRunAt" xml:space="preserve">
+    <value>Letzte erfolgreiche Ausführung: {0}</value>
+  </data>
+  <data name="LayoutSnapshots" xml:space="preserve">
+    <value>Momentaufnahmen</value>
+  </data>
+  <data name="LayoutWindowTitle" xml:space="preserve">
+    <value>Momentaufnahmen — {0}</value>
+  </data>
+  <data name="LayoutSnapshotsButton" xml:space="preserve">
+    <value>Momentaufnahmen…</value>
+  </data>
+  <data name="LayoutOptionsDescription" xml:space="preserve">
+    <value>Rahmenanordnungen ansehen und wiederherstellen sowie gespeicherte Momentaufnahmen verwalten.</value>
+  </data>
+  <data name="LayoutMyLayout" xml:space="preserve">
+    <value>Meine Anordnung</value>
+  </data>
+  <data name="LayoutSaveSnapshot" xml:space="preserve">
+    <value>Momentaufnahme speichern</value>
+  </data>
+  <data name="LayoutUseCurrent" xml:space="preserve">
+    <value>Aktuelle Anordnung übernehmen…</value>
+  </data>
+  <data name="LayoutConfirmCurrent" xml:space="preserve">
+    <value>Die aktuelle Rahmenanordnung als gewünschte Anordnung übernehmen?
+
+Verwenden Sie dies nach dem Anordnen der Rahmen oder einer bewussten Änderung Ihrer Monitore. Die vorherige gewünschte Anordnung wird als Sicherheitskopie gespeichert.</value>
+  </data>
+  <data name="LayoutAutomaticHelp" xml:space="preserve">
+    <value>Die heutige automatische Momentaufnahme wird nach 5 Sekunden ohne bewusste Änderungen aktualisiert. Frühere Tage und angeheftete Momentaufnahmen bleiben unverändert. Durch Windows verschobene Rahmen ändern die gespeicherte Anordnung nicht.</value>
+  </data>
+  <data name="LayoutRetentionDays" xml:space="preserve">
+    <value>Höchstalter (Tage)</value>
+  </data>
+  <data name="LayoutRetentionCount" xml:space="preserve">
+    <value>Maximale Anzahl an Momentaufnahmen</value>
+  </data>
+  <data name="LayoutNoLimit" xml:space="preserve">
+    <value>0 = unbegrenzt</value>
+  </data>
+  <data name="LayoutApplyRetention" xml:space="preserve">
+    <value>Aufbewahrung anwenden…</value>
+  </data>
+  <data name="LayoutDeleteOlder" xml:space="preserve">
+    <value>Ältere löschen…</value>
+  </data>
+  <data name="LayoutRetentionHelp" xml:space="preserve">
+    <value>Manuelle und angeheftete Momentaufnahmen bleiben erhalten. Die neueste nicht angeheftete automatische Momentaufnahme oder Sicherheitskopie wird ebenfalls immer aufbewahrt.</value>
+  </data>
+  <data name="LayoutPrevious" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="LayoutNext" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+  <data name="LayoutPage" xml:space="preserve">
+    <value>{0} / {1}</value>
+  </data>
+  <data name="LayoutRestore" xml:space="preserve">
+    <value>Momentaufnahme wiederherstellen…</value>
+  </data>
+  <data name="LayoutPinToggle" xml:space="preserve">
+    <value>Anheften / lösen</value>
+  </data>
+  <data name="LayoutDelete" xml:space="preserve">
+    <value>Löschen…</value>
+  </data>
+  <data name="LayoutConfirmDelete" xml:space="preserve">
+    <value>Die ausgewählte Momentaufnahme löschen? Ihre aktuelle Anordnung bleibt erhalten.</value>
+  </data>
+  <data name="LayoutRestoreHelp" xml:space="preserve">
+    <value>Die Wiederherstellung ändert nur Positionen und Größen. Vorhandene Verknüpfungen, Notizen und Rahmen bleiben erhalten. Gelöschte Rahmen werden nicht neu erstellt.</value>
+  </data>
+  <data name="LayoutProfileChanged" xml:space="preserve">
+    <value>Das aktive Profil wurde geändert. Schließen Sie dieses Fenster und öffnen Sie die Momentaufnahmen erneut.</value>
+  </data>
+  <data name="LayoutAutomaticToday" xml:space="preserve">
+    <value>Automatische Anordnung — heute</value>
+  </data>
+  <data name="LayoutAutomatic" xml:space="preserve">
+    <value>Automatische Anordnung</value>
+  </data>
+  <data name="LayoutUnreadable" xml:space="preserve">
+    <value>Nicht lesbare Momentaufnahme</value>
+  </data>
+  <data name="LayoutListItem" xml:space="preserve">
+    <value>{0}
+Gespeichert: {1:G} · {2}</value>
+  </data>
+  <data name="LayoutPinnedTitle" xml:space="preserve">
+    <value>★ {0}</value>
+  </data>
+  <data name="LayoutKindAutomatic" xml:space="preserve">
+    <value>Automatisch</value>
+  </data>
+  <data name="LayoutKindManual" xml:space="preserve">
+    <value>Manuell</value>
+  </data>
+  <data name="LayoutKindSafety" xml:space="preserve">
+    <value>Sicherheitskopie</value>
+  </data>
+  <data name="LayoutNoSnapshots" xml:space="preserve">
+    <value>Noch keine Momentaufnahmen vorhanden. Speichern Sie Ihre gewünschte Anordnung, um eine zu erstellen.</value>
+  </data>
+  <data name="LayoutSelectSnapshot" xml:space="preserve">
+    <value>Wählen Sie eine Momentaufnahme für die Vorschau aus.</value>
+  </data>
+  <data name="LayoutDetails" xml:space="preserve">
+    <value>{0}
+Gespeichert: {1:G} · Rahmen: {2} · Monitore: {3}
+{4}</value>
+  </data>
+  <data name="LayoutMissingMonitors" xml:space="preserve">
+    <value>Fehlende Monitore: {0}</value>
+  </data>
+  <data name="LayoutMonitorsAvailable" xml:space="preserve">
+    <value>Die gespeicherten Monitore sind verfügbar.</value>
+  </data>
+  <data name="LayoutMonitorMismatch" xml:space="preserve">
+    <value>Monitorauflösung oder Skalierung weicht von dieser Momentaufnahme ab.</value>
+  </data>
+  <data name="LayoutPreviewUnavailable" xml:space="preserve">
+    <value>Vorschau nicht verfügbar: {0}</value>
+  </data>
+  <data name="LayoutConfirmRestore" xml:space="preserve">
+    <value>Positionen und Größen aus „{0}“ wiederherstellen?
+
+Ihre aktuelle gewünschte Anordnung wird vorher gespeichert, damit Sie die Wiederherstellung rückgängig machen können.</value>
+  </data>
+  <data name="LayoutInvalidRetention" xml:space="preserve">
+    <value>Geben Sie ganze Zahlen ein: 0–36500 Tage und 0–100000 Momentaufnahmen. Null bedeutet unbegrenzt.</value>
+  </data>
+  <data name="LayoutConfirmRetention" xml:space="preserve">
+    <value>Diese Aufbewahrungsregeln speichern? {0} automatische Momentaufnahmen oder Sicherheitskopien werden jetzt gelöscht.
+
+Manuelle und angeheftete Momentaufnahmen sind geschützt. Die neueste automatische Momentaufnahme oder Sicherheitskopie bleibt erhalten.</value>
+  </data>
+  <data name="LayoutEnterAge" xml:space="preserve">
+    <value>Geben Sie zuerst ein Alter in Tagen ein.</value>
+  </data>
+  <data name="LayoutNoOldSnapshots" xml:space="preserve">
+    <value>Keine löschbaren alten Momentaufnahmen gefunden.</value>
+  </data>
+  <data name="LayoutConfirmDeleteOlder" xml:space="preserve">
+    <value>{0} automatische Momentaufnahmen oder Sicherheitskopien löschen, die älter als {1} Tage sind?
+
+Manuelle und angeheftete Momentaufnahmen sowie die neueste automatische Momentaufnahme oder Sicherheitskopie bleiben erhalten.</value>
+  </data>
+  <data name="LayoutNotLoaded" xml:space="preserve">
+    <value>Keine Anordnung geladen.</value>
+  </data>
+  <data name="LayoutInitial" xml:space="preserve">
+    <value>Anfängliche Anordnung — bitte überprüfen</value>
+  </data>
+  <data name="LayoutWaiting" xml:space="preserve">
+    <value>Warten auf die gespeicherte Monitorkonfiguration. Ihre gewünschte Anordnung ist geschützt.</value>
+  </data>
+  <data name="LayoutProtected" xml:space="preserve">
+    <value>Ihre gewünschte Anordnung ist geschützt.</value>
+  </data>
+  <data name="LayoutReadPositionFailed" xml:space="preserve">
+    <value>Die Rahmenposition konnte nicht gelesen werden.</value>
+  </data>
+  <data name="LayoutRestorePositionFailed" xml:space="preserve">
+    <value>Windows konnte eine Rahmenposition nicht wiederherstellen.</value>
+  </data>
+  <data name="LayoutDisplayChanged" xml:space="preserve">
+    <value>Die Monitorkonfiguration wurde geändert. Ihre gespeicherte Anordnung ist geschützt; es wird auf Ihre Monitore gewartet.</value>
+  </data>
+  <data name="LayoutRecovered" xml:space="preserve">
+    <value>Gespeicherte Anordnung wiederhergestellt. Bewusste Verschiebungen und Größenänderungen werden gespeichert.</value>
+  </data>
+  <data name="LayoutSnapshotUpdated" xml:space="preserve">
+    <value>Die heutige automatische Momentaufnahme ist aktuell. Ihre gewünschte Anordnung ist geschützt.</value>
+  </data>
+  <data name="LayoutSavedName" xml:space="preserve">
+    <value>Gespeicherte Anordnung</value>
+  </data>
+  <data name="LayoutBeforeAdopting" xml:space="preserve">
+    <value>Vor dem Übernehmen einer neuen Anordnung</value>
+  </data>
+  <data name="LayoutAdopted" xml:space="preserve">
+    <value>Diese Anordnung ist jetzt Ihre gewünschte Anordnung.</value>
+  </data>
+  <data name="LayoutRestoreMonitorRequired" xml:space="preserve">
+    <value>Schließen Sie die gespeicherten Monitore mit der gespeicherten Auflösung und Skalierung an, bevor Sie diese Anordnung wiederherstellen. Ihre aktuelle Anordnung wurde nicht geändert.</value>
+  </data>
+  <data name="LayoutRestoreMissingMonitor" xml:space="preserve">
+    <value>Der Monitor eines vorhandenen Rahmens fehlt. Die Wiederherstellung wurde abgebrochen.</value>
+  </data>
+  <data name="LayoutBeforeRestore" xml:space="preserve">
+    <value>Vor der Wiederherstellung von {0}</value>
+  </data>
+  <data name="LayoutRestored" xml:space="preserve">
+    <value>Wiederhergestellte passende Rahmen: {0}. Verknüpfungen und Notizen bleiben erhalten.</value>
+  </data>
+  <data name="LayoutProtectionError" xml:space="preserve">
+    <value>Schutz der Anordnung: {0}</value>
+  </data>
+  <data name="LayoutInvalidName" xml:space="preserve">
+    <value>Ungültiger Name der Anordnung.</value>
+  </data>
+  <data name="LayoutIntendedReadFailed" xml:space="preserve">
+    <value>Die gespeicherte gewünschte Anordnung konnte nicht gelesen werden. Sie wurde beibehalten; es wurde keine neue Ausgangsanordnung gespeichert.</value>
+  </data>
+  <data name="LayoutFileTooLarge" xml:space="preserve">
+    <value>Die Datei der Anordnung ist zu groß.</value>
+  </data>
+  <data name="LayoutFileEmpty" xml:space="preserve">
+    <value>Leere Datei der Anordnung.</value>
+  </data>
+  <data name="LayoutInvalidKind" xml:space="preserve">
+    <value>Ungültiger Typ der Momentaufnahme.</value>
+  </data>
+  <data name="LayoutSnapshotNotFound" xml:space="preserve">
+    <value>Momentaufnahme nicht gefunden.</value>
+  </data>
+  <data name="LayoutInvalidSnapshot" xml:space="preserve">
+    <value>Ungültige Momentaufnahme.</value>
+  </data>
+  <data name="LayoutUnpinBeforeDelete" xml:space="preserve">
+    <value>Lösen Sie diese Momentaufnahme vor dem Löschen.</value>
+  </data>
+  <data name="LayoutNegativeRetention" xml:space="preserve">
+    <value>Aufbewahrungswerte dürfen nicht negativ sein.</value>
+  </data>
+  <data name="LayoutInvalidFile" xml:space="preserve">
+    <value>Nicht unterstützte oder ungültige Datei der Anordnung.</value>
+  </data>
+  <data name="LayoutInvalidGeometry" xml:space="preserve">
+    <value>Die Anordnung enthält ungültige Monitor- oder Rahmenpositionen.</value>
+  </data>
+  <data name="LayoutMonitorIdentityPending" xml:space="preserve">
+    <value>Windows meldet noch keine stabile Monitoridentität.</value>
+  </data>
+  <data name="LayoutMonitorsNotReady" xml:space="preserve">
+    <value>Die Monitorkonfiguration ist noch nicht bereit.</value>
+  </data>
+  <data name="LayoutMonitor" xml:space="preserve">
+    <value>Monitor</value>
+  </data>
+  <data name="LayoutFrame" xml:space="preserve">
+    <value>Rahmen</value>
+  </data>
+  <data name="TabInterface" xml:space="preserve">
+    <value>Benutzeroberfläche</value>
+  </data>
+  <data name="TabAppearance" xml:space="preserve">
+    <value>Erscheinungsbild</value>
+  </data>
+  <data name="TabIdleBehaviors" xml:space="preserve">
+    <value>Ruhezustände</value>
+  </data>
+  <data name="BtnExportTemplate" xml:space="preserve">
+    <value>Sprachvorlage exportieren...</value>
+  </data>
+  <data name="MsgTemplateExported" xml:space="preserve">
+    <value>Sprachvorlage erfolgreich exportiert!</value>
+  </data>
+  <data name="DlgClose" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="LayoutDetailsTitle" xml:space="preserve">
+    <value>Schnappschussdetails</value>
+  </data>
+  <data name="LayoutCleanupSettings" xml:space="preserve">
+    <value>Bereinigungseinstellungen</value>
+  </data>
+  <data name="LayoutBtnSave" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="LayoutPreviewTitle" xml:space="preserve">
+    <value>Vorschau des Monitorlayouts</value>
+  </data>
+  <data name="AgendaAllDay" xml:space="preserve">
+    <value>Ganztägig</value>
+  </data>
+  <data name="AgendaBadTime" xml:space="preserve">
+    <value>Eine Uhrzeit wie 9:30 angeben.</value>
+  </data>
+  <data name="AgendaCalendarLabel" xml:space="preserve">
+    <value>Kalender</value>
+  </data>
+  <data name="AgendaCalendarsLabel" xml:space="preserve">
+    <value>Angezeigte Kalender</value>
+  </data>
+  <data name="AgendaConfirmDelete" xml:space="preserve">
+    <value>"{0}" löschen?</value>
+  </data>
+  <data name="AgendaConflict" xml:space="preserve">
+    <value>Der Termin wurde anderswo geändert und wurde nicht überschrieben. Die neuere Fassung erscheint gleich hier.</value>
+  </data>
+  <data name="AgendaDateLabel" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="AgendaDaysLabel" xml:space="preserve">
+    <value>Tage voraus</value>
+  </data>
+  <data name="AgendaDeleteEvent" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="AgendaEditEvent" xml:space="preserve">
+    <value>Termin bearbeiten</value>
+  </data>
+  <data name="AgendaEndLabel" xml:space="preserve">
+    <value>Ende</value>
+  </data>
+  <data name="AgendaFailed" xml:space="preserve">
+    <value>Google Kalender ist nicht erreichbar.</value>
+  </data>
+  <data name="AgendaLoading" xml:space="preserve">
+    <value>Wird geladen...</value>
+  </data>
+  <data name="AgendaLocationLabel" xml:space="preserve">
+    <value>Ort</value>
+  </data>
+  <data name="AgendaNewEvent" xml:space="preserve">
+    <value>Neuer Termin</value>
+  </data>
+  <data name="AgendaNoEventsToday" xml:space="preserve">
+    <value>Heute nichts.</value>
+  </data>
+  <data name="AgendaNotConfigured" xml:space="preserve">
+    <value>Google-Konto ist noch nicht eingerichtet. Den Google-Client in den Einstellungen hinzufügen.</value>
+  </data>
+  <data name="AgendaNothingScheduled" xml:space="preserve">
+    <value>Nichts geplant.</value>
+  </data>
+  <data name="AgendaNoWritableCalendar" xml:space="preserve">
+    <value>Keiner der gefundenen Kalender nimmt neue Termine an.</value>
+  </data>
+  <data name="AgendaOffline" xml:space="preserve">
+    <value>Google ist nicht erreichbar. Es werden die zuletzt empfangenen Termine angezeigt.</value>
+  </data>
+  <data name="AgendaOpenInGoogle" xml:space="preserve">
+    <value>In Google Kalender öffnen</value>
+  </data>
+  <data name="AgendaSaveFailed" xml:space="preserve">
+    <value>Die Änderung konnte nicht gespeichert werden.</value>
+  </data>
+  <data name="AgendaSettingsTitle" xml:space="preserve">
+    <value>Agenda-Einstellungen</value>
+  </data>
+  <data name="AgendaSignedIn" xml:space="preserve">
+    <value>Bei Google Kalender angemeldet.</value>
+  </data>
+  <data name="AgendaSignedOut" xml:space="preserve">
+    <value>Nicht bei Google Kalender angemeldet.</value>
+  </data>
+  <data name="AgendaSignIn" xml:space="preserve">
+    <value>Mit Google anmelden</value>
+  </data>
+  <data name="AgendaSignInAgain" xml:space="preserve">
+    <value>Erneut anmelden</value>
+  </data>
+  <data name="AgendaSignInFailed" xml:space="preserve">
+    <value>Anmeldung nicht abgeschlossen.</value>
+  </data>
+  <data name="AgendaSigningIn" xml:space="preserve">
+    <value>Warten auf den Browser...</value>
+  </data>
+  <data name="AgendaSignOut" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="AgendaStartLabel" xml:space="preserve">
+    <value>Beginn</value>
+  </data>
+  <data name="AgendaTitleLabel" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="AgendaToday" xml:space="preserve">
+    <value>Heute</value>
+  </data>
+  <data name="AgendaTomorrow" xml:space="preserve">
+    <value>Morgen</value>
+  </data>
+  <data name="AgendaUntitled" xml:space="preserve">
+    <value>(ohne Titel)</value>
+  </data>
+  <data name="AgendaViewDay" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="AgendaViewLabel" xml:space="preserve">
+    <value>Ansicht</value>
+  </data>
+  <data name="AgendaViewList" xml:space="preserve">
+    <value>Liste</value>
+  </data>
+  <data name="AgendaViewMonth" xml:space="preserve">
+    <value>Monat</value>
+  </data>
+  <data name="AgendaViewThreeDays" xml:space="preserve">
+    <value>3 Tage</value>
+  </data>
+  <data name="AgendaViewWeek" xml:space="preserve">
+    <value>Woche</value>
+  </data>
+  <data name="PluginAgenda" xml:space="preserve">
+    <value>Agenda</value>
   </data>
   <data name="AgendaKindEvent" xml:space="preserve">
     <value>Termin</value>
