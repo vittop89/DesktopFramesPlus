@@ -118,7 +118,15 @@ namespace Desktop_Frames.Layouts
             {
                 var data = JObject.FromObject((object)raw);
                 double scale = monitors[0].Scale;
-                double x = Number(data, "X", 20) * scale, y = Number(data, "Y", 20) * scale;
+
+                // A frame whose own position cannot be read is left out: inside
+                // the layout it would be a frame to be *put* at the default
+                // corner, and that is how a screenful of frames ended in a pile.
+                if (!LayoutNumbers.TryRead(data, "X", out double savedX)
+                 || !LayoutNumbers.TryRead(data, "Y", out double savedY))
+                    continue;
+
+                double x = savedX * scale, y = savedY * scale;
                 var monitor = LayoutDisplays.Nearest(monitors, x, y);
                 layout.Frames.Add(new LayoutFrame { Id = data.Value<string>("Id") ?? "", Title = data.Value<string>("Title") ?? Strings.LayoutFrame,
                     MonitorId = monitor.Id, X = (x - monitor.Left) / monitor.Width, Y = (y - monitor.Top) / monitor.Height,
@@ -127,8 +135,10 @@ namespace Desktop_Frames.Layouts
             return layout;
         }
 
+        // Not read through ToString(): that formats with the current culture, and
+        // the invariant parse of "494,4" fails. See LayoutNumbers.
         private static double Number(JObject data, string key, double fallback) =>
-            double.TryParse(data[key]?.ToString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double value) && double.IsFinite(value) ? value : fallback;
+            LayoutNumbers.Read(data, key, fallback);
 
         public static bool IsEditing(Window window) => !paused && !loading && !applying && editing.Contains(window);
 
