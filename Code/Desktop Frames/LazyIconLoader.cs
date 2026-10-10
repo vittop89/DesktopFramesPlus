@@ -73,6 +73,19 @@ namespace Desktop_Frames
 
                         if (icon == null)
                         {
+                            // Off the interface thread, so reading a shortcut from disk
+                            // to find out what it points at costs nobody anything. A
+                            // shortcut to a folder is then drawn as a folder.
+                            if (request.IsShortcut && string.IsNullOrEmpty(request.TargetPath))
+                            {
+                                request.TargetPath = FilePathUtilities.GetShortcutTargetUnicodeSafe(request.FilePath);
+
+                                if (!string.IsNullOrEmpty(request.TargetPath) && System.IO.Directory.Exists(request.TargetPath))
+                                    request.IsFolder = true;
+                            }
+
+                            if (string.IsNullOrEmpty(request.TargetPath)) request.TargetPath = request.FilePath;
+
                             icon = IconManager.GetIconForFile(request.TargetPath, request.FilePath, request.IsFolder, request.IsLink, request.IsShortcut, request.IconDict);
                             if (icon != null && icon.CanFreeze && !icon.IsFrozen) icon.Freeze();
                         }

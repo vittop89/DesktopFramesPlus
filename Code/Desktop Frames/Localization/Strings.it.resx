@@ -1,5 +1,64 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -113,129 +172,6 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   </data>
   <data name="AboutWhat" xml:space="preserve">
     <value>Come!?</value>
-  </data>
-  <data name="AgendaAllDay" xml:space="preserve">
-    <value>Tutto il giorno</value>
-  </data>
-  <data name="AgendaBadTime" xml:space="preserve">
-    <value>Usa un orario come 9:30.</value>
-  </data>
-  <data name="AgendaCalendarLabel" xml:space="preserve">
-    <value>Calendario</value>
-  </data>
-  <data name="AgendaCalendarsLabel" xml:space="preserve">
-    <value>Calendari mostrati</value>
-  </data>
-  <data name="AgendaConfirmDelete" xml:space="preserve">
-    <value>Eliminare "{0}"?</value>
-  </data>
-  <data name="AgendaConflict" xml:space="preserve">
-    <value>L'evento è stato modificato altrove e non è stato sovrascritto. La versione più recente comparirà qui a breve.</value>
-  </data>
-  <data name="AgendaDateLabel" xml:space="preserve">
-    <value>Data</value>
-  </data>
-  <data name="AgendaDaysLabel" xml:space="preserve">
-    <value>Giorni in avanti</value>
-  </data>
-  <data name="AgendaDeleteEvent" xml:space="preserve">
-    <value>Elimina</value>
-  </data>
-  <data name="AgendaEditEvent" xml:space="preserve">
-    <value>Modifica evento</value>
-  </data>
-  <data name="AgendaEndLabel" xml:space="preserve">
-    <value>Fine</value>
-  </data>
-  <data name="AgendaFailed" xml:space="preserve">
-    <value>Impossibile raggiungere Google Calendar.</value>
-  </data>
-  <data name="AgendaLoading" xml:space="preserve">
-    <value>Caricamento...</value>
-  </data>
-  <data name="AgendaLocationLabel" xml:space="preserve">
-    <value>Luogo</value>
-  </data>
-  <data name="AgendaNewEvent" xml:space="preserve">
-    <value>Nuovo evento</value>
-  </data>
-  <data name="AgendaNoEventsToday" xml:space="preserve">
-    <value>Niente oggi.</value>
-  </data>
-  <data name="AgendaNotConfigured" xml:space="preserve">
-    <value>Account Google non ancora configurato. Aggiungi il tuo client Google nelle impostazioni.</value>
-  </data>
-  <data name="AgendaNothingScheduled" xml:space="preserve">
-    <value>Niente in programma.</value>
-  </data>
-  <data name="AgendaNoWritableCalendar" xml:space="preserve">
-    <value>Nessuno dei calendari trovati accetta nuovi eventi.</value>
-  </data>
-  <data name="AgendaOffline" xml:space="preserve">
-    <value>Google non raggiungibile. Vengono mostrati gli ultimi eventi ricevuti.</value>
-  </data>
-  <data name="AgendaOpenInGoogle" xml:space="preserve">
-    <value>Apri in Google Calendar</value>
-  </data>
-  <data name="AgendaSaveFailed" xml:space="preserve">
-    <value>Impossibile salvare la modifica.</value>
-  </data>
-  <data name="AgendaSettingsTitle" xml:space="preserve">
-    <value>Impostazioni agenda</value>
-  </data>
-  <data name="AgendaSignedIn" xml:space="preserve">
-    <value>Accesso a Google Calendar effettuato.</value>
-  </data>
-  <data name="AgendaSignedOut" xml:space="preserve">
-    <value>Accesso a Google Calendar non effettuato.</value>
-  </data>
-  <data name="AgendaSignIn" xml:space="preserve">
-    <value>Accedi con Google</value>
-  </data>
-  <data name="AgendaSignInAgain" xml:space="preserve">
-    <value>Accedi di nuovo</value>
-  </data>
-  <data name="AgendaSignInFailed" xml:space="preserve">
-    <value>Accesso non riuscito.</value>
-  </data>
-  <data name="AgendaSigningIn" xml:space="preserve">
-    <value>In attesa del browser...</value>
-  </data>
-  <data name="AgendaSignOut" xml:space="preserve">
-    <value>Disconnetti</value>
-  </data>
-  <data name="AgendaStartLabel" xml:space="preserve">
-    <value>Inizio</value>
-  </data>
-  <data name="AgendaTitleLabel" xml:space="preserve">
-    <value>Titolo</value>
-  </data>
-  <data name="AgendaToday" xml:space="preserve">
-    <value>Oggi</value>
-  </data>
-  <data name="AgendaTomorrow" xml:space="preserve">
-    <value>Domani</value>
-  </data>
-  <data name="AgendaUntitled" xml:space="preserve">
-    <value>(senza titolo)</value>
-  </data>
-  <data name="AgendaViewDay" xml:space="preserve">
-    <value>Giorno</value>
-  </data>
-  <data name="AgendaViewLabel" xml:space="preserve">
-    <value>Visualizzazione</value>
-  </data>
-  <data name="AgendaViewList" xml:space="preserve">
-    <value>Elenco</value>
-  </data>
-  <data name="AgendaViewMonth" xml:space="preserve">
-    <value>Mese</value>
-  </data>
-  <data name="AgendaViewThreeDays" xml:space="preserve">
-    <value>3 giorni</value>
-  </data>
-  <data name="AgendaViewWeek" xml:space="preserve">
-    <value>Settimana</value>
   </data>
   <data name="AutomationClickTarget" xml:space="preserve">
     <value>FAI CLIC SULLA FINESTRA DI DESTINAZIONE</value>
@@ -357,6 +293,9 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   <data name="BtnOrganizeNow" xml:space="preserve">
     <value>Organizza adesso</value>
   </data>
+  <data name="BtnReadMore" xml:space="preserve">
+    <value>Leggi di più...</value>
+  </data>
   <data name="BtnReset" xml:space="preserve">
     <value>Reimposta</value>
   </data>
@@ -377,6 +316,9 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   </data>
   <data name="BtnSmartDesktopRules" xml:space="preserve">
     <value>Regole del desktop intelligente...</value>
+  </data>
+  <data name="BtnUpdateNow" xml:space="preserve">
+    <value>Aggiorna ora</value>
   </data>
   <data name="ButtonNo" xml:space="preserve">
     <value>No</value>
@@ -525,6 +467,9 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   <data name="DlgBrowseError" xml:space="preserve">
     <value>Errore di sfoglia</value>
   </data>
+  <data name="DlgClearNote" xml:space="preserve">
+    <value>Cancella nota</value>
+  </data>
   <data name="DlgConfirmImport" xml:space="preserve">
     <value>Conferma importazione</value>
   </data>
@@ -558,9 +503,6 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   <data name="DlgFactoryReset" xml:space="preserve">
     <value>Ripristino iniziale</value>
   </data>
-  <data name="DlgFolderNotRenamed" xml:space="preserve">
-    <value>Cartella non rinominata</value>
-  </data>
   <data name="DlgFormError" xml:space="preserve">
     <value>Errore della finestra</value>
   </data>
@@ -585,9 +527,6 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   <data name="DlgLoadError" xml:space="preserve">
     <value>Errore di caricamento</value>
   </data>
-  <data name="DlgMoveItems" xml:space="preserve">
-    <value>Sposta elementi</value>
-  </data>
   <data name="DlgPasteError" xml:space="preserve">
     <value>Errore di incolla</value>
   </data>
@@ -596,9 +535,6 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   </data>
   <data name="DlgRenameError" xml:space="preserve">
     <value>Errore di rinomina</value>
-  </data>
-  <data name="DlgRenameFolder" xml:space="preserve">
-    <value>Rinomina cartella</value>
   </data>
   <data name="DlgResetComplete" xml:space="preserve">
     <value>Ripristino completato</value>
@@ -644,9 +580,6 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   </data>
   <data name="EditShortcutTitle" xml:space="preserve">
     <value>Modifica collegamento</value>
-  </data>
-  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
-    <value>Non puoi mettere '{0}' dentro sé stessa.</value>
   </data>
   <data name="FocusFrameTitle" xml:space="preserve">
     <value>Vai alla frame</value>
@@ -719,36 +652,6 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   </data>
   <data name="GaugeRightVu" xml:space="preserve">
     <value>VU DESTRO</value>
-  </data>
-  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
-    <value>Ctrl + trascina fra due Portal</value>
-  </data>
-  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
-    <value>Lo copia invece di spostarlo</value>
-  </data>
-  <data name="GestureFromExplorer" xml:space="preserve">
-    <value>Trascina da Esplora risorse in un Portal</value>
-  </data>
-  <data name="GestureFromExplorerEffect" xml:space="preserve">
-    <value>Copia il file dentro</value>
-  </data>
-  <data name="GestureOntoFolder" xml:space="preserve">
-    <value>Trascina sopra una cartella del Portal</value>
-  </data>
-  <data name="GestureOntoFolderEffect" xml:space="preserve">
-    <value>Mette l'elemento dentro quella cartella</value>
-  </data>
-  <data name="GesturePortalToPortal" xml:space="preserve">
-    <value>Trascina fra due Portal</value>
-  </data>
-  <data name="GesturePortalToPortalEffect" xml:space="preserve">
-    <value>Sposta l'elemento</value>
-  </data>
-  <data name="GestureShiftFromExplorer" xml:space="preserve">
-    <value>Maiusc + trascina da Esplora risorse</value>
-  </data>
-  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
-    <value>Lo sposta invece di copiarlo</value>
   </data>
   <data name="HkDirectProfile" xml:space="preserve">
     <value>Profilo diretto [0-9]</value>
@@ -1188,6 +1091,9 @@ Oggi lo cura Nikos Georgousis, che lo ha ampliato e reso più stabile e piacevol
   <data name="MsgCannotDeleteLastTab" xml:space="preserve">
     <value>Non puoi eliminare l'ultima scheda rimasta.</value>
   </data>
+  <data name="MsgClearNoteConfirm" xml:space="preserve">
+    <value>Vuoi davvero cancellare tutto il testo di questa nota?</value>
+  </data>
   <data name="MsgConfirmDeleteProfile" xml:space="preserve">
     <value>Vuoi davvero eliminare il profilo '{0}'?
 L'operazione non si può annullare.</value>
@@ -1207,23 +1113,6 @@ Vuoi procedere?</value>
   </data>
   <data name="MsgConfirmImportIntoTab" xml:space="preserve">
     <value>Vuoi importare il contenuto di '{0}' in una nuova scheda?</value>
-  </data>
-  <data name="MsgConfirmMoveMany" xml:space="preserve">
-    <value>Vuoi spostare {0} elementi in '{1}'?
-
-Verranno tolti da dove si trovano adesso.</value>
-  </data>
-  <data name="MsgConfirmMoveOne" xml:space="preserve">
-    <value>Vuoi spostare '{0}' in '{1}'?
-
-Verrà tolto da dove si trova adesso.</value>
-  </data>
-  <data name="MsgConfirmRenameFolder" xml:space="preserve">
-    <value>Vuoi rinominare anche la cartella in '{0}'?
-
-{1}
-
-I collegamenti e gli altri programmi che puntano al vecchio nome smetteranno di trovarla.</value>
   </data>
   <data name="MsgConfirmResetCustomizations" xml:space="preserve">
     <value>Vuoi reimpostare tutte le personalizzazioni grafiche?</value>
@@ -1281,12 +1170,6 @@ L'applicazione verrà riavviata.</value>
   <data name="MsgFileNotFoundInProfile" xml:space="preserve">
     <value>File non trovato nel profilo attivo:
 {0}</value>
-  </data>
-  <data name="MsgFolderNameTaken" xml:space="preserve">
-    <value>Il frame è stato rinominato, ma la cartella è rimasta com'era: esiste già qualcosa che si chiama '{0}'.</value>
-  </data>
-  <data name="MsgFolderRenameFailed" xml:space="preserve">
-    <value>Il frame è stato rinominato, ma la cartella no: {0}</value>
   </data>
   <data name="MsgFormInitFailed" xml:space="preserve">
     <value>Errore nell'apertura della finestra: {0}</value>
@@ -1486,6 +1369,9 @@ Vuoi riavviare adesso?</value>
   <data name="NetUnreachable" xml:space="preserve">
     <value>Irraggiungibile</value>
   </data>
+  <data name="NewFrameDefaultTitle" xml:space="preserve">
+    <value>Nuova frame - Trascina qui i tuoi collegamenti</value>
+  </data>
   <data name="NoteAutoOrganize" xml:space="preserve">
     <value>Nota: l'organizzazione automatica sorveglia il desktop in cerca di file nuovi. Quando un file soddisfa le condizioni di una regola attiva, viene spostato davvero nella frame Portal o nella cartella indicata. Serve a tenere il desktop sempre pulito e a smistare i download da soli.</value>
   </data>
@@ -1527,9 +1413,6 @@ Vuoi riavviare adesso?</value>
   </data>
   <data name="OptChameleon" xml:space="preserve">
     <value>Modalità camaleonte (prende il colore dallo sfondo)</value>
-  </data>
-  <data name="OptConfirmPortalMove" xml:space="preserve">
-    <value>Chiedi conferma quando un trascinamento sposta elementi fra Portal</value>
   </data>
   <data name="OptDimensionSnap" xml:space="preserve">
     <value>Aggancia anche le dimensioni</value>
@@ -1657,9 +1540,6 @@ Vuoi riavviare adesso?</value>
   <data name="PhotoVerticalWipe" xml:space="preserve">
     <value>Tendina verticale morbida</value>
   </data>
-  <data name="PluginAgenda" xml:space="preserve">
-    <value>Agenda</value>
-  </data>
   <data name="PluginCalculator" xml:space="preserve">
     <value>Calcolatrice</value>
   </data>
@@ -1761,9 +1641,6 @@ Vuoi riavviare adesso?</value>
   </data>
   <data name="SecMaintenance" xml:space="preserve">
     <value>Manutenzione</value>
-  </data>
-  <data name="SecPortalDragDrop" xml:space="preserve">
-    <value>Trascinamento nei Portal</value>
   </data>
   <data name="SecProfileManagement" xml:space="preserve">
     <value>Gestione dei profili</value>
@@ -2049,6 +1926,475 @@ Vuoi riavviare adesso?</value>
   </data>
   <data name="LastRunAt" xml:space="preserve">
     <value>Ultima esecuzione riuscita: {0}</value>
+  </data>
+  <data name="LayoutSnapshots" xml:space="preserve">
+    <value>Istantanee</value>
+  </data>
+  <data name="LayoutWindowTitle" xml:space="preserve">
+    <value>Istantanee — {0}</value>
+  </data>
+  <data name="LayoutSnapshotsButton" xml:space="preserve">
+    <value>Istantanee…</value>
+  </data>
+  <data name="LayoutOptionsDescription" xml:space="preserve">
+    <value>Visualizza e ripristina la disposizione dei riquadri e gestisci le istantanee salvate.</value>
+  </data>
+  <data name="LayoutMyLayout" xml:space="preserve">
+    <value>La mia disposizione</value>
+  </data>
+  <data name="LayoutSaveSnapshot" xml:space="preserve">
+    <value>Salva istantanea</value>
+  </data>
+  <data name="LayoutUseCurrent" xml:space="preserve">
+    <value>Usa la disposizione attuale…</value>
+  </data>
+  <data name="LayoutConfirmCurrent" xml:space="preserve">
+    <value>Usare la posizione attuale dei riquadri come disposizione desiderata?
+
+Usa questa opzione dopo aver disposto i riquadri o modificato intenzionalmente la configurazione dei monitor. Verrà conservata un’istantanea di sicurezza della disposizione desiderata precedente.</value>
+  </data>
+  <data name="LayoutAutomaticHelp" xml:space="preserve">
+    <value>L’istantanea automatica di oggi si aggiorna dopo 5 secondi senza modifiche intenzionali. I giorni precedenti e le istantanee fissate restano invariati. Gli spostamenti dei riquadri effettuati da Windows non modificano la disposizione salvata.</value>
+  </data>
+  <data name="LayoutRetentionDays" xml:space="preserve">
+    <value>Età massima (giorni)</value>
+  </data>
+  <data name="LayoutRetentionCount" xml:space="preserve">
+    <value>Numero massimo di istantanee</value>
+  </data>
+  <data name="LayoutNoLimit" xml:space="preserve">
+    <value>0 = nessun limite</value>
+  </data>
+  <data name="LayoutApplyRetention" xml:space="preserve">
+    <value>Applica conservazione…</value>
+  </data>
+  <data name="LayoutDeleteOlder" xml:space="preserve">
+    <value>Elimina le più vecchie…</value>
+  </data>
+  <data name="LayoutRetentionHelp" xml:space="preserve">
+    <value>Le istantanee manuali e fissate vengono conservate. La pulizia mantiene sempre la più recente tra le istantanee automatiche o di sicurezza non fissate.</value>
+  </data>
+  <data name="LayoutPrevious" xml:space="preserve">
+    <value>Precedente</value>
+  </data>
+  <data name="LayoutNext" xml:space="preserve">
+    <value>Successiva</value>
+  </data>
+  <data name="LayoutPage" xml:space="preserve">
+    <value>{0} / {1}</value>
+  </data>
+  <data name="LayoutRestore" xml:space="preserve">
+    <value>Ripristina istantanea…</value>
+  </data>
+  <data name="LayoutPinToggle" xml:space="preserve">
+    <value>Fissa / sblocca</value>
+  </data>
+  <data name="LayoutDelete" xml:space="preserve">
+    <value>Elimina…</value>
+  </data>
+  <data name="LayoutConfirmDelete" xml:space="preserve">
+    <value>Eliminare l’istantanea selezionata? La disposizione attuale resterà invariata.</value>
+  </data>
+  <data name="LayoutRestoreHelp" xml:space="preserve">
+    <value>Il ripristino modifica solo posizioni e dimensioni. I collegamenti, le note e i riquadri attuali vengono conservati. I riquadri eliminati non vengono ricreati.</value>
+  </data>
+  <data name="LayoutProfileChanged" xml:space="preserve">
+    <value>Il profilo attivo è cambiato. Chiudi questa finestra e riapri Istantanee.</value>
+  </data>
+  <data name="LayoutAutomaticToday" xml:space="preserve">
+    <value>Disposizione automatica — oggi</value>
+  </data>
+  <data name="LayoutAutomatic" xml:space="preserve">
+    <value>Disposizione automatica</value>
+  </data>
+  <data name="LayoutUnreadable" xml:space="preserve">
+    <value>Istantanea illeggibile</value>
+  </data>
+  <data name="LayoutListItem" xml:space="preserve">
+    <value>{0}
+Salvata il {1:G} · {2}</value>
+  </data>
+  <data name="LayoutPinnedTitle" xml:space="preserve">
+    <value>★ {0}</value>
+  </data>
+  <data name="LayoutKindAutomatic" xml:space="preserve">
+    <value>Automatica</value>
+  </data>
+  <data name="LayoutKindManual" xml:space="preserve">
+    <value>Manuale</value>
+  </data>
+  <data name="LayoutKindSafety" xml:space="preserve">
+    <value>Sicurezza</value>
+  </data>
+  <data name="LayoutNoSnapshots" xml:space="preserve">
+    <value>Non ci sono ancora istantanee. Salva la disposizione desiderata per crearne una.</value>
+  </data>
+  <data name="LayoutSelectSnapshot" xml:space="preserve">
+    <value>Seleziona un’istantanea per visualizzarne l’anteprima.</value>
+  </data>
+  <data name="LayoutDetails" xml:space="preserve">
+    <value>{0}
+Salvata il {1:G} · Riquadri: {2} · Monitor: {3}
+{4}</value>
+  </data>
+  <data name="LayoutMissingMonitors" xml:space="preserve">
+    <value>Monitor mancanti: {0}</value>
+  </data>
+  <data name="LayoutMonitorsAvailable" xml:space="preserve">
+    <value>I monitor salvati sono disponibili.</value>
+  </data>
+  <data name="LayoutMonitorMismatch" xml:space="preserve">
+    <value>La risoluzione o il ridimensionamento dei monitor differisce da questa istantanea.</value>
+  </data>
+  <data name="LayoutPreviewUnavailable" xml:space="preserve">
+    <value>Anteprima non disponibile: {0}</value>
+  </data>
+  <data name="LayoutConfirmRestore" xml:space="preserve">
+    <value>Ripristinare posizioni e dimensioni da «{0}»?
+
+La disposizione desiderata attuale verrà prima salvata per consentire di annullare questo ripristino.</value>
+  </data>
+  <data name="LayoutInvalidRetention" xml:space="preserve">
+    <value>Inserisci numeri interi: 0–36500 giorni e 0–100000 istantanee. Zero significa nessun limite.</value>
+  </data>
+  <data name="LayoutConfirmRetention" xml:space="preserve">
+    <value>Salvare queste regole di pulizia? Istantanee automatiche o di sicurezza che verranno eliminate ora: {0}.
+
+Le istantanee manuali e fissate sono protette e viene conservata la più recente tra quelle automatiche o di sicurezza.</value>
+  </data>
+  <data name="LayoutEnterAge" xml:space="preserve">
+    <value>Inserisci prima un’età in giorni.</value>
+  </data>
+  <data name="LayoutNoOldSnapshots" xml:space="preserve">
+    <value>Non sono state trovate vecchie istantanee che si possano eliminare.</value>
+  </data>
+  <data name="LayoutConfirmDeleteOlder" xml:space="preserve">
+    <value>Eliminare le istantanee automatiche o di sicurezza più vecchie di {1} giorni? Numero da eliminare: {0}.
+
+Verranno conservate le istantanee manuali e fissate e la più recente tra quelle automatiche o di sicurezza.</value>
+  </data>
+  <data name="LayoutNotLoaded" xml:space="preserve">
+    <value>Nessuna disposizione caricata.</value>
+  </data>
+  <data name="LayoutInitial" xml:space="preserve">
+    <value>Disposizione iniziale — da verificare</value>
+  </data>
+  <data name="LayoutWaiting" xml:space="preserve">
+    <value>In attesa della configurazione dei monitor salvata. La disposizione desiderata è protetta.</value>
+  </data>
+  <data name="LayoutProtected" xml:space="preserve">
+    <value>La disposizione desiderata è protetta.</value>
+  </data>
+  <data name="LayoutReadPositionFailed" xml:space="preserve">
+    <value>Impossibile leggere la posizione del riquadro.</value>
+  </data>
+  <data name="LayoutRestorePositionFailed" xml:space="preserve">
+    <value>Windows non è riuscito a ripristinare la posizione di un riquadro.</value>
+  </data>
+  <data name="LayoutDisplayChanged" xml:space="preserve">
+    <value>La configurazione dei monitor è cambiata. La disposizione salvata è protetta; in attesa dei monitor.</value>
+  </data>
+  <data name="LayoutRecovered" xml:space="preserve">
+    <value>Disposizione salvata ripristinata. Gli spostamenti e i ridimensionamenti intenzionali verranno ricordati.</value>
+  </data>
+  <data name="LayoutSnapshotUpdated" xml:space="preserve">
+    <value>L’istantanea automatica di oggi è aggiornata. La disposizione desiderata è protetta.</value>
+  </data>
+  <data name="LayoutSavedName" xml:space="preserve">
+    <value>Disposizione salvata</value>
+  </data>
+  <data name="LayoutBeforeAdopting" xml:space="preserve">
+    <value>Prima di adottare una nuova disposizione</value>
+  </data>
+  <data name="LayoutAdopted" xml:space="preserve">
+    <value>Questa è ora la disposizione desiderata.</value>
+  </data>
+  <data name="LayoutRestoreMonitorRequired" xml:space="preserve">
+    <value>Collega i monitor salvati con la risoluzione e il ridimensionamento salvati prima di ripristinare questa disposizione. La disposizione attuale non è stata modificata.</value>
+  </data>
+  <data name="LayoutRestoreMissingMonitor" xml:space="preserve">
+    <value>Manca il monitor di uno dei riquadri attuali. Il ripristino è stato annullato.</value>
+  </data>
+  <data name="LayoutBeforeRestore" xml:space="preserve">
+    <value>Prima del ripristino di {0}</value>
+  </data>
+  <data name="LayoutRestored" xml:space="preserve">
+    <value>Riquadri corrispondenti ripristinati: {0}. Collegamenti e note sono stati conservati.</value>
+  </data>
+  <data name="LayoutProtectionError" xml:space="preserve">
+    <value>Protezione della disposizione: {0}</value>
+  </data>
+  <data name="LayoutInvalidName" xml:space="preserve">
+    <value>Nome della disposizione non valido.</value>
+  </data>
+  <data name="LayoutIntendedReadFailed" xml:space="preserve">
+    <value>Impossibile leggere la disposizione desiderata salvata. È stata conservata; non è stata salvata una nuova disposizione di riferimento.</value>
+  </data>
+  <data name="LayoutFileTooLarge" xml:space="preserve">
+    <value>Il file della disposizione è troppo grande.</value>
+  </data>
+  <data name="LayoutFileEmpty" xml:space="preserve">
+    <value>Il file della disposizione è vuoto.</value>
+  </data>
+  <data name="LayoutInvalidKind" xml:space="preserve">
+    <value>Tipo di istantanea non valido.</value>
+  </data>
+  <data name="LayoutSnapshotNotFound" xml:space="preserve">
+    <value>Istantanea non trovata.</value>
+  </data>
+  <data name="LayoutInvalidSnapshot" xml:space="preserve">
+    <value>Istantanea non valida.</value>
+  </data>
+  <data name="LayoutUnpinBeforeDelete" xml:space="preserve">
+    <value>Sblocca questa istantanea prima di eliminarla.</value>
+  </data>
+  <data name="LayoutNegativeRetention" xml:space="preserve">
+    <value>I valori di conservazione non possono essere negativi.</value>
+  </data>
+  <data name="LayoutInvalidFile" xml:space="preserve">
+    <value>File della disposizione non supportato o non valido.</value>
+  </data>
+  <data name="LayoutInvalidGeometry" xml:space="preserve">
+    <value>La disposizione contiene posizioni di monitor o riquadri non valide.</value>
+  </data>
+  <data name="LayoutMonitorIdentityPending" xml:space="preserve">
+    <value>Windows non fornisce ancora un identificatore stabile per il monitor.</value>
+  </data>
+  <data name="LayoutMonitorsNotReady" xml:space="preserve">
+    <value>La configurazione dei monitor non è pronta.</value>
+  </data>
+  <data name="LayoutMonitor" xml:space="preserve">
+    <value>Monitor</value>
+  </data>
+  <data name="LayoutFrame" xml:space="preserve">
+    <value>Riquadro</value>
+  </data>
+  <data name="TabInterface" xml:space="preserve">
+    <value>Interfaccia</value>
+  </data>
+  <data name="TabAppearance" xml:space="preserve">
+    <value>Aspetto</value>
+  </data>
+  <data name="TabIdleBehaviors" xml:space="preserve">
+    <value>Inattività</value>
+  </data>
+  <data name="BtnExportTemplate" xml:space="preserve">
+    <value>Esporta modello di lingua...</value>
+  </data>
+  <data name="MsgTemplateExported" xml:space="preserve">
+    <value>Modello di lingua esportato con successo!</value>
+  </data>
+  <data name="DlgClose" xml:space="preserve">
+    <value>Κλείσιμο</value>
+  </data>
+  <data name="LayoutDetailsTitle" xml:space="preserve">
+    <value>Dettagli istantanea</value>
+  </data>
+  <data name="LayoutCleanupSettings" xml:space="preserve">
+    <value>Impostazioni di pulizia</value>
+  </data>
+  <data name="LayoutBtnSave" xml:space="preserve">
+    <value>Salva</value>
+  </data>
+  <data name="LayoutPreviewTitle" xml:space="preserve">
+    <value>Anteprima del layout dei monitor</value>
+  </data>
+  <data name="AgendaAllDay" xml:space="preserve">
+    <value>Tutto il giorno</value>
+  </data>
+  <data name="AgendaBadTime" xml:space="preserve">
+    <value>Usa un orario come 9:30.</value>
+  </data>
+  <data name="AgendaCalendarLabel" xml:space="preserve">
+    <value>Calendario</value>
+  </data>
+  <data name="AgendaCalendarsLabel" xml:space="preserve">
+    <value>Calendari mostrati</value>
+  </data>
+  <data name="AgendaConfirmDelete" xml:space="preserve">
+    <value>Eliminare "{0}"?</value>
+  </data>
+  <data name="AgendaConflict" xml:space="preserve">
+    <value>L'evento è stato modificato altrove e non è stato sovrascritto. La versione più recente comparirà qui a breve.</value>
+  </data>
+  <data name="AgendaDateLabel" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="AgendaDaysLabel" xml:space="preserve">
+    <value>Giorni in avanti</value>
+  </data>
+  <data name="AgendaDeleteEvent" xml:space="preserve">
+    <value>Elimina</value>
+  </data>
+  <data name="AgendaEditEvent" xml:space="preserve">
+    <value>Modifica evento</value>
+  </data>
+  <data name="AgendaEndLabel" xml:space="preserve">
+    <value>Fine</value>
+  </data>
+  <data name="AgendaFailed" xml:space="preserve">
+    <value>Impossibile raggiungere Google Calendar.</value>
+  </data>
+  <data name="AgendaLoading" xml:space="preserve">
+    <value>Caricamento...</value>
+  </data>
+  <data name="AgendaLocationLabel" xml:space="preserve">
+    <value>Luogo</value>
+  </data>
+  <data name="AgendaNewEvent" xml:space="preserve">
+    <value>Nuovo evento</value>
+  </data>
+  <data name="AgendaNoEventsToday" xml:space="preserve">
+    <value>Niente oggi.</value>
+  </data>
+  <data name="AgendaNotConfigured" xml:space="preserve">
+    <value>Account Google non ancora configurato. Aggiungi il tuo client Google nelle impostazioni.</value>
+  </data>
+  <data name="AgendaNothingScheduled" xml:space="preserve">
+    <value>Niente in programma.</value>
+  </data>
+  <data name="AgendaNoWritableCalendar" xml:space="preserve">
+    <value>Nessuno dei calendari trovati accetta nuovi eventi.</value>
+  </data>
+  <data name="AgendaOffline" xml:space="preserve">
+    <value>Google non raggiungibile. Vengono mostrati gli ultimi eventi ricevuti.</value>
+  </data>
+  <data name="AgendaOpenInGoogle" xml:space="preserve">
+    <value>Apri in Google Calendar</value>
+  </data>
+  <data name="AgendaSaveFailed" xml:space="preserve">
+    <value>Impossibile salvare la modifica.</value>
+  </data>
+  <data name="AgendaSettingsTitle" xml:space="preserve">
+    <value>Impostazioni agenda</value>
+  </data>
+  <data name="AgendaSignedIn" xml:space="preserve">
+    <value>Accesso a Google Calendar effettuato.</value>
+  </data>
+  <data name="AgendaSignedOut" xml:space="preserve">
+    <value>Accesso a Google Calendar non effettuato.</value>
+  </data>
+  <data name="AgendaSignIn" xml:space="preserve">
+    <value>Accedi con Google</value>
+  </data>
+  <data name="AgendaSignInAgain" xml:space="preserve">
+    <value>Accedi di nuovo</value>
+  </data>
+  <data name="AgendaSignInFailed" xml:space="preserve">
+    <value>Accesso non riuscito.</value>
+  </data>
+  <data name="AgendaSigningIn" xml:space="preserve">
+    <value>In attesa del browser...</value>
+  </data>
+  <data name="AgendaSignOut" xml:space="preserve">
+    <value>Disconnetti</value>
+  </data>
+  <data name="AgendaStartLabel" xml:space="preserve">
+    <value>Inizio</value>
+  </data>
+  <data name="AgendaTitleLabel" xml:space="preserve">
+    <value>Titolo</value>
+  </data>
+  <data name="AgendaToday" xml:space="preserve">
+    <value>Oggi</value>
+  </data>
+  <data name="AgendaTomorrow" xml:space="preserve">
+    <value>Domani</value>
+  </data>
+  <data name="AgendaUntitled" xml:space="preserve">
+    <value>(senza titolo)</value>
+  </data>
+  <data name="AgendaViewDay" xml:space="preserve">
+    <value>Giorno</value>
+  </data>
+  <data name="AgendaViewLabel" xml:space="preserve">
+    <value>Visualizzazione</value>
+  </data>
+  <data name="AgendaViewList" xml:space="preserve">
+    <value>Elenco</value>
+  </data>
+  <data name="AgendaViewMonth" xml:space="preserve">
+    <value>Mese</value>
+  </data>
+  <data name="AgendaViewThreeDays" xml:space="preserve">
+    <value>3 giorni</value>
+  </data>
+  <data name="AgendaViewWeek" xml:space="preserve">
+    <value>Settimana</value>
+  </data>
+  <data name="DlgFolderNotRenamed" xml:space="preserve">
+    <value>Cartella non rinominata</value>
+  </data>
+  <data name="DlgMoveItems" xml:space="preserve">
+    <value>Sposta elementi</value>
+  </data>
+  <data name="DlgRenameFolder" xml:space="preserve">
+    <value>Rinomina cartella</value>
+  </data>
+  <data name="ErrCannotPlaceInsideItself" xml:space="preserve">
+    <value>Non puoi mettere '{0}' dentro sé stessa.</value>
+  </data>
+  <data name="GestureCtrlPortalToPortal" xml:space="preserve">
+    <value>Ctrl + trascina fra due Portal</value>
+  </data>
+  <data name="GestureCtrlPortalToPortalEffect" xml:space="preserve">
+    <value>Lo copia invece di spostarlo</value>
+  </data>
+  <data name="GestureFromExplorer" xml:space="preserve">
+    <value>Trascina da Esplora risorse in un Portal</value>
+  </data>
+  <data name="GestureFromExplorerEffect" xml:space="preserve">
+    <value>Copia il file dentro</value>
+  </data>
+  <data name="GestureOntoFolder" xml:space="preserve">
+    <value>Trascina sopra una cartella del Portal</value>
+  </data>
+  <data name="GestureOntoFolderEffect" xml:space="preserve">
+    <value>Mette l'elemento dentro quella cartella</value>
+  </data>
+  <data name="GesturePortalToPortal" xml:space="preserve">
+    <value>Trascina fra due Portal</value>
+  </data>
+  <data name="GesturePortalToPortalEffect" xml:space="preserve">
+    <value>Sposta l'elemento</value>
+  </data>
+  <data name="GestureShiftFromExplorer" xml:space="preserve">
+    <value>Maiusc + trascina da Esplora risorse</value>
+  </data>
+  <data name="GestureShiftFromExplorerEffect" xml:space="preserve">
+    <value>Lo sposta invece di copiarlo</value>
+  </data>
+  <data name="MsgConfirmMoveMany" xml:space="preserve">
+    <value>Vuoi spostare {0} elementi in '{1}'?
+
+Verranno tolti da dove si trovano adesso.</value>
+  </data>
+  <data name="MsgConfirmMoveOne" xml:space="preserve">
+    <value>Vuoi spostare '{0}' in '{1}'?
+
+Verrà tolto da dove si trova adesso.</value>
+  </data>
+  <data name="MsgConfirmRenameFolder" xml:space="preserve">
+    <value>Vuoi rinominare anche la cartella in '{0}'?
+
+{1}
+
+I collegamenti e gli altri programmi che puntano al vecchio nome smetteranno di trovarla.</value>
+  </data>
+  <data name="MsgFolderNameTaken" xml:space="preserve">
+    <value>Il frame è stato rinominato, ma la cartella è rimasta com'era: esiste già qualcosa che si chiama '{0}'.</value>
+  </data>
+  <data name="MsgFolderRenameFailed" xml:space="preserve">
+    <value>Il frame è stato rinominato, ma la cartella no: {0}</value>
+  </data>
+  <data name="OptConfirmPortalMove" xml:space="preserve">
+    <value>Chiedi conferma quando un trascinamento sposta elementi fra Portal</value>
+  </data>
+  <data name="PluginAgenda" xml:space="preserve">
+    <value>Agenda</value>
+  </data>
+  <data name="SecPortalDragDrop" xml:space="preserve">
+    <value>Trascinamento nei Portal</value>
   </data>
   <data name="AgendaKindEvent" xml:space="preserve">
     <value>Evento</value>
